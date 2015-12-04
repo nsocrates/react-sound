@@ -10,7 +10,7 @@
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
     "build": "npm run copy & webpack --env=dist"
   },
-  "author": "",
+  "author": "Socrates",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",
