@@ -1,0 +1,51 @@
+* {
+	box-sizing: border-box;
+}
+
+html {
+	color: $black-primary;
+	font-size: $root-font-size;
+	font-weight: 400;
+}
+
+body {
+	font-family: $font-primary;
+	font-size: $base-font-size;
+	line-height: $base-line-height;
+}
+
+a {
+	color: $black-primary;
+	text-decoration: none;
+}
+
+p {
+	margin-bottom: 2rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-weight: inherit;
+	line-height: $header-line-height;
+	margin: 2.2rem 0 .8rem;
+}
+
+h1 {
+	font-size: 6.3rem;
+	margin-top: 0;
+}
+
+h2 { font-size: 4.5rem; }
+h3 { font-size: 3.1rem; }
+h4 { font-size: 2.2rem; }
+
+small,
+.font-small {
+	font-size: 1.1rem;
+}
+
+.lead {
+	font-size: 1.8rem;
+}
