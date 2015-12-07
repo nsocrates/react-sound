@@ -1,43 +1,44 @@
+// Typography
 $font-primary: 'Lato', sans-serif;
 $root-font-size: 62.5%;
 $base-font-size: 1.6rem;
 $base-line-height: 1.45;
 $header-line-height: 1.2;
 
+// Opacity
 $primary: .71;
 $secondary: .54;
 $hint: .38;
 $disabled: .12;
 
+// Text Opacity
 $black-primary: rgba(#000, $primary);
 $black-secondary: rgba(#000, $secondary);
 $black-hint: rgba(#000, $hint);
 $black-disabled: rgba(#000, $disabled);
 
+// Main Color Scheme
+$white: #fff;
+$dark-gray: #3b3b3b;
+$light-gray: #f1f1f1;
+$cyan: #a0f7f4;
+
+// Breakpoint
+$breakpoint-to-ems: true;
+$small: 0;
+$medium: 640px;
+$large: 1024px;
+
+$small-only: $small ($medium - 1px);
+$medium-only: $medium ($large - 1px);
+
 // Susy
 $susy: (
 	global-box-sizing: border-box,
-	container: 80%,
+	container: 90%,
 	columns: 12,
-	column-width: 8rem,
-	gutter-width: 2rem,
-	grid-padding: 1rem,
-	math: fluid,
-	output: float,
-	gutter-position: after,
-	flow: ltr,
-	container-position: center,
 	debug: (
 		image: show,
-		output: overlay,
-		toggle: top right
-	),
-
-	use-custom: (
-		box-sizing: true,
-		rem: true,
-		clearfix: false
+		output: overlay
 	)
 );
-
-$susy-no-gutter: layout(12 0 fluid float inside);
