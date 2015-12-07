@@ -1,0 +1,47 @@
+.nav-bar {
+	background-color: $light-gray;
+	height: 4rem;
+}
+
+.nav-section {
+	@extend %flex-container;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	& + & {
+		margin-left: auto;
+
+		@include breakpoint($medium) {
+			display: none;
+		}
+	}
+
+	a {
+		display: block;
+		line-height: 4rem;
+	}
+}
+
+.genre {
+	border-right: 1px solid $black-disabled;
+
+	&:first-child {
+		border-left: 1px solid $black-disabled;
+	}
+
+	a {
+		padding: 0 1.5rem;
+
+		&:hover {
+			background: darken($light-gray, 2%);
+			box-shadow: inset 0 -2px 0 $cyan;
+		}
+	}
+
+	.nav-section & {
+		@include breakpoint($small-only) {
+			display: none;
+		}
+	}
+}
