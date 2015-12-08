@@ -3,6 +3,8 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
+import MenuFactory from './MenuFactory';
+
 export default React.createClass({
 	mixins: [PureRenderMixin],
 	render: function() {
@@ -18,7 +20,19 @@ export default React.createClass({
 						<li className="genre"><a href="#">Trance</a></li>
 					</ul>
 					<ul className="nav-section">
-						<li className="bars"><a href="#"><i className="fa fa-bars"></i></a></li>
+						<li className="bars">
+							<MenuFactory {...this.props} />
+						</li>
+					</ul>
+					<ul className="nav-search">
+						<li className="search">
+							<a href="#"><i className="fa fa-search"></i></a>
+							<form className="form-group">
+								<input className="searchbar" type="text" placeholder="Looking for something...?" />
+								<span className="focus-bar"></span>
+								<i className="fa fa-search"></i>
+							</form>
+						</li>
 					</ul>
 				</div>
 			</nav>
