@@ -19,6 +19,10 @@ p {
 	margin-bottom: 2rem;
 }
 
+small {
+	font-size: 1.1rem;
+}
+
 h1,
 h2,
 h3,
@@ -33,15 +37,14 @@ h1 {
 	margin-top: 0;
 }
 
-h2 { font-size: 4.5rem; }
-h3 { font-size: 3.1rem; }
-h4 { font-size: 2.2rem; }
-
-small,
-.font-small {
-	font-size: 1.1rem;
+h2 {
+	font-size: 4.5rem;
 }
 
-.lead {
-	font-size: 1.8rem;
+h3 {
+	font-size: 3.1rem;
+}
+
+h4 {
+	font-size: 2.2rem;
 }

@@ -5,12 +5,9 @@
 
 .nav-section {
 	@extend %flex-container;
-	list-style: none;
-	margin: 0;
-	padding: 0;
+	@extend %reset-ul;
 
 	& + & {
-		margin-left: auto;
 
 		@include breakpoint($medium) {
 			display: none;
@@ -32,10 +29,10 @@
 
 	a {
 		padding: 0 1.5rem;
+		transition: $duration-timing;
 
 		&:hover {
-			background: darken($light-gray, 2%);
-			box-shadow: inset 0 -2px 0 $cyan;
+			@extend %active;
 		}
 	}
 
@@ -44,4 +41,8 @@
 			display: none;
 		}
 	}
+}
+
+.active {
+	@extend %active;
 }
