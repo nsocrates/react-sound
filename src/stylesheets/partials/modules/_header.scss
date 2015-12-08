@@ -5,10 +5,8 @@
 
 .header-section {
 	@extend %flex-container;
+	@extend %reset-ul;
 	color: $white;
-	list-style: none;
-	margin: 0;
-	padding: 0;
 
 	& + & {
 		margin-left: auto;
@@ -29,6 +27,6 @@
 	}
 }
 
-.search a {
+.login a {
 	color: $white;
 }

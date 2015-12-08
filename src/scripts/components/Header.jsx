@@ -14,7 +14,7 @@ export default React.createClass({
 						<li className="title"><a href="#">reactSOUND</a></li>
 					</ul>
 					<ul className="header-section">
-						<li className="search"><a href="#"><i className="fa fa-search"></i></a></li>
+						<li className="login"><a href="#"><i className="fa fa-user"></i></a></li>
 					</ul>
 				</div>
 			</header>
