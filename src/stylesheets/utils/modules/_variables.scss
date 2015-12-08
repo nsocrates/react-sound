@@ -21,7 +21,11 @@ $black-disabled: rgba(#000, $disabled);
 $white: #fff;
 $dark-gray: #3b3b3b;
 $light-gray: #f1f1f1;
+$light-pink: #ff80ab;
 $cyan: #a0f7f4;
+
+// Transition
+$duration-timing: (.2s ease-in-out);
 
 // Breakpoint
 $breakpoint-to-ems: true;

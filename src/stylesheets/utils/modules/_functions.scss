@@ -1,0 +1,15 @@
+// Lighten color
+@function tint($color, $percentage) {
+	@return mix(#fff, $color, $percentage);
+}
+
+// Darken color
+@function shade($color, $percentage) {
+	@return mix(#000, $color, $percentage);
+}
+
+// Helper function for position
+@function is-valid-length($value) {
+	@return (type-of($value) == 'number' and not unitless($value))
+		or (index(auto initial inherit 0, $value) != null);
+}
