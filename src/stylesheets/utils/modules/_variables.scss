@@ -27,6 +27,12 @@ $cyan: #a0f7f4;
 // Transition
 $duration-timing: (.2s ease-in-out);
 
+// Menu Slider Config
+$oc-width: 30rem;
+$oc-hover: $cyan;
+$oc-background: $dark-gray;
+$oc-link: rgba($white, $secondary);
+
 // Breakpoint
 $breakpoint-to-ems: true;
 $small: 0;
