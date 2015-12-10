@@ -1,26 +1,19 @@
 .nav-search {
-	@extend %flex-container;
 	@extend %reset-ul;
-	margin-left: auto;
+	float: right;
 	position: relative;
 }
 
 .search {
 	line-height: 4rem;
 
-	a:first-of-type {
-		@include breakpoint($large) {
-			display: none;
-		}
-	}
-
 	.form-group {
-		@include breakpoint(max-width $large) {
+		@include breakpoint($medium-down) {
 			display: none;
 		}
 
 		.fa-search {
-			@include absolute(top 1.3rem left 1.5rem);
+			@include absolute(top 1.3rem right);
 			z-index: 1;
 		}
 	}
@@ -31,8 +24,7 @@
 	border: 0;
 	box-shadow: inset 0 -.1rem 0 $black-disabled;
 	line-height: 4rem;
-	padding: 0 1rem 0 4rem;
-	width: 25rem;
+	padding: 0 3.2rem 0 1.5rem;
 
 	&:focus {
 		outline: none;
@@ -43,7 +35,7 @@
 
 		&::placeholder {
 			opacity: $secondary;
-			transform: scale(.8);
+			transform: scale(.85);
 		}
 	}
 
@@ -59,4 +51,36 @@
 	transform: scaleX(0);
 	transition: transform $duration-timing;
 	width: 100%;
+}
+
+.control {
+	cursor: pointer;
+	position: relative;
+
+	@include breakpoint($large) {
+		display: none;
+	}
+
+	.fa-search {
+		@include absolute(top 1.3rem right);
+	}
+}
+
+.modal {
+	@include absolute(top .5rem right);
+	background-color: transparent;
+	border-radius: 50%;
+	height: 3rem;
+	transform-origin: 50%;
+	transition: all .7s cubic-bezier(.4, 0, .2, 1);
+	width: 3rem;
+}
+
+.body-overflow {
+	overflow: hidden;
+
+	.modal {
+		background-color: $light-pink;
+		transform: scale(80);
+	}
 }

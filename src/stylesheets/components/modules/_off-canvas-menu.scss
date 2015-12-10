@@ -1,10 +1,11 @@
 .oc-menu {
 	display: block;
 
-	a:first-of-type {
+	span:first-of-type {
 		@extend %lead;
 		@include absolute(right);
 		color: $oc-link;
+		cursor: pointer;
 		line-height: 0;
 		padding: 1rem;
 	}
@@ -35,18 +36,15 @@
 }
 
 .oc-item-container {
-	padding: 4rem 2rem 0;
+	padding: 4rem 2rem;
 }
 
 .oc-item {
 	@extend %lead;
-	border-bottom: solid 1px $black-disabled;
+	border-bottom: solid .1rem $black-disabled;
 	color: $oc-link;
 	cursor: pointer;
-	float: left;
-	margin: 0;
 	padding: 1.5rem;
-	width: 100%;
 
 	&:hover {
 		color: $oc-hover;

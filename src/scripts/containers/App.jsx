@@ -4,6 +4,7 @@ import React from 'react';
 
 import HeaderContainer from './HeaderContainer';
 import NavContainer from './NavContainer';
+import MainContainer from './MainContainer';
 
 export default React.createClass({
 	render: function() {
@@ -11,6 +12,7 @@ export default React.createClass({
 			<div>
 				<HeaderContainer />
 				<NavContainer />
+				<MainContainer />
 			</div>
 		);
 	}

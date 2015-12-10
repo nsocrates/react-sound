@@ -20,7 +20,7 @@ export default React.createClass({
 			<div>
 				<a onClick={this.getMenu} href="#"><i className="fa fa-bars"></i></a>
 				<Menu ref={(ref) => this.menu = ref}>
-					<a onClick={this.getMenu} href="#"><i className="fa fa-times"></i></a>
+					<span onClick={this.getMenu}><i className="fa fa-times"></i></span>
 					<div className="oc-item-container">
 						<MenuItem hash="dnb">Drum & Bass</MenuItem>
 						<MenuItem hash="electro">Electro</MenuItem>

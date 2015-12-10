@@ -4,12 +4,12 @@
 }
 
 .header-section {
-	@extend %flex-container;
 	@extend %reset-ul;
 	color: $white;
+	float: left;
 
 	& + & {
-		margin-left: auto;
+		float: right;
 	}
 
 	a,
@@ -20,10 +20,9 @@
 }
 
 .title {
-	margin-left: 1rem;
-
 	a {
 		color: $white;
+		margin-left: 1.5rem;
 	}
 }
 

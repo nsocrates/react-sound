@@ -8,7 +8,7 @@ export default React.createClass({
 	render: function() {
 		return (
 			<header className="header">
-				<div className="container flex">
+				<div className="container">
 					<ul className="header-section">
 						<li className="logo"><i className="fa fa-mixcloud"></i></li>
 						<li className="title"><a href="#">reactSOUND</a></li>

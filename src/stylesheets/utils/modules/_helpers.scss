@@ -4,22 +4,19 @@
 }
 
 %reset-ul {
-	list-style: none;
+	list-style-type: none;
 	margin: 0;
 	padding: 0;
+
+	> li {
+		display: table-cell;
+		vertical-align: middle;
+	}
 }
 
 %active {
 	background-color: shade($light-gray, 3%);
 	box-shadow: inset 0 -.2rem 0 $cyan;
-}
-
-%float-left {
-	float: left;
-}
-
-%float-right {
-	float: right;
 }
 
 %clearfix {

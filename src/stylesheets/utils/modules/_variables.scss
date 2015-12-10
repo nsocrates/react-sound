@@ -42,6 +42,8 @@ $large: 1024px;
 $small-only: $small ($medium - 1px);
 $medium-only: $medium ($large - 1px);
 
+$medium-down: max-width $large - 1px;
+
 // Susy
 $susy: (
 	global-box-sizing: border-box,

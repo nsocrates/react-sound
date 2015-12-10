@@ -4,11 +4,10 @@
 }
 
 .nav-section {
-	@extend %flex-container;
 	@extend %reset-ul;
+	float: left;
 
 	& + & {
-
 		@include breakpoint($medium) {
 			display: none;
 		}
@@ -21,10 +20,10 @@
 }
 
 .genre {
-	border-right: 1px solid $black-disabled;
+	border-right: .1rem solid $black-disabled;
 
 	&:first-child {
-		border-left: 1px solid $black-disabled;
+		border-left: .1rem solid $black-disabled;
 	}
 
 	a {

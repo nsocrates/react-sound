@@ -4,13 +4,15 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import OCMenu from './OCMenu';
+import SearchModal from './SearchModal'
 
 export default React.createClass({
 	mixins: [PureRenderMixin],
+
 	render: function() {
 		return (
 			<nav className="nav-bar">
-				<div className="container flex">
+				<div className="container">
 					<ul className="nav-section">
 						<li className="genre"><a href="#">Drum & Bass</a></li>
 						<li className="genre"><a href="#">Electro</a></li>
@@ -26,7 +28,7 @@ export default React.createClass({
 					</ul>
 					<ul className="nav-search">
 						<li className="search">
-							<a href="#"><i className="fa fa-search"></i></a>
+							<SearchModal {...this.props} />
 							<form className="form-group">
 								<input className="searchbar" type="text" placeholder="Looking for something...?" />
 								<span className="focus-bar"></span>
