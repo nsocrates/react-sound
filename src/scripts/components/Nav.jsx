@@ -3,7 +3,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-import OffCanvasMenu from './OffCanvasMenu';
+import OCMenu from './OCMenu';
 
 export default React.createClass({
 	mixins: [PureRenderMixin],
@@ -21,7 +21,7 @@ export default React.createClass({
 					</ul>
 					<ul className="nav-section">
 						<li className="bars">
-							<OffCanvasMenu {...this.props} />
+							<OCMenu {...this.props} />
 						</li>
 					</ul>
 					<ul className="nav-search">
