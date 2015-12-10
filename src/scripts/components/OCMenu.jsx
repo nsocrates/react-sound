@@ -1,3 +1,5 @@
+// Entry point for off-canvas menu
+
 'use strict';
 
 import React from 'react';
@@ -8,19 +10,15 @@ import MenuItem from './MenuItem';
 
 export default React.createClass({
 	mixins: [PureRenderMixin],
-	getMenu: function() {
-		this.slider.show();
-	},
-	closeMenu: function() {
-		this.slider.hide();
-	},
+
+
 	render: function() {
 		return (
 			<div>
 				<a onClick={this.getMenu} href="#"><i className="fa fa-bars"></i></a>
-				<Menu ref={(ref) => this.slider = ref}>
-					<a onClick={this.closeMenu} href="#"><i className="fa fa-times"></i></a>
-					<div className="item-container">
+				<Menu ref={(ref) => this.menu = ref}>
+					<a onClick={this.getMenu} href="#"><i className="fa fa-times"></i></a>
+					<div className="oc-item-container">
 						<MenuItem hash="dnb">Drum & Bass</MenuItem>
 						<MenuItem hash="electro">Electro</MenuItem>
 						<MenuItem hash="hardstyle">Hardstyle</MenuItem>
