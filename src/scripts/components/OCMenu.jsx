@@ -11,6 +11,9 @@ import MenuItem from './MenuItem';
 export default React.createClass({
 	mixins: [PureRenderMixin],
 
+	getMenu: function() {
+		this.menu.toggleMenu();
+	},
 
 	render: function() {
 		return (

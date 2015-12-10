@@ -1,3 +1,5 @@
+// Renders off-canvas menu & toggles visibility
+
 'use strict';
 
 import React from 'react';
@@ -8,23 +10,20 @@ export default React.createClass({
 
 	getInitialState: function() {
 		return {
-			visible: false
+			isVisible: false
 		};
 	},
 
-	show: function() {
-		this.setState({ visible: true });
-	},
-
-	hide: function() {
-		this.setState({ visible: false });
+	toggleMenu: function() {
+		let visible = !this.state.isVisible;
+		this.setState({ isVisible: visible });
 	},
 
 	render: function() {
 		return (
-			<div className="menu">
-				<div onClick={this.hide} className={(this.state.visible ? 'visible ' : '') + 'overlay'}></div>
-				<div className={(this.state.visible ? 'visible ' : '') + 'slider'}>
+			<div className="oc-menu">
+				<div onClick={this.toggleMenu} className={(this.state.isVisible ? 'visible ' : '') + 'oc-overlay'}></div>
+				<div className={(this.state.isVisible ? 'visible ' : '') + 'oc-slider'}>
 					{this.props.children}
 				</div>
 			</div>

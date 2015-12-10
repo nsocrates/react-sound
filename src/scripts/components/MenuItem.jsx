@@ -1,3 +1,5 @@
+// Renders menu items & handles click action
+
 'use strict';
 
 import React from 'react';
@@ -12,7 +14,7 @@ export default React.createClass({
 
 	render: function() {
 		return (
-			<div className="menu-item" onClick={this.navigate.bind(this, this.props.hash)}>
+			<div className="oc-item" onClick={this.navigate.bind(this, this.props.hash)}>
 				{this.props.children}
 			</div>
 		);
