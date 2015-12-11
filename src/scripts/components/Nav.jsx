@@ -28,7 +28,6 @@ export default React.createClass({
 					</ul>
 					<ul className="nav-search">
 						<li className="search">
-							<SearchModal {...this.props} />
 							<form className="form-group">
 								<input className="searchbar" type="text" placeholder="Looking for something...?" />
 								<span className="focus-bar"></span>
@@ -36,6 +35,7 @@ export default React.createClass({
 							</form>
 						</li>
 					</ul>
+					<SearchModal {...this.props} />
 				</div>
 			</nav>
 		);
