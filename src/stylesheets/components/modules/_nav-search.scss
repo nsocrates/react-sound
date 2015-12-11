@@ -7,7 +7,7 @@
 .search {
 	line-height: 4rem;
 
-	.form-group {
+	> .form-group {
 		@include breakpoint($medium-down) {
 			display: none;
 		}
@@ -51,36 +51,4 @@
 	transform: scaleX(0);
 	transition: transform $duration-timing;
 	width: 100%;
-}
-
-.control {
-	cursor: pointer;
-	position: relative;
-
-	@include breakpoint($large) {
-		display: none;
-	}
-
-	.fa-search {
-		@include absolute(top 1.3rem right);
-	}
-}
-
-.modal {
-	@include absolute(top .5rem right);
-	background-color: transparent;
-	border-radius: 50%;
-	height: 3rem;
-	transform-origin: 50%;
-	transition: all .7s cubic-bezier(.4, 0, .2, 1);
-	width: 3rem;
-}
-
-.body-overflow {
-	overflow: hidden;
-
-	.modal {
-		background-color: $light-pink;
-		transform: scale(80);
-	}
 }

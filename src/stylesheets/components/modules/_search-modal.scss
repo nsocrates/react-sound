@@ -1,0 +1,96 @@
+.m-search {
+	@include breakpoint($large) {
+		display: none;
+	}
+
+	.form-group {
+		@include fixed(top 50% left 50%);
+		background-color: transparent;
+		max-width: 90%;
+		opacity: 0;
+		transform: translate(-35%, -50%);
+		transition: all $duration-timing;
+		width: 100%;
+		z-index: -1;
+	}
+}
+
+.m-control {
+	position: relative;
+
+	.fa-search {
+		@include absolute(top right);
+		cursor: pointer;
+		line-height: 4rem;
+		z-index: 0;
+	}
+
+	.fa-times {
+		@include fixed(top right);
+		cursor: pointer;
+		font-size: 2rem;
+		opacity: 0;
+		padding: 1rem;
+		transform: translate(2rem) rotate(90deg);
+		transition: all $duration-timing;
+		z-index: -1;
+	}
+}
+
+.m-modal {
+	@include absolute(top .7rem right -.7rem);
+	background-color: $light-pink;
+	border-radius: 50%;
+	height: 3rem;
+	transform: scale(0);
+	transform-origin: 50%;
+	transition: all .5s ease-in-out;
+	width: 3rem;
+}
+
+.body-overflow {
+	overflow: hidden;
+
+	.m-modal {
+		transform: scale(80);
+
+		+ .fa-search {
+			opacity: 0;
+			z-index: -1;
+		}
+
+		~ .fa-times {
+			opacity: 1;
+			transform: none;
+			z-index: 1;
+		}
+	}
+
+	.m-search .form-group {
+		opacity: 1;
+		transform: translate(-50%, -50%);
+		transition-delay: .2s;
+		z-index: 1;
+	}
+}
+
+.m-searchbar {
+	background-color: transparent;
+	border: 0;
+	font-size: 2.4rem;
+	line-height: $header-line-height;
+	padding: 1.5rem;
+	width: span(full);
+
+	@include breakpoint($medium) {
+		font-size: 4.8rem;
+	}
+
+	&:focus {
+		outline: none;
+	}
+
+	&::placeholder {
+		color: rgba($white, $primary);
+	}
+}
