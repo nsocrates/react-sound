@@ -17,6 +17,15 @@ export default React.createClass({
 	toggleMenu: function() {
 		let visible = !this.state.isVisible;
 		this.setState({ isVisible: visible });
+		this.setOverflow();
+	},
+
+	setOverflow: function() {
+		if (this.state.isVisible) {
+			document.body.style.overflow = '';
+		} else {
+			document.body.style.overflow = 'hidden';
+		}
 	},
 
 	render: function() {
