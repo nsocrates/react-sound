@@ -32,9 +32,11 @@
 }
 
 %small {
-	font-size: 1.1rem;
+	font-size: 80%;
+	line-height: inherit;
 }
 
 %lead {
-	font-size: 1.8rem;
+	font-size: 125%;
+	line-height: 1.6;
 }
