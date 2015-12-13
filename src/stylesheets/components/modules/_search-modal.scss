@@ -8,8 +8,8 @@
 		background-color: transparent;
 		max-width: 90%;
 		opacity: 0;
-		transition: all $duration-timing;
 		transform: translate(-35%, -65%);
+		transition: all $transition-default;
 		width: 100%;
 		z-index: -1;
 		padding: 6rem 0;
@@ -33,7 +33,7 @@
 		opacity: 0;
 		padding: 1rem;
 		transform: translate(2rem) rotate(90deg);
-		transition: all $duration-timing;
+		transition: all $transition-default;
 		z-index: -1;
 
 		@include breakpoint($medium) {

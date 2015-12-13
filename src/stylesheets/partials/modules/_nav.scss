@@ -28,7 +28,7 @@
 
 	a {
 		padding: 0 1.5rem;
-		transition: $duration-timing;
+		transition: $transition-default;
 
 		&:hover {
 			@extend %active;
