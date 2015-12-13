@@ -24,12 +24,13 @@ export default React.createClass({
 		return (
 			<div className="m-search">
 				<div className="m-control">
-					<div className="m-modal"></div>
+					<div className="m-modal" onClick={this.toggleSearch} ></div>
 					<i className="fa fa-search" onClick={this.toggleSearch} ></i>
 					<i className="fa fa-times" onClick={this.toggleSearch} ></i>
 				</div>
 				<form className="form-group">
 					<input id="m-searchbar" className="m-searchbar" type="text" placeholder="Looking for something...?" />
+					<label><h5>Click anywhere to close (<i className="fa fa-times"></i>)</h5></label>
 				</form>
 			</div>
 		);

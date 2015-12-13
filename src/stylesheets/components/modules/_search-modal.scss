@@ -8,10 +8,11 @@
 		background-color: transparent;
 		max-width: 90%;
 		opacity: 0;
-		transform: translate(-35%, -50%);
 		transition: all $duration-timing;
+		transform: translate(-35%, -65%);
 		width: 100%;
 		z-index: -1;
+		padding: 6rem 0;
 	}
 }
 
@@ -28,12 +29,16 @@
 	.fa-times {
 		@include fixed(top right);
 		cursor: pointer;
-		font-size: 2rem;
+		font-size: 1.9rem;
 		opacity: 0;
 		padding: 1rem;
 		transform: translate(2rem) rotate(90deg);
 		transition: all $duration-timing;
 		z-index: -1;
+
+		@include breakpoint($medium) {
+			font-size: 3.1rem;
+		}
 	}
 }
 
@@ -68,7 +73,7 @@
 
 	.m-search .form-group {
 		opacity: 1;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, -65%);
 		transition-delay: .2s;
 		z-index: 1;
 	}
@@ -77,6 +82,8 @@
 .m-searchbar {
 	background-color: transparent;
 	border: 0;
+	border-bottom: .4rem solid rgba($white, $primary);
+	color: rgba($white, $primary);
 	font-size: 2.4rem;
 	line-height: $header-line-height;
 	padding: 1.5rem;
@@ -92,5 +99,11 @@
 
 	&::placeholder {
 		color: rgba($white, $primary);
+	}
+
+	+ label {
+		@include absolute(left bottom);
+		color: rgba($white, $primary);
+		padding: 1.5rem;
 	}
 }
