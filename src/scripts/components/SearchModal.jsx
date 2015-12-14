@@ -8,29 +8,42 @@ export default React.createClass({
 
 	getInitialState: function() {
 		return {
-			isTransformed: false
+			isOpen: false
 		};
+	},
+
+	listenForClose: function(e) {
+		e = e || window.event;
+
+		if (this.state.isOpen && (e.key === 'Escape' || e.keyCode === 27)) {
+			this.toggleSearch();
+		}
 	},
 
 	toggleSearch: function() {
 		const mSearchBar = document.getElementById('m-searchbar');
-		let transformed = !this.state.isTransformed;
-		this.setState({ isTransformed: transformed });
+		const body = document.body;
+		let open = !this.state.isOpen;
+		this.setState({ isOpen: open });
+		body.classList.toggle('m-open');
 		mSearchBar.focus();
-		document.body.classList.toggle('body-overflow');
+	},
+
+	componentDidMount: function() {
+		window.onkeydown = this.listenForClose;
 	},
 
 	render: function() {
 		return (
 			<div className="m-search">
 				<div className="m-control">
-					<div className="m-modal" onClick={this.toggleSearch} ></div>
-					<i className="fa fa-search" onClick={this.toggleSearch} ></i>
-					<i className="fa fa-times" onClick={this.toggleSearch} ></i>
+					<div className="m-modal" onClick={ this.toggleSearch } ></div>
+					<i className="fa fa-search" onClick={ this.toggleSearch } ></i>
+					<i className="fa fa-times" onClick={ this.toggleSearch } ></i>
 				</div>
 				<form className="form-group">
 					<input id="m-searchbar" className="m-searchbar" type="text" placeholder="Looking for something...?" />
-					<label><h5>Click anywhere to close (<i className="fa fa-times"></i>)</h5></label>
+					<label><h5>Click anywhere to close (esc)</h5></label>
 				</form>
 			</div>
 		);
