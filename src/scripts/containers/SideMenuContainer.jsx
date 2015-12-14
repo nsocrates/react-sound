@@ -4,18 +4,18 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import {toggleMenu} from '../actions/sideMenu';
-import Nav from '../components/Nav';
+import Menu from '../components/SideMenu';
 
-const NavContainer = React.createClass({
+const OffCanvasContainer = React.createClass({
 	mixins: [PureRenderMixin],
 
 	render: function() {
 		const { dispatch } = this.props;
 
 		return (
-			<Nav
+			<Menu
 				{ ...this.props }
-				onToggleMenu={toggle =>
+				onToggleMenu={ toggle =>
 					dispatch(toggleMenu(toggle))
 				}
 			/>
@@ -27,4 +27,4 @@ function mapStateToProps(state) {
 	return { sideMenu: state.sideMenu }
 }
 
-export default connect(mapStateToProps)(NavContainer);
+export default connect(mapStateToProps)(OffCanvasContainer);

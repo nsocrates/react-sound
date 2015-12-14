@@ -2,28 +2,34 @@
 
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-
-import OCMenu from './OCMenu';
-import SearchModal from './SearchModal'
+import SearchModal from './SearchModal';
+import {GENRES} from '../constants/ItemLists';
 
 export default React.createClass({
 	mixins: [PureRenderMixin],
+
+	handleClick: function() {
+		this.props.onToggleMenu();
+	},
+
+	getItems: function() {
+		return GENRES.map((item, index) => {
+			return (
+				<li key={ index } className="genre"><a href="#">{ item }</a></li>
+			);
+		});
+	},
 
 	render: function() {
 		return (
 			<nav className="nav-bar">
 				<div className="container">
 					<ul className="nav-section">
-						<li className="genre"><a href="#">Drum & Bass</a></li>
-						<li className="genre"><a href="#">Electro</a></li>
-						<li className="genre"><a href="#">Hardstyle</a></li>
-						<li className="genre"><a href="#">House</a></li>
-						<li className="genre"><a href="#">Techno</a></li>
-						<li className="genre"><a href="#">Trance</a></li>
+						{ this.getItems() }
 					</ul>
 					<ul className="nav-section">
 						<li className="bars">
-							<OCMenu {...this.props} />
+							<a onClick={ this.handleClick } href="#"><i className="fa fa-bars"></i></a>
 						</li>
 					</ul>
 					<ul className="nav-search">
@@ -35,7 +41,7 @@ export default React.createClass({
 							</form>
 						</li>
 					</ul>
-					<SearchModal {...this.props} />
+					<SearchModal { ...this.props } />
 				</div>
 			</nav>
 		);
