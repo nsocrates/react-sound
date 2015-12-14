@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "breakpoint-sass": "^2.6.1",
+    "classnames": "^2.2.1",
     "immutable": "^3.7.5",
     "lodash": "^3.10.1",
     "react": "^0.14.3",
