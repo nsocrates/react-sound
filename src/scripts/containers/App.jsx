@@ -7,8 +7,8 @@ import NavContainer from './NavContainer';
 import MainContainer from './MainContainer';
 import SideMenuContainer from './SideMenuContainer';
 
-export default React.createClass({
-	render: function() {
+export default class App extends React.Component {
+	render() {
 		return (
 			<div>
 				<SideMenuContainer />
@@ -18,4 +18,4 @@ export default React.createClass({
 			</div>
 		);
 	}
-});
+}

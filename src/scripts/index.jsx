@@ -11,7 +11,7 @@ export const store = makeStore();
 
 // Render the main component into the dom
 ReactDOM.render(
-	<Provider store={store}>
+	<Provider store={ store }>
 		<App />
 	</Provider>,
 	document.getElementById('app')

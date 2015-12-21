@@ -7,15 +7,14 @@
 	@extend %reset-ul;
 	float: left;
 
+	li {
+		line-height: 4rem;
+	}
+
 	& + & {
 		@include breakpoint($medium) {
 			display: none;
 		}
-	}
-
-	a {
-		display: block;
-		line-height: 4rem;
 	}
 }
 

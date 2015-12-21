@@ -1,44 +1,73 @@
 'use strict';
 
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import MenuFactory from './SideMenuFactory';
+import classNames from 'classnames';
 import MenuItem from './SideMenuItem';
 import {GENRES} from '../constants/ItemLists';
 
-export default React.createClass({
-	mixins: [PureRenderMixin],
+export default class SideMenu extends React.Component {
 
-	componentDidUpdate: function() {
-		this.getMenu();
-	},
+	constructor(props) {
+		super(props);
+		this.state = this.props;
+		this.handleClick = this.handleClick.bind(this);
+	}
 
-	getItems: function() {
-		return GENRES.map((item, index) => {
-			return (
-				<MenuItem key={ index }>{ item }</MenuItem>
-			);
-		});
-	},
+	componentWillReceiveProps(prevProps) {
+		this.setState(prevProps);
+		this.setOverflow();
+	}
 
-	handleClick: function() {
+	getItems() {
+		return GENRES.map((item, index) =>
+			<MenuItem key={ index }>{ item }</MenuItem>
+		);
+	}
+
+	handleClick() {
 		this.props.onToggleMenu();
-	},
+	}
 
-	getMenu: function() {
-		this.menu.toggleMenu();
-	},
+	setOverflow() {
+		const body = document.body;
 
-	render: function() {
+		if (this.state.isVisible) {
+			body.style.overflow = '';
+		} else {
+			body.style.overflow = 'hidden';
+		}
+	}
+
+	render() {
+		const overlay = classNames('oc-overlay', this.props.className, {
+			'slide': this.state.isVisible
+		});
+		const slider = classNames('oc-menu', this.props.className, {
+			'slide': this.state.isVisible
+		});
 		return (
 			<div className="off-canvas-menu">
-				<MenuFactory ref={ (ref) => this.menu = ref }>
-					<span className="oc-cross" onClick={ this.handleClick }><i className="fa fa-times"></i></span>
+				<div
+					className={ overlay }
+					onClick={ this.handleClick }
+				/>
+				<div className={ slider }>
+					<button
+						className="oc-times"
+						onClick={ this.handleClick }
+					>
+						<i className="fa fa-times" />
+					</button>
 					<div className="oc-item-container">
 						{ this.getItems() }
 					</div>
-				</MenuFactory>
+				</div>
 			</div>
 		);
 	}
-});
+}
+
+SideMenu.propTypes = {
+	className: React.PropTypes.func,
+	onToggleMenu: React.PropTypes.func
+}

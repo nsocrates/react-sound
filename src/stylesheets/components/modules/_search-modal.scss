@@ -1,4 +1,6 @@
 .m-search {
+	float: right;
+
 	@include breakpoint($large) {
 		display: none;
 	}
@@ -8,27 +10,24 @@
 		background-color: transparent;
 		max-width: 90%;
 		opacity: 0;
+		padding: 6rem 0;
 		transform: translate(-35%, -65%);
 		transition: all $transition-default;
 		width: 100%;
 		z-index: -1;
-		padding: 6rem 0;
 	}
 }
 
-.m-control {
+.m-controller {
 	position: relative;
 
-	.fa-search {
-		@include absolute(top right);
-		cursor: pointer;
+	.m-btn-search {
 		line-height: 4rem;
 		z-index: 0;
 	}
 
-	.fa-times {
+	.m-btn-times {
 		@include fixed(top right);
-		cursor: pointer;
 		font-size: 1.9rem;
 		opacity: 0;
 		padding: 1rem;
@@ -59,12 +58,12 @@
 	.m-modal {
 		transform: scale(80);
 
-		+ .fa-search {
+		+ .m-btn-search {
 			opacity: 0;
 			z-index: -1;
 		}
 
-		~ .fa-times {
+		~ .m-btn-times {
 			opacity: 1;
 			transform: none;
 			z-index: 1;

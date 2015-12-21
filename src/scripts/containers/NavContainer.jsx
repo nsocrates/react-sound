@@ -1,30 +1,31 @@
 'use strict';
 
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import {toggleMenu} from '../actions/sideMenu';
 import Nav from '../components/Nav';
 
-const NavContainer = React.createClass({
-	mixins: [PureRenderMixin],
+class NavContainer extends React.Component {
 
-	render: function() {
+	render() {
 		const { dispatch } = this.props;
+		const handleState = (toggle) => dispatch(toggleMenu(toggle));
 
 		return (
 			<Nav
 				{ ...this.props }
-				onToggleMenu={toggle =>
-					dispatch(toggleMenu(toggle))
-				}
+				onToggleMenu={ handleState }
 			/>
 		);
 	}
-});
+}
 
 function mapStateToProps(state) {
-	return { sideMenu: state.sideMenu }
+	return { isVisible: state.sideMenu }
 }
 
 export default connect(mapStateToProps)(NavContainer);
+
+NavContainer.propTypes = {
+	dispatch: React.PropTypes.func
+}

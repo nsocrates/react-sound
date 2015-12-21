@@ -1,24 +1,25 @@
 'use strict';
 
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-export default React.createClass({
-	mixins: [PureRenderMixin],
+export default class Main extends React.Component {
 
-	render: function() {
+	render() {
 		return (
-			<main className="main">
+			<main
+				className="main"
+				id="main"
+			>
 				<div className="container">
-					<div className="gallery"></div>
-					<div className="gallery"></div>
-					<div className="gallery"></div>
-					<div className="gallery"></div>
-					<div className="gallery"></div>
-					<div className="gallery"></div>
-					<div className="gallery"></div>
+					<div className="gallery" />
+					<div className="gallery" />
+					<div className="gallery" />
+					<div className="gallery" />
+					<div className="gallery" />
+					<div className="gallery" />
+					<div className="gallery" />
 				</div>
 			</main>
 		);
 	}
-});
+}

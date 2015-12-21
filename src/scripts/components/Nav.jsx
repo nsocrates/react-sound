@@ -1,26 +1,32 @@
 'use strict';
 
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import SearchModal from './SearchModal';
 import {GENRES} from '../constants/ItemLists';
 
-export default React.createClass({
-	mixins: [PureRenderMixin],
+export default class Nav extends React.Component {
 
-	handleClick: function() {
+	constructor(props) {
+		super(props);
+		this.handleClick = this.handleClick.bind(this);
+	}
+
+	handleClick() {
 		this.props.onToggleMenu();
-	},
+	}
 
-	getItems: function() {
-		return GENRES.map((item, index) => {
-			return (
-				<li key={ index } className="genre"><a href="#">{ item }</a></li>
-			);
-		});
-	},
+	getItems() {
+		return GENRES.map((item, index) =>
+			<li
+				className="genre"
+				key={ index }
+			>
+				<a href="#">{ item }</a>
+			</li>
+		);
+	}
 
-	render: function() {
+	render() {
 		return (
 			<nav className="nav-bar">
 				<div className="container">
@@ -29,15 +35,21 @@ export default React.createClass({
 					</ul>
 					<ul className="nav-section">
 						<li className="bars">
-							<a onClick={ this.handleClick } href="#"><i className="fa fa-bars"></i></a>
+							<button onClick={ this.handleClick }>
+								<i className="fa fa-bars" />
+							</button>
 						</li>
 					</ul>
 					<ul className="nav-search">
 						<li className="search">
 							<form className="form-group">
-								<input className="searchbar" type="text" placeholder="Looking for something...?" />
-								<span className="focus-bar"></span>
-								<i className="fa fa-search"></i>
+								<input
+									className="searchbar"
+									placeholder="Looking for something...?"
+									type="text"
+								/>
+								<span className="focus-bar" />
+								<i className="fa fa-search" />
 							</form>
 						</li>
 					</ul>
@@ -46,4 +58,8 @@ export default React.createClass({
 			</nav>
 		);
 	}
-});
+}
+
+Nav.propTypes = {
+	onToggleMenu: React.PropTypes.func
+}

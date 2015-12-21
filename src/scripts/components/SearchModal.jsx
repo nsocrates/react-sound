@@ -1,51 +1,66 @@
-'use strict';
-
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-export default React.createClass({
-	mixins: [PureRenderMixin],
+export default class SearchModal extends React.Component {
 
-	getInitialState: function() {
-		return {
-			isOpen: false
-		};
-	},
+	constructor(props) {
+		super(props);
+		this.state = { isOpen: false }
+		this.listenForClose = this.listenForClose.bind(this);
+		this.handleToggle = this.handleToggle.bind(this);
+	}
 
-	listenForClose: function(e) {
+	componentDidMount() {
+		window.onkeydown = this.listenForClose;
+	}
+
+	listenForClose(e) {
 		e = e || window.event;
 
 		if (this.state.isOpen && (e.key === 'Escape' || e.keyCode === 27)) {
-			this.toggleSearch();
+			this.handleToggle();
 		}
-	},
+	}
 
-	toggleSearch: function() {
+	handleToggle() {
 		const mSearchBar = document.getElementById('m-searchbar');
 		const body = document.body;
-		let open = !this.state.isOpen;
+		const open = !this.state.isOpen;
 		this.setState({ isOpen: open });
 		body.classList.toggle('m-open');
 		mSearchBar.focus();
-	},
+	}
 
-	componentDidMount: function() {
-		window.onkeydown = this.listenForClose;
-	},
-
-	render: function() {
+	render() {
 		return (
 			<div className="m-search">
-				<div className="m-control">
-					<div className="m-modal" onClick={ this.toggleSearch } ></div>
-					<i className="fa fa-search" onClick={ this.toggleSearch } ></i>
-					<i className="fa fa-times" onClick={ this.toggleSearch } ></i>
+				<div className="m-controller">
+					<span
+						className="m-modal"
+						onClick={ this.handleToggle }
+					/>
+					<button
+						className="m-btn-search"
+						onClick={ this.handleToggle }
+					>
+						<i className="fa fa-search" />
+					</button>
+					<button
+						className="m-btn-times"
+						onClick={ this.handleToggle }
+					>
+						<i className="fa fa-times" />
+					</button>
 				</div>
 				<form className="form-group">
-					<input id="m-searchbar" className="m-searchbar" type="text" placeholder="Looking for something...?" />
-					<label><h5>Click anywhere to close (esc)</h5></label>
+					<input
+						className="m-searchbar"
+						id="m-searchbar"
+						placeholder="Looking for something...?"
+						type="text"
+					/>
+					<label><h5>{ "Click anywhere to close (esc)" }</h5></label>
 				</form>
 			</div>
 		);
 	}
-});
+}

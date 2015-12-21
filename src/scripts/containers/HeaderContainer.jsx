@@ -1,14 +1,12 @@
 'use strict';
 
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Header from '../components/Header';
 
-export default React.createClass({
-	mixins: [PureRenderMixin],
-	render: function() {
+export default class HeaderContainer extends React.Component {
+	render() {
 		return (
 			<Header {...this.props} />
 		);
 	}
-})
+}

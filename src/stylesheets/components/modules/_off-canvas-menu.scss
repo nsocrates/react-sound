@@ -14,7 +14,7 @@
 	}
 }
 
-.oc-slider {
+.oc-menu {
 	@include fixed(right inherit);
 	background-color: $oc-background;
 	height: 100%;
@@ -28,7 +28,7 @@
 	}
 }
 
-.oc-cross {
+.oc-times {
 	@extend %lead;
 	@include absolute(right);
 	color: $oc-link;

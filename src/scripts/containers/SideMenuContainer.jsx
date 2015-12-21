@@ -1,30 +1,31 @@
 'use strict';
 
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import {toggleMenu} from '../actions/sideMenu';
 import Menu from '../components/SideMenu';
 
-const OffCanvasContainer = React.createClass({
-	mixins: [PureRenderMixin],
+class OffCanvasContainer extends React.Component {
 
-	render: function() {
+	render() {
 		const { dispatch } = this.props;
+		const handleState = (toggle) => dispatch(toggleMenu(toggle));
 
 		return (
 			<Menu
 				{ ...this.props }
-				onToggleMenu={ toggle =>
-					dispatch(toggleMenu(toggle))
-				}
+				onToggleMenu={ handleState }
 			/>
 		);
 	}
-});
+}
 
 function mapStateToProps(state) {
-	return { sideMenu: state.sideMenu }
+	return { isVisible: state.sideMenu }
 }
 
 export default connect(mapStateToProps)(OffCanvasContainer);
+
+OffCanvasContainer.propTypes = {
+	dispatch: React.PropTypes.func
+}
