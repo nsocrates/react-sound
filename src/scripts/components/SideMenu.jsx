@@ -4,6 +4,7 @@ import React from 'react';
 import classNames from 'classnames';
 import MenuItem from './SideMenuItem';
 import {GENRES} from '../constants/ItemLists';
+import {GLOBAL_EVENTS} from '../constants/GlobalEvents';
 
 export default class SideMenu extends React.Component {
 
@@ -15,7 +16,7 @@ export default class SideMenu extends React.Component {
 
 	componentWillReceiveProps(prevProps) {
 		this.setState(prevProps);
-		this.setOverflow();
+		this.emitState(prevProps.isVisible);
 	}
 
 	getItems() {
@@ -28,14 +29,8 @@ export default class SideMenu extends React.Component {
 		this.props.onToggleMenu();
 	}
 
-	setOverflow() {
-		const body = document.body;
-
-		if (this.state.isVisible) {
-			body.style.overflow = '';
-		} else {
-			body.style.overflow = 'hidden';
-		}
+	emitState(state) {
+		GLOBAL_EVENTS.emit('sideMenu', state);
 	}
 
 	render() {

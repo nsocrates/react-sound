@@ -1,4 +1,7 @@
+'use strict';
+
 import React from 'react';
+import {GLOBAL_EVENTS} from '../constants/GlobalEvents';
 
 export default class SearchModal extends React.Component {
 
@@ -9,25 +12,27 @@ export default class SearchModal extends React.Component {
 		this.handleToggle = this.handleToggle.bind(this);
 	}
 
-	componentDidMount() {
-		window.onkeydown = this.listenForClose;
+	componentDidUpdate() {
+		if (this.state.isOpen) window.onkeydown = this.listenForClose;
+		else window.onkeydown = null;
 	}
 
 	listenForClose(e) {
 		e = e || window.event;
 
-		if (this.state.isOpen && (e.key === 'Escape' || e.keyCode === 27)) {
+		if (e.key === 'Escape' || e.keyCode === 27) {
 			this.handleToggle();
 		}
 	}
 
 	handleToggle() {
-		const mSearchBar = document.getElementById('m-searchbar');
-		const body = document.body;
 		const open = !this.state.isOpen;
 		this.setState({ isOpen: open });
-		body.classList.toggle('m-open');
-		mSearchBar.focus();
+		this.emitState(open);
+	}
+
+	emitState(state) {
+		GLOBAL_EVENTS.emit('searchModal', state);
 	}
 
 	render() {
