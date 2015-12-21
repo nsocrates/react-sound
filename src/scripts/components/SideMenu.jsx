@@ -39,10 +39,10 @@ export default class SideMenu extends React.Component {
 	}
 
 	render() {
-		const overlay = classNames('oc-overlay', this.props.className, {
+		const overlay = classNames('oc-overlay', {
 			'slide': this.state.isVisible
 		});
-		const slider = classNames('oc-menu', this.props.className, {
+		const slider = classNames('oc-menu', {
 			'slide': this.state.isVisible
 		});
 		return (
@@ -68,6 +68,5 @@ export default class SideMenu extends React.Component {
 }
 
 SideMenu.propTypes = {
-	className: React.PropTypes.func,
 	onToggleMenu: React.PropTypes.func
 }
