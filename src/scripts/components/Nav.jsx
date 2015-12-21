@@ -61,7 +61,7 @@ export default class Nav extends React.Component {
 							</form>
 						</li>
 					</ul>
-					<SearchModal { ...this.props } />
+					<SearchModal />
 				</div>
 			</nav>
 		);
