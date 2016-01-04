@@ -6,28 +6,25 @@ var _ = require('lodash');
 
 var baseConfig = require('./base');
 
-// Add needed plugins here
-//
-
 var config = _.merge({
-  entry: [
-    'webpack-dev-server/client?http://localhost:8000',
-    'webpack/hot/only-dev-server',
-    './src/scripts/index'
-  ],
-  cache: true,
-  devtool: 'eval',
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
-  ]
+	entry: [
+		'webpack-dev-server/client?http://localhost:8000',
+		'webpack/hot/only-dev-server',
+		'./src/scripts/index'
+	],
+	cache: true,
+	devtool: 'eval',
+	plugins: [
+		new webpack.HotModuleReplacementPlugin(),
+		new webpack.NoErrorsPlugin()
+	]
 }, baseConfig);
 
 // Add needed loaders
 config.module.loaders.push({
-  test: /\.(js|jsx)$/,
-  loader: 'react-hot!babel-loader',
-  include: path.join(__dirname, '/../src')
+	test: /\.(js|jsx)$/,
+	loader: 'react-hot!babel-loader',
+	include: path.join(__dirname, '/../src')
 });
 
 module.exports = config;
