@@ -1,6 +1,4 @@
-'use strict';
-
-import React from 'react';
+import React from 'react'
 
 export default class SideMenuItem extends React.Component {
 
@@ -12,7 +10,7 @@ export default class SideMenuItem extends React.Component {
 			>
 				{ this.props.children }
 			</a>
-		);
+		)
 	}
 }
 
