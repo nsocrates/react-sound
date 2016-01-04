@@ -1,30 +1,29 @@
-'use strict';
-
-import React from 'react';
-import MenuItem from './MenuItem';
-import SearchModal from './SearchModal';
-import {GENRES} from '../constants/ItemLists';
+import React from 'react'
+import MenuItem from './MenuItem'
+import SearchModal from './SearchModal'
+import { GENRES } from '../constants/ItemLists'
 
 export default class Nav extends React.Component {
 
 	constructor(props) {
-		super(props);
-		this.state = { activeItem: null };
-		this.handleChange = this.handleChange.bind(this);
-		this.handleClick = this.handleClick.bind(this);
+		super(props)
+		this.state = { activeItem: null }
+		this.handleChange = this.handleChange.bind(this)
+		this.handleClick = this.handleClick.bind(this)
 	}
 
 	handleChange(index) {
-		this.setState({ activeItem: index });
+		this.setState({ activeItem: index })
 	}
 
 	handleClick() {
-		this.props.onToggleMenu();
+		this.props.onToggleMenu()
 	}
 
 	render() {
 		const menuItems = GENRES.map((item, index) =>
 			<MenuItem
+				genre={ item }
 				index={ index }
 				isActive={ this.state.activeItem === index }
 				key={ index }
@@ -33,7 +32,7 @@ export default class Nav extends React.Component {
 			>
 				{ item }
 			</MenuItem>
-		);
+		)
 
 		return (
 			<nav className="nav-bar">
@@ -64,7 +63,7 @@ export default class Nav extends React.Component {
 					<SearchModal />
 				</div>
 			</nav>
-		);
+		)
 	}
 }
 

@@ -1,18 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import App from './containers/App';
-import makeStore from './store/store';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import makeStore from './store/store'
+import { Provider } from 'react-redux'
+import { routes } from './routes'
 
-// Load main stylesheet
-require('../stylesheets/main.scss');
+require('../stylesheets/main.scss')
 
-export const store = makeStore();
+import { loadPlaylist } from './actions/playlist'
+import { loadGenre } from './actions/genre'
+import { loadTrack } from './actions/track'
+import { loadUser } from './actions/user'
 
-// Render the main component into the dom
+export const store = makeStore()
+
+store.dispatch(loadPlaylist('405726')).then(() => console.log(store.getState()))
+// store.dispatch(loadGenre('house')).then(() => console.log(store.getState()))
+// store.dispatch(loadTrack('13158665')).then(() => console.log(store.getState()))
+// store.dispatch(loadUser('3207')).then(() => console.log(store.getState()))
+
 ReactDOM.render(
 	<Provider store={ store }>
-		<App />
+		{ routes }
 	</Provider>,
 	document.getElementById('app')
-);
+)

@@ -1,5 +1,3 @@
-'use strict';
-
 export const GENRES = [
 	'Drum & Bass',
 	'Electro',
@@ -7,4 +5,4 @@ export const GENRES = [
 	'House',
 	'Techno',
 	'Trance'
-];
+]

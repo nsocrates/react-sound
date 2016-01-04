@@ -1,38 +1,36 @@
-'use strict';
-
-import React from 'react';
-import {GLOBAL_EVENTS} from '../constants/GlobalEvents';
+import React from 'react'
+import { GLOBAL_EVENTS } from '../constants/GlobalEvents'
 
 export default class SearchModal extends React.Component {
 
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = { isOpen: false }
-		this.listenForClose = this.listenForClose.bind(this);
-		this.handleToggle = this.handleToggle.bind(this);
+		this.listenForClose = this.listenForClose.bind(this)
+		this.handleToggle = this.handleToggle.bind(this)
 	}
 
 	componentDidUpdate() {
-		if (this.state.isOpen) window.onkeydown = this.listenForClose;
-		else window.onkeydown = null;
+		if (this.state.isOpen) window.onkeydown = this.listenForClose
+		else window.onkeydown = null
 	}
 
 	listenForClose(e) {
-		e = e || window.event;
+		e = e || window.event
 
 		if (e.key === 'Escape' || e.keyCode === 27) {
-			this.handleToggle();
+			this.handleToggle()
 		}
 	}
 
 	handleToggle() {
-		const open = !this.state.isOpen;
-		this.setState({ isOpen: open });
-		this.emitState(open);
+		const open = !this.state.isOpen
+		this.setState({ isOpen: open })
+		this.emitState(open)
 	}
 
 	emitState(state) {
-		GLOBAL_EVENTS.emit('searchModal', state);
+		GLOBAL_EVENTS.emit('searchModal', state)
 	}
 
 	render() {
@@ -66,6 +64,6 @@ export default class SearchModal extends React.Component {
 					<label><h5>{ "Click anywhere to close (esc)" }</h5></label>
 				</form>
 			</div>
-		);
+		)
 	}
 }

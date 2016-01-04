@@ -1,12 +1,10 @@
-'use strict';
-
-import * as types from '../constants/ActionTypes';
+import * as types from '../constants/ActionTypes'
 
 export default function sideMenu(state = false, action) {
 	switch (action.type) {
 		case types.TOGGLE_MENU:
-			return !state;
+			return !state
 		default:
-			return state;
+			return state
 	}
 }

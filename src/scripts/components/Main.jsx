@@ -1,6 +1,4 @@
-'use strict';
-
-import React from 'react';
+import React from 'react'
 
 export default class Main extends React.Component {
 
@@ -20,6 +18,6 @@ export default class Main extends React.Component {
 					<div className="gallery" />
 				</div>
 			</main>
-		);
+		)
 	}
 }
