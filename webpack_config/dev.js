@@ -1,3 +1,5 @@
+'use strict'
+
 import path from 'path'
 import webpack from 'webpack'
 import _ from 'lodash'
