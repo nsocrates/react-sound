@@ -1,47 +1,41 @@
-'use strict';
-
-var path = require('path');
-var args = require('minimist')(process.argv.slice(2));
+import path from 'path'
+const args = require('minimist')(process.argv.slice(2))
 
 // List of allowed environments
-var allowedEnvs = ['dev', 'dist', 'test'];
+const allowedEnvs = ['dev', 'dist', 'test']
 
 // Set the correct environment
-var env;
-if(args._.length > 0 && args._.indexOf('start') !== -1) {
-  env = 'test';
-} else if (args.env) {
-  env = args.env;
-} else {
-  env = 'dev';
+function setEnvironment() {
+  if (args._.length > 0 && args._.indexOf('start') !== -1) {
+    return 'test'
+  } else if (args.env) {
+    return args.env;
+  }
+
+  return 'dev'
 }
-process.env.REACT_WEBPACK_ENV = env;
+const currEnv = setEnvironment()
+process.env.REACT_WEBPACK_ENV = currEnv
 
 // Get available configurations
-var configs = {
+const configs = {
   base: require(path.join(__dirname, './webpack_config/base')),
   dev: require(path.join(__dirname, './webpack_config/dev')),
   dist: require(path.join(__dirname, './webpack_config/dist'))
-};
+}
 
-/**
- * Get an allowed environment
- * @param  {String}  env
- * @return {String}
- */
+// Get valid environment
 function getValidEnv(env) {
-  var isValid = env && env.length > 0 && allowedEnvs.indexOf(env) !== -1;
-  return isValid ? env : 'dev';
+  const isValid = env && env.length > 0 && allowedEnvs.indexOf(env) !== -1
+
+  return isValid ? env : 'dev'
 }
 
-/**
- * Build the webpack configuration
- * @param  {String} env Environment to use
- * @return {Object} Webpack config
- */
+// Build the webpack configuration
 function buildConfig(env) {
-  var usedEnv = getValidEnv(env);
-  return configs[usedEnv];
+  const usedEnv = getValidEnv(env)
+
+  return configs[usedEnv]
 }
 
-module.exports = buildConfig(env);
+module.exports = buildConfig(currEnv)

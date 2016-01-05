@@ -1,15 +1,9 @@
-'use strict';
+import path from 'path'
+import webpack from 'webpack'
+import _ from 'lodash'
+import baseConfig from './base'
 
-var path = require('path');
-var webpack = require('webpack');
-var _ = require('lodash');
-
-var baseConfig = require('./base');
-
-// Add needed plugins here
-//
-
-var config = _.merge({
+const config = _.merge({
 	entry: path.join(__dirname, '../src/scripts/index'),
 	cache: false,
 	devtool: 'sourcemap',
@@ -31,4 +25,4 @@ config.module.loaders.push({
 	include: path.join(__dirname, '/../src')
 });
 
-module.exports = config;
+export default config

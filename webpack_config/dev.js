@@ -1,12 +1,9 @@
-'use strict';
+import path from 'path'
+import webpack from 'webpack'
+import _ from 'lodash'
+import baseConfig from './base'
 
-var path = require('path');
-var webpack = require('webpack');
-var _ = require('lodash');
-
-var baseConfig = require('./base');
-
-var config = _.merge({
+const config = _.merge({
 	entry: [
 		'webpack-dev-server/client?http://localhost:8000',
 		'webpack/hot/only-dev-server',
@@ -18,13 +15,13 @@ var config = _.merge({
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoErrorsPlugin()
 	]
-}, baseConfig);
+}, baseConfig)
 
 // Add needed loaders
 config.module.loaders.push({
 	test: /\.(js|jsx)$/,
 	loader: 'react-hot!babel-loader',
 	include: path.join(__dirname, '/../src')
-});
+})
 
-module.exports = config;
+export default config
