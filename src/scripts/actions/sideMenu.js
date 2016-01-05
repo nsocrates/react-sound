@@ -1,7 +1,7 @@
-import * as types from '../constants/ActionTypes'
+import * as ActionTypes from '../constants/ActionTypes'
 
 export function toggleMenu() {
 	return {
-		type: types.TOGGLE_MENU
+		type: ActionTypes.TOGGLE_MENU
 	}
 }
