@@ -19,9 +19,11 @@ function fetchGenre(genre, next_href) {
 }
 
 export function loadGenre(genre) {
+	const value = (genre === 'Drum & Bass') ? 'drum%26bass' : genre
+
 	return (dispatch, getState) => {
 		const {
-			next_href = `/tracks?genres=${genre}&`
+			next_href = `/tracks?genres=${value}&`
 		} = getState().app.partition.tracksByGenre[genre] || {}
 
 		return dispatch(fetchGenre(genre, next_href))
