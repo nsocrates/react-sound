@@ -15,13 +15,13 @@ export default class SearchModal extends React.Component {
 		else window.onkeydown = null
 	}
 
-	listenForClose(e) {
-		e = e || window.event
+  listenForClose(e) {
+    const event = e || window.event
 
-		if (e.key === 'Escape' || e.keyCode === 27) {
-			this.handleToggle()
-		}
-	}
+    if (event.key === 'Escape' || event.keyCode === 27) {
+      this.handleToggle()
+    }
+  }
 
 	handleToggle() {
 		const open = !this.state.isOpen
