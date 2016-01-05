@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { loadGenre } from '../actions/genre'
 import { toggleMenu } from '../actions/sideMenu'
 
-class SlideMenuContainer extends React.Component {
+class SideMenuContainer extends React.Component {
 
 	render() {
 		const { dispatch } = this.props
@@ -28,9 +28,9 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps)(SlideMenuContainer)
+export default connect(mapStateToProps)(SideMenuContainer)
 
-SlideMenuContainer.propTypes = {
+SideMenuContainer.propTypes = {
 	dispatch: React.PropTypes.func.isRequired,
 	genre: React.PropTypes.string.isRequired
 }
