@@ -18,7 +18,7 @@ export default class SideMenu extends React.Component {
     this.setState(prevProps)
   }
 
-  getItems() {
+  renderMenuItems() {
     return GENRES.map((item, index) =>
       <MenuItem
         genre={ item }
@@ -64,7 +64,7 @@ export default class SideMenu extends React.Component {
             <i className="fa fa-times" />
           </button>
           <div className="oc-item-container">
-            { this.getItems() }
+            { this.renderMenuItems() }
           </div>
         </div>
       </div>
