@@ -9,18 +9,30 @@ export default class SideMenu extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = this.props
+		this.handleChange = this.handleChange.bind(this)
 		this.handleClick = this.handleClick.bind(this)
 	}
 
 	componentWillReceiveProps(prevProps) {
-		this.setState(prevProps)
 		this.emitState(prevProps.isVisible)
+		this.setState(prevProps)
 	}
 
 	getItems() {
 		return GENRES.map((item, index) =>
-			<MenuItem key={ index }>{ item }</MenuItem>
+			<MenuItem
+				genre={ item }
+				key={ index }
+				onChange={ this.handleChange }
+				onExit={ this.handleClick }
+			>
+				{ item }
+			</MenuItem>
 		)
+	}
+
+	handleChange(genre) {
+		this.props.onLoadGenre(genre)
 	}
 
 	handleClick() {
@@ -61,5 +73,6 @@ export default class SideMenu extends React.Component {
 }
 
 SideMenu.propTypes = {
-	onToggleMenu: React.PropTypes.func
+	onLoadGenre: React.PropTypes.func.isRequired,
+	onToggleMenu: React.PropTypes.func.isRequired
 }

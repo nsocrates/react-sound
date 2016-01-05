@@ -1,19 +1,35 @@
 import React from 'react'
+import { Link } from 'react-router'
 
 export default class SideMenuItem extends React.Component {
 
+	constructor(props) {
+		super(props)
+		this.handleClick = this.handleClick.bind(this)
+	}
+
+	handleClick(event) {
+		event.preventDefault()
+		this.props.onChange(this.props.genre)
+		this.props.onExit()
+	}
+
 	render() {
 		return (
-			<a
+			<Link
 				className="oc-item"
-				href="#"
+				onClick={ this.handleClick }
+				to={ `/genre/${this.props.genre}` }
 			>
 				{ this.props.children }
-			</a>
+			</Link>
 		)
 	}
 }
 
 SideMenuItem.propTypes = {
-	children: React.PropTypes.node
+	children: React.PropTypes.node,
+	genre: React.PropTypes.string.isRequired,
+	onChange: React.PropTypes.func.isRequired,
+	onExit: React.PropTypes.func
 }

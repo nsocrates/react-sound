@@ -1,17 +1,20 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { toggleMenu } from '../actions/sideMenu'
 import Nav from '../components/Nav'
+import { connect } from 'react-redux'
+import { loadGenre } from '../actions/genre'
+import { toggleMenu } from '../actions/sideMenu'
 
 class NavContainer extends React.Component {
 
 	render() {
 		const { dispatch } = this.props
 		const handleState = () => dispatch(toggleMenu())
+		const handleRequest = genre => dispatch(loadGenre(genre))
 
 		return (
 			<Nav
 				{ ...this.props }
+				onLoadGenre={ handleRequest }
 				onToggleMenu={ handleState }
 			/>
 		)
@@ -19,11 +22,15 @@ class NavContainer extends React.Component {
 }
 
 function mapStateToProps(state) {
-	return { isVisible: state.app.sideMenu }
+	return {
+		genre: state.app.requested,
+		isVisible: state.app.sideMenu
+	}
+}
+
+NavContainer.propTypes = {
+	dispatch: React.PropTypes.func.isRequired,
+	genre: React.PropTypes.string.isRequired
 }
 
 export default connect(mapStateToProps)(NavContainer)
-
-NavContainer.propTypes = {
-	dispatch: React.PropTypes.func
-}

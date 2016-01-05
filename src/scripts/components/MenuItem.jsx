@@ -11,7 +11,7 @@ export default class MenuItem extends React.Component {
 
 	handleClick(event) {
 		event.preventDefault()
-		this.props.onChange(this.props.index)
+		this.props.onChange(this.props.genre)
 	}
 
 	render() {
@@ -26,13 +26,6 @@ export default class MenuItem extends React.Component {
 				>
 					{ this.props.children }
 				</Link>
-{/*				<a
-					className={ active }
-					href={ this.props.link }
-					onClick={ this.handleClick }
-				>
-					{ this.props.children }
-				</a>*/}
 			</li>
 		)
 	}
@@ -40,9 +33,9 @@ export default class MenuItem extends React.Component {
 
 MenuItem.propTypes = {
 	children: React.PropTypes.node,
-	genre: React.PropTypes.string,
-	index: React.PropTypes.number,
+	genre: React.PropTypes.string.isRequired,
+	index: React.PropTypes.number.isRequired,
 	isActive: React.PropTypes.bool,
 	listClass: React.PropTypes.string,
-	onChange: React.PropTypes.func
+	onChange: React.PropTypes.func.isRequired
 }

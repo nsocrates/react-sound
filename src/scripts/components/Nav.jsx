@@ -7,13 +7,23 @@ export default class Nav extends React.Component {
 
 	constructor(props) {
 		super(props)
-		this.state = { activeItem: null }
+		this.state = { activeItem: this.props.genre }
 		this.handleChange = this.handleChange.bind(this)
 		this.handleClick = this.handleClick.bind(this)
 	}
 
-	handleChange(index) {
-		this.setState({ activeItem: index })
+	componentWillMount() {
+		this.handleChange(this.props.genre)
+	}
+
+	componentWillReceiveProps(prevProps) {
+		const genre = (prevProps.genre === 'Drum%20%26%20Bass') ? 'Drum & Bass' : prevProps.genre
+
+		return this.setState({ activeItem: genre })
+	}
+
+	handleChange(genre) {
+		this.props.onLoadGenre(genre)
 	}
 
 	handleClick() {
@@ -25,7 +35,7 @@ export default class Nav extends React.Component {
 			<MenuItem
 				genre={ item }
 				index={ index }
-				isActive={ this.state.activeItem === index }
+				isActive={ this.state.activeItem === item }
 				key={ index }
 				listClass="genre"
 				onChange={ this.handleChange }
@@ -68,5 +78,7 @@ export default class Nav extends React.Component {
 }
 
 Nav.propTypes = {
-	onToggleMenu: React.PropTypes.func
+	genre: React.PropTypes.string.isRequired,
+	onLoadGenre: React.PropTypes.func.isRequired,
+	onToggleMenu: React.PropTypes.func.isRequired
 }
