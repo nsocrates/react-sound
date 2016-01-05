@@ -6,14 +6,14 @@ import MainContainer from './MainContainer'
 import SideMenuContainer from './SideMenuContainer'
 
 export default class App extends React.Component {
-	render() {
-		return (
-			<div>
-				<SideMenuContainer />
-				<HeaderContainer />
-				<NavContainer />
-				<MainContainer />
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div>
+        <SideMenuContainer />
+        <HeaderContainer />
+        <NavContainer />
+        <MainContainer />
+      </div>
+    )
+  }
 }

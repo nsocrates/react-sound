@@ -6,31 +6,31 @@ import { toggleMenu } from '../actions/sideMenu'
 
 class NavContainer extends React.Component {
 
-	render() {
-		const { dispatch } = this.props
-		const handleState = () => dispatch(toggleMenu())
-		const handleRequest = genre => dispatch(loadGenre(genre))
+  render() {
+    const { dispatch } = this.props
+    const handleState = () => dispatch(toggleMenu())
+    const handleRequest = genre => dispatch(loadGenre(genre))
 
-		return (
-			<Nav
-				{ ...this.props }
-				onLoadGenre={ handleRequest }
-				onToggleMenu={ handleState }
-			/>
-		)
-	}
+    return (
+      <Nav
+        { ...this.props }
+        onLoadGenre={ handleRequest }
+        onToggleMenu={ handleState }
+      />
+    )
+  }
 }
 
 function mapStateToProps(state) {
-	return {
-		genre: state.app.requested,
-		isVisible: state.app.sideMenu
-	}
+  return {
+    genre: state.app.requested,
+    isVisible: state.app.sideMenu
+  }
 }
 
 NavContainer.propTypes = {
-	dispatch: React.PropTypes.func.isRequired,
-	genre: React.PropTypes.string.isRequired
+  dispatch: React.PropTypes.func.isRequired,
+  genre: React.PropTypes.string.isRequired
 }
 
 export default connect(mapStateToProps)(NavContainer)

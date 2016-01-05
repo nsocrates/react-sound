@@ -19,8 +19,8 @@ require('../stylesheets/main.scss')
 export const store = makeStore()
 
 ReactDOM.render(
-	<Provider store={ store }>
-		{ routes }
-	</Provider>,
-	document.getElementById('app')
+  <Provider store={ store }>
+    { routes }
+  </Provider>,
+  document.getElementById('app')
 )

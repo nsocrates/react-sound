@@ -7,15 +7,15 @@ import { Router, Route } from 'react-router'
 const history = createHistory()
 
 export const routes = (
-	<Router history={ history }>
-		<Route
-			component={ App }
-			path="/"
-		>
-			<Route
-				component={ MainContainer }
-				path="/genre/:genre"
-			/>
-		</Route>
-	</Router>
+  <Router history={ history }>
+    <Route
+      component={ App }
+      path="/"
+    >
+      <Route
+        component={ MainContainer }
+        path="/genre/:genre"
+      />
+    </Route>
+  </Router>
 )

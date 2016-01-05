@@ -1,54 +1,54 @@
 .nav-search {
-	@extend %reset-ul;
-	float: right;
-	position: relative;
+  @extend %reset-ul;
+  float: right;
+  position: relative;
 }
 
 .search {
-	line-height: 4rem;
+  line-height: 4rem;
 
-	> .form-group {
-		@include breakpoint($medium-down) {
-			display: none;
-		}
+  > .form-group {
+    @include breakpoint($medium-down) {
+      display: none;
+    }
 
-		.fa-search {
-			@include absolute(top 1.3rem right);
-			z-index: 1;
-		}
-	}
+    .fa-search {
+      @include absolute(top 1.3rem right);
+      z-index: 1;
+    }
+  }
 }
 
 .searchbar {
-	background-color: transparent;
-	border: 0;
-	box-shadow: inset 0 -.1rem 0 $black-disabled;
-	line-height: 4rem;
-	padding: 0 3.2rem 0 1.5rem;
+  background-color: transparent;
+  border: 0;
+  box-shadow: inset 0 -.1rem 0 $black-disabled;
+  line-height: 4rem;
+  padding: 0 3.2rem 0 1.5rem;
 
-	&:focus {
-		outline: none;
+  &:focus {
+    outline: none;
 
-		+ .focus-bar {
-			transform: scaleX(1);
-		}
+    + .focus-bar {
+      transform: scaleX(1);
+    }
 
-		&::placeholder {
-			opacity: $secondary;
-			transform: scale(.85);
-		}
-	}
+    &::placeholder {
+      opacity: $secondary;
+      transform: scale(.85);
+    }
+  }
 
-	&::placeholder {
-		transition: $transition-default;
-	}
+  &::placeholder {
+    transition: $transition-default;
+  }
 }
 
 .focus-bar {
-	@include absolute(bottom left);
-	background: $light-pink;
-	height: .2rem;
-	transform: scaleX(0);
-	transition: transform $transition-default;
-	width: 100%;
+  @include absolute(bottom left);
+  background: $light-pink;
+  height: .2rem;
+  transform: scaleX(0);
+  transition: transform $transition-default;
+  width: 100%;
 }

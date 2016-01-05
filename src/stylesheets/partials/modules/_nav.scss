@@ -1,47 +1,47 @@
 .nav-bar {
-	background-color: $light-gray;
-	height: 4rem;
+  background-color: $light-gray;
+  height: 4rem;
 }
 
 .nav-section {
-	@extend %reset-ul;
-	float: left;
+  @extend %reset-ul;
+  float: left;
 
-	li {
-		line-height: 4rem;
-	}
+  li {
+    line-height: 4rem;
+  }
 
-	& + & {
-		@include breakpoint($medium) {
-			display: none;
-		}
-	}
+  & + & {
+    @include breakpoint($medium) {
+      display: none;
+    }
+  }
 }
 
 .genre {
-	border-right: .1rem solid $black-disabled;
+  border-right: .1rem solid $black-disabled;
 
-	&:first-child {
-		border-left: .1rem solid $black-disabled;
-	}
+  &:first-child {
+    border-left: .1rem solid $black-disabled;
+  }
 
-	a {
-		display: block;
-		padding: 0 1.5rem;
-		transition: $transition-default;
+  a {
+    display: block;
+    padding: 0 1.5rem;
+    transition: $transition-default;
 
-		&:hover {
-			@extend %active;
-		}
-	}
+    &:hover {
+      @extend %active;
+    }
+  }
 
-	.nav-section & {
-		@include breakpoint($small-only) {
-			display: none;
-		}
-	}
+  .nav-section & {
+    @include breakpoint($small-only) {
+      display: none;
+    }
+  }
 }
 
 .active {
-	@extend %active;
+  @extend %active;
 }

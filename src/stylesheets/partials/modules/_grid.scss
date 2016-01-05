@@ -1,24 +1,24 @@
 .container {
-	@include container;
+  @include container;
 }
 
 .gallery {
-	@include gallery(6);
-	background-color: #71dad2;
-	padding-top: span(6);
-	margin-bottom: gutter();
+  @include gallery(6);
+  background-color: #71dad2;
+  padding-top: span(6);
+  margin-bottom: gutter();
 
-	@include breakpoint($medium) {
-		@include gallery(4);
-		padding-top: span(4);
-	}
+  @include breakpoint($medium) {
+    @include gallery(4);
+    padding-top: span(4);
+  }
 
-	@include breakpoint($large) {
-		@include gallery(3);
-		padding-top: span(3);
-	}
+  @include breakpoint($large) {
+    @include gallery(3);
+    padding-top: span(3);
+  }
 }
 
 .main {
-	padding: gutter() 0;
+  padding: gutter() 0;
 }

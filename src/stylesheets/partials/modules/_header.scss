@@ -1,31 +1,31 @@
 .header {
-	background-color: $dark-gray;
-	height: 5rem;
+  background-color: $dark-gray;
+  height: 5rem;
 }
 
 .header-section {
-	@extend %reset-ul;
-	color: $white;
-	float: left;
+  @extend %reset-ul;
+  color: $white;
+  float: left;
 
-	& + & {
-		float: right;
-	}
+  & + & {
+    float: right;
+  }
 
-	a,
-	i {
-		display: block;
-		line-height: 5rem;
-	}
+  a,
+  i {
+    display: block;
+    line-height: 5rem;
+  }
 }
 
 .title {
-	a {
-		color: $white;
-		margin-left: 1.5rem;
-	}
+  a {
+    color: $white;
+    margin-left: 1.5rem;
+  }
 }
 
 .login a {
-	color: $white;
+  color: $white;
 }

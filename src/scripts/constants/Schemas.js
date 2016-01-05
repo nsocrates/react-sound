@@ -6,18 +6,18 @@ const trackSchema = new Schema('tracks')
 const playlistSchema = new Schema('playlists')
 
 trackSchema.define({
-	user: userSchema
+  user: userSchema
 })
 
 playlistSchema.define({
-	tracks: arrayOf(trackSchema)
+  tracks: arrayOf(trackSchema)
 })
 
 export const Schemas = {
-	USER: userSchema,
-	USER_ARRAY: arrayOf(userSchema),
-	TRACK: trackSchema,
-	TRACK_ARRAY: arrayOf(trackSchema),
-	PLAYLIST: playlistSchema,
-	PLAYLIST_ARRAY: arrayOf(playlistSchema)
+  USER: userSchema,
+  USER_ARRAY: arrayOf(userSchema),
+  TRACK: trackSchema,
+  TRACK_ARRAY: arrayOf(trackSchema),
+  PLAYLIST: playlistSchema,
+  PLAYLIST_ARRAY: arrayOf(playlistSchema)
 }

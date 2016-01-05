@@ -7,17 +7,17 @@ import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { routeReducer, syncReduxAndRouter } from 'redux-simple-router'
 
 const reducer = combineReducers({
-	app: rootReducer,
-	routing: routeReducer
+  app: rootReducer,
+  routing: routeReducer
 })
 
 const history = createHistory()
 const logger = createLogger()
 
 const createStoreWithMiddleware = applyMiddleware(
-	api,
-	thunk,
-	logger
+  api,
+  thunk,
+  logger
 )(createStore)
 
 const store = createStoreWithMiddleware(reducer)
@@ -25,5 +25,5 @@ const store = createStoreWithMiddleware(reducer)
 syncReduxAndRouter(history, store)
 
 export default function makeStore() {
-	return createStoreWithMiddleware(reducer)
+  return createStoreWithMiddleware(reducer)
 }

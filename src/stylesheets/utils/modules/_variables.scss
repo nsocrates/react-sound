@@ -48,11 +48,11 @@ $medium-down: max-width $large - 1px;
 
 // Susy
 $susy: (
-	global-box-sizing: border-box,
-	container: 90%,
-	columns: 12,
-	debug: (
-		image: show,
-		output: overlay
-	)
+  global-box-sizing: border-box,
+  container: 90%,
+  columns: 12,
+  debug: (
+    image: show,
+    output: overlay
+  )
 );

@@ -4,28 +4,28 @@ import { Schemas } from '../constants/Schemas'
 
 // Fetches a single user:
 function fetchUser(id) {
-	return {
-		id,
-		[CALL_API]: {
-			types: [
-				ActionTypes.USER_REQUEST,
-				ActionTypes.USER_SUCCESS,
-				ActionTypes.USER_FAILURE
-			],
-			endpoint: `/users/${id}?`,
-			schema: Schemas.USER
-		}
-	}
+  return {
+    id,
+    [CALL_API]: {
+      types: [
+        ActionTypes.USER_REQUEST,
+        ActionTypes.USER_SUCCESS,
+        ActionTypes.USER_FAILURE
+      ],
+      endpoint: `/users/${id}?`,
+      schema: Schemas.USER
+    }
+  }
 }
 
 // Fetches a single user from SoundCloud API unless it is cached:
 export function loadUser(id) {
-	return (dispatch, getState) => {
-		const user = getState().app.entities.users[id]
-		if (user) {
-			return null
-		}
+  return (dispatch, getState) => {
+    const user = getState().app.entities.users[id]
+    if (user) {
+      return null
+    }
 
-		return dispatch(fetchUser(id))
-	}
+    return dispatch(fetchUser(id))
+  }
 }

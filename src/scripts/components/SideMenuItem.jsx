@@ -3,33 +3,33 @@ import { Link } from 'react-router'
 
 export default class SideMenuItem extends React.Component {
 
-	constructor(props) {
-		super(props)
-		this.handleClick = this.handleClick.bind(this)
-	}
+  constructor(props) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+  }
 
-	handleClick(event) {
-		event.preventDefault()
-		this.props.onChange(this.props.genre)
-		this.props.onExit()
-	}
+  handleClick(event) {
+    event.preventDefault()
+    this.props.onChange(this.props.genre)
+    this.props.onExit()
+  }
 
-	render() {
-		return (
-			<Link
-				className="oc-item"
-				onClick={ this.handleClick }
-				to={ `/genre/${this.props.genre}` }
-			>
-				{ this.props.children }
-			</Link>
-		)
-	}
+  render() {
+    return (
+      <Link
+        className="oc-item"
+        onClick={ this.handleClick }
+        to={ `/genre/${this.props.genre}` }
+      >
+        { this.props.children }
+      </Link>
+    )
+  }
 }
 
 SideMenuItem.propTypes = {
-	children: React.PropTypes.node,
-	genre: React.PropTypes.string.isRequired,
-	onChange: React.PropTypes.func.isRequired,
-	onExit: React.PropTypes.func
+  children: React.PropTypes.node,
+  genre: React.PropTypes.string.isRequired,
+  onChange: React.PropTypes.func.isRequired,
+  onExit: React.PropTypes.func
 }
