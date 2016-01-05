@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import { Link } from 'react-router'
 
 export default class SideMenuItem extends React.Component {
@@ -15,9 +16,13 @@ export default class SideMenuItem extends React.Component {
   }
 
   render() {
+    const active = classNames('oc-item', {
+      'oc-active': this.props.isActive
+    })
+
     return (
       <Link
-        className="oc-item"
+        className={ active }
         onClick={ this.handleClick }
         to={ `/genre/${this.props.genre}` }
       >
@@ -30,6 +35,7 @@ export default class SideMenuItem extends React.Component {
 SideMenuItem.propTypes = {
   children: React.PropTypes.node,
   genre: React.PropTypes.string.isRequired,
+  isActive: React.PropTypes.bool,
   onChange: React.PropTypes.func.isRequired,
   onClose: React.PropTypes.func
 }

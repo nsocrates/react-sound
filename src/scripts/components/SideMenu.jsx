@@ -22,6 +22,7 @@ export default class SideMenu extends React.Component {
     return GENRES.map((item, index) =>
       <MenuItem
         genre={ item }
+        isActive={ this.state.genre === item }
         key={ index }
         onChange={ this.handleChange }
         onClose={ this.handleToggle }
@@ -50,6 +51,7 @@ export default class SideMenu extends React.Component {
     const slider = classNames('oc-menu', {
       'slide': this.state.isVisible
     })
+
     return (
       <div className="off-canvas-menu">
         <div
