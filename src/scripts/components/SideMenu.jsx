@@ -24,7 +24,7 @@ export default class SideMenu extends React.Component {
         genre={ item }
         key={ index }
         onChange={ this.handleChange }
-        onExit={ this.handleClick }
+        onClose={ this.handleToggle }
       >
         { item }
       </MenuItem>

@@ -11,7 +11,7 @@ export default class SideMenuItem extends React.Component {
   handleClick(event) {
     event.preventDefault()
     this.props.onChange(this.props.genre)
-    this.props.onExit()
+    this.props.onClose()
   }
 
   render() {
@@ -31,5 +31,5 @@ SideMenuItem.propTypes = {
   children: React.PropTypes.node,
   genre: React.PropTypes.string.isRequired,
   onChange: React.PropTypes.func.isRequired,
-  onExit: React.PropTypes.func
+  onClose: React.PropTypes.func
 }
