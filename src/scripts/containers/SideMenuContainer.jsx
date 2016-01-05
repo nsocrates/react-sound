@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { toggleMenu } from '../actions/sideMenu'
-import Menu from '../components/SideMenu'
 
-class OffCanvasContainer extends React.Component {
+class SlideMenuContainer extends React.Component {
 
 	render() {
 		const { dispatch } = this.props
@@ -22,7 +21,7 @@ function mapStateToProps(state) {
 	return { isVisible: state.app.sideMenu }
 }
 
-export default connect(mapStateToProps)(OffCanvasContainer)
+export default connect(mapStateToProps)(SlideMenuContainer)
 
 OffCanvasContainer.propTypes = {
 	dispatch: React.PropTypes.func
