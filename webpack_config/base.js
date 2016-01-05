@@ -1,4 +1,6 @@
 import path from 'path'
+import autoprefixer from 'autoprefixer'
+
 const port = 8000
 const srcPath = path.join(__dirname, '/../src')
 const publicPath = '/assets/'
@@ -55,6 +57,11 @@ const baseConfig = {
 	postcss() {
 		return []
 	}
+    return [
+      autoprefixer({
+        browsers: ['last 2 versions', 'ie >= 8']
+      })
+    ]
 }
 
 export default baseConfig
