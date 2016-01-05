@@ -30,8 +30,8 @@ export default class Nav extends React.Component {
     this.props.onToggleMenu()
   }
 
-  render() {
-    const menuItems = GENRES.map((item, index) =>
+  renderMenuItems() {
+    return GENRES.map((item, index) =>
       <MenuItem
         genre={ item }
         index={ index }
@@ -43,12 +43,14 @@ export default class Nav extends React.Component {
         { item }
       </MenuItem>
     )
+  }
 
+  render() {
     return (
       <nav className="nav-bar">
         <div className="container">
           <ul className="nav-section">
-            { menuItems }
+            { this.renderMenuItems() }
           </ul>
           <ul className="nav-section">
             <li className="bars">
