@@ -17,9 +17,7 @@ export default class Nav extends React.Component {
   }
 
   componentWillReceiveProps(prevProps) {
-    const genre = (prevProps.genre === 'Drum%20%26%20Bass') ? 'Drum & Bass' : prevProps.genre
-
-    return this.setState({ activeItem: genre })
+    this.setState({ activeItem: prevProps.genre })
   }
 
   handleChange(genre) {
