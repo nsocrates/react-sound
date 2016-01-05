@@ -28,9 +28,9 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps)(SideMenuContainer)
-
 SideMenuContainer.propTypes = {
 	dispatch: React.PropTypes.func.isRequired,
 	genre: React.PropTypes.string.isRequired
 }
+
+export default connect(mapStateToProps)(SideMenuContainer)
