@@ -33,9 +33,8 @@ function partitionate({ types, mapActionToKey }) {
 			case successType:
 				return merge({}, state, {
 					isFetching: false,
-					ids: union(state.ids, action.response.result),
-					next_href: action.response.next_href,
-					offset: state.offset + 12
+					ids: union(state.ids, action.response.result)
+					// next_href: action.response.next_href
 				})
 			case failureType:
 				return merge({}, state, {
