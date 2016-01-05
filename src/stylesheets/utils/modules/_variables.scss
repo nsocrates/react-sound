@@ -21,6 +21,7 @@ $black-disabled: rgba(#000, $disabled);
 
 // Main Color Scheme
 $white: #fff;
+$black: #000;
 $dark-gray: #3b3b3b;
 $light-gray: #f1f1f1;
 $light-pink: #ff80ab;
@@ -29,14 +30,13 @@ $cyan: #a0f7f4;
 // Transition
 $transition-default: (.2s ease-in-out);
 
-// Menu Slider Config
+// Side Menu Config
 $oc-width: 30rem;
 $oc-hover: $cyan;
 $oc-background: $dark-gray;
 $oc-link: rgba($white, $secondary);
 
 // Breakpoint
-// $breakpoint-to-ems: true;
 @include breakpoint-set('to ems', true);
 $small: 0;
 $medium: 640px;
@@ -44,7 +44,6 @@ $large: 1024px;
 
 $small-only: $small ($medium - 1px);
 $medium-only: $medium ($large - 1px);
-
 $medium-down: max-width $large - 1px;
 
 // Susy
