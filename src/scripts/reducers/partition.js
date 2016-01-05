@@ -5,6 +5,12 @@ import merge from 'lodash/object/merge'
 
 // Creates a reducer managing partition, given the action types to handle,
 // and a function telling how to extract the key from an action.
+const initialState = {
+	ids: [],
+	isFetching: false
+	// next_href: undefined
+}
+
 function partitionate({ types, mapActionToKey }) {
 	if (!Array.isArray(types) || types.length !== 3) {
 		throw new Error('Expected types to be an array of three elements.')
@@ -18,13 +24,8 @@ function partitionate({ types, mapActionToKey }) {
 
 	const [ requestType, successType, failureType ] = types
 
-	function updatePartition(state = {
-		isFetching: false,
-		next_href: undefined,
-		offset: 0,
-		ids: []
-	}, action) {
-		switch(action.type) {
+	function updatePartition(state = initialState, action) {
+		switch (action.type) {
 			case requestType:
 				return merge({}, state, {
 					isFetching: true
