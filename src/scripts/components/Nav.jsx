@@ -9,7 +9,7 @@ export default class Nav extends React.Component {
     super(props)
     this.state = { activeItem: this.props.genre }
     this.handleChange = this.handleChange.bind(this)
-    this.handleClick = this.handleClick.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
   }
 
   componentWillMount() {
@@ -26,7 +26,7 @@ export default class Nav extends React.Component {
     this.props.onLoadGenre(genre)
   }
 
-  handleClick() {
+  handleToggle() {
     this.props.onToggleMenu()
   }
 
@@ -52,7 +52,7 @@ export default class Nav extends React.Component {
           </ul>
           <ul className="nav-section">
             <li className="bars">
-              <button onClick={ this.handleClick }>
+              <button onClick={ this.handleToggle }>
                 <i className="fa fa-bars" />
               </button>
             </li>

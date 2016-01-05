@@ -10,7 +10,7 @@ export default class SideMenu extends React.Component {
     super(props)
     this.state = this.props
     this.handleChange = this.handleChange.bind(this)
-    this.handleClick = this.handleClick.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
   }
 
   componentWillReceiveProps(prevProps) {
@@ -35,7 +35,7 @@ export default class SideMenu extends React.Component {
     this.props.onLoadGenre(genre)
   }
 
-  handleClick() {
+  handleToggle() {
     this.props.onToggleMenu()
   }
 
@@ -54,12 +54,12 @@ export default class SideMenu extends React.Component {
       <div className="off-canvas-menu">
         <div
           className={ overlay }
-          onClick={ this.handleClick }
+          onClick={ this.handleToggle }
         />
         <div className={ slider }>
           <button
             className="oc-times"
-            onClick={ this.handleClick }
+            onClick={ this.handleToggle }
           >
             <i className="fa fa-times" />
           </button>
