@@ -29,7 +29,7 @@ export default class Nav extends React.Component {
   }
 
   renderMenuItems() {
-    return GENRES.map((item, index) =>
+    return GENRES.map((item, index) => (
       <MenuItem
         genre={ item }
         index={ index }
@@ -40,7 +40,7 @@ export default class Nav extends React.Component {
       >
         { item }
       </MenuItem>
-    )
+    ))
   }
 
   render() {
