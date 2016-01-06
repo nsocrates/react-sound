@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --require ./test/helpers/test_helper.js \"test/**/*.@(js|jsx)\"",
-    "start": "babel-node ./server.js --env=dev",
-    "start:dist": "babel-node ./server.js --env=dist",
+    "start": "babel-node ./server/server.js --env=dev",
+    "start:dist": "babel-node ./server/server.js --env=dist",
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
     "build": "npm run copy & webpack --env=dist"
   },

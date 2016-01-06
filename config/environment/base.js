@@ -4,14 +4,14 @@ import path from 'path'
 import autoprefixer from 'autoprefixer'
 
 const port = 8000
-const srcPath = path.join(__dirname, '/../src')
+const srcPath = path.join(__dirname, '/../../src')
 const publicPath = '/assets/'
 
 const baseConfig = {
   port,
   debug: true,
   output: {
-    path: path.join(__dirname, '/../dist/assets'),
+    path: path.join(__dirname, '/../../dist/assets'),
     filename: 'bundle.js',
     publicPath
   },
@@ -30,12 +30,16 @@ const baseConfig = {
       '.jsx'
     ],
     alias: {
-      config: `${srcPath}./scripts.config/${process.env.REACT_WEBPACK_ENV}`,
-      actions: `${srcPath}./scripts/actions`,
-      components: `${srcPath}./scripts/components/`,
-      sources: `${srcPath}./scripts/sources/`,
-      stores: `${srcPath}./scripts/stores`,
-      styles: `${srcPath}./stylesheets/`
+      config: `${srcPath}/scripts.config/${process.env.REACT_WEBPACK_ENV}`,
+      actions: `${srcPath}/scripts/actions/`,
+      components: `${srcPath}/scripts/components/`,
+      constants: `${srcPath}/scripts/constants/`,
+      containers: `${srcPath}/scripts/containers/`,
+      middleware: `${srcPath}/scripts/middleware/`,
+      reducers: `${srcPath}/scripts/reducers/`,
+      routes: `${srcPath}/scripts/routes/`,
+      stores: `${srcPath}/scripts/stores/`,
+      stylesheets: `${srcPath}/stylesheets/`
     }
   },
   module: {

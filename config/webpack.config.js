@@ -24,9 +24,9 @@ process.env.REACT_WEBPACK_ENV = currEnv
 
 // Get available configurations
 const configs = {
-  base: require(path.join(__dirname, './webpack_config/base')),
-  dev: require(path.join(__dirname, './webpack_config/dev')),
-  dist: require(path.join(__dirname, './webpack_config/dist'))
+  base: require(path.join(__dirname, './environment/base')),
+  dev: require(path.join(__dirname, './environment/dev')),
+  dist: require(path.join(__dirname, './environment/dist'))
 }
 
 // Get valid environment
@@ -40,8 +40,7 @@ function getValidEnv(env) {
 function buildConfig(env) {
   const usedEnv = getValidEnv(env)
 
-  return configs[usedEnv]
+  return configs[usedEnv].default
 }
 
-const config = buildConfig(currEnv)
-export default config.default
+export default buildConfig(currEnv)
