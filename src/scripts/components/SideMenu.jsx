@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import MenuItem from './SideMenuItem'
-import { GENRES } from '../constants/ItemLists'
-import { GLOBAL_EVENTS } from '../constants/GlobalEvents'
+import { GENRES } from 'constants/ItemLists'
+import { GLOBAL_EVENTS } from 'constants/GlobalEvents'
 
 export default class SideMenu extends React.Component {
 

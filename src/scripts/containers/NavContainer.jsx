@@ -1,8 +1,8 @@
 import React from 'react'
-import Nav from '../components/Nav'
+import Nav from 'components/Nav'
 import { connect } from 'react-redux'
-import { loadGenre } from '../actions/genre'
-import { toggleMenu } from '../actions/sideMenu'
+import { loadGenre } from 'actions/genre'
+import { toggleMenu } from 'actions/sideMenu'
 
 class NavContainer extends React.Component {
 

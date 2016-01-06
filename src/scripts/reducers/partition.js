@@ -1,4 +1,4 @@
-import * as ActionTypes from '../constants/ActionTypes'
+import * as ActionTypes from 'constants/ActionTypes'
 import { combineReducers } from 'redux'
 import union from 'lodash/array/union'
 import merge from 'lodash/object/merge'

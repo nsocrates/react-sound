@@ -1,4 +1,4 @@
-import * as ActionTypes from '../constants/ActionTypes'
+import * as ActionTypes from 'constants/ActionTypes'
 
 // Updates error message to notify about failed fetches:
 export default function errorMessage(state = null, action) {

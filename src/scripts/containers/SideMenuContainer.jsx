@@ -1,8 +1,8 @@
 import React from 'react'
-import Menu from '../components/SideMenu'
+import Menu from 'components/SideMenu'
 import { connect } from 'react-redux'
-import { loadGenre } from '../actions/genre'
-import { toggleMenu } from '../actions/sideMenu'
+import { loadGenre } from 'actions/genre'
+import { toggleMenu } from 'actions/sideMenu'
 
 class SideMenuContainer extends React.Component {
 

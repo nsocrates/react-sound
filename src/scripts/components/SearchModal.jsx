@@ -1,5 +1,5 @@
 import React from 'react'
-import { GLOBAL_EVENTS } from '../constants/GlobalEvents'
+import { GLOBAL_EVENTS } from 'constants/GlobalEvents'
 
 export default class SearchModal extends React.Component {
 

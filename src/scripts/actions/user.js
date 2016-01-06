@@ -1,6 +1,6 @@
-import * as ActionTypes from '../constants/ActionTypes'
-import { CALL_API } from '../constants/Api'
-import { Schemas } from '../constants/Schemas'
+import * as ActionTypes from 'constants/ActionTypes'
+import { CALL_API } from 'constants/Api'
+import { Schemas } from 'constants/Schemas'
 
 // Fetches a single user:
 function fetchUser(id) {

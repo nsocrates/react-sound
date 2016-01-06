@@ -1,7 +1,7 @@
 import React from 'react'
 import MenuItem from './MenuItem'
 import SearchModal from './SearchModal'
-import { GENRES } from '../constants/ItemLists'
+import { GENRES } from 'constants/ItemLists'
 
 export default class Nav extends React.Component {
 

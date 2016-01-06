@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import makeStore from './stores/store'
+import makeStore from 'stores/store'
 import { Provider } from 'react-redux'
-import { routes } from './routes/routes'
+import { routes } from 'routes/routes'
 
 require('stylesheets/main.scss')
 

@@ -1,6 +1,6 @@
-import * as ActionTypes from '../constants/ActionTypes'
-import { CALL_API } from '../constants/Api'
-import { Schemas } from '../constants/Schemas'
+import * as ActionTypes from 'constants/ActionTypes'
+import { CALL_API } from 'constants/Api'
+import { Schemas } from 'constants/Schemas'
 
 // Fetches a collection of tracks for a particular playlist:
 function fetchPlaylist(id, next_href) {

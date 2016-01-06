@@ -1,6 +1,6 @@
-import api from '../middleware/api'
+import api from 'middleware/api'
 import createLogger from 'redux-logger'
-import rootReducer from '../reducers/rootReducer'
+import rootReducer from 'reducers/rootReducer'
 import thunk from 'redux-thunk'
 import { createHistory } from 'history'
 import { applyMiddleware, combineReducers, createStore } from 'redux'

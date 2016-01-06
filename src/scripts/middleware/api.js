@@ -1,5 +1,5 @@
 import 'isomorphic-fetch'
-import { API_ROOT, API_DATA, CALL_API } from '../constants/Api'
+import { API_ROOT, API_DATA, CALL_API } from 'constants/Api'
 import { normalize } from 'normalizr'
 
 // Extracts the next page URI from API response.
