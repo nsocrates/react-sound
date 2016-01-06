@@ -9,6 +9,7 @@ const config = _.merge({
   entry: [
     'webpack-dev-server/client?http://localhost:8000',
     'webpack/hot/only-dev-server',
+    'babel-polyfill',
     './src/scripts/index'
   ],
   cache: true,
