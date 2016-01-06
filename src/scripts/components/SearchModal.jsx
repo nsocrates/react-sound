@@ -15,10 +15,8 @@ export default class SearchModal extends React.Component {
     else window.onkeydown = null
   }
 
-  listenForClose(e) {
-    const event = e || window.event
-
-    if (event.key === 'Escape' || event.keyCode === 27) {
+  listenForClose(e = window.event) {
+    if (e.key === 'Escape' || e.keyCode === 27) {
       this.handleToggle()
     }
   }
