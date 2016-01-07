@@ -7,30 +7,40 @@ import { toggleMenu } from 'actions/sideMenu'
 class SideMenuContainer extends React.Component {
 
   render() {
-    const { dispatch } = this.props
-    const handleState = () => dispatch(toggleMenu())
-    const handleRequest = genre => dispatch(loadGenre(genre))
+    const handleLoadGenre = genre => this.props.loadGenre(genre)
+    const handleToggleMenu = () => this.props.toggleMenu()
+    const { genre, isVisible } = this.props
 
     return (
       <Menu
-        { ...this.props }
-        onLoadGenre={ handleRequest }
-        onToggleMenu={ handleState }
+        genre={ genre }
+        isVisible={ isVisible }
+        onLoadGenre={ handleLoadGenre }
+        onToggleMenu={ handleToggleMenu }
       />
     )
   }
 }
 
+SideMenuContainer.propTypes = {
+  genre: React.PropTypes.string.isRequired,
+  isVisible: React.PropTypes.bool.isRequired,
+  loadGenre: React.PropTypes.func.isRequired,
+  toggleMenu: React.PropTypes.func.isRequired
+}
+
+const mapDispatchToProps = {
+  loadGenre,
+  toggleMenu
+}
+
 function mapStateToProps(state) {
+  const { requested, isVisible } = state.app
+
   return {
-    genre: state.app.requested,
-    isVisible: state.app.sideMenu
+    isVisible,
+    genre: requested
   }
 }
 
-SideMenuContainer.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  genre: React.PropTypes.string.isRequired
-}
-
-export default connect(mapStateToProps)(SideMenuContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SideMenuContainer)

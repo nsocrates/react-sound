@@ -5,38 +5,17 @@ import { GENRES } from 'constants/ItemLists'
 
 export default class Nav extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.state = { activeItem: this.props.genre }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleToggle = this.handleToggle.bind(this)
-  }
-
-  componentWillMount() {
-    this.handleChange(this.props.genre)
-  }
-
-  componentWillReceiveProps(prevProps) {
-    this.setState({ activeItem: prevProps.genre })
-  }
-
-  handleChange(genre) {
-    this.props.onLoadGenre(genre)
-  }
-
-  handleToggle() {
-    this.props.onToggleMenu()
-  }
-
   renderMenuItems() {
+    const { genre, onLoadGenre } = this.props
+
     return GENRES.map((item, index) => (
       <MenuItem
         genre={ item }
         index={ index }
-        isActive={ this.state.activeItem === item }
+        isActive={ genre === item }
         key={ index }
         menuItemClass="genre"
-        onChange={ this.handleChange }
+        onLoadGenre={ onLoadGenre }
       >
         { item }
       </MenuItem>
@@ -44,6 +23,8 @@ export default class Nav extends React.Component {
   }
 
   render() {
+    const { onToggleMenu } = this.props
+
     return (
       <nav className="nav-bar">
         <div className="container">
@@ -52,7 +33,7 @@ export default class Nav extends React.Component {
           </ul>
           <ul className="nav-section">
             <li className="bars">
-              <button onClick={ this.handleToggle }>
+              <button onClick={ onToggleMenu }>
                 <i className="fa fa-bars" />
               </button>
             </li>

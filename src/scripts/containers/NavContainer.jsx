@@ -6,31 +6,58 @@ import { toggleMenu } from 'actions/sideMenu'
 
 class NavContainer extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.handleLoadGenre = this.handleLoadGenre.bind(this)
+    this.handleToggleMenu = this.handleToggleMenu.bind(this)
+  }
+
+  componentWillMount() {
+    const { genre } = this.props
+    this.handleLoadGenre(genre)
+  }
+
+  handleLoadGenre(genre) {
+    this.props.loadGenre(genre)
+  }
+
+  handleToggleMenu() {
+    this.props.toggleMenu()
+  }
+
   render() {
-    const { dispatch } = this.props
-    const handleState = () => dispatch(toggleMenu())
-    const handleRequest = genre => dispatch(loadGenre(genre))
+    const { genre, isVisible } = this.props
 
     return (
       <Nav
-        { ...this.props }
-        onLoadGenre={ handleRequest }
-        onToggleMenu={ handleState }
+        genre={ genre }
+        isVisible={ isVisible }
+        onLoadGenre={ this.handleLoadGenre }
+        onToggleMenu={ this.handleToggleMenu }
       />
     )
   }
 }
 
+NavContainer.propTypes = {
+  genre: React.PropTypes.string.isRequired,
+  isVisible: React.PropTypes.bool.isRequired,
+  loadGenre: React.PropTypes.func.isRequired,
+  toggleMenu: React.PropTypes.func.isRequired
+}
+
+const mapDispatchToProps = {
+  loadGenre,
+  toggleMenu
+}
+
 function mapStateToProps(state) {
+  const { requested, isVisible } = state.app
+
   return {
-    genre: state.app.requested,
-    isVisible: state.app.sideMenu
+    isVisible,
+    genre: requested
   }
 }
 
-NavContainer.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  genre: React.PropTypes.string.isRequired
-}
-
-export default connect(mapStateToProps)(NavContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(NavContainer)

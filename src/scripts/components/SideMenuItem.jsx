@@ -10,23 +10,25 @@ export default class SideMenuItem extends React.Component {
   }
 
   handleClick(event) {
+    const { genre, onLoadGenre, onToggleMenu } = this.props
     event.preventDefault()
-    this.props.onChange(this.props.genre)
-    this.props.onClose()
+    onLoadGenre(genre)
+    onToggleMenu()
   }
 
   render() {
+    const { isActive, genre, children } = this.props
     const active = classNames('oc-item', {
-      'oc-active': this.props.isActive
+      'oc-active': isActive
     })
 
     return (
       <Link
         className={ active }
         onClick={ this.handleClick }
-        to={ `/genre/${this.props.genre}` }
+        to={ `/genre/${genre}` }
       >
-        { this.props.children }
+        { children }
       </Link>
     )
   }
@@ -36,6 +38,6 @@ SideMenuItem.propTypes = {
   children: React.PropTypes.node,
   genre: React.PropTypes.string.isRequired,
   isActive: React.PropTypes.bool,
-  onChange: React.PropTypes.func.isRequired,
-  onClose: React.PropTypes.func
+  onLoadGenre: React.PropTypes.func.isRequired,
+  onToggleMenu: React.PropTypes.func
 }
