@@ -2,7 +2,7 @@
 
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
-import config from '../config/webpack.config'
+import config from '../config/config'
 import open from 'open'
 
 new WebpackDevServer(webpack(config), config.devServer)
