@@ -21,7 +21,10 @@ const baseConfig = {
     hot: true,
     port,
     publicPath,
-    noInfo: false
+    noInfo: false,
+    stats: {
+      colors: true
+    }
   },
   resolve: {
     extensions: [
@@ -40,7 +43,7 @@ const baseConfig = {
       routes: `${srcPath}/scripts/routes/`,
       store: `${srcPath}/scripts/store/`,
       utils: `${srcPath}/scripts/utils`,
-      stylesheets: `${srcPath}/stylesheets/`
+      stylesheets: `${srcPath}/stylesheets/main.scss`
     }
   },
   module: {
