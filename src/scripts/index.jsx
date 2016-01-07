@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import makeStore from 'stores/store'
+import makeStore from 'store/store'
 import { Provider } from 'react-redux'
 import { routes } from 'routes/routes'
 
