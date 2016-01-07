@@ -39,6 +39,7 @@ const baseConfig = {
       reducers: `${srcPath}/scripts/reducers/`,
       routes: `${srcPath}/scripts/routes/`,
       stores: `${srcPath}/scripts/stores/`,
+      utils: `${srcPath}/scripts/utils`,
       stylesheets: `${srcPath}/stylesheets/`
     }
   },
