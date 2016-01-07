@@ -10,21 +10,24 @@ export default class MenuItem extends React.Component {
   }
 
   handleClick(event) {
+    const { genre, onLoadGenre } = this.props
+
     event.preventDefault()
-    this.props.onChange(this.props.genre)
+    onLoadGenre(genre)
   }
 
   render() {
-    const active = classNames({ 'active': this.props.isActive })
+    const { children, genre, isActive, menuItemClass } = this.props
+    const active = classNames({ 'active': isActive })
 
     return (
-      <li className={ this.props.listClass }>
+      <li className={ menuItemClass }>
         <Link
           className={ active }
           onClick={ this.handleClick }
-          to={ `/genre/${this.props.genre}` }
+          to={ `/genre/${genre}` }
         >
-          { this.props.children }
+          { children }
         </Link>
       </li>
     )
@@ -32,10 +35,10 @@ export default class MenuItem extends React.Component {
 }
 
 MenuItem.propTypes = {
-  children: React.PropTypes.node,
+  children: React.PropTypes.node.isRequired,
   genre: React.PropTypes.string.isRequired,
   index: React.PropTypes.number.isRequired,
-  isActive: React.PropTypes.bool,
-  listClass: React.PropTypes.string,
-  onChange: React.PropTypes.func.isRequired
+  isActive: React.PropTypes.bool.isRequired,
+  menuItemClass: React.PropTypes.string,
+  onLoadGenre: React.PropTypes.func.isRequired
 }

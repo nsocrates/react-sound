@@ -35,7 +35,7 @@ export default class Nav extends React.Component {
         index={ index }
         isActive={ this.state.activeItem === item }
         key={ index }
-        listClass="genre"
+        menuItemClass="genre"
         onChange={ this.handleChange }
       >
         { item }
