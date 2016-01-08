@@ -2,6 +2,15 @@ import 'isomorphic-fetch'
 import { API_ROOT, API_DATA, CALL_API } from 'constants/Api'
 import { normalize } from 'normalizr'
 
+// Constructs url from endpoint.
+function constructUrl(endpoint) {
+  if (endpoint.indexOf(API_ROOT) === -1) {
+    return API_ROOT + endpoint + API_DATA
+  }
+
+  return endpoint + API_DATA
+}
+
 // Extracts the next page URI from API response.
 function getNextHref(json) {
   return json.next_href ? json.next_href : null
@@ -12,13 +21,9 @@ function getCollection(json) {
   return json.collection ? json.collection : json
 }
 
-// Constructs url from endpoint.
-function constructUrl(endpoint) {
-  if (endpoint.indexOf(API_ROOT) === -1) {
-    return API_ROOT + endpoint + API_DATA
-  }
-
-  return endpoint + API_DATA
+// Checks for streamable property.
+function isStreamable(json) {
+  return json.streamable
 }
 
 // Fetches an API response and normalizes the result JSON according to schema.
@@ -29,7 +34,7 @@ function callApi(endpoint, schema) {
     .then(response => response.json())
     .then(json => {
       const next_href = getNextHref(json)
-      const objectJSON = getCollection(json)
+      const objectJSON = getCollection(json).filter(isStreamable)
 
       return Object.assign({},
         normalize(objectJSON, schema),
@@ -43,7 +48,7 @@ function callApi(endpoint, schema) {
 export default store => next => action => {
   const callAPI = action[CALL_API]
   if (typeof callAPI === 'undefined') {
-    return next(action);
+    return next(action)
   }
 
   let { endpoint } = callAPI
