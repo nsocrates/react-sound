@@ -22,7 +22,7 @@ function partitionate({ types, mapActionToKey }) {
     throw new Error('Expected mapActionToKey to be a function.')
   }
 
-  const [ requestType, successType, failureType ] = types
+  const [requestType, successType, failureType] = types
 
   function updatePartition(state = initialState, action) {
     switch (action.type) {
