@@ -14,6 +14,9 @@ function mapStateToProps(state) {
   const { entities, requested, partition } = state.app
 
   return {
+    trackEntity: entities.tracks,
+    userEntity: entities.users,
+    tracksByGenre: partition.tracksByGenre,
     entities,
     partition,
     requested

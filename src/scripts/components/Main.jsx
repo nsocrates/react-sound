@@ -8,7 +8,7 @@ export default class Main extends React.Component {
   }
 
   getCurrentCollection() {
-    const { requested, partition: { tracksByGenre }} = this.props
+    const { requested, tracksByGenre } = this.props
 
     if (tracksByGenre.hasOwnProperty(requested)) {
       const reqTracksIdList = this.integerToString(tracksByGenre[requested].ids)
@@ -19,15 +19,15 @@ export default class Main extends React.Component {
   }
 
   getTrackArtwork(tracksIdList) {
-    const { entities: { tracks: tracksEntity }} = this.props
+    const { trackEntity } = this.props
     const artworkList = []
     let placeholder
 
     for (const i of tracksIdList) {
-      if (tracksEntity[i].artwork_url) {
-        placeholder = tracksEntity[i].artwork_url.replace(/large/gi, 'crop')
-      } else if (tracksEntity[i].user === tracksEntity[i].user_id) {
-        placeholder = this.getUserAvatar([tracksEntity[i].user])
+      if (trackEntity[i].artwork_url) {
+        placeholder = trackEntity[i].artwork_url.replace(/large/gi, 'crop')
+      } else if (trackEntity[i].user === trackEntity[i].user_id) {
+        placeholder = this.getUserAvatar([trackEntity[i].user])
       }
 
       artworkList.push(placeholder)
@@ -37,7 +37,7 @@ export default class Main extends React.Component {
   }
 
   getUserAvatar(usersIdList) {
-    const { entities: { users: usersEntity }} = this.props
+    const { userEntity } = this.props
 
     // SoundCloud parameter for default avatar
     const regex = /1452091084/g
@@ -45,10 +45,10 @@ export default class Main extends React.Component {
     let placeholder
 
     for (const i of usersIdList) {
-      if (regex.test(usersEntity[i].avatar_url)) {
-        placeholder = usersEntity[i].avatar_url
+      if (regex.test(userEntity[i].avatar_url)) {
+        placeholder = userEntity[i].avatar_url
       } else {
-        placeholder = usersEntity[i].avatar_url.replace(/large/gi, 'crop')
+        placeholder = userEntity[i].avatar_url.replace(/large/gi, 'crop')
       }
 
       avatarList.push(placeholder)
@@ -97,13 +97,26 @@ export default class Main extends React.Component {
 }
 
 Main.propTypes = {
-  entities: React.PropTypes.shape({
-    tracks: React.PropTypes.object.isRequired,
-    users: React.PropTypes.object.isRequired
-  }),
-  partition: React.PropTypes.shape({
-    playlistByUser: React.PropTypes.object,
-    tracksByGenre: React.PropTypes.object.isRequired
-  }),
-  requested: React.PropTypes.string.isRequired
+  requested: React.PropTypes.string.isRequired,
+
+  trackEntity: React.PropTypes.objectOf(
+    React.PropTypes.shape({
+      artwork_url: React.PropTypes.oneOfType([
+        React.PropTypes.string.isRequired,
+        React.PropTypes.object
+      ])
+    })
+  ),
+
+  tracksByGenre: React.PropTypes.objectOf(
+    React.PropTypes.shape({
+      ids: React.PropTypes.arrayOf(React.PropTypes.number.isRequired)
+    })
+  ),
+
+  userEntity: React.PropTypes.objectOf(
+    React.PropTypes.shape({
+      avatar_url: React.PropTypes.string.isRequired
+    })
+  )
 }
