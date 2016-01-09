@@ -1,9 +1,15 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
-export default function isVisible(state = false, action) {
+const initialState = {
+  isVisible: false
+}
+
+export default function sideMenu(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.TOGGLE_MENU:
-      return !state
+      return Object.assign({}, state, {
+        isVisible: !state.isVisible
+      })
     default:
       return state
   }

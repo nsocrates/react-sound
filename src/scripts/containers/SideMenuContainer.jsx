@@ -37,10 +37,10 @@ const mapDispatchToProps = {
 }
 
 function mapStateToProps(state) {
-  const { requested, isVisible } = state.app
+  const { requested, sideMenu } = state.app
 
   return {
-    isVisible,
+    isVisible: sideMenu.isVisible,
     genre: requested
   }
 }
