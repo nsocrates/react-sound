@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import MenuItem from './SideMenuItem'
-import { GENRES } from 'constants/ItemLists'
+import MenuItem from './MenuItem'
 import { GLOBAL_EVENTS } from 'constants/GlobalEvents'
 
 export default class SideMenu extends React.Component {
@@ -14,28 +13,28 @@ export default class SideMenu extends React.Component {
     GLOBAL_EVENTS.emit('sideMenu', state)
   }
 
-  renderMenuItems() {
-    const { genre, onToggleMenu, onLoadGenre } = this.props
-    return GENRES.map((item, index) =>
-      <MenuItem
-        genre={ item }
-        isActive={ genre === item }
-        key={ index }
-        onLoadGenre={ onLoadGenre }
-        onToggleMenu={ onToggleMenu }
-      >
-        { item }
-      </MenuItem>
-    )
-  }
-
   render() {
-    const { isVisible, onToggleMenu } = this.props
-    const overlay = classNames('oc-overlay', {
-      'slide': isVisible
-    })
-    const slider = classNames('oc-menu', {
-      'slide': isVisible
+    const { genre, isVisible, onToggleMenu, onLoadGenre, genreList } = this.props
+    const willSlide = { 'slide': isVisible }
+    const overlay = classNames('oc-overlay', willSlide)
+    const menu = classNames('oc-menu', willSlide)
+
+    const menuItems = genreList.map((item, index) => {
+      const active = classNames('oc-item', {
+        'oc-active': genre === item
+      })
+
+      return (
+        <MenuItem
+          genre={ item }
+          itemClassName={ active }
+          key={ index }
+          onLoadGenre={ onLoadGenre }
+          onToggleMenu={ onToggleMenu }
+        >
+          { item }
+        </MenuItem>
+      )
     })
 
     return (
@@ -44,7 +43,7 @@ export default class SideMenu extends React.Component {
           className={ overlay }
           onClick={ onToggleMenu }
         />
-        <div className={ slider }>
+        <div className={ menu }>
           <button
             className="oc-times"
             onClick={ onToggleMenu }
@@ -52,7 +51,7 @@ export default class SideMenu extends React.Component {
             <i className="fa fa-times" />
           </button>
           <div className="oc-item-container">
-            { this.renderMenuItems() }
+            { menuItems }
           </div>
         </div>
       </div>
@@ -62,6 +61,9 @@ export default class SideMenu extends React.Component {
 
 SideMenu.propTypes = {
   genre: React.PropTypes.string.isRequired,
+  genreList: React.PropTypes.arrayOf(
+    React.PropTypes.string.isRequired
+  ),
   isVisible: React.PropTypes.bool.isRequired,
   onLoadGenre: React.PropTypes.func.isRequired,
   onToggleMenu: React.PropTypes.func.isRequired

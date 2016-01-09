@@ -3,6 +3,7 @@ import Menu from 'components/SideMenu'
 import { connect } from 'react-redux'
 import { loadGenre } from 'actions/genre'
 import { toggleMenu } from 'actions/sideMenu'
+import { GENRES } from 'constants/ItemLists'
 
 class SideMenuContainer extends React.Component {
 
@@ -14,6 +15,7 @@ class SideMenuContainer extends React.Component {
     return (
       <Menu
         genre={ genre }
+        genreList={ GENRES }
         isVisible={ isVisible }
         onLoadGenre={ handleLoadGenre }
         onToggleMenu={ handleToggleMenu }

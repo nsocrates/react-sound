@@ -3,6 +3,7 @@ import Nav from 'components/Nav'
 import { connect } from 'react-redux'
 import { loadGenre } from 'actions/genre'
 import { toggleMenu } from 'actions/sideMenu'
+import { GENRES } from 'constants/ItemLists'
 
 class NavContainer extends React.Component {
 
@@ -31,6 +32,7 @@ class NavContainer extends React.Component {
     return (
       <Nav
         genre={ genre }
+        genreList={ GENRES }
         isVisible={ isVisible }
         onLoadGenre={ this.handleLoadGenre }
         onToggleMenu={ this.handleToggleMenu }

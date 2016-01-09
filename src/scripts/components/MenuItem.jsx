@@ -1,5 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
 import { Link } from 'react-router'
 
 export default class MenuItem extends React.Component {
@@ -10,26 +9,24 @@ export default class MenuItem extends React.Component {
   }
 
   handleClick(event) {
-    const { genre, onLoadGenre } = this.props
+    const { genre, onLoadGenre, onToggleMenu } = this.props
 
     event.preventDefault()
     onLoadGenre(genre)
+    onToggleMenu()
   }
 
   render() {
-    const { children, genre, isActive, menuItemClass } = this.props
-    const active = classNames({ 'active': isActive })
+    const { children, genre, itemClassName } = this.props
 
     return (
-      <li className={ menuItemClass }>
-        <Link
-          className={ active }
-          onClick={ this.handleClick }
-          to={ `/genre/${genre}` }
-        >
-          { children }
-        </Link>
-      </li>
+      <Link
+        className={ itemClassName }
+        onClick={ this.handleClick }
+        to={ `/genre/${genre}` }
+      >
+        { children }
+      </Link>
     )
   }
 }
@@ -37,8 +34,12 @@ export default class MenuItem extends React.Component {
 MenuItem.propTypes = {
   children: React.PropTypes.node.isRequired,
   genre: React.PropTypes.string.isRequired,
-  index: React.PropTypes.number.isRequired,
-  isActive: React.PropTypes.bool.isRequired,
-  menuItemClass: React.PropTypes.string,
-  onLoadGenre: React.PropTypes.func.isRequired
+  itemClassName: React.PropTypes.string,
+  onLoadGenre: React.PropTypes.func.isRequired,
+  onToggleMenu: React.PropTypes.func
+}
+
+MenuItem.defaultProps = {
+  onToggleMenu() { return },
+  itemClassName: null
 }

@@ -1,35 +1,37 @@
 import React from 'react'
 import MenuItem from './MenuItem'
 import SearchModal from './SearchModal'
-import { GENRES } from 'constants/ItemLists'
+import classNames from 'classnames'
 
 export default class Nav extends React.Component {
 
-  renderMenuItems() {
-    const { genre, onLoadGenre } = this.props
-
-    return GENRES.map((item, index) => (
-      <MenuItem
-        genre={ item }
-        index={ index }
-        isActive={ genre === item }
-        key={ index }
-        menuItemClass="genre"
-        onLoadGenre={ onLoadGenre }
-      >
-        { item }
-      </MenuItem>
-    ))
-  }
-
   render() {
-    const { onToggleMenu } = this.props
+    const { onToggleMenu, genre, genreList, onLoadGenre } = this.props
+
+    const menuItems = genreList.map((item, index) => {
+      const active = classNames({ 'active': genre === item })
+
+      return (
+        <li
+          className="genre"
+          key={ index }
+        >
+          <MenuItem
+            genre={ item }
+            itemClassName={ active }
+            onLoadGenre={ onLoadGenre }
+          >
+            { item }
+          </MenuItem>
+        </li>
+      )
+    })
 
     return (
       <nav className="nav-bar">
         <div className="container">
           <ul className="nav-section">
-            { this.renderMenuItems() }
+            { menuItems }
           </ul>
           <ul className="nav-section">
             <li className="bars">
@@ -60,6 +62,9 @@ export default class Nav extends React.Component {
 
 Nav.propTypes = {
   genre: React.PropTypes.string.isRequired,
+  genreList: React.PropTypes.arrayOf(
+    React.PropTypes.string.isRequired
+  ),
   onLoadGenre: React.PropTypes.func.isRequired,
   onToggleMenu: React.PropTypes.func.isRequired
 }
