@@ -31,7 +31,13 @@ function callApi(endpoint, schema) {
   const url = constructUrl(endpoint)
 
   return fetch(url)
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`${response.status} (${response.statusText})`)
+      }
+
+      return response.json()
+    })
     .then(json => {
       const next_href = getNextHref(json)
       const objectJSON = getCollection(json).filter(isStreamable)
@@ -40,7 +46,6 @@ function callApi(endpoint, schema) {
         normalize(objectJSON, schema),
         { next_href })
     })
-    .catch(err => { throw err })
 }
 
 // A Redux middleware that interprets actions with CALL_API info specified.
