@@ -2,18 +2,14 @@ import React from 'react'
 
 export default class Main extends React.Component {
 
-  constructor(props) {
-    super(props)
-  }
-
   getCurrentCollection() {
     const { requested, tracksByGenre } = this.props
 
     if (tracksByGenre.hasOwnProperty(requested)) {
       const reqTracksIdList = this.integerToString(tracksByGenre[requested].ids)
-      const collection = this.getTrackArtwork(reqTracksIdList)
+      const collection = this.getCollectionToRender(reqTracksIdList)
 
-      return this.renderCollection(flatten(collection))
+      return this.renderCollection(collection)
     }
   }
 

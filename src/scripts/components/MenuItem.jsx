@@ -9,11 +9,11 @@ export default class MenuItem extends React.Component {
   }
 
   handleClick(event) {
-    const { genre, onLoadGenre, onToggleMenu } = this.props
+    const { genre, loadGenre, toggleMenu } = this.props
 
     event.preventDefault()
-    onLoadGenre(genre)
-    onToggleMenu()
+    loadGenre(genre)
+    toggleMenu()
   }
 
   render() {
@@ -35,11 +35,11 @@ MenuItem.propTypes = {
   children: React.PropTypes.node.isRequired,
   genre: React.PropTypes.string.isRequired,
   itemClassName: React.PropTypes.string,
-  onLoadGenre: React.PropTypes.func.isRequired,
-  onToggleMenu: React.PropTypes.func
+  loadGenre: React.PropTypes.func.isRequired,
+  toggleMenu: React.PropTypes.func
 }
 
 MenuItem.defaultProps = {
-  onToggleMenu() { return },
+  toggleMenu() { return },
   itemClassName: null
 }

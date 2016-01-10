@@ -8,7 +8,7 @@ export default class Header extends React.Component {
         <div className="container">
           <ul className="header-section">
             <li className="logo">
-              <i className="fa fa-mixcloud" />
+              <i className="fa fa-music" />
             </li>
             <li className="title">
               <a href="#">{ "reactSOUND" }</a>

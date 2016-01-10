@@ -4,9 +4,8 @@ import SearchModal from './SearchModal'
 import classNames from 'classnames'
 
 export default class Nav extends React.Component {
-
   render() {
-    const { onToggleMenu, genre, genreList, onLoadGenre } = this.props
+    const { toggleMenu, genre, genreList, loadGenre } = this.props
 
     const menuItems = genreList.map((item, index) => {
       const active = classNames({ 'active': genre === item })
@@ -18,8 +17,8 @@ export default class Nav extends React.Component {
         >
           <MenuItem
             genre={ item }
-            itemClassName={ active }
-            onLoadGenre={ onLoadGenre }
+            itemClassName={ active ? active : null }
+            loadGenre={ loadGenre }
           >
             { item }
           </MenuItem>
@@ -35,7 +34,7 @@ export default class Nav extends React.Component {
           </ul>
           <ul className="nav-section">
             <li className="bars">
-              <button onClick={ onToggleMenu }>
+              <button onClick={ toggleMenu }>
                 <i className="fa fa-bars" />
               </button>
             </li>
@@ -65,6 +64,6 @@ Nav.propTypes = {
   genreList: React.PropTypes.arrayOf(
     React.PropTypes.string.isRequired
   ),
-  onLoadGenre: React.PropTypes.func.isRequired,
-  onToggleMenu: React.PropTypes.func.isRequired
+  loadGenre: React.PropTypes.func.isRequired,
+  toggleMenu: React.PropTypes.func.isRequired
 }

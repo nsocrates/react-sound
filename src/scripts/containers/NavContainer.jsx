@@ -7,35 +7,16 @@ import { GENRES } from 'constants/ItemLists'
 
 class NavContainer extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.handleLoadGenre = this.handleLoadGenre.bind(this)
-    this.handleToggleMenu = this.handleToggleMenu.bind(this)
-  }
-
   componentWillMount() {
     const { genre } = this.props
-    this.handleLoadGenre(genre)
-  }
-
-  handleLoadGenre(genre) {
     this.props.loadGenre(genre)
   }
 
-  handleToggleMenu() {
-    this.props.toggleMenu()
-  }
-
   render() {
-    const { genre, isVisible } = this.props
-
     return (
       <Nav
-        genre={ genre }
+        { ...this.props }
         genreList={ GENRES }
-        isVisible={ isVisible }
-        onLoadGenre={ this.handleLoadGenre }
-        onToggleMenu={ this.handleToggleMenu }
       />
     )
   }
@@ -43,9 +24,7 @@ class NavContainer extends React.Component {
 
 NavContainer.propTypes = {
   genre: React.PropTypes.string.isRequired,
-  isVisible: React.PropTypes.bool.isRequired,
-  loadGenre: React.PropTypes.func.isRequired,
-  toggleMenu: React.PropTypes.func.isRequired
+  loadGenre: React.PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {
