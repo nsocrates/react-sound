@@ -1,29 +1,21 @@
 import 'isomorphic-fetch'
-import { API_ROOT, API_DATA, CALL_API } from 'constants/Api'
+import { CALL_API } from 'constants/Api'
+import { constructUrl, formatImages } from 'utils/Utils'
 import { normalize } from 'normalizr'
-
-// Constructs url from endpoint.
-function constructUrl(endpoint) {
-  if (endpoint.indexOf(API_ROOT) === -1) {
-    return API_ROOT + endpoint + API_DATA
-  }
-
-  return endpoint + API_DATA
-}
 
 // Extracts the next page URI from API response.
 function getNextHref(json) {
   return json.next_href ? json.next_href : null
 }
 
-// Accesses collection property if it exists.
-function getCollection(json) {
-  return json.collection ? json.collection : json
-}
-
 // Checks for streamable property.
 function isStreamable(json) {
   return json.streamable
+}
+
+// Accesses collection property; if it exists, filters streamable.
+function getCollection(json) {
+  return json.collection ? json.collection.filter(isStreamable) : json
 }
 
 // Fetches an API response and normalizes the result JSON according to schema.
@@ -40,7 +32,7 @@ function callApi(endpoint, schema) {
     })
     .then(json => {
       const next_href = getNextHref(json)
-      const objectJSON = getCollection(json).filter(isStreamable)
+      const objectJSON = formatImages(getCollection(json))
 
       return Object.assign({},
         normalize(objectJSON, schema),

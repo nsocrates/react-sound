@@ -1,5 +1,4 @@
 import React from 'react'
-import flatten from 'lodash/array/flatten'
 
 export default class Main extends React.Component {
 
@@ -18,43 +17,23 @@ export default class Main extends React.Component {
     }
   }
 
-  getTrackArtwork(tracksIdList) {
-    const { trackEntity } = this.props
-    const artworkList = []
+  getCollectionToRender(tracksIdList) {
+    const { trackEntity, userEntity } = this.props
+    const collection = []
     let placeholder
 
     for (const i of tracksIdList) {
       if (trackEntity[i].artwork_url) {
-        placeholder = trackEntity[i].artwork_url.replace(/large/gi, 'crop')
+        placeholder = trackEntity[i].artwork_url
       } else if (trackEntity[i].user === trackEntity[i].user_id) {
-        placeholder = this.getUserAvatar([trackEntity[i].user])
+        const userId = trackEntity[i].user
+        placeholder = userEntity[userId].avatar_url
       }
 
-      artworkList.push(placeholder)
+      collection.push(placeholder)
     }
 
-    return artworkList
-  }
-
-  getUserAvatar(usersIdList) {
-    const { userEntity } = this.props
-
-    // SoundCloud parameter for default avatar
-    const regex = /1452091084/g
-    const avatarList = []
-    let placeholder
-
-    for (const i of usersIdList) {
-      if (regex.test(userEntity[i].avatar_url)) {
-        placeholder = userEntity[i].avatar_url
-      } else {
-        placeholder = userEntity[i].avatar_url.replace(/large/gi, 'crop')
-      }
-
-      avatarList.push(placeholder)
-    }
-
-    return avatarList
+    return collection
   }
 
   setBackground(url) {
