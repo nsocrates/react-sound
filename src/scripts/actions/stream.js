@@ -1,24 +1,16 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
-function requestStream(trackId, isPlaying) {
+function requestStream(trackId) {
   return {
     type: ActionTypes.STREAM_REQUEST,
-    trackId,
-    isPlaying
+    trackId
   }
 }
 
 export function toggleStream(isPlaying) {
   return {
-    type: ActionTypes.STREAM_IS_PLAYING,
+    type: ActionTypes.STREAM_IS_TOGGLED,
     isPlaying
-  }
-}
-
-export function pauseStream(isPaused) {
-  return {
-    type: ActionTypes.STREAM_IS_PAUSED,
-    isPaused
   }
 }
 
@@ -35,12 +27,12 @@ export function loadStream(trackId) {
     const state = getState().app.stream
 
     if (shouldFetchStream(state, trackId)) {
-      return dispatch(requestStream(trackId, true))
+      return dispatch(requestStream(trackId))
     }
     if (shouldPauseStream(state, trackId)) {
-      return dispatch(pauseStream(true))
+      return dispatch(toggleStream(false))
     }
 
-    return dispatch(toggleStream(true))
+    return dispatch(toggleStream(!state.isPlaying))
   }
 }
