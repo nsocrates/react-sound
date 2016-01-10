@@ -1,4 +1,5 @@
 import React from 'react'
+import Collection from './Collection'
 
 export default class Main extends React.Component {
 
@@ -48,13 +49,23 @@ export default class Main extends React.Component {
   }
 
   renderCollection(collection) {
-    return collection.map((item, index) => (
-        <div
+    const { tracksByGenre, requested, streamIsPlaying, loadStream } = this.props
+
+    return collection.map((item, index) => {
+      const trackId = tracksByGenre[requested].ids[index]
+
+      return (
+        <Collection
           className="gallery"
           key={ index }
+          loadStream={ loadStream }
+          streamIsPlaying={ streamIsPlaying }
           style={ this.setBackground(item) }
+          trackId={ trackId }
+          trackIndex={ index }
         />
-    ))
+      )
+    })
   }
 
   render() {
@@ -72,7 +83,12 @@ export default class Main extends React.Component {
 }
 
 Main.propTypes = {
+  loadStream: React.PropTypes.func.isRequired,
   requested: React.PropTypes.string.isRequired,
+  streamIsPaused: React.PropTypes.bool,
+  streamIsPlaying: React.PropTypes.bool.isRequired,
+  streamTrackId: React.PropTypes.number.isRequired,
+  toggleStream: React.PropTypes.func,
 
   trackEntity: React.PropTypes.objectOf(
     React.PropTypes.shape({
