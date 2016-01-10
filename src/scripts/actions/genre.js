@@ -19,7 +19,7 @@ function fetchGenre(genre, next_href) {
 }
 
 export function loadGenre(genre) {
-  const value = (genre === 'Drum & Bass') ? 'drum%26bass' : genre
+  const value = encodeURIComponent(genre)
 
   return (dispatch, getState) => {
     const {
