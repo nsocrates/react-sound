@@ -1,11 +1,25 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
-function requestStream(trackId) {
+export function requestStream(trackId) {
   return {
     type: ActionTypes.STREAM_REQUEST,
     trackId
   }
 }
+
+export function streamCanPlay() {
+  return {
+    type: ActionTypes.STREAM_SUCCESS
+  }
+}
+
+// function shouldPauseStream(state, trackId) {
+//   return (trackId === state.trackId && state.isPlaying)
+// }
+
+// function shouldPlayStream(state, trackId) {
+//   return (trackId === state.trackId && !state.isPlaying)
+// }
 
 export function toggleStream(isPlaying) {
   return {
@@ -14,25 +28,18 @@ export function toggleStream(isPlaying) {
   }
 }
 
-function shouldFetchStream(state, trackId) {
-  return (trackId !== state.trackId)
-}
+// export function loadStream(trackId) {
+//   return (dispatch, getState) => {
+//     const state = getState().app.stream
 
-function shouldPauseStream(state, trackId) {
-  return (trackId === state.trackId && state.isPlaying)
-}
+//     if (shouldPauseStream(state, trackId)) {
+//       console.log('should Pause Stream')
+//       return dispatch(toggleStream(false))
+//     } else if (shouldPlayStream(state, trackId)) {
+//       console.log('should Play Stream')
+//       return dispatch(toggleStream(true))
+//     }
 
-export function loadStream(trackId) {
-  return (dispatch, getState) => {
-    const state = getState().app.stream
-
-    if (shouldFetchStream(state, trackId)) {
-      return dispatch(requestStream(trackId))
-    }
-    if (shouldPauseStream(state, trackId)) {
-      return dispatch(toggleStream(false))
-    }
-
-    return dispatch(toggleStream(!state.isPlaying))
-  }
-}
+//     return dispatch(requestStream(trackId))
+//   }
+// }

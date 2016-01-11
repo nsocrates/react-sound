@@ -8,10 +8,15 @@ export default class Collection extends React.Component {
   }
 
   handleClick(e) {
-    const { loadStream, trackId } = this.props
+    const { actions, trackId, streamTrackId, streamIsPlaying } = this.props
+    const audio = document.getElementById('audio')
     e.preventDefault()
 
-    loadStream(trackId)
+    if (trackId === streamTrackId) {
+      return streamIsPlaying ? audio.pause() : audio.play()
+    }
+
+    return actions.requestStream(trackId)
   }
 
   render() {
@@ -29,8 +34,17 @@ export default class Collection extends React.Component {
 }
 
 Collection.propTypes = {
+  actions: React.PropTypes.objectOf(
+    React.PropTypes.func.isRequired
+  ),
   className: React.PropTypes.string,
-  loadStream: React.PropTypes.func.isRequired,
+  streamIsPlaying: React.PropTypes.bool,
+  streamTrackId: React.PropTypes.number,
   style: React.PropTypes.objectOf(React.PropTypes.string),
-  trackId: React.PropTypes.number
+  trackId: React.PropTypes.number.isRequired
+}
+
+Collection.defaultProps = {
+  className: null,
+  style: null
 }
