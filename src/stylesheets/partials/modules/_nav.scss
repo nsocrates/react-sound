@@ -1,6 +1,6 @@
 .nav-bar {
   background-color: $light-gray;
-  height: 4rem;
+  height: $bar-height;
 }
 
 .nav-section {
@@ -8,7 +8,7 @@
   float: left;
 
   li {
-    line-height: 4rem;
+    line-height: $bar-height;
   }
 
   & + & {

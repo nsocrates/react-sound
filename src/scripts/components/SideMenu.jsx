@@ -38,12 +38,12 @@ export default class SideMenu extends React.Component {
     })
 
     return (
-      <div className="off-canvas-menu">
+      <section className="off-canvas-menu">
         <div
           className={ overlay }
           onClick={ toggleMenu }
         />
-        <div className={ menu }>
+        <nav className={ menu }>
           <button
             className="oc-times"
             onClick={ toggleMenu }
@@ -53,8 +53,8 @@ export default class SideMenu extends React.Component {
           <div className="oc-item-container">
             { menuItems }
           </div>
-        </div>
-      </div>
+        </nav>
+      </section>
     )
   }
 }

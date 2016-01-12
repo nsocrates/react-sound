@@ -22,12 +22,13 @@
   position: relative;
 
   .m-btn-search {
-    line-height: 4rem;
+    line-height: $bar-height;
     z-index: 0;
   }
 
   .m-btn-times {
     @include fixed(top right);
+    color: $black-secondary;
     font-size: 1.9rem;
     opacity: 0;
     padding: 1rem;
@@ -37,6 +38,10 @@
 
     @include breakpoint($medium) {
       font-size: 3.1rem;
+    }
+
+    &:hover {
+      color: $black-primary;
     }
   }
 }
@@ -81,8 +86,8 @@
 .m-searchbar {
   background-color: transparent;
   border: 0;
-  border-bottom: .4rem solid rgba($white, $primary);
-  color: rgba($white, $primary);
+  border-bottom: .4rem solid rgba($white, $l-secondary);
+  color: rgba($white, $l-primary);
   font-size: 2.4rem;
   line-height: $header-line-height;
   padding: 1.5rem;
@@ -97,12 +102,12 @@
   }
 
   &::placeholder {
-    color: rgba($white, $primary);
+    color: rgba($white, $l-secondary);
   }
 
   + label {
     @include absolute(left bottom);
-    color: rgba($white, $primary);
+    color: rgba($white, $l-secondary);
     padding: 1.5rem;
   }
 }

@@ -4,9 +4,18 @@ export default class SoundPlayer extends React.Component {
 
   render() {
     return (
-      <div className="soundPlayer">
+      <section className="music-player">
         { this.props.children }
-      </div>
+        <div className="container">
+          <div className="mp-controls">
+            <i className="fa fa-bars" />
+            <i className="fa fa-fast-backward" />
+            <i className="fa fa-pause" />
+            <i className="fa fa-fast-forward" />
+            <i className="fa fa-volume-up" />
+          </div>
+        </div>
+      </section>
     )
   }
 }

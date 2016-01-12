@@ -4,9 +4,9 @@
 
 .gallery {
   @include gallery(6);
-  background-color: #71dad2;
-  padding-top: span(6);
+  background-color: $dark-gray;
   margin-bottom: gutter();
+  padding-top: span(6);
 
   @include breakpoint($medium) {
     @include gallery(4);

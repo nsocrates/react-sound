@@ -7,11 +7,18 @@ $base-line-height: 1.5;
 $header-line-height: 1.4;
 $header-margin: 0 0 .8rem 0;
 
-// Opacity
-$primary: .71;
+// Opacity for texts
+$disabled: .12;
+
+  // Dark Colors
+$primary: .87;
 $secondary: .54;
 $hint: .38;
-$disabled: .12;
+
+  // Light Colors
+$l-primary: 1;
+$l-secondary: .7;
+$l-hint: .3;
 
 // Text Opacity
 $black-primary: rgba(#000, $primary);
@@ -30,11 +37,14 @@ $cyan: #a0f7f4;
 // Transition
 $transition-default: (.2s ease-in-out);
 
+// Bar Height
+$bar-height: 5rem;
+
 // Side Menu Config
 $oc-width: 30rem;
 $oc-hover: $cyan;
 $oc-background: $dark-gray;
-$oc-link: rgba($white, $secondary);
+$oc-link: rgba($white, $l-secondary);
 
 // Breakpoint
 @include breakpoint-set('to ems', true);

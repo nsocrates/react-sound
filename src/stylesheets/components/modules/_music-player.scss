@@ -1,0 +1,38 @@
+.music-player {
+  @include fixed(bottom left right);
+  background: rgba($dark-gray, .87);
+  height: $bar-height;
+
+  &:hover {
+    background: rgba($dark-gray, .95);
+  }
+}
+
+.mp-controls {
+  text-align: center;
+
+  i {
+    color: rgba($white, $l-secondary);
+    float: left;
+    font-size: 2.4rem;
+    line-height: $bar-height;
+    margin-right: span(2) + gutter(16);
+    text-shadow: 0 -.1rem 0 $black-hint;
+    width: span(1);
+
+    &:hover {
+      color: $white;
+      cursor: pointer;
+    }
+
+    &:first-child {
+      text-align: left;
+    }
+
+    &:last-child {
+      float: right;
+      margin-right: 0;
+      text-align: right;
+    }
+  }
+}

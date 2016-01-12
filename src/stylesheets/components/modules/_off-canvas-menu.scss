@@ -1,3 +1,10 @@
+// Hide for medium and up
+.off-canvas-menu {
+  @include breakpoint($medium) {
+    display: none;
+  }
+}
+
 .oc-overlay {
   @include fixed(top left);
   background-color: $black-disabled;
