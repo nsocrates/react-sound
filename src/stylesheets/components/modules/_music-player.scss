@@ -2,19 +2,29 @@
   @include fixed(bottom left right);
   background: rgba($dark-gray, .87);
   height: $bar-height;
+  transform: translate3d(0, 100%, 0); //Tuck to bottom
+  transition: transform ease .5s;
 
   &:hover {
     background: rgba($dark-gray, .95);
+  }
+
+  &.is-open {
+    transform: translate3d(0, 0, 0);
   }
 }
 
 .mp-controls {
   text-align: center;
+}
+
+.mp-hgroup {
+  line-height: 0;
+  margin: 0;
 
   i {
     color: rgba($white, $l-secondary);
     float: left;
-    font-size: 2.4rem;
     line-height: $bar-height;
     margin-right: span(2) + gutter(16);
     text-shadow: 0 -.1rem 0 $black-hint;
@@ -33,6 +43,10 @@
       float: right;
       margin-right: 0;
       text-align: right;
+    }
+
+    .active {
+      color: $white;
     }
   }
 }

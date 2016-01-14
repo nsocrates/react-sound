@@ -1,7 +1,7 @@
 export const GENRES = [
   'Drum & Bass',
   'Electro',
-  'Electronica',
+  'Electro House',
   'Hardstyle',
   'House',
   'Trance'

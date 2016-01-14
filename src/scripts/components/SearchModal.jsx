@@ -49,16 +49,18 @@ export default class SearchModal extends React.Component {
             className="m-btn-times"
             onClick={ this.handleToggle }
           >
-            <i className="fa fa-times" />
+            <h3><i className="fa fa-times" /></h3>
           </button>
         </div>
         <form className="form-group">
-          <input
-            className="m-searchbar"
-            id="m-searchbar"
-            placeholder="Looking for something...?"
-            type="text"
-          />
+          <h1>
+            <input
+              className="m-searchbar"
+              id="m-searchbar"
+              placeholder="Looking for something...?"
+              type="text"
+            />
+          </h1>
           <label><h5>{ "Click anywhere to close (esc)" }</h5></label>
         </form>
       </div>

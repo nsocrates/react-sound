@@ -1,24 +1,30 @@
 import React from 'react'
 import * as actionCreators from 'actions/stream'
+import Audio from 'components/Audio'
 import SoundPlayer from 'components/SoundPlayer'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { constructStreamUrl } from 'utils/Utils'
-
-import Audio from 'components/Audio'
 
 export default class SoundContainer extends React.Component {
 
   render() {
     const { actions, trackId, streamIsPlaying, streamCanPlay } = this.props
     const src = constructStreamUrl(trackId)
+    const audioContainer = ref => this._audioContainer = ref
 
     return (
-      <SoundPlayer>
+      <SoundPlayer
+        actions={ actions }
+        audioRef={ this._audioContainer }
+        streamCanPlay={ streamCanPlay }
+        streamIsPlaying={ streamIsPlaying }
+      >
         <Audio
           actions={ actions }
           canPlay={ streamCanPlay }
           isPlaying={ streamIsPlaying }
+          ref={ audioContainer }
           src={ src }
         />
       </SoundPlayer>
