@@ -1,5 +1,5 @@
 .header {
-  background-color: $dark-gray;
+  background-color: tint($dark-gray, 5%);
   height: $bar-height;
 }
 

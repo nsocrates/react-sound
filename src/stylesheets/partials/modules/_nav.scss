@@ -31,7 +31,11 @@
     transition: $transition-default;
 
     &:hover {
-      @extend %active;
+      @extend %nav-active;
+    }
+
+    &.active {
+      @extend %nav-active;
     }
   }
 
@@ -40,8 +44,4 @@
       display: none;
     }
   }
-}
-
-.active {
-  @extend %active;
 }

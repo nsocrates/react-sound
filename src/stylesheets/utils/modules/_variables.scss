@@ -7,6 +7,22 @@ $base-line-height: 1.5;
 $header-line-height: 1.4;
 $header-margin: 0 0 .8rem 0;
 
+// Main Color Scheme
+$white: #fff;
+$black: #000;
+// $dark-gray: #3b3b3b;
+// $light-gray: #f1f1f1;
+// $light-pink: #ff80ab;
+// $cyan: #a0f7f4;
+$shark: #262728;
+$dark-gray: #1b1c1d;
+$light-gray: #ebeae8;
+$light-pink: #f7379f;
+$cyan: #00fff2;
+$green: #7bff00;
+$orange: #ffa91f;
+$yellow: #fff203;
+
 // Opacity
 $disabled: .12;
 
@@ -21,18 +37,15 @@ $l-secondary: .7;
 $l-hint: .3;
 
 // Text Opacity
-$black-primary: rgba(#000, $primary);
-$black-secondary: rgba(#000, $secondary);
-$black-hint: rgba(#000, $hint);
-$black-disabled: rgba(#000, $disabled);
+$black-primary: rgba($black, $primary);
+$black-secondary: rgba($black, $secondary);
+$black-hint: rgba($black, $hint);
+$black-disabled: rgba($black, $disabled);
 
-// Main Color Scheme
-$white: #fff;
-$black: #000;
-$dark-gray: #3b3b3b;
-$light-gray: #f1f1f1;
-$light-pink: #ff80ab;
-$cyan: #a0f7f4;
+$white-primary: rgba($white, $l-primary);
+$white-secondary: rgba($white, $l-secondary);
+$white-hint: rgba($white, $l-hint);
+$white-disabled: rgba($white, $disabled);
 
 // Transition
 $transition-default: (.2s ease-in-out);
@@ -42,9 +55,10 @@ $bar-height: 5rem;
 
 // Side Menu Config
 $oc-width: 30rem;
-$oc-hover: $cyan;
-$oc-background: $dark-gray;
-$oc-link: rgba($white, $l-secondary);
+$oc-hover: $light-pink;
+$oc-background: tint($dark-gray, 5%);
+$oc-link: $white-secondary;
+$oc-border: solid .1rem $white-disabled;
 
 // Breakpoint
 @include breakpoint-set('to ems', true);

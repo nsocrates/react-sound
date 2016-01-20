@@ -1,11 +1,11 @@
 // Lighten color
 @function tint($color, $percentage) {
-  @return mix($white, $color, $percentage);
+  @return mix(#fff, $color, $percentage);
 }
 
 // Darken color
 @function shade($color, $percentage) {
-  @return mix($black, $color, $percentage);
+  @return mix(#000, $color, $percentage);
 }
 
 // Helper function for position

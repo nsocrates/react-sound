@@ -24,6 +24,7 @@
 .oc-menu {
   @include fixed(right inherit);
   background-color: $oc-background;
+  font-weight: 700;
   height: 100%;
   transform: translate3d(-100%, 0, 0);
   transition: transform ease .5s;
@@ -50,7 +51,7 @@
 
 .oc-item {
   @extend %lead;
-  border-bottom: solid .1rem $black-disabled;
+  border-bottom: $oc-border;
   color: $oc-link;
   display: block;
   padding: 1.5rem;
@@ -58,8 +59,8 @@
   &:hover {
     color: $oc-hover;
   }
-}
 
-.oc-active {
-  color: $oc-hover;
+  &.active {
+    color: $oc-hover;
+  }
 }

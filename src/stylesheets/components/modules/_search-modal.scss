@@ -34,20 +34,19 @@
 
   .m-btn-times {
     @include fixed(top right);
-    color: $black-secondary;
-    // font-size: 1.9rem;
+    color: $white-secondary;
     opacity: 0;
     padding: 1rem;
     transform: translate(2rem) rotate(90deg);
     transition: all $transition-default;
     z-index: -1;
 
-    @include breakpoint($medium) {
-      // font-size: 3.1rem;
+    &:hover {
+      color: $white-primary;
     }
 
-    &:hover {
-      color: $black-primary;
+    h3 {
+      margin: 0;
     }
   }
 }
@@ -67,6 +66,11 @@
   overflow: hidden;
 
   .m-modal {
+    background-image: linear-gradient(
+      shade($light-pink, 25%) 0%,
+      $light-pink 49%,
+      tint($light-pink, 25%) 100%
+    );
     transform: scale(80);
 
     + .m-btn-search {
@@ -94,14 +98,9 @@
   border: 0;
   border-bottom: .4rem solid rgba($white, $l-secondary);
   color: rgba($white, $l-primary);
-  // font-size: 2.4rem;
   line-height: $header-line-height;
   padding: 1.5rem;
   width: span(full);
-
-  @include breakpoint($medium) {
-    // font-size: 4.8rem;
-  }
 
   &:focus {
     outline: none;

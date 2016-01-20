@@ -1,13 +1,12 @@
 .music-player {
   @include fixed(bottom left right);
-  background: rgba($dark-gray, .87);
+  // background-color: rgba($dark-gray, .9);
+  background-color: tint($dark-gray, 5%);
+  border: .1rem solid $dark-gray;
+  box-shadow: 0 .2rem 1.4rem rgba($light-gray, .1);
   height: $bar-height;
   transform: translate3d(0, 100%, 0); //Tuck to bottom
   transition: transform ease .5s;
-
-  &:hover {
-    background: rgba($dark-gray, .95);
-  }
 
   &.is-open {
     transform: translate3d(0, 0, 0);
@@ -15,6 +14,8 @@
 }
 
 .mp-controls {
+  @extend %reset-ul;
+  position: relative;
   text-align: center;
 }
 
@@ -22,31 +23,94 @@
   line-height: 0;
   margin: 0;
 
-  i {
-    color: rgba($white, $l-secondary);
+  li {
     float: left;
-    line-height: $bar-height;
     margin-right: span(2) + gutter(16);
-    text-shadow: 0 -.1rem 0 $black-hint;
+    position: relative;
     width: span(1);
-
-    &:hover {
-      color: $white;
-      cursor: pointer;
-    }
-
-    &:first-child {
-      text-align: left;
-    }
 
     &:last-child {
       float: right;
       margin-right: 0;
-      text-align: right;
-    }
-
-    .active {
-      color: $white;
     }
   }
+}
+
+.mp-btn {
+  color: $white-secondary;
+  display: block;
+  line-height: $bar-height;
+  transition: background-color ease .2s;
+  width: 100%;
+
+  &:hover,
+  &.focus {
+    color: $white;
+  }
+
+  &:active {
+    color: $light-pink;
+  }
+
+  &.focus {
+    background-color: $dark-gray;
+  }
+
+  i {
+    line-height: inherit;
+    text-shadow: 0 -.1rem 0 $black-hint;
+  }
+}
+
+// .mp-btn-volume:hover {
+//   background-color: $dark-gray;
+
+//   + .mp-volume-control {
+//     height: 15rem;
+//     overflow: visible;
+
+//     > .mp-volume-range {
+//       height: 13.5rem;
+//     }
+//   }
+// }
+
+.mp-volume-control {
+  @include absolute (bottom 100% right);
+  background-color: $dark-gray;
+  border-radius: 1rem 1rem 0 0;
+  height: 0;
+  overflow: hidden;
+  transition: height ease .2s;
+  width: 100%;
+
+  &.is-open {
+    height: 15rem;
+    overflow: visible;
+
+    > .mp-volume-range {
+      height: 13.5rem;
+    }
+  }
+}
+
+.mp-volume-range {
+  @include absolute(bottom right left);
+  background-clip: padding-box;
+  background-color: $light-gray;
+  border-radius: 1rem;
+  cursor: pointer;
+  height: 0;
+  margin: 0 auto;
+  transition: height ease .2s;
+  width: 20%;
+}
+
+.mp-volume-slider {
+  @include absolute(bottom);
+  background-color: $light-pink;
+  border-radius: 1rem;
+  max-height: 100%;
+  overflow: hidden;
+  width: 100%;
 }
