@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 export default class Nav extends React.Component {
   render() {
-    const { toggleMenu, genre, genreList, loadGenre } = this.props
+    const {actions, genre, genreList } = this.props
 
     const menuItems = genreList.map((item, index) => {
       const active = classNames({ 'active': genre === item })
@@ -16,9 +16,9 @@ export default class Nav extends React.Component {
           key={ index }
         >
           <MenuItem
+            componentClass={ active ? active : null }
             genre={ item }
-            itemClassName={ active ? active : null }
-            loadGenre={ loadGenre }
+            loadGenre={ actions.loadGenre }
           >
             { item }
           </MenuItem>
@@ -34,7 +34,7 @@ export default class Nav extends React.Component {
           </ul>
           <ul className="nav-section">
             <li className="bars">
-              <button onClick={ toggleMenu }>
+              <button onClick={ actions.toggleMenu }>
                 <i className="fa fa-bars" />
               </button>
             </li>
@@ -60,10 +60,11 @@ export default class Nav extends React.Component {
 }
 
 Nav.propTypes = {
+  actions: React.PropTypes.objectOf(
+    React.PropTypes.func.isRequired
+  ),
   genre: React.PropTypes.string.isRequired,
   genreList: React.PropTypes.arrayOf(
     React.PropTypes.string.isRequired
-  ),
-  loadGenre: React.PropTypes.func.isRequired,
-  toggleMenu: React.PropTypes.func.isRequired
+  )
 }

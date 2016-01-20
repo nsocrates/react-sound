@@ -1,5 +1,6 @@
 import React from 'react'
 import Menu from 'components/SideMenu'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { loadGenre } from 'actions/genre'
 import { toggleMenu } from 'actions/sideMenu'
@@ -16,9 +17,10 @@ class SideMenuContainer extends React.Component {
   }
 }
 
-const mapDispatchToProps = {
-  loadGenre,
-  toggleMenu
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({ loadGenre, toggleMenu }, dispatch)
+  }
 }
 
 function mapStateToProps(state) {

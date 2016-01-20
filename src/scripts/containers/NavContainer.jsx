@@ -1,15 +1,16 @@
 import React from 'react'
 import Nav from 'components/Nav'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { GENRES } from 'constants/ItemLists'
 import { loadGenre } from 'actions/genre'
 import { toggleMenu } from 'actions/sideMenu'
-import { GENRES } from 'constants/ItemLists'
 
 class NavContainer extends React.Component {
 
   componentWillMount() {
-    const { genre } = this.props
-    this.props.loadGenre(genre)
+    const { actions, genre } = this.props
+    actions.loadGenre(genre)
   }
 
   render() {
@@ -23,13 +24,16 @@ class NavContainer extends React.Component {
 }
 
 NavContainer.propTypes = {
-  genre: React.PropTypes.string.isRequired,
-  loadGenre: React.PropTypes.func.isRequired
+  actions: React.PropTypes.objectOf(
+    React.PropTypes.func.isRequired
+  ),
+  genre: React.PropTypes.string.isRequired
 }
 
-const mapDispatchToProps = {
-  loadGenre,
-  toggleMenu
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({ loadGenre, toggleMenu }, dispatch)
+  }
 }
 
 function mapStateToProps(state) {

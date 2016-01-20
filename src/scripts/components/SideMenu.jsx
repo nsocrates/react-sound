@@ -14,23 +14,23 @@ export default class SideMenu extends React.Component {
   }
 
   render() {
-    const { genre, isVisible, toggleMenu, loadGenre, genreList } = this.props
+    const { actions, genre, isVisible, genreList } = this.props
     const willSlide = { 'slide': isVisible }
     const overlay = classNames('oc-overlay', willSlide)
     const menu = classNames('oc-menu', willSlide)
 
     const menuItems = genreList.map((item, index) => {
       const active = classNames('oc-item', {
-        'oc-active': genre === item
+        'active': genre === item
       })
 
       return (
         <MenuItem
+          componentClass={ active }
           genre={ item }
-          itemClassName={ active }
           key={ index }
-          loadGenre={ loadGenre }
-          toggleMenu={ toggleMenu }
+          loadGenre={ actions.loadGenre }
+          toggleMenu={ actions.toggleMenu }
         >
           { item }
         </MenuItem>
@@ -41,12 +41,12 @@ export default class SideMenu extends React.Component {
       <section className="off-canvas-menu">
         <div
           className={ overlay }
-          onClick={ toggleMenu }
+          onClick={ actions.toggleMenu }
         />
         <nav className={ menu }>
           <button
             className="oc-times"
-            onClick={ toggleMenu }
+            onClick={ actions.toggleMenu }
           >
             <i className="fa fa-times" />
           </button>
@@ -60,11 +60,12 @@ export default class SideMenu extends React.Component {
 }
 
 SideMenu.propTypes = {
+  actions: React.PropTypes.objectOf(
+    React.PropTypes.func.isRequired
+  ),
   genre: React.PropTypes.string.isRequired,
   genreList: React.PropTypes.arrayOf(
     React.PropTypes.string.isRequired
   ),
-  isVisible: React.PropTypes.bool.isRequired,
-  loadGenre: React.PropTypes.func.isRequired,
-  toggleMenu: React.PropTypes.func.isRequired
+  isVisible: React.PropTypes.bool.isRequired
 }
