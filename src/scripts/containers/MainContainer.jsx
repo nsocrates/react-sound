@@ -85,15 +85,15 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  const { entities, requested, partition, stream } = state.app
+  const { entities, requested, partition, audio } = state.app
 
   return {
     trackEntity: entities.tracks,
     userEntity: entities.users,
     tracksByGenre: partition.tracksByGenre,
     requested,
-    streamTrackId: stream.trackId,
-    streamIsPlaying: stream.isPlaying
+    streamTrackId: audio.stream.trackId,
+    streamIsPlaying: audio.stream.isPlaying
   }
 }
 

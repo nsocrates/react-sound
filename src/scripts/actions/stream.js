@@ -13,13 +13,12 @@ export function streamCanPlay() {
   }
 }
 
-// function shouldPauseStream(state, trackId) {
-//   return (trackId === state.trackId && state.isPlaying)
-// }
-
-// function shouldPlayStream(state, trackId) {
-//   return (trackId === state.trackId && !state.isPlaying)
-// }
+export function toggleMute(isMuted) {
+  return {
+    type: ActionTypes.STREAM_IS_MUTED,
+    isMuted
+  }
+}
 
 export function toggleStream(isPlaying) {
   return {
@@ -27,19 +26,3 @@ export function toggleStream(isPlaying) {
     isPlaying
   }
 }
-
-// export function loadStream(trackId) {
-//   return (dispatch, getState) => {
-//     const state = getState().app.stream
-
-//     if (shouldPauseStream(state, trackId)) {
-//       console.log('should Pause Stream')
-//       return dispatch(toggleStream(false))
-//     } else if (shouldPlayStream(state, trackId)) {
-//       console.log('should Play Stream')
-//       return dispatch(toggleStream(true))
-//     }
-
-//     return dispatch(requestStream(trackId))
-//   }
-// }

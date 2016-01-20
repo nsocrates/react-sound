@@ -1,17 +1,13 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
 const initialState = {
-  currentTime: null,
-  duration: null,
   canPlay: null,
   isPlaying: null,
-  isSeeking: null,
-  trackId: null,
-  errorMessage: null
+  trackId: null
 }
 
 export default function stream(state = initialState, action) {
-  const { trackId, isPlaying, error } = action
+  const { trackId, isPlaying, isMuted } = action
 
   switch (action.type) {
     case ActionTypes.STREAM_REQUEST:
@@ -22,17 +18,15 @@ export default function stream(state = initialState, action) {
       })
     case ActionTypes.STREAM_SUCCESS:
       return Object.assign({}, state, {
-        canPlay: true,
-        isPlaying: true
-      })
-    case ActionTypes.STREAM_FAILURE:
-      return Object.assign({}, initialState, {
-        errorMessage: error,
-        trackId
+        canPlay: true
       })
     case ActionTypes.STREAM_IS_TOGGLED:
       return Object.assign({}, state, {
         isPlaying
+      })
+    case ActionTypes.STREAM_IS_MUTED:
+      return Object.assign({}, state, {
+        isMuted
       })
     default:
       return state

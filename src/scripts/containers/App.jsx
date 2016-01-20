@@ -4,7 +4,7 @@ import HeaderContainer from './HeaderContainer'
 import NavContainer from './NavContainer'
 import MainContainer from './MainContainer'
 import SideMenuContainer from './SideMenuContainer'
-import SoundContainer from './SoundContainer'
+import AudioContainer from './AudioContainer'
 
 export default class App extends React.Component {
   render() {
@@ -14,7 +14,7 @@ export default class App extends React.Component {
         <HeaderContainer />
         <NavContainer />
         <MainContainer />
-        <SoundContainer />
+        <AudioContainer />
       </div>
     )
   }
