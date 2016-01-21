@@ -8,23 +8,23 @@ export default class Collection extends React.Component {
   }
 
   handleClick(e) {
-    const { actions, trackId, streamTrackId, streamIsPlaying } = this.props
+    const { actions, trackId, streamTrackId, audioIsPlaying } = this.props
     const audio = document.getElementById('audio')
     e.preventDefault()
 
     if (trackId === streamTrackId) {
-      return streamIsPlaying ? audio.pause() : audio.play()
+      return audioIsPlaying ? audio.pause() : audio.play()
     }
 
     return actions.requestStream(trackId)
   }
 
   render() {
-    const { className, style } = this.props
+    const { componentClass, style } = this.props
 
     return (
       <a
-        className={ className }
+        className={ componentClass }
         href="#"
         onClick={ this.handleClick }
         style={ style }
@@ -37,7 +37,8 @@ Collection.propTypes = {
   actions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
-  className: React.PropTypes.string,
+  audioIsPlaying: React.PropTypes.bool.isRequired,
+  componentClass: React.PropTypes.string,
   streamIsPlaying: React.PropTypes.bool,
   streamTrackId: React.PropTypes.number,
   style: React.PropTypes.objectOf(React.PropTypes.string),
@@ -45,6 +46,6 @@ Collection.propTypes = {
 }
 
 Collection.defaultProps = {
-  className: null,
+  componentClass: null,
   style: null
 }

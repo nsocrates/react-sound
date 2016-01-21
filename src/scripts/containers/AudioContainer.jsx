@@ -20,6 +20,7 @@ export default class AudioContainer extends React.Component {
         audioRef={ this._audioStream }
       >
         <AudioStream
+          playerActions={ this.props.playerActions }
           ref={ audioStream }
           src={ src }
           streamActions={ this.props.streamActions }
@@ -30,6 +31,7 @@ export default class AudioContainer extends React.Component {
 }
 
 AudioContainer.propTypes = {
+  playerActions: React.PropTypes.objectOf(React.PropTypes.func.isRequired),
   stream: React.PropTypes.shape({
     trackId: React.PropTypes.number
   }),
@@ -44,7 +46,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  const { stream, player } = state.app.audio
+  const { stream, player } = state.app.media
 
   return {
     stream,

@@ -8,15 +8,15 @@ import stream from './stream'
 import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
-  audio: combineReducers({
-    player,
-    stream
-  }),
   entities,
   errorMessage,
   partition,
   requested,
-  sideMenu
+  sideMenu,
+  media: combineReducers({
+    player,
+    stream
+  })
 })
 
 export default rootReducer

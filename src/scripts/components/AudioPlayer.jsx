@@ -1,3 +1,5 @@
+/*eslint no-console:0 */
+
 import React from 'react'
 import classNames from 'classnames'
 import Button from './Button'
@@ -11,8 +13,8 @@ export default class AudioPlayer extends React.Component {
     this.handleFastForward = this.handleFastForward.bind(this) // TODO
     this.handleMute = this.handleMute.bind(this)
     this.handleTrackList = this.handleTrackList.bind(this) // TODO
-    this.handleOnEnter = this.handleOnEnter.bind(this)
-    this.handleOnLeave = this.handleOnLeave.bind(this)
+    this.handleVolumeEnter = this.handleVolumeEnter.bind(this)
+    this.handleVolumeLeave = this.handleVolumeLeave.bind(this)
     this.handleVolumeMouseDown = this.handleVolumeMouseDown.bind(this)
     this.handleVolumeMouseMove = this.handleVolumeMouseMove.bind(this)
     this.handleVolumeMouseUp = this.handleVolumeMouseUp.bind(this)
@@ -20,9 +22,9 @@ export default class AudioPlayer extends React.Component {
 
   // Determines volume level based on cursor's Y position:
   getSliderValue(e) {
-    const { clientY, currentTarget } = e
-    const rect = currentTarget.getBoundingClientRect()
-    const { height, bottom } = rect
+    const { _range } = this
+    const { clientY } = e
+    const { height, bottom } = _range.getBoundingClientRect()
 
     // Calculate value ( [max - offset] / size )
     const value = (bottom - clientY) / height
@@ -31,10 +33,13 @@ export default class AudioPlayer extends React.Component {
     return Math.round(value * 1e2) / 1e2
   }
 
-  handlePlayPause() {
-    const { stream, audioRef: { _audio }} = this.props
+  clipNumber(num, min, max) {
+    return Math.min(Math.max(num, min), max)
+  }
 
-    return stream.isPlaying ? _audio.pause() : _audio.play()
+  handlePlayPause() {
+    const { player: { audio }, audioRef: { _audio }} = this.props
+    return audio.isPlaying ? _audio.pause() : _audio.play()
   }
 
   handleFastBackward() {
@@ -53,81 +58,79 @@ export default class AudioPlayer extends React.Component {
   }
 
   handleMute() {
-    const { playerActions, player: { volume }, audioRef: { _audio }} = this.props
+    const { player: { volume }, audioRef: { _audio }} = this.props
 
-    if (volume.isMuted) {
-      _audio.volume = volume.level
-      playerActions.muteVolume(false)
-      return
-    }
-
-    // Set volume to 0 if isMuted prop is currently false
-    _audio.volume = 0
-    playerActions.muteVolume(true)
+    _audio.muted = !volume.isMuted
   }
 
   handleTrackList() {
     return console.log('handleTrackList')
   }
 
-  handleOnEnter() {
+  handleVolumeEnter() {
     const { playerActions } = this.props
     playerActions.expandVolume(true)
   }
 
-  handleOnLeave() {
+  handleVolumeLeave() {
     const { playerActions } = this.props
     playerActions.expandVolume(false)
   }
 
   handleVolumeMouseDown(e) {
-    const { playerActions } = this.props
+    e.preventDefault()
+    const { playerActions, audioRef: { _audio }} = this.props
     const value = this.getSliderValue(e)
+    _audio.volume = this.clipNumber(value, 0, 1)
+    _audio.muted = false
 
-    playerActions.changeVolume(value, true)
-
-    // Allow dragging on volume container
-    this.bindEvents()
+    this.bindEventListeners()
+    playerActions.dragVolume(true)
   }
 
   handleVolumeMouseMove(e) {
+    e.preventDefault()
+    const { player: { volume }, audioRef: { _audio }} = this.props
+
+    if (!volume.isDragging) {
+      return
+    }
+
+    const value = this.getSliderValue(e)
+    _audio.volume = this.clipNumber(value, 0, 1)
+  }
+
+  handleVolumeMouseUp(e) {
     const { playerActions, player: { volume }, audioRef: { _audio }} = this.props
 
     if (!volume.isDragging) {
       return
     }
+
     const value = this.getSliderValue(e)
+    _audio.volume = this.clipNumber(value, 0, 1)
 
-    e.preventDefault()
-    _audio.volume = value
-    playerActions.changeVolume(value, true)
+    this.unbindEventListeners()
+    playerActions.dragVolume(false)
   }
 
-  handleVolumeMouseUp(e) {
-    const { playerActions, audioRef: { _audio }} = this.props
-    const value = this.getSliderValue(e)
-
-    _audio.volume = value
-    playerActions.changeVolume(value, false)
-
-    this.unbindEvents()
+  bindEventListeners() {
+    const body = document.body
+    body.addEventListener('mousemove', this.handleVolumeMouseMove)
+    body.addEventListener('mouseup', this.handleVolumeMouseUp)
   }
 
-  bindEvents() {
-    this._volumeSlider.addEventListener('mousemove', this.handleVolumeMouseMove)
-    this._volumeSlider.addEventListener('mouseup', this.handleVolumeMouseUp)
-  }
-
-  unbindEvents() {
-    this._volumeSlider.removeEventListener('mousemove', this.handleVolumeMouseMove)
-    this._volumeSlider.removeEventListener('mouseup', this.handleVolumeMouseUp)
+  unbindEventListeners() {
+    const body = document.body
+    body.removeEventListener('mousemove', this.handleVolumeMouseMove)
+    body.removeEventListener('mouseup', this.handleVolumeMouseUp)
   }
 
   render() {
     const {
       children,
-      player: { volume },
-      stream: { canPlay, isPlaying }} = this.props
+      player: { volume, audio },
+      stream: { canPlay }} = this.props
 
     const shouldFocus = classNames('mp-btn', {
       'focus': volume.shouldExpand
@@ -136,17 +139,22 @@ export default class AudioPlayer extends React.Component {
       'is-open': canPlay
     })
     const shouldPlayPause = classNames('fa', {
-      'fa-pause': isPlaying,
-      'fa-play': !isPlaying
+      'fa-pause': audio.isPlaying,
+      'fa-play': !audio.isPlaying
     })
+
+    // Keep volume expanded as long as isDragging === true
     const shouldVolumeExpand = classNames('mp-volume-control', {
-      'is-open': volume.shouldExpand
+      'is-open': volume.isDragging ? true : volume.shouldExpand
     })
 
     // Multiply by 100 to get percentage
     const volumeLevel = `${volume.level * 1e2}%`
-
-    const volumeSlider = ref => this._volumeSlider = ref
+    const sliderStyle = {
+      backgroundColor: volume.isMuted ? '#e09cc1' : '#f7379f',
+      height: volumeLevel
+    }
+    const range = ref => this._range = ref
     const renderVolumeIcon = () => {
       if (volume.isMuted) {
         return (
@@ -157,11 +165,13 @@ export default class AudioPlayer extends React.Component {
             </small>
           </span>
         )
-      } else if (volume.level >= 0.5) {
-        return <i className="fa fa-volume-up" />
+      } else if (volume.level === 0) {
+        return <i className="fa fa-volume-off" />
+      } else if (volume.level < 0.5) {
+        return <i className="fa fa-volume-down" />
       }
 
-      return <i className="fa fa-volume-down" />
+      return <i className="fa fa-volume-up" />
     }
 
     return (
@@ -205,30 +215,29 @@ export default class AudioPlayer extends React.Component {
                     <i className="fa fa-fast-forward" />
                   </Button>
                 </li>
-                <li>
+                <li
+                  onMouseEnter={ this.handleVolumeEnter }
+                  onMouseLeave={ this.handleVolumeLeave }
+                >
                     <Button
                       btnClass={ shouldFocus }
                       onBtnClick={ this.handleMute }
-                      onBtnEnter={ this.handleOnEnter }
-                      onBtnLeave={ this.handleOnLeave }
                     >
                       { renderVolumeIcon() }
                     </Button>
                     <aside
                       className={ shouldVolumeExpand }
-                      onMouseEnter={ this.handleOnEnter }
-                      onMouseLeave={ this.handleOnLeave }
-                      ref={ volumeSlider }
                     >
                       <div
                         className="mp-volume-range"
                         onMouseDown={ this.handleVolumeMouseDown }
                         onMouseMove={ this.handleVolumeMouseMove }
                         onMouseUp={ this.handleVolumeMouseUp }
+                        ref={ range }
                       >
                         <div
                           className="mp-volume-slider"
-                          style={{ height: volumeLevel }}
+                          style={ sliderStyle }
                         />
                       </div>
                     </aside>

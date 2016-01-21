@@ -23,8 +23,8 @@ export default class MainContainer extends React.Component {
   render() {
     const {
       actions,
+      audioIsPlaying,
       requested,
-      streamIsPlaying,
       streamTrackId,
       tracksByGenre
     } = this.props
@@ -42,9 +42,9 @@ export default class MainContainer extends React.Component {
           return (
             <Collection
               actions={ actions }
-              className="gallery"
+              audioIsPlaying={ audioIsPlaying }
+              componentClass="gallery"
               key={ trackId }
-              streamIsPlaying={ streamIsPlaying }
               streamTrackId={ streamTrackId }
               style={ style }
               trackId={ trackId }
@@ -85,15 +85,15 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  const { entities, requested, partition, audio } = state.app
+  const { entities, requested, partition, media } = state.app
 
   return {
-    trackEntity: entities.tracks,
-    userEntity: entities.users,
-    tracksByGenre: partition.tracksByGenre,
+    audioIsPlaying: media.player.audio.isPlaying,
     requested,
-    streamTrackId: audio.stream.trackId,
-    streamIsPlaying: audio.stream.isPlaying
+    streamTrackId: media.stream.trackId,
+    trackEntity: entities.tracks,
+    tracksByGenre: partition.tracksByGenre,
+    userEntity: entities.users
   }
 }
 

@@ -13,16 +13,9 @@ export function streamCanPlay() {
   }
 }
 
-export function toggleMute(isMuted) {
+export function streamFailure(error) {
   return {
-    type: ActionTypes.STREAM_IS_MUTED,
-    isMuted
-  }
-}
-
-export function toggleStream(isPlaying) {
-  return {
-    type: ActionTypes.STREAM_IS_TOGGLED,
-    isPlaying
+    type: ActionTypes.STREAM_FAILURE,
+    error
   }
 }
