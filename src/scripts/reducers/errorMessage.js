@@ -1,3 +1,5 @@
+// https://github.com/rackt/redux/blob/master/examples/real-world/reducers/index.js
+
 import * as ActionTypes from 'constants/ActionTypes'
 
 // Updates error message to notify about failed fetches:

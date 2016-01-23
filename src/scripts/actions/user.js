@@ -1,3 +1,5 @@
+// https://github.com/rackt/redux/blob/master/examples/real-world/actions/index.js
+
 import * as ActionTypes from 'constants/ActionTypes'
 import { CALL_API } from 'constants/Api'
 import { Schemas } from 'constants/Schemas'

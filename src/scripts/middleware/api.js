@@ -1,3 +1,5 @@
+// https://github.com/rackt/redux/blob/master/examples/real-world/middleware/api.js
+
 import 'isomorphic-fetch'
 import { CALL_API } from 'constants/Api'
 import { constructUrl, formatImages } from 'utils/Utils'

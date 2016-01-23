@@ -1,3 +1,5 @@
+// https://github.com/rackt/redux/blob/master/examples/real-world/reducers/paginate.js
+
 import * as ActionTypes from 'constants/ActionTypes'
 import { combineReducers } from 'redux'
 import union from 'lodash/array/union'
