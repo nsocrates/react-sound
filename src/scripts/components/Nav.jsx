@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 export default class Nav extends React.Component {
   render() {
-    const {actions, genre, genreList } = this.props
+    const { actions, genre, genreList } = this.props
 
     const menuItems = genreList.map((item, index) => {
       const active = classNames({ 'active': genre === item })

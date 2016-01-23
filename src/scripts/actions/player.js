@@ -35,16 +35,24 @@ export function toggleAudio(isPlaying) {
   }
 }
 
-export function setAudioPosition(position) {
+export function setPosition(position) {
   return {
     type: ActionTypes.SET_AUDIO_POSITION,
     position
   }
 }
 
-export function getAudioDuration(duration) {
+export function getDuration(duration) {
   return {
     type: ActionTypes.GET_AUDIO_DURATION,
     duration
+  }
+}
+
+export function seekPosition(isSeeking, position) {
+  return {
+    type: ActionTypes.AUDIO_SEEKING,
+    isSeeking,
+    position
   }
 }

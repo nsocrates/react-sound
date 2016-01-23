@@ -1,31 +1,31 @@
 .music-player {
-  @include fixed(bottom left right);
-  // background-color: rgba($dark-gray, .9);
+  // @include fixed(bottom left right);
   background-color: tint($dark-gray, 5%);
-  border: .1rem solid $dark-gray;
   box-shadow: 0 .2rem 1.4rem rgba($light-gray, .1);
-  height: $bar-height;
+  height: $player-height;
   transform: translate3d(0, 100%, 0); //Tuck to bottom
   transition: transform ease .5s;
 
   &.is-open {
     transform: translate3d(0, 0, 0);
   }
+
+  .container {
+    @include full;
+    max-width: 100%;
+  }
 }
 
 .mp-controls {
   @extend %reset-ul;
+  color: $white-secondary;
   position: relative;
   text-align: center;
-}
-
-.mp-hgroup {
-  line-height: 0;
-  margin: 0;
 
   li {
+    // margin-right: span(2) + gutter(16);
     float: left;
-    margin-right: span(2) + gutter(16);
+    line-height: $player-height;
     position: relative;
     width: span(1);
 
@@ -33,13 +33,32 @@
       float: right;
       margin-right: 0;
     }
+
+    &.mp-artwork {
+      height: $player-height;
+      margin-right: 1rem;
+      width: $player-height;
+    }
+
+    &.mp-details {
+      padding: 1rem 0;
+      text-align: left;
+      width: span(3);
+    }
+
+    &.mp-progress-bar {
+      background-color: $light-gray;
+      border-radius: 1rem;
+      cursor: pointer;
+      height: 1rem;
+      margin: (($player-height - 1rem) / 2) 0;
+      width: span(5);
+    }
   }
 }
 
-.mp-btn {
-  color: $white-secondary;
+[class^="mp-btn"] {
   display: block;
-  line-height: $bar-height;
   transition: background-color ease .2s;
   width: 100%;
 
@@ -56,24 +75,39 @@
     background-color: $dark-gray;
   }
 
-  i {
-    line-height: inherit;
+  > i,
+  .mp-mute > i {
+    font-size: 2.4rem;
+    line-height: 6rem;
     text-shadow: 0 -.1rem 0 $black-hint;
+  }
+
+  .mp-mute i:last-child {
+    font-size: 100%;
   }
 }
 
-// .mp-btn-volume:hover {
-//   background-color: $dark-gray;
+.mp-title,
+.mp-artist {
+  // (playerheight / number of items) - padding
+  line-height: $player-height / 2 - 1;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-//   + .mp-volume-control {
-//     height: 15rem;
-//     overflow: visible;
+.mp-title {
+  color: $white-primary;
+  font-weight: 700;
+}
 
-//     > .mp-volume-range {
-//       height: 13.5rem;
-//     }
-//   }
-// }
+.mp-progress-slider {
+  background-color: $light-pink;
+  border-radius: 1rem;
+  height: 1rem;
+  overflow: hidden;
+}
 
 .mp-volume-control {
   @include absolute (bottom 100% right);
@@ -96,7 +130,6 @@
 
 .mp-volume-range {
   @include absolute(bottom right left);
-  background-clip: padding-box;
   background-color: $light-gray;
   border-radius: 1rem;
   cursor: pointer;

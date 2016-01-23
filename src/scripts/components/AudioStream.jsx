@@ -17,36 +17,36 @@ export default class AudioStream extends React.Component {
 
   // Plays audio when enough data has been loaded
   handleCanPlay() {
-    console.log('canplay triggered...broadcasting action: streamCanPlay')
     const { _audio, props: { streamActions }} = this
     streamActions.streamCanPlay()
 
     _audio.play()
   }
 
+  // Sets audio duration
   handleLoadedMetaData() {
     const { _audio, props: { playerActions }} = this
-    console.log(`Meta data loaded. Duration: ${_audio.duration}`)
 
-    playerActions.getAudioDuration(_audio.duration)
+    playerActions.getDuration(_audio.duration)
   }
 
   handlePlay() {
-    console.log('play event triggered...broadcasting toggle ON')
     const { playerActions } = this.props
 
     // Dispatch action to set prop that renders play/pause button
     playerActions.toggleAudio(true)
   }
 
+  // Sets audio current time
   handleTimeUpdate() {
-    const { _audio, props: { playerActions }} = this
+    const { _audio, props: { playerActions, playerIsSeeking }} = this
 
-    playerActions.setAudioPosition(_audio.currentTime)
+    if (!playerIsSeeking) {
+      playerActions.setPosition(_audio.currentTime)
+    }
   }
 
   handlePause() {
-    console.log('pause event triggered...broadcasting toggle OFF')
     const { playerActions } = this.props
 
     // Dispatch action to set prop that renders play/pause button
@@ -54,8 +54,6 @@ export default class AudioStream extends React.Component {
   }
 
   handleVolumeChange() {
-    console.log(`volume has been changed to ${this._audio.volume}`)
-    console.log(`volume is muted ${this._audio.muted}`)
     const { _audio: { volume, muted }, props: { playerActions }} = this
 
     return muted ? playerActions.muteVolume(muted) : playerActions.setVolume(volume)
@@ -63,7 +61,6 @@ export default class AudioStream extends React.Component {
 
   handleError() {
     const { _audio: { error }, props: { streamActions }} = this
-    console.log(`error event triggered ${error}`)
 
     streamActions.streamFailure(error)
   }
@@ -93,6 +90,7 @@ AudioStream.propTypes = {
   playerActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
+  playerIsSeeking: React.PropTypes.bool,
   src: React.PropTypes.string,
   streamActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired

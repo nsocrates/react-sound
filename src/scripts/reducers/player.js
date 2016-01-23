@@ -17,7 +17,17 @@ const initialState = {
 }
 
 export default function stream(state = initialState, action) {
-  const { shouldExpand, level, isDragging, isMuted, isPlaying, position, duration } = action
+  const {
+    shouldExpand,
+    level,
+    isDragging,
+    isMuted,
+    isPlaying,
+    isSeeking,
+    position,
+    duration
+  } = action
+
   switch (action.type) {
     case ActionTypes.SET_AUDIO_POSITION:
       return merge({}, state, {
@@ -35,6 +45,13 @@ export default function stream(state = initialState, action) {
       return merge({}, state, {
         audio: {
           isPlaying
+        }
+      })
+    case ActionTypes.AUDIO_SEEKING:
+      return merge({}, state, {
+        audio: {
+          isSeeking,
+          position
         }
       })
     case ActionTypes.VOLUME_DRAGGING:

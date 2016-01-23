@@ -36,8 +36,7 @@ export default class MainContainer extends React.Component {
         { collection.map((item, index) => {
           const trackId = tracksByGenre[requested].ids[index]
           const style = {
-            background: `url(${item}) no-repeat center center`,
-            backgroundSize: 'cover'
+            background: `url(${item}) no-repeat center center / cover`
           }
           return (
             <Collection
@@ -60,8 +59,8 @@ MainContainer.propTypes = {
   actions: React.PropTypes.shape({
     requestStream: React.PropTypes.func.isRequired
   }),
+  audioIsPlaying: React.PropTypes.bool,
   requested: React.PropTypes.string,
-  streamIsPlaying: React.PropTypes.bool,
   streamTrackId: React.PropTypes.number,
   trackEntity: React.PropTypes.objectOf(
     React.PropTypes.object
