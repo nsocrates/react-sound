@@ -56,3 +56,10 @@ export function seekPosition(isSeeking, position) {
     position
   }
 }
+
+export function pushTrack(trackId) {
+  return {
+    type: ActionTypes.TRACK_PUSH,
+    trackId
+  }
+}

@@ -5,17 +5,26 @@ export default class AudioStream extends React.Component {
   constructor(props) {
     super(props)
     this.handleCanPlay = this.handleCanPlay.bind(this)
+    this.handleEnded = this.handleEnded.bind(this)
     this.handleError = this.handleError.bind(this)
-    this.handleOnLoadStart = this.handleOnLoadStart.bind(this)
     this.handleLoadedMetaData = this.handleLoadedMetaData.bind(this)
+    this.handleLoadStart = this.handleLoadStart.bind(this)
     this.handlePause = this.handlePause.bind(this)
     this.handlePlay = this.handlePlay.bind(this)
     this.handleTimeUpdate = this.handleTimeUpdate.bind(this)
     this.handleVolumeChange = this.handleVolumeChange.bind(this)
   }
 
+  componentWillMount() {
+    console.log('AudioStream will mount')
+  }
+
+  componentWillUnmount() {
+    console.log('AudioStream will unmount')
+  }
+
   // Resets audio duration and position
-  handleOnLoadStart() {
+  handleLoadStart() {
     const { playerActions } = this.props
 
     playerActions.setDuration(0)
@@ -31,8 +40,9 @@ export default class AudioStream extends React.Component {
 
   // Plays audio when enough data has been loaded
   handleCanPlay() {
-    const { _audio, props: { streamActions }} = this
+    const { _audio, props: { streamActions, playerActions, trackId }} = this
     streamActions.streamCanPlay()
+    playerActions.pushTrack(trackId)
 
     _audio.play()
   }
@@ -66,6 +76,11 @@ export default class AudioStream extends React.Component {
     return muted ? playerActions.muteVolume(muted) : playerActions.setVolume(volume)
   }
 
+  handleEnded() {
+    const { streamActions } = this.props
+    streamActions.endStream()
+  }
+
   handleError() {
     const { _audio: { error }, props: { streamActions }} = this
 
@@ -80,8 +95,9 @@ export default class AudioStream extends React.Component {
       <audio
         id="audio"
         onCanPlay={ this.handleCanPlay }
+        onEnded={ this.handleEnded }
         onError={ this.handleError }
-        onLoadStart={ this.handleOnLoadStart }
+        onLoadStart={ this.handleLoadStart }
         onLoadedMetadata={ this.handleLoadedMetaData }
         onPause={ this.handlePause }
         onPlay={ this.handlePlay }
@@ -103,7 +119,8 @@ AudioStream.propTypes = {
   src: React.PropTypes.string,
   streamActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
-  )
+  ),
+  trackId: React.PropTypes.number
 }
 
 AudioStream.defaultProps = {

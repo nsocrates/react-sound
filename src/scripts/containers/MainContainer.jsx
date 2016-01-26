@@ -52,9 +52,15 @@ export default class MainContainer extends React.Component {
       const trackData = trackFactory(args)
       const trackId = group.ids[index]
       const imgUrl = trackData.getArtwork(IMG_FORMAT.LARGE)
-      const fallback = trackData.fallback
       const style = {
-        backgroundImage: `url(${imgUrl}), url(${fallback})`,
+        backgroundImage: `url(${imgUrl}),
+                          repeating-linear-gradient(
+                            135deg,
+                            #c6cde0,
+                            #c6cde0 1.5rem,
+                            #fff 1.5rem,
+                            #fff 3rem
+                          )`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center center',
         backgroundSize: 'cover'

@@ -11,28 +11,36 @@ import { constructStreamUrl, trackFactory } from 'utils/Utils'
 export default class AudioContainer extends React.Component {
 
   render() {
-    const { stream: { trackId, canPlay }, userEntity, trackEntity } = this.props
+    const { stream: { trackId, canPlay, shouldPlay }, userEntity, trackEntity } = this.props
+    const rest = omit(this.props, ['streamActions', 'trackEntity', 'userEntity', 'stream'])
     const args = { trackId, userEntity, trackEntity }
     const trackData = trackFactory(args)
     const src = constructStreamUrl(trackId)
     const audioStream = ref => this._audioStream = ref
 
-    const other = omit(this.props, ['streamActions', 'trackEntity', 'userEntity', 'stream'])
+    const shouldRenderAudioStream = () => {
+      if (shouldPlay) {
+        return (
+          <AudioStream
+            playerActions={ this.props.playerActions }
+            playerIsSeeking={ this.props.player.audio.isSeeking }
+            ref={ audioStream }
+            src={ src }
+            streamActions={ this.props.streamActions }
+            trackId={ trackId }
+          />
+        )
+      }
+    }
 
     return (
       <AudioPlayer
-        { ...other }
+        { ...rest }
         audioRef={ this._audioStream }
-        canPlay={ canPlay }
+        shouldPlay={ shouldPlay }
         trackData={ trackData }
       >
-        <AudioStream
-          playerActions={ this.props.playerActions }
-          playerIsSeeking={ this.props.player.audio.isSeeking }
-          ref={ audioStream }
-          src={ src }
-          streamActions={ this.props.streamActions }
-        />
+        { shouldRenderAudioStream() }
       </AudioPlayer>
     )
   }

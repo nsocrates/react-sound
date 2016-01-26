@@ -3,7 +3,7 @@ import errorMessage from './errorMessage'
 import partition from './partition'
 import player from './player'
 import requested from './requested'
-import sideMenu from './sideMenu'
+import ui from './ui'
 import stream from './stream'
 import { combineReducers } from 'redux'
 
@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
   errorMessage,
   partition,
   requested,
-  sideMenu,
+  ui,
   media: combineReducers({
     player,
     stream

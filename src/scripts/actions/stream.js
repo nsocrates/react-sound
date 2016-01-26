@@ -19,3 +19,10 @@ export function streamFailure(error) {
     error
   }
 }
+
+export function endStream(shouldPlay = false) {
+  return {
+    type: ActionTypes.STREAM_ENDED,
+    shouldPlay
+  }
+}

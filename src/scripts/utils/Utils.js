@@ -1,5 +1,5 @@
 import { API_ROOT, API_DATA, CLIENT_ID } from 'constants/Api'
-import { IMG_FORMAT } from 'constants/ItemLists'
+import { IMG_FORMAT, IMG_FALLBACK } from 'constants/ItemLists'
 
 // Constructs url from endpoint.
 export function constructUrl(endpoint) {
@@ -23,6 +23,7 @@ export const trackFactory = obj => {
   let trackData = {
     userName: null,
     songName: null,
+    fallback: { LARGE: null, SMALL: null },
     getArtwork() {}
   }
 
@@ -32,13 +33,20 @@ export const trackFactory = obj => {
     trackData = {
       userName: userEntity[userId].username,
       songName: title[1] || title[0],
-      fallback: 'https://s-media-cache-ak0.pinimg.com/474x/1c/76/36/1c7636906717be2719923f3e83c4502c.jpg',
       getArtwork(format) {
         let artwork
         if (!trackEntity[trackId].artwork_url) {
           artwork = userEntity[userId].avatar_url
         } else {
           artwork = trackEntity[trackId].artwork_url
+        }
+        if (/default_avatar/.test(artwork)) {
+          switch (format) {
+            case IMG_FORMAT.BADGE:
+              return IMG_FALLBACK.SMALL
+            default:
+              return IMG_FALLBACK.LARGE
+          }
         }
         switch (format) {
           case IMG_FORMAT.XLARGE:

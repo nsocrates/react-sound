@@ -195,7 +195,7 @@ export default class AudioPlayer extends React.Component {
     const {
       children,
       trackData,
-      canPlay,
+      shouldPlay,
       player: {
         volume: {
           shouldExpand,
@@ -215,7 +215,7 @@ export default class AudioPlayer extends React.Component {
       'focus': shouldExpand || isDragging
     })
     const shouldPlayerSlide = classNames('music-player', {
-      'is-open': canPlay
+      'is-open': shouldPlay
     })
     const shouldPlayPause = classNames('fa', {
       'fa-pause': isPlaying,
@@ -234,10 +234,9 @@ export default class AudioPlayer extends React.Component {
       height: sliderPosition
     }
     // Sets artwork for current track:
-    const fallback = trackData.fallback
     const imgUrl = trackData.getArtwork(IMG_FORMAT.BADGE)
     const artworkStyle = {
-      backgroundImage: `url(${imgUrl}), url(${fallback})`,
+      backgroundImage: `url(${imgUrl})`,
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center center',
       backgroundSize: 'cover'
@@ -330,7 +329,7 @@ AudioPlayer.propTypes = {
   audioRef: React.PropTypes.shape({
     _audio: React.PropTypes.object.isRequired
   }),
-  canPlay: React.PropTypes.bool,
+  shouldPlay: React.PropTypes.bool,
   children: React.PropTypes.node,
   player: React.PropTypes.shape({
     volume: React.PropTypes.object.isRequired

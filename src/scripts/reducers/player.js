@@ -1,7 +1,9 @@
 import merge from 'lodash/merge'
+import union from 'lodash/union'
 import * as ActionTypes from 'constants/ActionTypes'
 
 const initialState = {
+  trackList: [],
   audio: {
     position: 0,
     duration: 0,
@@ -25,7 +27,8 @@ export default function stream(state = initialState, action) {
     isPlaying,
     isSeeking,
     position,
-    duration
+    duration,
+    trackId
   } = action
 
   switch (action.type) {
@@ -76,6 +79,10 @@ export default function stream(state = initialState, action) {
     case ActionTypes.VOLUME_MUTE:
       return merge({}, state, {
         volume: { isMuted }
+      })
+    case ActionTypes.TRACK_PUSH:
+      return merge({}, state, {
+        trackList: union(state.trackList, [trackId])
       })
     default:
       return state
