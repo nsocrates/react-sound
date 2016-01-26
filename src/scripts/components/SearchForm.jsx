@@ -6,6 +6,14 @@ export default class SearchForm extends React.Component {
     super(props)
   }
 
+  componentWillMount() {
+    console.log('Form will mount')
+  }
+
+  componentWillUnmount() {
+    console.log('Form will unmount')
+  }
+
   render() {
     const { onFormSubmit, inputClassName, inputId, children } = this.props
     const input = ref => this._input = ref

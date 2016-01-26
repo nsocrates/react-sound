@@ -7,24 +7,14 @@ export default class SearchModal extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = { isOpen: false }
     this.listenForClose = this.listenForClose.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  componentDidMount() {
-    console.log('SearchModal Did Mount')
-  }
-
-  componentDidUpdate() {
-    console.log('SearchModal Did Update')
-    if (this.state.isOpen) window.onkeydown = this.listenForClose
-    else window.onkeydown = null
-  }
-
-  componentWillUnmount() {
-    console.log('SearchModal Will Unmount')
+  componentWillReceiveProps(nextProps) {
+    const { isOpen } = nextProps
+    window.onkeydown = isOpen ? this.listenForClose : null
   }
 
   listenForClose(e = window.event) {
@@ -37,12 +27,14 @@ export default class SearchModal extends React.Component {
     e.preventDefault()
     const { _mSearch: { _input }, props: { actions }} = this
     actions.loadSearch(_input.value, false)
+    this.handleToggle()
   }
 
   handleToggle() {
-    const open = !this.state.isOpen
-    this.setState({ isOpen: open })
-    this.emitState(open)
+    const { actions, isOpen } = this.props
+    actions.toggleModal()
+
+    this.emitState(!isOpen)
   }
 
   emitState(state) {
@@ -88,5 +80,6 @@ export default class SearchModal extends React.Component {
 SearchModal.propTypes = {
   actions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
-  )
+  ),
+  isOpen: React.PropTypes.bool
 }

@@ -3,7 +3,7 @@ import Menu from 'components/SideMenu'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { loadGenre } from 'actions/genre'
-import { toggleMenu } from 'actions/sideMenu'
+import { toggleMenu } from 'actions/ui'
 import { GENRES } from 'constants/ItemLists'
 
 class SideMenuContainer extends React.Component {
@@ -24,10 +24,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  const { requested, sideMenu } = state.app
+  const { requested, ui: { sideMenu: { isVisible }}} = state.app
 
   return {
-    isVisible: sideMenu.isVisible,
+    isVisible,
     genre: requested
   }
 }

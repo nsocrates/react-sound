@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { GENRES } from 'constants/ItemLists'
 import { loadGenre } from 'actions/genre'
 import { loadSearch } from 'actions/search'
-import { toggleMenu } from 'actions/sideMenu'
+import { toggleMenu, toggleModal } from 'actions/ui'
 
 class NavContainer extends React.Component {
 
@@ -16,13 +16,16 @@ class NavContainer extends React.Component {
   }
 
   render() {
-    const { actions } = this.props
+    const { actions, searchModal } = this.props
     return (
       <Nav
         { ...this.props }
         genreList={ GENRES }
       >
-        <SearchModal actions={ actions }/>
+        <SearchModal
+          actions={ actions }
+          isOpen={ searchModal.isOpen }
+        />
       </Nav>
     )
   }
@@ -32,20 +35,29 @@ NavContainer.propTypes = {
   actions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
-  genre: React.PropTypes.string.isRequired
+  genre: React.PropTypes.string.isRequired,
+  searchModal: React.PropTypes.shape({
+    isOpen: React.PropTypes.bool.isRequired
+  })
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ loadGenre, toggleMenu, loadSearch }, dispatch)
+    actions: bindActionCreators({
+      toggleMenu,
+      toggleModal,
+      loadGenre,
+      loadSearch
+    }, dispatch)
   }
 }
 
 function mapStateToProps(state) {
-  const { requested, sideMenu } = state.app
+  const { requested, ui: { sideMenu, searchModal }} = state.app
 
   return {
-    isVisible: sideMenu.isVisible,
+    sideMenu,
+    searchModal,
     genre: requested
   }
 }

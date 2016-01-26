@@ -5,3 +5,9 @@ export function toggleMenu() {
     type: ActionTypes.TOGGLE_MENU
   }
 }
+
+export function toggleModal() {
+  return {
+    type: ActionTypes.TOGGLE_MODAL
+  }
+}
