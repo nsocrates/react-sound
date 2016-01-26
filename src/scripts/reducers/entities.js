@@ -1,4 +1,8 @@
-import merge from 'lodash/object/merge'
+/**
+ * https://github.com/rackt/redux/blob/master/examples/real-world/reducers/index.js
+ */
+
+import merge from 'lodash/merge'
 
 // Updates an entity cache in response to any action with response.entities:
 const initialState = {

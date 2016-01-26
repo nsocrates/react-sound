@@ -1,8 +1,10 @@
-// https://github.com/rackt/redux/blob/master/examples/real-world/middleware/api.js
+/**
+ * https://github.com/rackt/redux/blob/master/examples/real-world/middleware/api.js
+ */
 
 import 'isomorphic-fetch'
 import { CALL_API } from 'constants/Api'
-import { constructUrl, formatImages } from 'utils/Utils'
+import { constructUrl } from 'utils/Utils'
 import { normalize } from 'normalizr'
 
 // Extracts the next page URI from API response.
@@ -34,7 +36,7 @@ function callApi(endpoint, schema) {
     })
     .then(json => {
       const next_href = getNextHref(json)
-      const objectJSON = formatImages(getCollection(json))
+      const objectJSON = getCollection(json)
 
       return Object.assign({},
         normalize(objectJSON, schema),
@@ -57,7 +59,7 @@ export default store => next => action => {
     endpoint = endpoint(store.getState())
   }
   if (typeof endpoint !== 'string') {
-    throw new Error('Specify a strong endpoint URL.')
+    throw new Error('Specify a string endpoint URL.')
   }
   if (!schema) {
     throw new Error('Specify one of the exported Schemas.')
@@ -71,7 +73,7 @@ export default store => next => action => {
 
   function actionWith(data) {
     const finalAction = Object.assign({}, action, data)
-    delete finalAction[CALL_API]
+    finalAction[CALL_API] = null
 
     return finalAction
   }

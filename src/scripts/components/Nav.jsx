@@ -1,11 +1,23 @@
 import React from 'react'
 import MenuItem from './MenuItem'
-import SearchModal from './SearchModal'
+import SearchForm from './SearchForm'
 import classNames from 'classnames'
 
 export default class Nav extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleSubmit(e) {
+    e.preventDefault()
+    const { _search: { _input }, props: { actions }} = this
+    actions.loadSearch(_input.value, false)
+  }
+
   render() {
-    const { actions, genre, genreList } = this.props
+    const { actions, genre, genreList, children } = this.props
+    const search = ref => this._search = ref
 
     const menuItems = genreList.map((item, index) => {
       const active = classNames({ 'active': genre === item })
@@ -41,18 +53,17 @@ export default class Nav extends React.Component {
           </ul>
           <ul className="nav-search">
             <li className="search">
-              <form className="form-group">
-                <input
-                  className="searchbar"
-                  placeholder="Looking for something...?"
-                  type="text"
-                />
+              <SearchForm
+                inputClassName="searchbar"
+                onFormSubmit={ this.handleSubmit }
+                ref={ search }
+              >
                 <span className="focus-bar" />
                 <i className="fa fa-search" />
-              </form>
+              </SearchForm>
             </li>
           </ul>
-          <SearchModal />
+          { children }
         </div>
       </nav>
     )
@@ -63,6 +74,7 @@ Nav.propTypes = {
   actions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
+  children: React.PropTypes.node,
   genre: React.PropTypes.string.isRequired,
   genreList: React.PropTypes.arrayOf(
     React.PropTypes.string.isRequired

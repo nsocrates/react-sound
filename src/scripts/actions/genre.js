@@ -1,4 +1,6 @@
-// https://github.com/rackt/redux/blob/master/examples/real-world/actions/index.js
+/**
+ * https://github.com/rackt/redux/blob/master/examples/real-world/actions/index.js
+ */
 
 import * as ActionTypes from 'constants/ActionTypes'
 import { CALL_API } from 'constants/Api'
@@ -20,13 +22,23 @@ function fetchGenre(genre, next_href) {
   }
 }
 
-export function loadGenre(genre) {
-  const value = encodeURIComponent(genre)
+function loadCached(genre) {
+  return {
+    genre,
+    type: ActionTypes.GENRE_CACHED
+  }
+}
 
+export function loadGenre(genre, next = true) {
   return (dispatch, getState) => {
+    const encoded = encodeURIComponent(genre)
     const {
-      next_href = `/tracks?genres=${value}&`
+      next_href = `/tracks?genres=${encoded}&`,
+      offset = 0
     } = getState().app.partition.tracksByGenre[genre] || {}
+    if (offset > 0 && !next) {
+      return dispatch(loadCached(genre))
+    }
 
     return dispatch(fetchGenre(genre, next_href))
   }

@@ -1,49 +1,34 @@
-/*eslint no-console:0 */
-
 import React from 'react'
 import classNames from 'classnames'
-import Button from './Button'
+import { timeFactory, coordinatesFactory } from 'utils/Utils'
+import { IMG_FORMAT } from 'constants/ItemLists'
+
+import PlayerArtwork from './PlayerArtwork'
+import PlayerDetails from './PlayerDetails'
+import PlayerPlayPause from './PlayerPlayPause'
+import PlayerProgressBar from './PlayerProgressBar'
+import PlayerTimer from './PlayerTimer'
+import PlayerVolume from './PlayerVolume'
+import PlayerVolumeControl from './PlayerVolumeControl'
 
 export default class AudioPlayer extends React.Component {
 
   constructor(props) {
     super(props)
-    this.handlePlayPause = this.handlePlayPause.bind(this)
     this.handleMute = this.handleMute.bind(this)
+    this.handlePlayPause = this.handlePlayPause.bind(this)
+    this.handleProgressMouseDown = this.handleProgressMouseDown.bind(this)
+    this.handleProgressMouseMove = this.handleProgressMouseMove.bind(this)
+    this.handleProgressMouseUp = this.handleProgressMouseUp.bind(this)
     this.handleVolumeEnter = this.handleVolumeEnter.bind(this)
     this.handleVolumeLeave = this.handleVolumeLeave.bind(this)
     this.handleVolumeMouseDown = this.handleVolumeMouseDown.bind(this)
     this.handleVolumeMouseMove = this.handleVolumeMouseMove.bind(this)
     this.handleVolumeMouseUp = this.handleVolumeMouseUp.bind(this)
-    this.handleProgressMouseDown = this.handleProgressMouseDown.bind(this)
-    this.handleProgressMouseMove = this.handleProgressMouseMove.bind(this)
-    this.handleProgressMouseUp = this.handleProgressMouseUp.bind(this)
   }
 
-  // Determines volume level based on cursor's Y position:
-  getSliderValue(e) {
-    const { _range } = this
-    const { clientY } = e
-    const { height, bottom } = _range.getBoundingClientRect()
-
-    // Calculate value ( [max - min] / size )
-    const value = (bottom - clientY) / height
-
-    // Round 2 decimal places
-    return Math.round(value * 1e2) / 1e2
-  }
-
-  getProgressValue(e) {
-    const { _position } = this
-    const { clientX } = e
-    const { width, left } = _position.getBoundingClientRect()
-    const value = (clientX - left) / width
-
-    return Math.round(value * 1e2) / 1e2
-  }
-
-  clipNumber(num, min, max) {
-    return Math.min(Math.max(num, min), max)
+  componentWillUnmount() {
+    console.log('will unmount')
   }
 
   handlePlayPause() {
@@ -59,8 +44,16 @@ export default class AudioPlayer extends React.Component {
 
   handleProgressMouseDown(e) {
     e.preventDefault()
-    const { playerActions, player: { audio }} = this.props
-    const value = this.getProgressValue(e)
+    const {
+      _progress: { _position },
+      props: {
+        playerActions,
+        player: { audio }
+      }
+    } = this
+
+    const coordinates = coordinatesFactory(e)
+    const value = coordinates.getValueX(_position)
     const position = value * audio.duration
 
     this.bindEventListeners()
@@ -69,24 +62,39 @@ export default class AudioPlayer extends React.Component {
 
   handleProgressMouseMove(e) {
     e.preventDefault()
-    const { playerActions, player: { audio }} = this.props
+    const {
+      _progress: { _position },
+      props: {
+        playerActions,
+        player: { audio }
+      }
+    } = this
 
     if (!audio.isSeeking) {
       return
     }
 
-    const value = this.getProgressValue(e)
-    const position = this.clipNumber(value * audio.duration, 0, audio.duration)
+    const coordinates = coordinatesFactory(e)
+    const value = coordinates.getValueX(_position)
+    const position = coordinates.clip(value, 0, audio.duration)
 
     playerActions.seekPosition(true, position)
   }
 
   handleProgressMouseUp(e) {
     e.preventDefault()
-    const { playerActions, player: { audio }, audioRef: { _audio }} = this.props
+    const {
+      _progress: { _position },
+      props: {
+        playerActions,
+        player: { audio },
+        audioRef: { _audio }
+      }
+    } = this
 
-    const value = this.getProgressValue(e)
-    const position = this.clipNumber(value * audio.duration, 0, audio.duration)
+    const coordinates = coordinatesFactory(e)
+    const value = coordinates.getValueX(_position)
+    const position = coordinates.clip(value, 0, audio.duration)
 
     _audio.currentTime = position
     this.unbindEventListeners()
@@ -105,9 +113,18 @@ export default class AudioPlayer extends React.Component {
 
   handleVolumeMouseDown(e) {
     e.preventDefault()
-    const { playerActions, audioRef: { _audio }} = this.props
-    const value = this.getSliderValue(e)
-    _audio.volume = this.clipNumber(value, 0, 1)
+    const {
+      _volume: { _range },
+      props: {
+        playerActions,
+        audioRef: { _audio }
+      }
+    } = this
+
+    const coordinates = coordinatesFactory(e)
+    const value = coordinates.getValueY(_range)
+
+    _audio.volume = coordinates.clip(value)
     _audio.muted = false
 
     this.bindEventListeners('volume')
@@ -116,21 +133,38 @@ export default class AudioPlayer extends React.Component {
 
   handleVolumeMouseMove(e) {
     e.preventDefault()
-    const { player: { volume }, audioRef: { _audio }} = this.props
+    const {
+      _volume: { _range },
+      props: {
+        player: { volume },
+        audioRef: { _audio }
+      }
+    } = this
 
     if (!volume.isDragging) {
       return
     }
 
-    const value = this.getSliderValue(e)
-    _audio.volume = this.clipNumber(value, 0, 1)
+
+    const coordinates = coordinatesFactory(e)
+    const value = coordinates.getValueY(_range)
+
+    _audio.volume = coordinates.clip(value)
   }
 
   handleVolumeMouseUp(e) {
-    const { playerActions, audioRef: { _audio }} = this.props
-    const value = this.getSliderValue(e)
+    const {
+      _volume: { _range },
+      props: {
+        playerActions,
+        audioRef: { _audio }
+      }
+    } = this
 
-    _audio.volume = this.clipNumber(value, 0, 1)
+    const coordinates = coordinatesFactory(e)
+    const value = coordinates.getValueY(_range)
+
+    _audio.volume = coordinates.clip(value)
     this.unbindEventListeners('volume')
     playerActions.dragVolume(false)
   }
@@ -159,168 +193,132 @@ export default class AudioPlayer extends React.Component {
 
   render() {
     const {
-      trackData,
       children,
-      player: { volume, audio },
-      stream: { canPlay }} = this.props
+      trackData,
+      canPlay,
+      player: {
+        volume: {
+          shouldExpand,
+          isDragging,
+          isMuted,
+          level
+        },
+        audio: {
+          isPlaying,
+          position,
+          duration
+        }
+      }
+    } = this.props
 
     const shouldFocus = classNames('mp-btn-volume', {
-      'focus': volume.shouldExpand
+      'focus': shouldExpand || isDragging
     })
     const shouldPlayerSlide = classNames('music-player', {
       'is-open': canPlay
     })
     const shouldPlayPause = classNames('fa', {
-      'fa-pause': audio.isPlaying,
-      'fa-play': !audio.isPlaying
+      'fa-pause': isPlaying,
+      'fa-play': !isPlaying
     })
 
     // Keep volume expanded as long as isDragging === true
     const shouldVolumeExpand = classNames('mp-volume-control', {
-      'is-open': volume.isDragging ? true : volume.shouldExpand
+      'is-open': isDragging || shouldExpand
     })
 
     // Multiply by 100 to get percentage
-    const volumeLevel = `${volume.level * 1e2}%`
+    const sliderPosition = `${level * 1e2}%`
     const sliderStyle = {
-      backgroundColor: volume.isMuted ? '#e09cc1' : '#f7379f',
-      height: volumeLevel
+      backgroundColor: isMuted ? '#e09cc1' : '#f7379f',
+      height: sliderPosition
     }
-
     // Sets artwork for current track:
+    const fallback = trackData.fallback
+    const imgUrl = trackData.getArtwork(IMG_FORMAT.BADGE)
     const artworkStyle = {
-      background: `url(${trackData.getArtwork()}) no-repeat center center / cover`
+      backgroundImage: `url(${imgUrl}), url(${fallback})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center center',
+      backgroundSize: 'cover'
     }
 
     // Set position percentage
-    const barPosition = `${audio.position / audio.duration * 1e2}%`
+    const barPosition = `${position / duration * 1e2}%`
     const progressStyle = {
       width: barPosition
     }
 
-    const formatTime = (time = 0) => {
-      let readableTime
-      readableTime = {
-        getHours() {
-          const hours = `0${Math.floor(time / 3600)}`
-          return hours.substr(-2)
-        },
-        getMinutes() {
-          const minutes = `0${Math.floor((time % 3600) / 60)}`
-          return minutes.substr(-2)
-        },
-        getSeconds() {
-          const seconds = `0${Math.floor(time % 60)}`
-          return seconds.substr(-2)
-        }
-      }
-      return readableTime
-    }
-
-    const renderTime = (max, min = 0) => {
-      const position = formatTime(max - min)
-      const hours = position.getHours()
-      const minutes = position.getMinutes()
-      const seconds = position.getSeconds()
-      if (parseInt(hours, 10)) {
-        return (
-          <small>{`${hours}:${minutes}:${seconds}`}</small>
-        )
-      }
-
-      return (
-        <small>{`${minutes}:${seconds}`}</small>
-      )
-    }
-
     const renderVolumeIcon = () => {
-      if (volume.isMuted) {
+      const volumeLevel = classNames('fa', {
+        'fa-volume-off': !level,
+        'fa-volume-down': level < 0.5 && level,
+        'fa-volume-up': level >= 0.5
+      })
+      if (isMuted) {
         return (
           <span className="mp-mute">
             <i className="fa fa-volume-off" />
             <i className="fa fa-times" />
           </span>
         )
-      } else if (volume.level === 0) {
-        return <i className="fa fa-volume-off" />
-      } else if (volume.level < 0.5) {
-        return <i className="fa fa-volume-down" />
       }
 
-      return <i className="fa fa-volume-up" />
+      return <i className={ volumeLevel } />
     }
+    const currentTime = timeFactory(position).getFormated()
+    const endTime = timeFactory(duration - position).getFormated()
 
-    const range = ref => this._range = ref
-    const position = ref => this._position = ref
+    const volumeRef = ref => this._volume = ref
+    const progressRef = ref => this._progress = ref
 
     return (
-      <section
-        // className={ shouldPlayerSlide }
-        className="music-player is-open"
-      >
+      <section className={ shouldPlayerSlide }>
         { children }
         <div className="container">
           <ul className="mp-controls">
-            <li className="mp-artwork"
-              style={ artworkStyle }
+            <PlayerArtwork styles={ artworkStyle }/>
+            <PlayerPlayPause
+              btnOnClick={ this.handlePlayPause }
+              iconClassName={ shouldPlayPause }
             />
-            <li className="mp-play-pause">
-              <Button
-                btnClass="mp-btn-play-pause"
-                onBtnClick={ this.handlePlayPause }
-              >
-                <i className={ shouldPlayPause } />
-              </Button>
-            </li>
-            <li className="mp-details">
-              <p className="mp-title">{trackData.songName}</p>
-              <p className="mp-artist">{trackData.artistName}</p>
-            </li>
-            <li className="mp-timer-current">
-              { renderTime(audio.position) }
-            </li>
-            <li className="mp-progress-bar"
-              onMouseDown={ this.handleProgressMouseDown }
-              onMouseMove={ this.handleProgressMouseMove }
-              onMouseUp={ this.handleProgressMouseUp }
-              ref={ position }
+            <PlayerDetails
+              songName={ trackData.songName }
+              userName={ trackData.userName }
+            />
+            <PlayerTimer componentClassName="mp-timer-current">
+              <small>
+               { currentTime }
+              </small>
+            </PlayerTimer>
+            <PlayerProgressBar
+              componentMouseDown={ this.handleProgressMouseDown }
+              componentMouseMove={ this.handleProgressMouseMove }
+              componentMouseUp={ this.handleProgressMouseUp }
+              componentStyle={ progressStyle }
+              ref={ progressRef }
+            />
+            <PlayerTimer componentClassName="mp-timer-end">
+              <small>
+               { endTime }
+              </small>
+            </PlayerTimer>
+            <PlayerVolume
+              btnClassName={ shouldFocus }
+              btnOnClick={ this.handleMute }
+              componentMouseEnter={ this.handleVolumeEnter }
+              componentMouseLeave={ this.handleVolumeLeave }
+              volumeIcon={ renderVolumeIcon() }
             >
-              <div
-                className="mp-progress-slider"
-                style={ progressStyle }
+              <PlayerVolumeControl
+                componentClassName={ shouldVolumeExpand }
+                componentMouseDown={ this.handleVolumeMouseDown }
+                componentMouseMove={ this.handleVolumeMouseMove }
+                componentMouseUp={ this.handleVolumeMouseUp }
+                componentStyle={ sliderStyle }
+                ref={ volumeRef }
               />
-            </li>
-            <li className="mp-timer-end">
-              { renderTime(audio.duration, audio.position) }
-            </li>
-            <li
-              className="mp-volume"
-              onMouseEnter={ this.handleVolumeEnter }
-              onMouseLeave={ this.handleVolumeLeave }
-            >
-              <Button
-                btnClass={ shouldFocus }
-                onBtnClick={ this.handleMute }
-              >
-                { renderVolumeIcon() }
-              </Button>
-              <aside
-                className={ shouldVolumeExpand }
-              >
-                <div
-                  className="mp-volume-range"
-                  onMouseDown={ this.handleVolumeMouseDown }
-                  onMouseMove={ this.handleVolumeMouseMove }
-                  onMouseUp={ this.handleVolumeMouseUp }
-                  ref= { range }
-                >
-                  <div
-                    className="mp-volume-slider"
-                    style={ sliderStyle }
-                  />
-                </div>
-              </aside>
-            </li>
+            </PlayerVolume>
           </ul>
         </div>
       </section>
@@ -332,6 +330,7 @@ AudioPlayer.propTypes = {
   audioRef: React.PropTypes.shape({
     _audio: React.PropTypes.object.isRequired
   }),
+  canPlay: React.PropTypes.bool,
   children: React.PropTypes.node,
   player: React.PropTypes.shape({
     volume: React.PropTypes.object.isRequired
@@ -339,13 +338,9 @@ AudioPlayer.propTypes = {
   playerActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
-  stream: React.PropTypes.shape({
-    canPlay: React.PropTypes.bool,
-    children: React.PropTypes.node,
-    isPlaying: React.PropTypes.bool
-  }),
-  streamActions: React.PropTypes.objectOf(
-    React.PropTypes.func.isRequired
-  ),
-  trackData: React.PropTypes.object
+  trackData: React.PropTypes.shape({
+    getArtWork: React.PropTypes.func,
+    songName: React.PropTypes.string,
+    userName: React.PropTypes.string
+  })
 }

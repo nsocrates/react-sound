@@ -1,6 +1,10 @@
 .nav-bar {
   background-color: $light-gray;
   height: $bar-height;
+
+  @include breakpoint($medium) {
+    min-width: $tmp-min-width;
+  }
 }
 
 .nav-section {

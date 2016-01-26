@@ -1,10 +1,12 @@
 .music-player {
-  // @include fixed(bottom left right);
+  @include fixed(bottom left right);
   background-color: tint($dark-gray, 5%);
   box-shadow: 0 .2rem 1.4rem rgba($light-gray, .1);
   height: $player-height;
   transform: translate3d(0, 100%, 0); //Tuck to bottom
   transition: transform ease .5s;
+  ////
+  min-width: $tmp-min-width;
 
   &.is-open {
     transform: translate3d(0, 0, 0);
@@ -13,6 +15,8 @@
   .container {
     @include full;
     max-width: 100%;
+    ////
+    min-width: $tmp-min-width;
   }
 }
 
@@ -23,7 +27,6 @@
   text-align: center;
 
   li {
-    // margin-right: span(2) + gutter(16);
     float: left;
     line-height: $player-height;
     position: relative;

@@ -1,49 +1,30 @@
 import React from 'react'
-import * as streamActionCreators from 'actions/stream'
 import * as playerActionCreators from 'actions/player'
-import AudioStream from 'components/AudioStream'
+import * as streamActionCreators from 'actions/stream'
 import AudioPlayer from 'components/AudioPlayer'
+import AudioStream from 'components/AudioStream'
+import omit from 'lodash/omit'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { constructStreamUrl } from 'utils/Utils'
+import { constructStreamUrl, trackFactory } from 'utils/Utils'
 
 export default class AudioContainer extends React.Component {
 
   render() {
-    const { stream: { trackId }, trackEntity, userEntity } = this.props
+    const { stream: { trackId, canPlay }, userEntity, trackEntity } = this.props
+    const args = { trackId, userEntity, trackEntity }
+    const trackData = trackFactory(args)
     const src = constructStreamUrl(trackId)
     const audioStream = ref => this._audioStream = ref
-    const getTrackData = () => {
-      let track = {
-        artistName: null,
-        songName: null,
-        getArtwork() { return null }
-      }
 
-      if (trackId) {
-        track = {
-          artistName: trackEntity[trackId].title.split(' - ')[0],
-          songName: trackEntity[trackId].title.split(' - ')[1],
-          getArtwork() {
-            let artwork
-            if (!trackEntity[trackId].artwork_url) {
-              const user_id = trackEntity[trackId].user_id
-              artwork = userEntity[user_id].avatar_url.replace(/crop/gi, 'large')
-              return artwork
-            }
-            artwork = trackEntity[trackId].artwork_url.replace(/crop/gi, 'large')
-            return artwork
-          }
-        }
-      }
-      return track
-    }
+    const other = omit(this.props, ['streamActions', 'trackEntity', 'userEntity', 'stream'])
 
     return (
       <AudioPlayer
-        { ...this.props }
+        { ...other }
         audioRef={ this._audioStream }
-        trackData={ getTrackData() }
+        canPlay={ canPlay }
+        trackData={ trackData }
       >
         <AudioStream
           playerActions={ this.props.playerActions }
@@ -63,18 +44,22 @@ AudioContainer.propTypes = {
       isSeeking: React.PropTypes.bool
     })
   }),
-  playerActions: React.PropTypes.objectOf(React.PropTypes.func.isRequired),
+  playerActions: React.PropTypes.objectOf(
+    React.PropTypes.func.isRequired
+  ),
   stream: React.PropTypes.shape({
+    canPlay: React.PropTypes.bool,
     trackId: React.PropTypes.number
   }),
-  streamActions: React.PropTypes.objectOf(React.PropTypes.func.isRequired),
-  trackEntity: React.PropTypes.shape({
-    artwork_url: React.PropTypes.string,
-    users: React.PropTypes.number
-  }),
-  userEntity: React.PropTypes.shape({
-    avatar_url: React.PropTypes.string
-  })
+  streamActions: React.PropTypes.objectOf(
+    React.PropTypes.func.isRequired
+  ),
+  trackEntity: React.PropTypes.objectOf(
+    React.PropTypes.object.isRequired
+  ),
+  userEntity: React.PropTypes.objectOf(
+    React.PropTypes.object.isRequired
+  )
 }
 
 function mapDispatchToProps(dispatch) {

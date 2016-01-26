@@ -42,9 +42,9 @@ export function setPosition(position) {
   }
 }
 
-export function getDuration(duration) {
+export function setDuration(duration) {
   return {
-    type: ActionTypes.GET_AUDIO_DURATION,
+    type: ActionTypes.SET_AUDIO_DURATION,
     duration
   }
 }

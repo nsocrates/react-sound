@@ -1,0 +1,19 @@
+.rw-waypoint {
+  clear: both;
+  float: left;
+  // loader padding + icon font-size
+  margin-top: 6.8rem;
+}
+
+.loader {
+  clear: both;
+  float: left;
+  padding: 2rem 0;
+  text-align: center;
+  width: 100%;
+
+  > i {
+    color: $shark;
+    font-size: 4.8rem;
+  }
+}

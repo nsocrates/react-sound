@@ -34,7 +34,7 @@
 
   .m-btn-times {
     @include fixed(top right);
-    color: $white-secondary;
+    color: $black-secondary;
     opacity: 0;
     padding: 1rem;
     transform: translate(2rem) rotate(90deg);
@@ -42,7 +42,7 @@
     z-index: -1;
 
     &:hover {
-      color: $white-primary;
+      color: $black-primary;
     }
 
     h3 {
@@ -98,9 +98,14 @@
   border: 0;
   border-bottom: .4rem solid rgba($white, $l-secondary);
   color: rgba($white, $l-primary);
+  font-size: 2.4rem;
   line-height: $header-line-height;
   padding: 1.5rem;
   width: span(full);
+
+  @include breakpoint($medium) {
+    font-size: 4.8rem;
+  }
 
   &:focus {
     outline: none;

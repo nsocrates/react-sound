@@ -11,6 +11,10 @@ export default function requested(state = 'Trance', action) {
       return action.id
     case ActionTypes.USER_REQUEST:
       return action.id
+    case ActionTypes.GENRE_CACHED:
+      return action.genre
+    case ActionTypes.SEARCH_REQUEST:
+      return action.input
     default:
       return state
   }

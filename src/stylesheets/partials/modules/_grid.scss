@@ -4,19 +4,33 @@
 
 .gallery {
   @include gallery(6);
-  background-color: $dark-gray;
+  background-color: $light-gray;
   margin-bottom: gutter();
-  padding-top: span(6);
 
   @include breakpoint($medium) {
     @include gallery(4);
-    padding-top: span(4);
   }
 
   @include breakpoint($large) {
-    @include gallery(3);
-    padding-top: span(3);
+    @include gallery(2);
   }
+}
+
+.artwork {
+  display: block;
+  padding-top: 100%;
+  width: 100%;
+}
+
+.song-title,
+.song-user {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.song-title {
+  font-weight: 700;
 }
 
 .main {

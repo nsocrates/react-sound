@@ -1,4 +1,6 @@
 import React from 'react'
+import Button from './Button'
+import SearchForm from './SearchForm'
 import { GLOBAL_EVENTS } from 'constants/GlobalEvents'
 
 export default class SearchModal extends React.Component {
@@ -8,17 +10,33 @@ export default class SearchModal extends React.Component {
     this.state = { isOpen: false }
     this.listenForClose = this.listenForClose.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  componentDidMount() {
+    console.log('SearchModal Did Mount')
   }
 
   componentDidUpdate() {
+    console.log('SearchModal Did Update')
     if (this.state.isOpen) window.onkeydown = this.listenForClose
     else window.onkeydown = null
+  }
+
+  componentWillUnmount() {
+    console.log('SearchModal Will Unmount')
   }
 
   listenForClose(e = window.event) {
     if (e.key === 'Escape' || e.keyCode === 27) {
       this.handleToggle()
     }
+  }
+
+  handleSubmit(e) {
+    e.preventDefault()
+    const { _mSearch: { _input }, props: { actions }} = this
+    actions.loadSearch(_input.value, false)
   }
 
   handleToggle() {
@@ -32,6 +50,8 @@ export default class SearchModal extends React.Component {
   }
 
   render() {
+    const mSearch = ref => this._mSearch = ref
+
     return (
       <div className="m-search">
         <div className="m-controller">
@@ -39,31 +59,34 @@ export default class SearchModal extends React.Component {
             className="m-modal"
             onClick={ this.handleToggle }
           />
-          <button
-            className="m-btn-search"
-            onClick={ this.handleToggle }
+          <Button
+            btnClass="m-btn-search"
+            onBtnClick={ this.handleToggle }
           >
             <i className="fa fa-search" />
-          </button>
-          <button
-            className="m-btn-times"
-            onClick={ this.handleToggle }
+          </Button>
+          <Button
+            btnClass="m-btn-times"
+            onBtnClick={ this.handleToggle }
           >
             <h3><i className="fa fa-times" /></h3>
-          </button>
+          </Button>
         </div>
-        <form className="form-group">
-          <h1>
-            <input
-              className="m-searchbar"
-              id="m-searchbar"
-              placeholder="Looking for something...?"
-              type="text"
-            />
-          </h1>
+        <SearchForm
+          inputClassName="m-searchbar"
+          inputId="m-searchbar"
+          onFormSubmit={ this.handleSubmit }
+          ref={ mSearch }
+        >
           <label><h5>{ "Click anywhere to close (esc)" }</h5></label>
-        </form>
+        </SearchForm>
       </div>
     )
   }
+}
+
+SearchModal.propTypes = {
+  actions: React.PropTypes.objectOf(
+    React.PropTypes.func.isRequired
+  )
 }

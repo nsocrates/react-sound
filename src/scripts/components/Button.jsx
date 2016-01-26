@@ -1,25 +1,15 @@
 import React from 'react'
 
-export default class Button extends React.Component {
-
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    const { btnClass, onBtnClick, onBtnEnter, onBtnLeave, children } = this.props
-    return (
-      <button
-        className={ btnClass }
-        onClick={ onBtnClick }
-        onMouseEnter={ onBtnEnter }
-        onMouseLeave={ onBtnLeave }
-      >
-        { children }
-      </button>
-    )
-  }
-}
+const Button = props => (
+  <button
+    className={ props.btnClass }
+    onClick={ props.onBtnClick }
+    onMouseEnter={ props.onBtnEnter }
+    onMouseLeave={ props.onBtnLeave }
+  >
+    { props.children }
+  </button>
+)
 
 Button.propTypes = {
   btnClass: React.PropTypes.string,
@@ -32,7 +22,9 @@ Button.propTypes = {
 Button.defaultProps = {
   btnClass: null,
   children: null,
-  onBtnClick() { return },
-  onBtnEnter() { return },
-  onBtnLeave() { return }
+  onBtnClick() {},
+  onBtnEnter() {},
+  onBtnLeave() {}
 }
+
+export default Button

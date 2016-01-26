@@ -1,23 +1,30 @@
 import React from 'react'
 import Collection from 'components/Collection'
 import Main from 'components/Main'
+import Waypoint from 'components/Waypoint'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { IMG_FORMAT } from 'constants/ItemLists'
 import { requestStream } from 'actions/stream'
+import { loadGenre } from 'actions/genre'
+import { loadSearch } from 'actions/search'
+import { trackFactory } from 'utils/Utils'
 
 export default class MainContainer extends React.Component {
 
-  getCollection(trackIds) {
-    const { trackEntity, userEntity } = this.props
+  constructor(props) {
+    super(props)
+    this.handleWaypointEnter = this.handleWaypointEnter.bind(this)
+  }
 
-    return trackIds.map(item => {
-      if (!trackEntity[item].artwork_url) {
-        const user_id = trackEntity[item].user_id
-        return userEntity[user_id].avatar_url
-      }
+  handleWaypointEnter() {
+    const { actions, tracksByGenre, requested, searchesByInput } = this.props
+    const { isFetching } = tracksByGenre[requested] || searchesByInput[requested]
 
-      return trackEntity[item].artwork_url
-    })
+    if (!isFetching) {
+      const condition = tracksByGenre[requested]
+      return condition ? actions.loadGenre(requested) : actions.loadSearch(requested)
+    }
   }
 
   render() {
@@ -26,41 +33,86 @@ export default class MainContainer extends React.Component {
       audioIsPlaying,
       requested,
       streamTrackId,
-      tracksByGenre
+      tracksByGenre,
+      searchesByInput,
+      userEntity,
+      trackEntity
     } = this.props
+    const group = tracksByGenre[requested] || searchesByInput[requested]
+    const { isFetching } = group
 
-    const collection = this.getCollection(tracksByGenre[requested].ids)
+    // Render Collection
+    const trackIds = group.ids
+    const collection = trackIds.map((item, index) => {
+      const args = {
+        trackId: group.ids[index],
+        userEntity,
+        trackEntity
+      }
+      const trackData = trackFactory(args)
+      const trackId = group.ids[index]
+      const imgUrl = trackData.getArtwork(IMG_FORMAT.LARGE)
+      const fallback = trackData.fallback
+      const style = {
+        backgroundImage: `url(${imgUrl}), url(${fallback})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center center',
+        backgroundSize: 'cover'
+      }
+      return (
+        <Collection
+          actions={ actions }
+          audioIsPlaying={ audioIsPlaying }
+          componentClass="gallery"
+          key={ trackId }
+          streamTrackId={ streamTrackId }
+          styles={ style }
+          title={ trackData.songName }
+          trackId={ trackId }
+          user={ trackData.userName }
+        />
+      )
+    })
+
+    const shouldRenderWaypoint = () => {
+      if (isFetching) {
+        return (
+          <div className="loader">
+            <i className="fa fa-spinner fa-pulse" />
+          </div>
+        )
+      }
+
+      return (
+        <Waypoint
+          classNames="rw-waypoint"
+          onEnter={ this.handleWaypointEnter }
+        />
+      )
+    }
 
     return (
-      <Main { ...this.props }>
-        { collection.map((item, index) => {
-          const trackId = tracksByGenre[requested].ids[index]
-          const style = {
-            background: `url(${item}) no-repeat center center / cover`
-          }
-          return (
-            <Collection
-              actions={ actions }
-              audioIsPlaying={ audioIsPlaying }
-              componentClass="gallery"
-              key={ trackId }
-              streamTrackId={ streamTrackId }
-              style={ style }
-              trackId={ trackId }
-            />
-          )
-        })}
+      <Main>
+        { collection }
+        { shouldRenderWaypoint() }
       </Main>
     )
   }
 }
 
 MainContainer.propTypes = {
-  actions: React.PropTypes.shape({
-    requestStream: React.PropTypes.func.isRequired
-  }),
+  actions: React.PropTypes.shape(
+    React.PropTypes.func.isRequired
+  ),
   audioIsPlaying: React.PropTypes.bool,
   requested: React.PropTypes.string,
+  searchesByInput: React.PropTypes.objectOf(
+    React.PropTypes.shape({
+      ids: React.PropTypes.arrayOf(
+        React.PropTypes.number.isRequired
+      )
+    })
+  ),
   streamTrackId: React.PropTypes.number,
   trackEntity: React.PropTypes.objectOf(
     React.PropTypes.object
@@ -79,7 +131,7 @@ MainContainer.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ requestStream }, dispatch)
+    actions: bindActionCreators({ requestStream, loadGenre, loadSearch }, dispatch)
   }
 }
 
@@ -90,6 +142,7 @@ function mapStateToProps(state) {
     audioIsPlaying: media.player.audio.isPlaying,
     requested,
     streamTrackId: media.stream.trackId,
+    searchesByInput: partition.searchesByInput,
     trackEntity: entities.tracks,
     tracksByGenre: partition.tracksByGenre,
     userEntity: entities.users

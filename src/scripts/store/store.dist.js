@@ -1,25 +1,25 @@
 import api from 'middleware/api'
 import rootReducer from 'reducers/rootReducer'
 import thunk from 'redux-thunk'
-import { createHistory } from 'history'
+import { browserHistory } from 'react-router'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
-import { routeReducer, syncReduxAndRouter } from 'redux-simple-router'
-
-const history = createHistory()
+import { routeReducer, syncHistory } from 'react-router-redux'
 
 const reducer = combineReducers({
   app: rootReducer,
   router: routeReducer
 })
 
+const reduxRouter = syncHistory(browserHistory)
 const createStoreWithMiddleware = applyMiddleware(
   api,
-  thunk
+  thunk,
+  reduxRouter
 )(createStore)
 
 const store = createStoreWithMiddleware(reducer)
 
-syncReduxAndRouter(history, store, state => state.router)
+reduxRouter.listenForReplays(store, state => state.router.location)
 
 export default function makeStore(initialState) {
   return createStoreWithMiddleware(reducer, initialState)

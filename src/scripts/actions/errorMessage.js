@@ -1,4 +1,6 @@
-// https://github.com/rackt/redux/blob/master/examples/real-world/actions/index.js
+/**
+ * https://github.com/rackt/redux/blob/master/examples/real-world/actions/index.js
+ */
 
 import * as ActionTypes from 'constants/ActionTypes'
 

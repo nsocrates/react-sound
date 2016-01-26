@@ -1,5 +1,3 @@
-/*eslint no-console:0 */
-
 import React from 'react'
 
 export default class AudioStream extends React.Component {
@@ -8,11 +6,27 @@ export default class AudioStream extends React.Component {
     super(props)
     this.handleCanPlay = this.handleCanPlay.bind(this)
     this.handleError = this.handleError.bind(this)
+    this.handleOnLoadStart = this.handleOnLoadStart.bind(this)
     this.handleLoadedMetaData = this.handleLoadedMetaData.bind(this)
     this.handlePause = this.handlePause.bind(this)
     this.handlePlay = this.handlePlay.bind(this)
     this.handleTimeUpdate = this.handleTimeUpdate.bind(this)
     this.handleVolumeChange = this.handleVolumeChange.bind(this)
+  }
+
+  // Resets audio duration and position
+  handleOnLoadStart() {
+    const { playerActions } = this.props
+
+    playerActions.setDuration(0)
+    playerActions.setPosition(0)
+  }
+
+  // Sets audio duration
+  handleLoadedMetaData() {
+    const { _audio, props: { playerActions }} = this
+
+    playerActions.setDuration(_audio.duration)
   }
 
   // Plays audio when enough data has been loaded
@@ -23,18 +37,18 @@ export default class AudioStream extends React.Component {
     _audio.play()
   }
 
-  // Sets audio duration
-  handleLoadedMetaData() {
-    const { _audio, props: { playerActions }} = this
-
-    playerActions.getDuration(_audio.duration)
-  }
-
   handlePlay() {
     const { playerActions } = this.props
 
     // Dispatch action to set prop that renders play/pause button
     playerActions.toggleAudio(true)
+  }
+
+  handlePause() {
+    const { playerActions } = this.props
+
+    // Dispatch action to set prop that renders play/pause button
+    playerActions.toggleAudio(false)
   }
 
   // Sets audio current time
@@ -44,13 +58,6 @@ export default class AudioStream extends React.Component {
     if (!playerIsSeeking) {
       playerActions.setPosition(_audio.currentTime)
     }
-  }
-
-  handlePause() {
-    const { playerActions } = this.props
-
-    // Dispatch action to set prop that renders play/pause button
-    playerActions.toggleAudio(false)
   }
 
   handleVolumeChange() {
@@ -74,6 +81,7 @@ export default class AudioStream extends React.Component {
         id="audio"
         onCanPlay={ this.handleCanPlay }
         onError={ this.handleError }
+        onLoadStart={ this.handleOnLoadStart }
         onLoadedMetadata={ this.handleLoadedMetaData }
         onPause={ this.handlePause }
         onPlay={ this.handlePlay }
@@ -91,6 +99,7 @@ AudioStream.propTypes = {
     React.PropTypes.func.isRequired
   ),
   playerIsSeeking: React.PropTypes.bool,
+  playerVolume: React.PropTypes.number,
   src: React.PropTypes.string,
   streamActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired

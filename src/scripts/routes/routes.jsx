@@ -1,13 +1,10 @@
 import App from 'containers/App'
 import MainContainer from 'containers/MainContainer'
 import React from 'react'
-import { createHistory } from 'history'
-import { Router, Route } from 'react-router'
-
-const history = createHistory()
+import { Router, Route, browserHistory } from 'react-router'
 
 export const routes = (
-  <Router history={ history }>
+  <Router history={ browserHistory }>
     <Route
       component={ App }
       path="/"

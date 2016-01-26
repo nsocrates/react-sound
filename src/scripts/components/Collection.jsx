@@ -20,15 +20,19 @@ export default class Collection extends React.Component {
   }
 
   render() {
-    const { componentClass, style } = this.props
+    const { componentClass, styles, title, user } = this.props
 
     return (
-      <a
-        className={ componentClass }
-        href="#"
-        onClick={ this.handleClick }
-        style={ style }
-      />
+      <div className={ componentClass }>
+        <a
+          className="artwork"
+          href="#"
+          onClick={ this.handleClick }
+          style={ styles }
+        />
+        <h6 className="song-title">{ title }</h6>
+        <h6 className="song-user">{ user }</h6>
+      </div>
     )
   }
 }
@@ -39,13 +43,16 @@ Collection.propTypes = {
   ),
   audioIsPlaying: React.PropTypes.bool.isRequired,
   componentClass: React.PropTypes.string,
-  streamIsPlaying: React.PropTypes.bool,
   streamTrackId: React.PropTypes.number,
-  style: React.PropTypes.objectOf(React.PropTypes.string),
-  trackId: React.PropTypes.number.isRequired
+  styles: React.PropTypes.objectOf(React.PropTypes.string),
+  title: React.PropTypes.string,
+  trackId: React.PropTypes.number.isRequired,
+  user: React.PropTypes.string
 }
 
 Collection.defaultProps = {
   componentClass: null,
-  style: null
+  style: null,
+  title: 'Song Title',
+  user: 'Song User'
 }

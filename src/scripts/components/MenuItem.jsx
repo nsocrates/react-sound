@@ -16,7 +16,7 @@ export default class MenuItem extends React.Component {
     const { genre, loadGenre, toggleMenu } = this.props
 
     event.preventDefault()
-    loadGenre(genre)
+    loadGenre(genre, false)
     toggleMenu()
   }
 
@@ -44,6 +44,6 @@ MenuItem.propTypes = {
 }
 
 MenuItem.defaultProps = {
-  toggleMenu() { return },
+  toggleMenu() {},
   componentClass: null
 }

@@ -1,4 +1,4 @@
-import merge from 'lodash/object/merge'
+import merge from 'lodash/merge'
 import * as ActionTypes from 'constants/ActionTypes'
 
 const initialState = {
@@ -35,7 +35,7 @@ export default function stream(state = initialState, action) {
           position
         }
       })
-    case ActionTypes.GET_AUDIO_DURATION:
+    case ActionTypes.SET_AUDIO_DURATION:
       return merge({}, state, {
         audio: {
           duration

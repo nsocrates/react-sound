@@ -1,20 +1,18 @@
 import React from 'react'
 
-export default class Main extends React.Component {
-  render() {
-    return (
-      <main
-        className="main"
-        id="main"
-      >
-        <div className="container">
-          { this.props.children }
-        </div>
-      </main>
-    )
-  }
-}
+const Main = ({ children }) => (
+  <main
+    className="main"
+    id="main"
+  >
+    <div className="container">
+      { children }
+    </div>
+  </main>
+)
 
 Main.propTypes = {
   children: React.PropTypes.node.isRequired
 }
+
+export default Main
