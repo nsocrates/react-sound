@@ -1,95 +1,110 @@
-.m-search {
-  float: right;
-
+.modal,
+.modal-portal {
   @include breakpoint($large) {
     display: none;
-  }
-
-  .form-group {
-    @include fixed(top 50% left 50%);
-    background-color: transparent;
-    max-width: 90%;
-    opacity: 0;
-    padding: 6rem 0;
-    transform: translate(-35%, -65%);
-    transition: all $transition-default;
-    width: 100%;
-    z-index: -1;
-
-    label {
-      @include absolute(left bottom);
-      color: rgba($white, $l-secondary);
-      padding: 1.5rem; // m-searchbar padding
-    }
   }
 }
 
 .m-controller {
   position: relative;
+}
 
-  .m-btn-search {
-    line-height: $bar-height;
-    z-index: 0;
+.modal-enter {
+  .m-modal {
+    transform: scale(0);
+  }
+
+  .m-form {
+    opacity: 0;
+    transform: translate(-35%, -65%);
   }
 
   .m-btn-times {
-    @include fixed(top right);
-    color: $black-secondary;
     opacity: 0;
-    padding: 1rem;
     transform: translate(2rem) rotate(90deg);
-    transition: all $transition-default;
-    z-index: -1;
+  }
 
-    &:hover {
-      color: $black-primary;
+  &.modal-enter-active {
+    .m-modal {
+      transform: scale(80);
+      transition: transform 500ms ease-in-out;
     }
 
-    h3 {
-      margin: 0;
+    .m-form {
+      opacity: 1;
+      transform: translate(-50%, -65%);
+      transition: all 200ms ease-in-out;
+      transition-delay: 200ms;
     }
+
+    .m-btn-times {
+      opacity: 1;
+      transform: none;
+      transition: all 200ms ease-in-out;
+    }
+  }
+}
+
+.modal-leave-active {
+  .m-modal {
+    transform: scale(0);
+    transition: transform 500ms ease-in-out;
+  }
+
+  .m-form {
+    opacity: 0;
+    transform: translate(-35%, -65%);
+    transition: all 200ms ease-in-out;
+  }
+
+  .m-btn-times {
+    opacity: 0;
+    transform: translate(2rem) rotate(90deg);
+    transition: all 200ms ease-in-out;
   }
 }
 
 .m-modal {
   @include absolute(top .7rem right -.7rem);
-  background-color: $light-pink;
+  background-image: linear-gradient(
+    shade($light-pink, 25%) 0%,
+    $light-pink 49%,
+    tint($light-pink, 25%) 100%
+  );
   border-radius: 50%;
   height: 3rem;
-  transform: scale(0);
+  transform: scale(80);
   transform-origin: 50%;
-  transition: all .5s ease-in-out;
   width: 3rem;
 }
 
-.m-open {
-  overflow: hidden;
+.m-form {
+  @include fixed(top 50% left 50%);
+  background-color: transparent;
+  max-width: 90%;
+  opacity: 1;
+  padding: 6rem 0;
+  transform: translate(-50%, -65%);
+  width: 100%;
 
-  .m-modal {
-    background-image: linear-gradient(
-      shade($light-pink, 25%) 0%,
-      $light-pink 49%,
-      tint($light-pink, 25%) 100%
-    );
-    transform: scale(80);
+  label {
+    @include absolute(left bottom);
+    color: rgba($white, $l-secondary);
+    padding: 1.5rem; // m-searchbar padding
+  }
+}
 
-    + .m-btn-search {
-      opacity: 0;
-      z-index: -1;
-    }
+.m-btn-times {
+  @include fixed(top right);
+  color: $black-secondary;
+  padding: 1rem;
 
-    ~ .m-btn-times {
-      opacity: 1;
-      transform: none;
-      z-index: 1;
-    }
+  &:hover {
+    color: $black-primary;
   }
 
-  .m-search .form-group {
-    opacity: 1;
-    transform: translate(-50%, -65%);
-    transition-delay: .2s;
-    z-index: 1;
+  h3 {
+    margin: 0;
   }
 }
 

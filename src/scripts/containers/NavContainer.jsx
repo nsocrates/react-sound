@@ -1,6 +1,7 @@
 import React from 'react'
 import Nav from 'components/Nav'
 import SearchModal from 'components/SearchModal'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { GENRES } from 'constants/ItemLists'
@@ -17,15 +18,32 @@ class NavContainer extends React.Component {
 
   render() {
     const { actions, searchModal } = this.props
+
+    const shouldRenderModal = () => {
+      if (searchModal.isOpen) {
+        return (
+          <SearchModal
+            actions={ actions }
+            isOpen={ searchModal.isOpen }
+          />
+        )
+      }
+    }
+
     return (
       <Nav
         { ...this.props }
         genreList={ GENRES }
       >
-        <SearchModal
-          actions={ actions }
-          isOpen={ searchModal.isOpen }
-        />
+        <ReactCSSTransitionGroup
+          className="modal"
+          component="aside"
+          transitionEnterTimeout={ 500 }
+          transitionLeaveTimeout={ 500 }
+          transitionName="modal"
+        >
+          { shouldRenderModal() }
+        </ReactCSSTransitionGroup>
       </Nav>
     )
   }

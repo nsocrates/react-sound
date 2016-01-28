@@ -27,10 +27,6 @@ export default class AudioPlayer extends React.Component {
     this.handleVolumeMouseUp = this.handleVolumeMouseUp.bind(this)
   }
 
-  componentWillUnmount() {
-    console.log('will unmount')
-  }
-
   handlePlayPause() {
     const { player: { audio }, audioRef: { _audio }} = this.props
     return audio.isPlaying ? _audio.pause() : _audio.play()
@@ -145,7 +141,6 @@ export default class AudioPlayer extends React.Component {
       return
     }
 
-
     const coordinates = coordinatesFactory(e)
     const value = coordinates.getValueY(_range)
 
@@ -165,12 +160,13 @@ export default class AudioPlayer extends React.Component {
     const value = coordinates.getValueY(_range)
 
     _audio.volume = coordinates.clip(value)
-    this.unbindEventListeners('volume')
+    this.unbindEventListeners()
     playerActions.dragVolume(false)
   }
 
   bindEventListeners(listener) {
     const body = document.body
+
     if (listener === 'volume') {
       body.addEventListener('mousemove', this.handleVolumeMouseMove)
       body.addEventListener('mouseup', this.handleVolumeMouseUp)
@@ -180,22 +176,18 @@ export default class AudioPlayer extends React.Component {
     }
   }
 
-  unbindEventListeners(listener) {
+  unbindEventListeners() {
     const body = document.body
-    if (listener === 'volume') {
-      body.removeEventListener('mousemove', this.handleVolumeMouseMove)
-      body.removeEventListener('mouseup', this.handleVolumeMouseUp)
-    } else {
-      body.removeEventListener('mousemove', this.handleProgressMouseMove)
-      body.removeEventListener('mouseup', this.handleProgressMouseUp)
-    }
+
+    body.removeEventListener('mousemove', this.handleVolumeMouseMove)
+    body.removeEventListener('mouseup', this.handleVolumeMouseUp)
+    body.removeEventListener('mousemove', this.handleProgressMouseMove)
+    body.removeEventListener('mouseup', this.handleProgressMouseUp)
   }
 
   render() {
     const {
-      children,
       trackData,
-      shouldPlay,
       player: {
         volume: {
           shouldExpand,
@@ -214,17 +206,14 @@ export default class AudioPlayer extends React.Component {
     const shouldFocus = classNames('mp-btn-volume', {
       'focus': shouldExpand || isDragging
     })
-    const shouldPlayerSlide = classNames('music-player', {
-      'is-open': shouldPlay
-    })
-    const shouldPlayPause = classNames('fa', {
+    const isPlayOrPause = classNames('fa', {
       'fa-pause': isPlaying,
       'fa-play': !isPlaying
     })
 
     // Keep volume expanded as long as isDragging === true
     const shouldVolumeExpand = classNames('mp-volume-control', {
-      'is-open': isDragging || shouldExpand
+      'enter': isDragging || shouldExpand
     })
 
     // Multiply by 100 to get percentage
@@ -272,55 +261,52 @@ export default class AudioPlayer extends React.Component {
     const progressRef = ref => this._progress = ref
 
     return (
-      <section className={ shouldPlayerSlide }>
-        { children }
-        <div className="container">
-          <ul className="mp-controls">
-            <PlayerArtwork styles={ artworkStyle }/>
-            <PlayerPlayPause
-              btnOnClick={ this.handlePlayPause }
-              iconClassName={ shouldPlayPause }
+      <div className="mp-container">
+        <ul className="mp-controls">
+          <PlayerArtwork styles={ artworkStyle }/>
+          <PlayerPlayPause
+            btnOnClick={ this.handlePlayPause }
+            iconClassName={ isPlayOrPause }
+          />
+          <PlayerDetails
+            songName={ trackData.songName }
+            userName={ trackData.userName }
+          />
+          <PlayerTimer componentClassName="mp-timer-current">
+            <small>
+             { currentTime }
+            </small>
+          </PlayerTimer>
+          <PlayerProgressBar
+            componentMouseDown={ this.handleProgressMouseDown }
+            componentMouseMove={ this.handleProgressMouseMove }
+            componentMouseUp={ this.handleProgressMouseUp }
+            componentStyle={ progressStyle }
+            ref={ progressRef }
+          />
+          <PlayerTimer componentClassName="mp-timer-end">
+            <small>
+             { endTime }
+            </small>
+          </PlayerTimer>
+          <PlayerVolume
+            btnClassName={ shouldFocus }
+            btnOnClick={ this.handleMute }
+            componentMouseEnter={ this.handleVolumeEnter }
+            componentMouseLeave={ this.handleVolumeLeave }
+            volumeIcon={ renderVolumeIcon() }
+          >
+            <PlayerVolumeControl
+              componentClassName={ shouldVolumeExpand }
+              componentMouseDown={ this.handleVolumeMouseDown }
+              componentMouseMove={ this.handleVolumeMouseMove }
+              componentMouseUp={ this.handleVolumeMouseUp }
+              componentStyle={ sliderStyle }
+              ref={ volumeRef }
             />
-            <PlayerDetails
-              songName={ trackData.songName }
-              userName={ trackData.userName }
-            />
-            <PlayerTimer componentClassName="mp-timer-current">
-              <small>
-               { currentTime }
-              </small>
-            </PlayerTimer>
-            <PlayerProgressBar
-              componentMouseDown={ this.handleProgressMouseDown }
-              componentMouseMove={ this.handleProgressMouseMove }
-              componentMouseUp={ this.handleProgressMouseUp }
-              componentStyle={ progressStyle }
-              ref={ progressRef }
-            />
-            <PlayerTimer componentClassName="mp-timer-end">
-              <small>
-               { endTime }
-              </small>
-            </PlayerTimer>
-            <PlayerVolume
-              btnClassName={ shouldFocus }
-              btnOnClick={ this.handleMute }
-              componentMouseEnter={ this.handleVolumeEnter }
-              componentMouseLeave={ this.handleVolumeLeave }
-              volumeIcon={ renderVolumeIcon() }
-            >
-              <PlayerVolumeControl
-                componentClassName={ shouldVolumeExpand }
-                componentMouseDown={ this.handleVolumeMouseDown }
-                componentMouseMove={ this.handleVolumeMouseMove }
-                componentMouseUp={ this.handleVolumeMouseUp }
-                componentStyle={ sliderStyle }
-                ref={ volumeRef }
-              />
-            </PlayerVolume>
-          </ul>
-        </div>
-      </section>
+          </PlayerVolume>
+        </ul>
+      </div>
     )
   }
 }
@@ -329,14 +315,13 @@ AudioPlayer.propTypes = {
   audioRef: React.PropTypes.shape({
     _audio: React.PropTypes.object.isRequired
   }),
-  shouldPlay: React.PropTypes.bool,
-  children: React.PropTypes.node,
   player: React.PropTypes.shape({
     volume: React.PropTypes.object.isRequired
   }),
   playerActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
+  shouldPlay: React.PropTypes.bool,
   trackData: React.PropTypes.shape({
     getArtWork: React.PropTypes.func,
     songName: React.PropTypes.string,

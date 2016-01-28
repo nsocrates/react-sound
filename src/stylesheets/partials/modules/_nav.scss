@@ -8,7 +8,7 @@
 }
 
 .nav-section {
-  @extend %reset-ul;
+  @extend %ul-justify;
   float: left;
 
   li {

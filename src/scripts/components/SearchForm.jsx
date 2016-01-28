@@ -1,26 +1,13 @@
 import React from 'react'
 
 export default class SearchForm extends React.Component {
-
-  constructor(props) {
-    super(props)
-  }
-
-  componentWillMount() {
-    console.log('Form will mount')
-  }
-
-  componentWillUnmount() {
-    console.log('Form will unmount')
-  }
-
   render() {
-    const { onFormSubmit, inputClassName, inputId, children } = this.props
+    const { formClassName, onFormSubmit, inputClassName, inputId, children } = this.props
     const input = ref => this._input = ref
 
     return (
       <form
-        className="form-group"
+        className={ formClassName }
         onSubmit={ onFormSubmit }
       >
         <input
@@ -38,6 +25,7 @@ export default class SearchForm extends React.Component {
 
 SearchForm.propTypes = {
   children: React.PropTypes.node,
+  formClassName: React.PropTypes.string,
   inputClassName: React.PropTypes.string,
   inputId: React.PropTypes.string,
   onFormSubmit: React.PropTypes.func
@@ -45,6 +33,7 @@ SearchForm.propTypes = {
 
 SearchForm.defaultProps = {
   children: null,
+  formClassName: '',
   inputClassName: '',
   inputId: '',
   onFormSubmit() {}

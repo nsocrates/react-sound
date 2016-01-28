@@ -15,14 +15,6 @@ export default class AudioStream extends React.Component {
     this.handleVolumeChange = this.handleVolumeChange.bind(this)
   }
 
-  componentWillMount() {
-    console.log('AudioStream will mount')
-  }
-
-  componentWillUnmount() {
-    console.log('AudioStream will unmount')
-  }
-
   // Resets audio duration and position
   handleLoadStart() {
     const { playerActions } = this.props

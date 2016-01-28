@@ -4,11 +4,11 @@
 }
 
 .header-section {
-  @extend %reset-ul;
+  @extend %ul-justify;
   color: $white;
   float: left;
 
-  & + & {
+  &:last-child {
     float: right;
   }
 

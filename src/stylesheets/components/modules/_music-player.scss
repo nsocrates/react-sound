@@ -1,22 +1,27 @@
 .music-player {
   @include fixed(bottom left right);
-  background-color: tint($dark-gray, 5%);
-  box-shadow: 0 .2rem 1.4rem rgba($light-gray, .1);
   height: $player-height;
-  transform: translate3d(0, 100%, 0); //Tuck to bottom
-  transition: transform ease .5s;
   ////
   min-width: $tmp-min-width;
+}
 
-  &.is-open {
-    transform: translate3d(0, 0, 0);
+.mp-container {
+  @include container(100%);
+  background-color: tint($dark-gray, 5%);
+  box-shadow: 0 .2rem 1.4rem rgba($light-gray, .1);
+
+  &.enter {
+    transform: translate3d(0, 100%, 0);
+
+    &.enter-active {
+      transform: translate3d(0, 0, 0);
+      transition: transform 500ms ease;
+    }
   }
 
-  .container {
-    @include full;
-    max-width: 100%;
-    ////
-    min-width: $tmp-min-width;
+  &.leave-active {
+    transform: translate3d(0, 100%, 0);
+    transition: transform 500ms ease;
   }
 }
 
@@ -121,7 +126,7 @@
   transition: height ease .2s;
   width: 100%;
 
-  &.is-open {
+  &.enter {
     height: 15rem;
     overflow: visible;
 

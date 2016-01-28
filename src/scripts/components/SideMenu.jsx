@@ -5,19 +5,16 @@ import { GLOBAL_EVENTS } from 'constants/GlobalEvents'
 
 export default class SideMenu extends React.Component {
 
-  componentWillReceiveProps(prevProps) {
-    this.emitState(prevProps.isVisible)
+  componentWillMount() {
+    GLOBAL_EVENTS.emit('hideBodyOverflow', true)
   }
 
-  emitState(state) {
-    GLOBAL_EVENTS.emit('sideMenu', state)
+  componentWillUnmount() {
+    GLOBAL_EVENTS.emit('hideBodyOverflow', false)
   }
 
   render() {
-    const { actions, genre, isVisible, genreList } = this.props
-    const willSlide = { 'slide': isVisible }
-    const overlay = classNames('oc-overlay', willSlide)
-    const menu = classNames('oc-menu', willSlide)
+    const { actions, genre, genreList } = this.props
 
     const menuItems = genreList.map((item, index) => {
       const active = classNames('oc-item', {
@@ -38,23 +35,19 @@ export default class SideMenu extends React.Component {
     })
 
     return (
-      <section className="off-canvas-menu">
-        <div
-          className={ overlay }
+      <nav
+        className={ "oc-menu" }
+      >
+        <button
+          className="oc-times"
           onClick={ actions.toggleMenu }
-        />
-        <nav className={ menu }>
-          <button
-            className="oc-times"
-            onClick={ actions.toggleMenu }
-          >
-            <i className="fa fa-times" />
-          </button>
-          <div className="oc-item-container">
-            { menuItems }
-          </div>
-        </nav>
-      </section>
+        >
+          <i className="fa fa-times" />
+        </button>
+        <div className="oc-item-container">
+          { menuItems }
+        </div>
+      </nav>
     )
   }
 }

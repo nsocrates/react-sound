@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import * as playerActionCreators from 'actions/player'
 import * as streamActionCreators from 'actions/stream'
 import AudioPlayer from 'components/AudioPlayer'
@@ -11,14 +12,32 @@ import { constructStreamUrl, trackFactory } from 'utils/Utils'
 export default class AudioContainer extends React.Component {
 
   render() {
-    const { stream: { trackId, canPlay, shouldPlay }, userEntity, trackEntity } = this.props
+    const { stream: { trackId, /*canPlay,*/ shouldPlay }, userEntity, trackEntity } = this.props
     const rest = omit(this.props, ['streamActions', 'trackEntity', 'userEntity', 'stream'])
     const args = { trackId, userEntity, trackEntity }
     const trackData = trackFactory(args)
     const src = constructStreamUrl(trackId)
     const audioStream = ref => this._audioStream = ref
 
-    const shouldRenderAudioStream = () => {
+    const ReactCSSTransitionNames = {
+      enter: 'enter',
+      leave: 'leave'
+    }
+
+    const shouldRenderPlayer = () => {
+      if (shouldPlay) {
+        return (
+          <AudioPlayer
+            { ...rest }
+            audioRef={ this._audioStream }
+            shouldPlay={ shouldPlay }
+            trackData={ trackData }
+          />
+        )
+      }
+    }
+
+    const shouldRenderStream = () => {
       if (shouldPlay) {
         return (
           <AudioStream
@@ -34,14 +53,16 @@ export default class AudioContainer extends React.Component {
     }
 
     return (
-      <AudioPlayer
-        { ...rest }
-        audioRef={ this._audioStream }
-        shouldPlay={ shouldPlay }
-        trackData={ trackData }
+      <ReactCSSTransitionGroup
+        className="music-player"
+        component="section"
+        transitionEnterTimeout={ 500 }
+        transitionLeaveTimeout={ 500 }
+        transitionName={ ReactCSSTransitionNames }
       >
-        { shouldRenderAudioStream() }
-      </AudioPlayer>
+        { shouldRenderStream() }
+        { shouldRenderPlayer() }
+      </ReactCSSTransitionGroup>
     )
   }
 }

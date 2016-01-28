@@ -1,6 +1,7 @@
 import React from 'react'
 import MenuItem from './MenuItem'
 import SearchForm from './SearchForm'
+import Button from './Button'
 import classNames from 'classnames'
 
 export default class Nav extends React.Component {
@@ -46,14 +47,21 @@ export default class Nav extends React.Component {
           </ul>
           <ul className="nav-section">
             <li className="bars">
-              <button onClick={ actions.toggleMenu }>
+              <Button onBtnClick={ actions.toggleMenu }>
                 <i className="fa fa-bars" />
-              </button>
+              </Button>
             </li>
           </ul>
           <ul className="nav-search">
             <li className="search">
+              <Button
+                btnClass="modal-portal"
+                onBtnClick={ actions.toggleModal }
+              >
+                <i className="fa fa-search" />
+              </Button>
               <SearchForm
+                formClassName="search-form"
                 inputClassName="searchbar"
                 onFormSubmit={ this.handleSubmit }
                 ref={ search }

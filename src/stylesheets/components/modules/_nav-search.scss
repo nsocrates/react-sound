@@ -1,21 +1,18 @@
 .nav-search {
   @extend %reset-ul;
   float: right;
+  line-height: $bar-height;
   position: relative;
 }
 
-.search {
-  line-height: $bar-height;
+.search-form {
+  @include breakpoint($medium-down) {
+    display: none;
+  }
 
-  > .form-group {
-    @include breakpoint($medium-down) {
-      display: none;
-    }
-
-    .fa-search {
-      @include absolute(top 1.3rem right);
-      z-index: 1;
-    }
+  .fa-search {
+    @include absolute(top 1.3rem right);
+    z-index: 1;
   }
 }
 
