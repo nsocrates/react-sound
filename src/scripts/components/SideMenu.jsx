@@ -1,16 +1,16 @@
 import React from 'react'
 import classNames from 'classnames'
 import MenuItem from './MenuItem'
-import { GLOBAL_EVENTS } from 'constants/GlobalEvents'
+import GlobalEvents from 'utils/GlobalEvents'
 
 export default class SideMenu extends React.Component {
 
   componentWillMount() {
-    GLOBAL_EVENTS.emit('hideBodyOverflow', true)
+    GlobalEvents.emit('hideBodyOverflow', true)
   }
 
   componentWillUnmount() {
-    GLOBAL_EVENTS.emit('hideBodyOverflow', false)
+    GlobalEvents.emit('hideBodyOverflow', false)
   }
 
   render() {

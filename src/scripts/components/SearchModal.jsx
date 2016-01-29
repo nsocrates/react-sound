@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from './Button'
 import SearchForm from './SearchForm'
-import { GLOBAL_EVENTS } from 'constants/GlobalEvents'
+import GlobalEvents from 'utils/GlobalEvents'
 
 export default class SearchModal extends React.Component {
 
@@ -43,7 +43,7 @@ export default class SearchModal extends React.Component {
   }
 
   hideBodyOverflow(shouldHide) {
-    GLOBAL_EVENTS.emit('hideBodyOverflow', shouldHide)
+    GlobalEvents.emit('hideBodyOverflow', shouldHide)
   }
 
   render() {
