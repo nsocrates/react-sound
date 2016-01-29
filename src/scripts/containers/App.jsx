@@ -1,15 +1,17 @@
 import React from 'react'
 
-import HeaderContainer from './HeaderContainer'
-import NavContainer from './NavContainer'
-import MainContainer from './MainContainer'
-import SideMenuContainer from './SideMenuContainer'
 import AudioContainer from './AudioContainer'
+import HeaderContainer from './HeaderContainer'
+import MainContainer from './MainContainer'
+import NavContainer from './NavContainer'
+import SearchModalContainer from './SearchModalContainer'
+import SideMenuContainer from './SideMenuContainer'
 
 export default class App extends React.Component {
   render() {
     return (
       <div>
+        <SearchModalContainer />
         <SideMenuContainer />
         <HeaderContainer />
         <NavContainer />

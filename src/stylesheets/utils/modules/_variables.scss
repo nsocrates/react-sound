@@ -13,10 +13,6 @@ $header-margin: 0 0 .8rem 0;
 // Main Color Scheme
 $white: #fff;
 $black: #000;
-// $dark-gray: #3b3b3b;
-// $light-gray: #f1f1f1;
-// $light-pink: #ff80ab;
-// $cyan: #a0f7f4;
 $shark: #262728;
 $dark-gray: #1b1c1d;
 $light-gray: #ebeae8;
@@ -53,13 +49,23 @@ $transition-default: (.2s ease-in-out);
 // Bar Height
 $bar-height: 5rem;
 
-// Audio Player
+// Audio Player Config
 $player-height: 6rem;
+
+// Search Modal Config
+$m-stack-level: 1;
+$m-transition-short: $transition-default;
+$m-transition-long: (.5s ease-in-out);
+$m-overlay-bg: linear-gradient(
+  shade($light-pink, 25%) 0%,
+  $light-pink 49%,
+  tint($light-pink, 25%) 100%
+);
 
 // Side Menu Config
 $oc-width: 30rem;
 $oc-hover: $light-pink;
-$oc-background: tint($dark-gray, 5%);
+$oc-background: $shark;
 $oc-link: $white-secondary;
 $oc-border: solid .1rem $white-disabled;
 

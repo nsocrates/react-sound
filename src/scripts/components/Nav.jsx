@@ -3,6 +3,7 @@ import MenuItem from './MenuItem'
 import SearchForm from './SearchForm'
 import Button from './Button'
 import classNames from 'classnames'
+import Overlay from './Overlay'
 
 export default class Nav extends React.Component {
   constructor(props) {
@@ -17,7 +18,10 @@ export default class Nav extends React.Component {
   }
 
   render() {
-    const { actions, genre, genreList, children } = this.props
+    const { actions, genre, genreList, children, searchModal } = this.props
+    const shouldExpandOverlay = classNames('m-overlay', {
+      'is-open': searchModal.isOpen
+    })
     const search = ref => this._search = ref
 
     const menuItems = genreList.map((item, index) => {
@@ -55,11 +59,15 @@ export default class Nav extends React.Component {
           <ul className="nav-search">
             <li className="search">
               <Button
-                btnClass="modal-portal"
+                btnClass="m-btn-portal"
                 onBtnClick={ actions.toggleModal }
               >
                 <i className="fa fa-search" />
               </Button>
+              <Overlay
+                classNames={ shouldExpandOverlay }
+                onOverlayClick={ actions.toggleModal }
+              />
               <SearchForm
                 formClassName="search-form"
                 inputClassName="searchbar"
@@ -86,5 +94,12 @@ Nav.propTypes = {
   genre: React.PropTypes.string.isRequired,
   genreList: React.PropTypes.arrayOf(
     React.PropTypes.string.isRequired
-  )
+  ),
+  searchModal: React.PropTypes.shape({
+    isOpen: React.PropTypes.bool
+  })
+}
+
+Nav.defaultProps = {
+  searchModal: null
 }

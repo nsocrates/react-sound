@@ -22,6 +22,7 @@ export default class SearchModal extends React.Component {
     const { hideBodyOverflow } = this
 
     hideBodyOverflow(false)
+    this.onkeydown = null
   }
 
   listenForClose(e) {
@@ -54,10 +55,6 @@ export default class SearchModal extends React.Component {
         className="m-controller"
         onKeyDown={ this.listenForClose }
       >
-        <span
-          className="m-modal"
-          onClick={ actions.toggleModal }
-        />
         <Button
           btnClass="m-btn-times"
           onBtnClick={ actions.toggleModal }
@@ -80,6 +77,5 @@ export default class SearchModal extends React.Component {
 SearchModal.propTypes = {
   actions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
-  ),
-  isOpen: React.PropTypes.bool
+  )
 }

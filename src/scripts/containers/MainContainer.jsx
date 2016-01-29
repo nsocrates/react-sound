@@ -10,7 +10,7 @@ import { loadGenre } from 'actions/genre'
 import { loadSearch } from 'actions/search'
 import { trackFactory } from 'utils/Utils'
 
-export default class MainContainer extends React.Component {
+export class MainContainer extends React.Component {
 
   constructor(props) {
     super(props)

@@ -1,81 +1,27 @@
 .modal,
-.modal-portal {
+.m-btn-portal {
   @include breakpoint($large) {
     display: none;
   }
 }
 
-.m-controller {
+.modal {
   position: relative;
 }
 
-.modal-enter {
-  .m-modal {
-    transform: scale(0);
-  }
-
-  .m-form {
-    opacity: 0;
-    transform: translate(-35%, -65%);
-  }
-
-  .m-btn-times {
-    opacity: 0;
-    transform: translate(2rem) rotate(90deg);
-  }
-
-  &.modal-enter-active {
-    .m-modal {
-      transform: scale(80);
-      transition: transform 500ms ease-in-out;
-    }
-
-    .m-form {
-      opacity: 1;
-      transform: translate(-50%, -65%);
-      transition: all 200ms ease-in-out;
-      transition-delay: 200ms;
-    }
-
-    .m-btn-times {
-      opacity: 1;
-      transform: none;
-      transition: all 200ms ease-in-out;
-    }
-  }
-}
-
-.modal-leave-active {
-  .m-modal {
-    transform: scale(0);
-    transition: transform 500ms ease-in-out;
-  }
-
-  .m-form {
-    opacity: 0;
-    transform: translate(-35%, -65%);
-    transition: all 200ms ease-in-out;
-  }
-
-  .m-btn-times {
-    opacity: 0;
-    transform: translate(2rem) rotate(90deg);
-    transition: all 200ms ease-in-out;
-  }
-}
-
-.m-modal {
+.m-overlay {
   @include absolute(top .7rem right -.7rem);
-  background-image: linear-gradient(
-    shade($light-pink, 25%) 0%,
-    $light-pink 49%,
-    tint($light-pink, 25%) 100%
-  );
+  background-image: $m-overlay-bg;
   border-radius: 50%;
   height: 3rem;
-  transform: scale(80);
-  transform-origin: 50%;
+  transform: scale(0);
+  transition: transform $m-transition-long;
   width: 3rem;
+  z-index: $m-stack-level;
+
+  &.is-open {
+    transform: scale(80);
+  }
 }
 
 .m-form {
@@ -86,6 +32,7 @@
   padding: 6rem 0;
   transform: translate(-50%, -65%);
   width: 100%;
+  z-index: $m-stack-level + 1;
 
   label {
     @include absolute(left bottom);
@@ -98,6 +45,7 @@
   @include fixed(top right);
   color: $black-secondary;
   padding: 1rem;
+  z-index: $m-stack-level + 1;
 
   &:hover {
     color: $black-primary;
@@ -128,5 +76,61 @@
 
   &::placeholder {
     color: rgba($white, $l-secondary);
+  }
+}
+
+// ReactCSSTransitionGroup
+.modal-enter {
+  .m-overlay {
+    transform: scale(0);
+  }
+
+  .m-form {
+    opacity: 0;
+    transform: translate(-35%, -65%);
+  }
+
+  .m-btn-times {
+    opacity: 0;
+    transform: translate(2rem) rotate(90deg);
+  }
+
+  &.modal-enter-active {
+    .m-overlay {
+      transform: scale(80);
+      transition: transform $m-transition-long;
+    }
+
+    .m-form {
+      opacity: 1;
+      transform: translate(-50%, -65%);
+      transition: all $m-transition-short;
+      transition-delay: 200ms;
+    }
+
+    .m-btn-times {
+      opacity: 1;
+      transform: none;
+      transition: all $m-transition-short;
+    }
+  }
+}
+
+.modal-leave-active {
+  .m-overlay {
+    transform: scale(0);
+    transition: transform $m-transition-long;
+  }
+
+  .m-form {
+    opacity: 0;
+    transform: translate(-35%, -65%);
+    transition: all $m-transition-short;
+  }
+
+  .m-btn-times {
+    opacity: 0;
+    transform: translate(2rem) rotate(90deg);
+    transition: all $m-transition-short;
   }
 }

@@ -1,6 +1,6 @@
-import React from 'react'
 import Menu from 'components/SideMenu'
-import Overlay from 'components/SideMenuOverlay'
+import Overlay from 'components/Overlay'
+import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -16,36 +16,40 @@ class SideMenuContainer extends React.Component {
       enter: 'enter',
       leave: 'leave'
     }
-    const shouldRenderMenu = () => {
+
+    const shouldRenderMenuContainer = () => {
       if (isVisible) {
         return (
+        <ReactCSSTransitionGroup
+          className = "off-canvas-menu"
+          component = "section"
+          transitionEnterTimeout = { 500 }
+          transitionLeaveTimeout = { 500 }
+          transitionName = { ReactCSSTransitionNames }
+        >
+          <Overlay
+            classNames="oc-overlay"
+            onOverlayClick={ actions.toggleMenu}
+          />
           <Menu
             { ...this.props }
             genreList={ GENRES }
           />
+        </ReactCSSTransitionGroup>
         )
       }
-    }
-    const shouldRenderOverlay = () => {
-      if (isVisible) {
-        return (
-          <Overlay onOverlayClick={ actions.toggleMenu }/>
-        )
-      }
+      return (
+        <ReactCSSTransitionGroup
+          className = "off-canvas-menu"
+          component = "section"
+          transitionEnterTimeout = { 500 }
+          transitionLeaveTimeout = { 500 }
+          transitionName = { ReactCSSTransitionNames }
+        />
+      )
     }
 
-    return (
-      <ReactCSSTransitionGroup
-        className="off-canvas-menu"
-        component="section"
-        transitionEnterTimeout={ 500 }
-        transitionLeaveTimeout={ 500 }
-        transitionName={ ReactCSSTransitionNames }
-      >
-        { shouldRenderOverlay() }
-        { shouldRenderMenu() }
-      </ReactCSSTransitionGroup>
-    )
+    return shouldRenderMenuContainer()
   }
 }
 

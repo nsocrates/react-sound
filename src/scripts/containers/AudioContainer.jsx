@@ -1,18 +1,18 @@
-import React from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import * as playerActionCreators from 'actions/player'
 import * as streamActionCreators from 'actions/stream'
 import AudioPlayer from 'components/AudioPlayer'
 import AudioStream from 'components/AudioStream'
 import omit from 'lodash/omit'
+import React from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { constructStreamUrl, trackFactory } from 'utils/Utils'
 
-export default class AudioContainer extends React.Component {
+export class AudioContainer extends React.Component {
 
   render() {
-    const { stream: { trackId, /*canPlay,*/ shouldPlay }, userEntity, trackEntity } = this.props
+    const { stream: { trackId, shouldPlay }, userEntity, trackEntity } = this.props
     const rest = omit(this.props, ['streamActions', 'trackEntity', 'userEntity', 'stream'])
     const args = { trackId, userEntity, trackEntity }
     const trackData = trackFactory(args)
@@ -24,46 +24,46 @@ export default class AudioContainer extends React.Component {
       leave: 'leave'
     }
 
-    const shouldRenderPlayer = () => {
+    const shouldRenderAudioContainer = () => {
       if (shouldPlay) {
         return (
-          <AudioPlayer
-            { ...rest }
-            audioRef={ this._audioStream }
-            shouldPlay={ shouldPlay }
-            trackData={ trackData }
-          />
+          <ReactCSSTransitionGroup
+            className="music-player"
+            component="section"
+            transitionEnterTimeout={ 500 }
+            transitionLeaveTimeout={ 500 }
+            transitionName={ ReactCSSTransitionNames }
+          >
+            <AudioStream
+              playerActions={ this.props.playerActions }
+              playerIsSeeking={ this.props.player.audio.isSeeking }
+              ref={ audioStream }
+              src={ src }
+              streamActions={ this.props.streamActions }
+              trackId={ trackId }
+            />
+            <AudioPlayer
+              { ...rest }
+              audioRef={ this._audioStream }
+              shouldPlay={ shouldPlay }
+              trackData={ trackData }
+            />
+          </ReactCSSTransitionGroup>
         )
       }
+
+      return (
+        <ReactCSSTransitionGroup
+          className="music-player"
+          component="section"
+          transitionEnterTimeout={ 500 }
+          transitionLeaveTimeout={ 500 }
+          transitionName={ ReactCSSTransitionNames }
+        />
+      )
     }
 
-    const shouldRenderStream = () => {
-      if (shouldPlay) {
-        return (
-          <AudioStream
-            playerActions={ this.props.playerActions }
-            playerIsSeeking={ this.props.player.audio.isSeeking }
-            ref={ audioStream }
-            src={ src }
-            streamActions={ this.props.streamActions }
-            trackId={ trackId }
-          />
-        )
-      }
-    }
-
-    return (
-      <ReactCSSTransitionGroup
-        className="music-player"
-        component="section"
-        transitionEnterTimeout={ 500 }
-        transitionLeaveTimeout={ 500 }
-        transitionName={ ReactCSSTransitionNames }
-      >
-        { shouldRenderStream() }
-        { shouldRenderPlayer() }
-      </ReactCSSTransitionGroup>
-    )
+    return shouldRenderAudioContainer()
   }
 }
 
