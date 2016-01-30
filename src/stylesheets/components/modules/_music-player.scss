@@ -120,6 +120,7 @@
   @include absolute (bottom 100% right);
   background-color: $dark-gray;
   border-radius: 1rem 1rem 0 0;
+  box-shadow: 0 -.2rem .3rem $black-hint;
   height: 0;
   overflow: hidden;
   transition: height ease .2s;
