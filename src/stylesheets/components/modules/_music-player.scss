@@ -102,6 +102,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  span:hover {
+    animation: 5s linear .5s marquee forwards;
+    display: inline-block;
+  }
 }
 
 .mp-title {
@@ -154,4 +159,9 @@
   max-height: 100%;
   overflow: hidden;
   width: 100%;
+}
+
+@keyframes marquee {
+  0% { transform: translate3d(0, 0, 0); }
+  90%, 100% { transform: translate3d(-30%, 0, 0); }
 }
