@@ -4,6 +4,7 @@ import SearchModal from 'components/SearchModal'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { toggleModal } from 'actions/ui'
+import { loadSearch } from 'actions/search'
 
 export class SearchModalContainer extends React.Component {
   render() {
@@ -43,7 +44,8 @@ SearchModalContainer.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      toggleModal
+      toggleModal,
+      loadSearch
     }, dispatch)
   }
 }

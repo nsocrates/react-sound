@@ -13,15 +13,27 @@ export default class Nav extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    const { _search: { _input }, props: { actions }} = this
-    actions.loadSearch(_input.value, false)
+    const { _search: { _input }, props: { apiActions }} = this
+    apiActions.loadSearch(_input.value, false)
   }
 
   render() {
-    const { actions, genre, genreList, children, searchModal } = this.props
+    const {
+      apiActions,
+      uiActions,
+      genre,
+      genreList,
+      searchModal,
+      navbar
+    } = this.props
+
     const shouldExpandOverlay = classNames('m-overlay', {
       'is-open': searchModal.isOpen
     })
+    const shouldStick = classNames('navbar', {
+      'is-sticky': navbar.isSticky
+    })
+    const refNavbar = ref => this._navbar = ref
     const search = ref => this._search = ref
 
     const menuItems = genreList.map((item, index) => {
@@ -35,7 +47,7 @@ export default class Nav extends React.Component {
           <MenuItem
             componentClass={ active ? active : null }
             genre={ item }
-            loadGenre={ actions.loadGenre }
+            loadGenre={ apiActions.loadGenre }
           >
             { item }
           </MenuItem>
@@ -44,14 +56,17 @@ export default class Nav extends React.Component {
     })
 
     return (
-      <nav className="nav-bar">
+      <nav
+        className={ shouldStick }
+        ref={ refNavbar }
+      >
         <div className="container">
           <ul className="nav-section">
             { menuItems }
           </ul>
           <ul className="nav-section">
             <li className="bars">
-              <Button onBtnClick={ actions.toggleMenu }>
+              <Button onBtnClick={ uiActions.toggleMenu }>
                 <i className="fa fa-bars" />
               </Button>
             </li>
@@ -60,13 +75,13 @@ export default class Nav extends React.Component {
             <li className="search">
               <Button
                 btnClass="m-btn-portal"
-                onBtnClick={ actions.toggleModal }
+                onBtnClick={ uiActions.toggleModal }
               >
                 <i className="fa fa-search" />
               </Button>
               <Overlay
                 classNames={ shouldExpandOverlay }
-                onOverlayClick={ actions.toggleModal }
+                onOverlayClick={ uiActions.toggleModal }
               />
               <SearchForm
                 formClassName="search-form"
@@ -79,7 +94,6 @@ export default class Nav extends React.Component {
               </SearchForm>
             </li>
           </ul>
-          { children }
         </div>
       </nav>
     )
@@ -87,17 +101,22 @@ export default class Nav extends React.Component {
 }
 
 Nav.propTypes = {
-  actions: React.PropTypes.objectOf(
+  apiActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
-  children: React.PropTypes.node,
   genre: React.PropTypes.string.isRequired,
   genreList: React.PropTypes.arrayOf(
     React.PropTypes.string.isRequired
   ),
+  navbar: React.PropTypes.shape({
+    isSticky: React.PropTypes.bool.isRequired
+  }),
   searchModal: React.PropTypes.shape({
     isOpen: React.PropTypes.bool
-  })
+  }),
+  uiActions: React.PropTypes.objectOf(
+    React.PropTypes.func.isRequired
+  )
 }
 
 Nav.defaultProps = {

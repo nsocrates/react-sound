@@ -68,6 +68,7 @@ $oc-hover: $light-pink;
 $oc-background: $shark;
 $oc-link: $white-secondary;
 $oc-border: solid .1rem $white-disabled;
+$oc-stack-level: 1;
 
 // Breakpoint
 @include breakpoint-set('to ems', true);
@@ -85,7 +86,7 @@ $susy: (
   container: 90%,
   columns: 12,
   debug: (
-    image: show,
+    // image: show,
     output: overlay
   )
 );

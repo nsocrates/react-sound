@@ -3,6 +3,7 @@ import React from 'react'
 export default class Header extends React.Component {
 
   render() {
+    const { children } = this.props
     return (
       <header className="header">
         <div className="container">
@@ -22,7 +23,16 @@ export default class Header extends React.Component {
             </li>
           </ul>
         </div>
+        { children }
       </header>
     )
   }
+}
+
+Header.propTypes = {
+  children: React.PropTypes.node
+}
+
+Header.defaultProps = {
+  children: null
 }

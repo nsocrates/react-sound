@@ -1,6 +1,9 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
 const initialState = {
+  navbar: {
+    isSticky: true
+  },
   sideMenu: {
     isVisible: false
   },
@@ -10,9 +13,15 @@ const initialState = {
 }
 
 export default function ui(state = initialState, action) {
-  const { sideMenu, searchModal } = state
+  const { navbar, sideMenu, searchModal } = state
 
   switch (action.type) {
+    case ActionTypes.NAVBAR_STICKY:
+      return Object.assign({}, state, {
+        navbar: {
+          isSticky: !navbar.isSticky
+        }
+      })
     case ActionTypes.TOGGLE_MENU:
       return Object.assign({}, state, {
         sideMenu: {

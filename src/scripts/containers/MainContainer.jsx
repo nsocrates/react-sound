@@ -91,7 +91,7 @@ export class MainContainer extends React.Component {
 
       return (
         <Waypoint
-          classNames="rw-waypoint"
+          classNames="rw-gallery"
           onEnter={ this.handleWaypointEnter }
         />
       )

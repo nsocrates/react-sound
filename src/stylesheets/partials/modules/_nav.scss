@@ -1,9 +1,14 @@
-.nav-bar {
+.navbar {
   background-color: $light-gray;
+  box-shadow: 0 1px 3px $black-hint;
   height: $bar-height;
 
   @include breakpoint($medium) {
     min-width: $tmp-min-width;
+  }
+
+  &.is-sticky {
+    @include fixed(top);
   }
 }
 

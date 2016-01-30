@@ -10,6 +10,7 @@
   cursor: pointer;
   height: 100%;
   width: 100%;
+  z-index: $oc-stack-level;
 
   &.enter {
     opacity: 0;
@@ -32,7 +33,7 @@
   font-weight: 700;
   height: 100%;
   width: $oc-width;
-  z-index: 2;
+  z-index: $oc-stack-level + 1;
 
   &.enter {
     transform: translate3d(-100%, 0, 0);

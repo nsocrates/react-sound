@@ -1,8 +1,16 @@
-.rw-waypoint {
+.rw-gallery {
   clear: both;
   float: left;
   // loader padding + icon font-size
   margin-top: 4.5rem;
+}
+
+.rw-debug {
+  display: block;
+  height: 10px;
+  width: 100%;
+  background-color: red;
+  margin: 0 !important;
 }
 
 .loader {

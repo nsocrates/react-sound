@@ -1,41 +1,54 @@
-import React from 'react'
+import * as uiActionCreators from 'actions/ui'
 import Nav from 'components/Nav'
+import React from 'react'
+import Waypoint from 'components/Waypoint'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { GENRES } from 'constants/ItemLists'
 import { loadGenre } from 'actions/genre'
 import { loadSearch } from 'actions/search'
-import { toggleMenu, toggleModal } from 'actions/ui'
 
 class NavContainer extends React.Component {
 
   componentWillMount() {
-    const { actions, genre } = this.props
-    actions.loadGenre(genre)
+    const { apiActions, genre } = this.props
+    apiActions.loadGenre(genre)
   }
 
   render() {
+    const { uiActions } = this.props
+
     return (
       <Nav
         { ...this.props }
         genreList={ GENRES }
-      />
+      >
+        <Waypoint
+          onEnter={ uiActions.triggerSticky }
+          onLeave={ uiActions.triggerSticky }
+        />
+      </Nav>
     )
   }
 }
 
 NavContainer.propTypes = {
-  actions: React.PropTypes.objectOf(
+  apiActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
-  genre: React.PropTypes.string.isRequired
+  genre: React.PropTypes.string.isRequired,
+  navbar: React.PropTypes.shape({
+    isSticky: React.PropTypes.bool.isRequired
+  }),
+  uiActions: React.PropTypes.objectOf(
+    React.PropTypes.func.isRequired
+  )
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({
-      toggleMenu,
-      toggleModal,
+    uiActions: bindActionCreators(uiActionCreators, dispatch),
+    apiActions: bindActionCreators({
       loadGenre,
       loadSearch
     }, dispatch)
@@ -43,9 +56,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  const { requested, ui: { searchModal }} = state.app
+  const { requested, ui: { searchModal, navbar }} = state.app
 
   return {
+    navbar,
     searchModal,
     genre: requested
   }
