@@ -83,15 +83,15 @@ export class MainContainer extends React.Component {
     const shouldRenderWaypoint = () => {
       if (isFetching) {
         return (
-          <div className="loader">
+          <aside className="loader">
             <i className="fa fa-spinner fa-pulse" />
-          </div>
+          </aside>
         )
       }
 
       return (
         <Waypoint
-          classNames="rw-gallery"
+          classNames="rw-gallery rw-debug"
           onEnter={ this.handleWaypointEnter }
         />
       )
@@ -100,6 +100,7 @@ export class MainContainer extends React.Component {
     return (
       <Main>
         { collection }
+{/*        <Waypoint classNames={ "rw-gallery rw-debug" } />*/}
         { shouldRenderWaypoint() }
       </Main>
     )

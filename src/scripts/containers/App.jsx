@@ -10,7 +10,7 @@ import SideMenuContainer from './SideMenuContainer'
 export default class App extends React.Component {
   render() {
     return (
-      <div>
+      <div id="container-wrap">
         <SearchModalContainer />
         <SideMenuContainer />
         <HeaderContainer />

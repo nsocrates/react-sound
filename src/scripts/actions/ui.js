@@ -14,6 +14,6 @@ export function toggleModal() {
 
 export function triggerSticky() {
   return {
-    type: ActionTypes.NAVBAR_STICKY
+    type: ActionTypes.NAVBAR_STICK
   }
 }

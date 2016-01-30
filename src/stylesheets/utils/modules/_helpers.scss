@@ -20,8 +20,8 @@
 }
 
 %nav-active {
-  background-color: shade($light-gray, 3%);
-  box-shadow: inset 0 -.2rem 0 $cyan;
+  background-color: $n-focus;
+  box-shadow: $n-accent;
 }
 
 %clearfix {

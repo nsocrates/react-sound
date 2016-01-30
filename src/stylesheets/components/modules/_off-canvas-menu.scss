@@ -7,7 +7,6 @@
 .oc-overlay {
   @include fixed(top left);
   background-color: $black-disabled;
-  cursor: pointer;
   height: 100%;
   width: 100%;
   z-index: $oc-stack-level;
@@ -17,19 +16,20 @@
 
     &.enter-active {
       opacity: 1;
-      transition: opacity 500ms ease;
+      transition: opacity $oc-transition;
     }
   }
 
   &.leave-active {
     opacity: 0;
-    transition: opacity 500ms ease;
+    transition: opacity $oc-transition;
   }
 }
 
 .oc-menu {
   @include fixed(right inherit);
   background-color: $oc-background;
+  box-shadow: .3rem 0 .6rem $black-disabled, .3rem 0 .6rem $black-hint;
   font-weight: 700;
   height: 100%;
   width: $oc-width;
@@ -40,13 +40,13 @@
 
     &.enter-active {
       transform: translate3d(0, 0, 0);
-      transition: transform ease .5s;
+      transition: transform $oc-transition;
     }
   }
 
   &.leave-active {
     transform: translate3d(-100%, 0, 0);
-    transition: transform ease .5s;
+    transition: transform $oc-transition;
   }
 }
 
@@ -70,10 +70,7 @@
   display: block;
   padding: 1.5rem;
 
-  &:hover {
-    color: $oc-hover;
-  }
-
+  &:hover,
   &.active {
     color: $oc-hover;
   }

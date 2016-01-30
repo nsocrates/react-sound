@@ -9,7 +9,7 @@ function hideBodyOverflow(shouldHide) {
 
 function padBottom(shouldPad) {
   const main = document.getElementById('main')
-  main.style.paddingBottom = shouldPad ? '7rem' : ''
+  main.style.marginBottom = shouldPad ? '6rem' : ''
 }
 
 GlobalEvents

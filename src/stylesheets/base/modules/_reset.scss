@@ -2,6 +2,11 @@ html {
   box-sizing: border-box;
 }
 
+body {
+  background-color: shade($light-gray, 1%);
+}
+
 *, *::before, *::after {
   box-sizing: inherit;
 }
+

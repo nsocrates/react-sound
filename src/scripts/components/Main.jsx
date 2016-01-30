@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Main = ({ children }) => (
+const Main = ({ children = null }) => (
   <main
     className="main"
     id="main"
@@ -12,7 +12,7 @@ const Main = ({ children }) => (
 )
 
 Main.propTypes = {
-  children: React.PropTypes.node.isRequired
+  children: React.PropTypes.node
 }
 
 export default Main

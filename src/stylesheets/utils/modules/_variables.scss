@@ -44,7 +44,7 @@ $white-hint: rgba($white, $l-hint);
 $white-disabled: rgba($white, $disabled);
 
 // Transition
-$transition-default: (.2s ease-in-out);
+$transition-default: .2s ease-in-out;
 
 // Bar Height
 $bar-height: 5rem;
@@ -52,10 +52,16 @@ $bar-height: 5rem;
 // Audio Player Config
 $player-height: 6rem;
 
+// Nav Config
+$n-stack-level: 1;
+$n-main-color: $white;
+$n-focus: shade($n-main-color, 3%);
+$n-accent: inset 0 -.2rem 0 $cyan;
+
 // Search Modal Config
-$m-stack-level: 1;
+$m-stack-level: $n-stack-level + 1;
 $m-transition-short: $transition-default;
-$m-transition-long: (.5s ease-in-out);
+$m-transition-long: .5s ease-in-out;
 $m-overlay-bg: linear-gradient(
   shade($light-pink, 25%) 0%,
   $light-pink 49%,
@@ -68,7 +74,8 @@ $oc-hover: $light-pink;
 $oc-background: $shark;
 $oc-link: $white-secondary;
 $oc-border: solid .1rem $white-disabled;
-$oc-stack-level: 1;
+$oc-stack-level: $n-stack-level + 1;
+$oc-transition: .5s ease;
 
 // Breakpoint
 @include breakpoint-set('to ems', true);

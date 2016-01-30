@@ -30,8 +30,10 @@ export default class Collection extends React.Component {
           onClick={ this.handleClick }
           style={ styles }
         />
-        <h6 className="song-title">{ title }</h6>
-        <h6 className="song-user">{ user }</h6>
+        <div className="song-group">
+          <h6 className="song-title">{ title }</h6>
+          <h6 className="song-user">{ user }</h6>
+        </div>
       </div>
     )
   }

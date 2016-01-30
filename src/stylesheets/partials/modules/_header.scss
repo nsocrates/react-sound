@@ -1,11 +1,11 @@
 .header {
-  background-color: tint($dark-gray, 5%);
+  background-color: $shark;
   height: $bar-height;
 }
 
 .header-section {
   @extend %ul-justify;
-  color: $white;
+  color: $white-primary;
   float: left;
 
   &:last-child {
@@ -15,17 +15,17 @@
   a,
   i {
     display: block;
-    line-height: 5rem;
+    line-height: $bar-height;
   }
 }
 
 .title {
   a {
-    color: $white;
+    color: $white-primary;
     margin-left: 1.5rem;
   }
 }
 
 .login a {
-  color: $white;
+  color: $white-primary;
 }

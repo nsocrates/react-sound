@@ -4,8 +4,10 @@
 
 .gallery {
   @include gallery(6);
-  background-color: $light-gray;
+  background-color: $white;
+  box-shadow: 0 .1rem .2rem $black-disabled;
   margin-bottom: gutter();
+  overflow: hidden;
 
   @include breakpoint($medium) {
     @include gallery(4);
@@ -34,5 +36,16 @@
 }
 
 .main {
-  padding: gutter() 0;
+  margin-top: $bar-height;
+  padding: gutter(6) 0;
+  position: relative;
+}
+
+.song-group {
+  box-shadow: 0 -.1rem .1rem $black-disabled;
+  padding: gutter(3);
+
+  h6 {
+    margin: 0;
+  }
 }

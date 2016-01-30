@@ -12,7 +12,19 @@ import { constructStreamUrl, trackFactory } from 'utils/Utils'
 export class AudioContainer extends React.Component {
 
   render() {
-    const { stream: { trackId, shouldPlay }, userEntity, trackEntity } = this.props
+    const {
+      userEntity,
+      trackEntity,
+      playerActions,
+      streamActions,
+      player: {
+        audio
+      },
+      stream: {
+        trackId,
+        shouldPlay
+      }
+    } = this.props
     const rest = omit(this.props, ['streamActions', 'trackEntity', 'userEntity', 'stream'])
     const args = { trackId, userEntity, trackEntity }
     const trackData = trackFactory(args)
@@ -35,11 +47,11 @@ export class AudioContainer extends React.Component {
             transitionName={ ReactCSSTransitionNames }
           >
             <AudioStream
-              playerActions={ this.props.playerActions }
-              playerIsSeeking={ this.props.player.audio.isSeeking }
+              playerActions={ playerActions }
+              playerIsSeeking={ audio.isSeeking }
               ref={ audioStream }
               src={ src }
-              streamActions={ this.props.streamActions }
+              streamActions={ streamActions }
               trackId={ trackId }
             />
             <AudioPlayer

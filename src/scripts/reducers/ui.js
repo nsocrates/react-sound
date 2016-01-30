@@ -16,7 +16,7 @@ export default function ui(state = initialState, action) {
   const { navbar, sideMenu, searchModal } = state
 
   switch (action.type) {
-    case ActionTypes.NAVBAR_STICKY:
+    case ActionTypes.NAVBAR_STICK:
       return Object.assign({}, state, {
         navbar: {
           isSticky: !navbar.isSticky

@@ -1,7 +1,8 @@
 .navbar {
-  background-color: $light-gray;
-  box-shadow: 0 1px 3px $black-hint;
+  background-color: $n-main-color;
+  box-shadow: 0 .1rem .3rem $black-hint;
   height: $bar-height;
+  margin-bottom: -$bar-height;
 
   @include breakpoint($medium) {
     min-width: $tmp-min-width;
@@ -10,6 +11,7 @@
   &.is-sticky {
     @include fixed(top);
     width: 100%;
+    z-index: $n-stack-level;
   }
 }
 
@@ -30,6 +32,7 @@
 
 .genre {
   border-right: .1rem solid $black-disabled;
+  border-top: .1rem solid $light-gray;
 
   &:first-child {
     border-left: .1rem solid $black-disabled;

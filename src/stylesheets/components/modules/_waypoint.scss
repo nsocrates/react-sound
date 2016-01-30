@@ -1,27 +1,20 @@
-.rw-gallery {
-  clear: both;
-  float: left;
-  // loader padding + icon font-size
-  margin-top: 4.5rem;
-}
-
-.rw-debug {
-  display: block;
-  height: 10px;
-  width: 100%;
-  background-color: red;
-  margin: 0 !important;
-}
-
+.rw-gallery,
 .loader {
   clear: both;
   float: left;
-  padding: 2rem 0;
+  padding-top: gutter(6);
+}
+
+.rw-gallery {
+  margin: 3.1rem 0;
+}
+
+.loader {
   text-align: center;
   width: 100%;
 
   > i {
     color: tint($shark, 10%);
-    font-size: 2.5rem;
+    font-size: 3.1rem;
   }
 }
