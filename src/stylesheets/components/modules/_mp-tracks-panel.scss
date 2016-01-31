@@ -1,0 +1,84 @@
+.mp-tracks-panel {
+  background-color: rgba($shark, $primary);
+  border-radius: .3rem .3rem 0 0;
+  box-shadow: 0 -.2rem .3rem $black-hint;
+  color: $white-primary;
+
+  &.enter {
+    transform: translate3d(0, 100%, 0);
+
+    &.enter-active {
+      transform: translate3d(0, 0, 0);
+      transition: transform $transition-default;
+    }
+  }
+
+  &.leave-active {
+    transform: translate3d(0, 100%, 0);
+    transition: transform $transition-default;
+  }
+}
+
+.mp-track-list {
+  @extend %reset-ul;
+  @include container(100%);
+  height: 20rem;
+  overflow: auto;
+  position: relative;
+}
+
+.mp-track {
+  box-shadow: 0 .1rem .1rem rgba($light-gray, $disabled);
+  display: block;
+  overflow: hidden;
+  padding: gutter();
+
+  img {
+    float: left;
+    height: $player-height;
+    margin-right: gutter();
+    object-fit: cover;
+    width: $player-height;
+  }
+}
+
+.mp-track-data {
+  float: left;
+  width: span(8);
+
+  .mp-title,
+  .mp-user {
+    line-height: $player-height / 2;
+    margin: 0;
+  }
+
+  .mp-user {
+    color: $white-hint;
+  }
+
+  .mp-title {
+    font-weight: 700;
+  }
+}
+
+.mp-track-icons {
+  float: right;
+  text-align: right;
+  width: span(3);
+
+  .fa {
+    cursor: pointer;
+    font-size: 3.1rem;
+    line-height: $player-height;
+    padding: 0 2rem;
+
+    &:hover {
+      color: $white-secondary;
+    }
+
+    &.fa-heart-o:hover::before {
+      color: $light-pink;
+      content: '\f004';
+    }
+  }
+}

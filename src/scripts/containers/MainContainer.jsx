@@ -23,7 +23,7 @@ export class MainContainer extends React.Component {
 
     if (!isFetching) {
       const condition = tracksByGenre[requested]
-      return condition ? actions.loadGenre(requested) : actions.loadSearch(requested)
+      // return condition ? actions.loadGenre(requested) : actions.loadSearch(requested)
     }
   }
 

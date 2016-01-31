@@ -2,6 +2,7 @@ import * as playerActionCreators from 'actions/player'
 import * as streamActionCreators from 'actions/stream'
 import AudioPlayer from 'components/AudioPlayer'
 import AudioStream from 'components/AudioStream'
+import AudioTracksPanel from 'components/AudioTracksPanel'
 import omit from 'lodash/omit'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -54,6 +55,7 @@ export class AudioContainer extends React.Component {
               streamActions={ streamActions }
               trackId={ trackId }
             />
+            <AudioTracksPanel />
             <AudioPlayer
               { ...rest }
               audioRef={ this._audioStream }

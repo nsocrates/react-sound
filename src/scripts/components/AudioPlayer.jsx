@@ -6,11 +6,11 @@ import { timeFactory, coordinatesFactory } from 'utils/Utils'
 
 import PlayerArtwork from './PlayerArtwork'
 import PlayerDetails from './PlayerDetails'
-import PlayerPlayPause from './PlayerPlayPause'
 import PlayerProgressBar from './PlayerProgressBar'
 import PlayerTimer from './PlayerTimer'
 import PlayerVolume from './PlayerVolume'
 import PlayerVolumeControl from './PlayerVolumeControl'
+import PlayerButton from './PlayerButton'
 
 export default class AudioPlayer extends React.Component {
 
@@ -270,22 +270,28 @@ export default class AudioPlayer extends React.Component {
     const progressRef = ref => this._progress = ref
 
     return (
-      <div className="mp-container">
+      <div className="mp-player">
+        <PlayerArtwork styles={ artworkStyle }/>
+
         <ul className="mp-controls">
-          <PlayerArtwork styles={ artworkStyle }/>
-          <PlayerPlayPause
+          <PlayerButton
+            btnClassName="mp-btn-play-pause"
             btnOnClick={ this.handlePlayPause }
+            className="mp-play-pause"
             iconClassName={ isPlayOrPause }
           />
+
           <PlayerDetails
             songName={ trackData.songName }
             userName={ trackData.userName }
           />
+
           <PlayerTimer componentClassName="mp-timer-current">
             <small>
              { currentTime }
             </small>
           </PlayerTimer>
+
           <PlayerProgressBar
             componentMouseDown={ this.handleProgressMouseDown }
             componentMouseMove={ this.handleProgressMouseMove }
@@ -293,11 +299,19 @@ export default class AudioPlayer extends React.Component {
             componentStyle={ progressStyle }
             ref={ progressRef }
           />
+
           <PlayerTimer componentClassName="mp-timer-end">
             <small>
              { endTime }
             </small>
           </PlayerTimer>
+
+          <PlayerButton
+            btnClassName="mp-btn-list"
+            className="mp-list"
+            iconClassName="fa fa-list"
+          />
+
           <PlayerVolume
             btnClassName={ shouldFocus }
             btnOnClick={ this.handleMute }

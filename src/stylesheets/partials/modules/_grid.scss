@@ -5,6 +5,7 @@
 .gallery {
   @include gallery(6);
   background-color: $white;
+  border-radius: .5rem;
   box-shadow: 0 .1rem .2rem $black-disabled;
   margin-bottom: gutter();
   overflow: hidden;

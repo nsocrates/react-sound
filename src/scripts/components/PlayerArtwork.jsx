@@ -1,7 +1,7 @@
 import React from 'react'
 
 const PlayerArtwork = ({ styles = {}}) => (
-  <li
+  <div
     className="mp-artwork"
     style={ styles }
   />

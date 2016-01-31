@@ -3,7 +3,7 @@ import React from 'react'
 const PlayerDetails = ({ songName = '', userName = '' }) => (
   <li className="mp-details">
     <p className="mp-title"><span>{ songName }</span></p>
-    <p className="mp-artist">{ userName }</p>
+    <p className="mp-user">{ userName }</p>
   </li>
 )
 

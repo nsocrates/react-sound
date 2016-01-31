@@ -1,13 +1,14 @@
 .music-player {
   @include fixed(bottom left right);
-  height: $player-height;
   min-width: $tmp-min-width;
 }
 
-.mp-container {
-  @include container(100%);
+.mp-player {
   background-color: $shark;
   box-shadow: 0 -.2rem .3rem $black-hint;
+  color: $white-secondary;
+  position: relative;
+  text-align: center;
 
   &.enter {
     transform: translate3d(0, 100%, 0);
@@ -26,31 +27,37 @@
 
 .mp-controls {
   @extend %reset-ul;
-  color: $white-secondary;
+  @include container(100%);
+  margin-left: $player-height;
   position: relative;
-  text-align: center;
 
   li {
+    border-right: .1rem solid $white-disabled;
     float: left;
+    height: $player-height;
     line-height: $player-height;
     position: relative;
     width: span(1);
 
-    &:last-child {
-      float: right;
-      margin-right: 0;
-    }
-
-    &.mp-artwork {
-      height: $player-height;
-      margin-right: 1rem;
-      width: $player-height;
-    }
+    // &:last-child {
+    //   border-right: 0;
+    //   float: right;
+    //   margin-right: 0;
+    // }
 
     &.mp-details {
-      padding: 1rem 0;
+      padding: 1rem;
       text-align: left;
-      width: span(3);
+      width: span(2);
+
+      @include breakpoint($medium) {
+        width: span(3);
+      }
+    }
+
+    &.mp-timer-current,
+    &.mp-progress-bar {
+      border-right: 0;
     }
 
     &.mp-progress-bar {
@@ -59,7 +66,11 @@
       cursor: pointer;
       height: 1rem;
       margin: (($player-height - 1rem) / 2) 0;
-      width: span(5);
+      width: span(3) + gutter();
+
+      @include breakpoint($medium) {
+        width: span(5) + gutter();
+      }
     }
   }
 }
@@ -94,24 +105,36 @@
   }
 }
 
-.mp-title,
-.mp-artist {
-  // (playerheight / number of items) - padding
-  line-height: $player-height / 2 - 1;
-  margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  span:hover {
-    animation: 5s linear .5s marquee forwards;
-    display: inline-block;
-  }
+.mp-artwork {
+  @include absolute(left bottom);
+  height: $player-height;
+  width: $player-height;
 }
 
-.mp-title {
-  color: $white-primary;
-  font-weight: 700;
+.mp-details {
+  .mp-title,
+  .mp-user {
+    // (playerheight / number of items) - padding
+    line-height: $player-height / 2 - 1;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    span {
+      width: 100%;
+    }
+
+    span:hover {
+      animation: 5s linear .2s marquee forwards;
+      display: inline-block;
+    }
+  }
+
+  .mp-title {
+    color: $white-primary;
+    font-weight: 700;
+  }
 }
 
 .mp-progress-slider {
@@ -163,5 +186,5 @@
 
 @keyframes marquee {
   0% { transform: translate3d(0, 0, 0); }
-  90%, 100% { transform: translate3d(-30%, 0, 0); }
+  100% { transform: translate3d(-30%, 0, 0); }
 }
