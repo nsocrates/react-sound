@@ -3,7 +3,9 @@ import union from 'lodash/union'
 import * as ActionTypes from 'constants/ActionTypes'
 
 const initialState = {
-  trackList: [],
+  tracklist: {
+    ids: []
+  },
   audio: {
     position: 0,
     duration: 0,
@@ -82,7 +84,9 @@ export default function stream(state = initialState, action) {
       })
     case ActionTypes.TRACK_PUSH:
       return merge({}, state, {
-        trackList: union(state.trackList, [trackId])
+        tracklist: {
+          ids: union(state.tracklist.ids, [trackId])
+        }
       })
     default:
       return state

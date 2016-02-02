@@ -14,14 +14,14 @@ export default class PlayerVolumeControl extends React.Component {
     return (
       <aside className={ componentClassName }>
         <div
-          className="mp-volume-range"
+          className="player__volume--range"
           onMouseDown={ componentMouseDown }
           onMouseMove={ componentMouseMove }
           onMouseUp={ componentMouseUp }
           ref={ range }
         >
           <div
-            className="mp-volume-slider"
+            className="player__volume--slider"
             style={ componentStyle }
           />
         </div>

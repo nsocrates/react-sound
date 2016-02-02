@@ -1,60 +1,67 @@
-.navbar {
+.nav {
   background-color: $n-main-color;
   box-shadow: 0 .1rem .3rem $black-hint;
   height: $bar-height;
+  line-height: $bar-height;
   margin-bottom: -$bar-height;
 
   @include breakpoint($medium) {
     min-width: $tmp-min-width;
   }
 
-  &.is-sticky {
+  &--sticky {
     @include fixed(top);
     width: 100%;
     z-index: $n-stack-level;
   }
 }
 
-.nav-section {
+.nav__container {
+  @extend %main-container;
+}
+
+.nav__section {
   @extend %ul-justify;
   float: left;
+  line-height: $bar-height;
 
-  li {
-    line-height: $bar-height;
+  &--menu {
+    @include breakpoint($small-only) {
+      display: none;
+    }
   }
 
-  & + & {
+  &--bars {
     @include breakpoint($medium) {
       display: none;
     }
   }
+
+  &--search {
+    float: right;
+    position: relative;
+  }
 }
 
-.genre {
+.nav__item {
   border-right: .1rem solid $black-disabled;
   border-top: .1rem solid $light-gray;
 
   &:first-child {
     border-left: .1rem solid $black-disabled;
   }
+}
 
-  a {
-    display: block;
-    padding: 0 1.5rem;
-    transition: $transition-default;
+.nav__link {
+  display: block;
+  padding: 0 1.5rem;
+  transition-duration: $trans-duration;
+  transition-property: background-color, box-shadow;
+  transition-timing-function: $trans-func;
 
-    &:hover {
-      @extend %nav-active;
-    }
-
-    &.active {
-      @extend %nav-active;
-    }
-  }
-
-  .nav-section & {
-    @include breakpoint($small-only) {
-      display: none;
-    }
+  &:hover,
+  &--active {
+    background-color: $n-focus;
+    box-shadow: $n-accent;
   }
 }

@@ -23,7 +23,7 @@ export class MainContainer extends React.Component {
 
     if (!isFetching) {
       const condition = tracksByGenre[requested]
-      // return condition ? actions.loadGenre(requested) : actions.loadSearch(requested)
+      return condition ? actions.loadGenre(requested) : actions.loadSearch(requested)
     }
   }
 
@@ -38,6 +38,7 @@ export class MainContainer extends React.Component {
       userEntity,
       trackEntity
     } = this.props
+
     const group = tracksByGenre[requested] || searchesByInput[requested]
     const { isFetching } = group
 
@@ -56,10 +57,10 @@ export class MainContainer extends React.Component {
         backgroundImage: `url(${imgUrl}),
                           repeating-linear-gradient(
                             135deg,
-                            #c6cde0,
-                            #c6cde0 1.5rem,
-                            #fff 1.5rem,
-                            #fff 3rem
+                            #dfe2ea,
+                            #dfe2ea 2rem,
+                            #fff 2rem,
+                            #fff 4rem
                           )`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center center',
@@ -70,7 +71,7 @@ export class MainContainer extends React.Component {
           actions={ actions }
           audioIsPlaying={ audioIsPlaying }
           componentClass="gallery"
-          key={ trackId }
+          key={ `gallery__${index}_${trackId}` }
           streamTrackId={ streamTrackId }
           styles={ style }
           title={ trackData.songName }
@@ -91,7 +92,7 @@ export class MainContainer extends React.Component {
 
       return (
         <Waypoint
-          classNames="rw-gallery rw-debug"
+          className="rw__gallery"
           onEnter={ this.handleWaypointEnter }
         />
       )
@@ -100,7 +101,6 @@ export class MainContainer extends React.Component {
     return (
       <Main>
         { collection }
-{/*        <Waypoint classNames={ "rw-gallery rw-debug" } />*/}
         { shouldRenderWaypoint() }
       </Main>
     )

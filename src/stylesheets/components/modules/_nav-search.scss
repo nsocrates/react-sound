@@ -1,11 +1,4 @@
-.nav-search {
-  @extend %reset-ul;
-  float: right;
-  line-height: $bar-height;
-  position: relative;
-}
-
-.search-form {
+.nav__form {
   display: none;
 
   @include breakpoint($large) {
@@ -18,28 +11,23 @@
   }
 }
 
-.searchbar {
-  background-color: transparent;
-  border: 0;
+.nav__input {
+  @extend %input-search;
   border-top: .1rem solid $light-gray;
   box-shadow: inset 0 -.1rem 0 $black-disabled;
   line-height: $bar-height;
   padding: 0 3.2rem 0 1.5rem;
 
-  &:focus {
-    outline: none;
-
-    + .focus-bar {
-      transform: scaleX(1);
-    }
+  &:focus + .nav__focus-bar {
+    transform: scaleX(1);
   }
 }
 
-.focus-bar {
+.nav__focus-bar {
   @include absolute(bottom left);
   box-shadow: inset 0 -.25rem 0 $light-pink;
   height: .3rem;
   transform: scaleX(0);
-  transition: transform $transition-default;
+  transition: transform $trans-default;
   width: 100%;
 }

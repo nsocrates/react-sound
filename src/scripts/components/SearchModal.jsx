@@ -52,18 +52,18 @@ export default class SearchModal extends React.Component {
 
     return (
       <div
-        className="m-controller"
+        className="modal__controller"
         onKeyDown={ this.listenForClose }
       >
         <Button
-          btnClass="m-btn-times"
+          btnClass="modal__btn"
           onBtnClick={ actions.toggleModal }
         >
           <h3><i className="fa fa-times" /></h3>
         </Button>
         <SearchForm
-          formClassName="m-form"
-          inputClassName="m-searchbar"
+          formClassName="modal__form"
+          inputClassName="modal__input"
           onFormSubmit={ this.handleSubmit }
           ref={ mSearch }
         >

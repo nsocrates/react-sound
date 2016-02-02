@@ -44,13 +44,16 @@ $white-hint: rgba($white, $l-hint);
 $white-disabled: rgba($white, $disabled);
 
 // Transition
-$transition-default: .2s ease-in-out;
+$trans-duration: .2s;
+$trans-func: ease-in-out;
+$trans-default: $trans-duration $trans-func;
 
 // Bar Height
 $bar-height: 5rem;
 
 // Audio Player Config
 $player-height: 6rem;
+$player-icon-shadow: 0 -.1rem .2rem $white-hint;
 
 // Nav Config
 $n-stack-level: 1;
@@ -60,7 +63,7 @@ $n-accent: inset 0 -.2rem 0 $cyan;
 
 // Search Modal Config
 $m-stack-level: $n-stack-level + 1;
-$m-transition-short: $transition-default;
+$m-transition-short: $trans-default;
 $m-transition-long: .5s ease-in-out;
 $m-overlay-bg: linear-gradient(
   shade($light-pink, 25%) 0%,

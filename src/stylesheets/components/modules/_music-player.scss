@@ -1,9 +1,9 @@
-.music-player {
+.music-box {
   @include fixed(bottom left right);
   min-width: $tmp-min-width;
 }
 
-.mp-player {
+.player {
   background-color: $shark;
   box-shadow: 0 -.2rem .3rem $black-hint;
   color: $white-secondary;
@@ -15,176 +15,162 @@
 
     &.enter-active {
       transform: translate3d(0, 0, 0);
-      transition: transform $transition-default;
+      transition: transform $trans-default;
     }
   }
 
   &.leave-active {
     transform: translate3d(0, 100%, 0);
-    transition: transform $transition-default;
+    transition: transform $trans-default;
+  }
+
+  &__container {
+    @extend %player-container;
+    margin-left: $player-height;
   }
 }
 
-.mp-controls {
-  @extend %reset-ul;
-  @include container(100%);
-  margin-left: $player-height;
+.player__artwork {
+  @include absolute(left bottom);
+  height: $player-height;
+  width: $player-height;
+}
+
+.player__icon {
+  font-size: 2rem;
+  line-height: $player-height;
+
+  &--playpause {
+    font-size: 3.1rem;
+  }
+
+  &--times {
+    font-size: 1.6rem;
+  }
+}
+
+.player__ctrl {
+  border-right: .1rem solid $white-disabled;
+  float: left;
+  height: $player-height;
+  line-height: $player-height;
   position: relative;
-
-  li {
-    border-right: .1rem solid $white-disabled;
-    float: left;
-    height: $player-height;
-    line-height: $player-height;
-    position: relative;
-    width: span(1);
-
-    // &:last-child {
-    //   border-right: 0;
-    //   float: right;
-    //   margin-right: 0;
-    // }
-
-    &.mp-details {
-      padding: 1rem;
-      text-align: left;
-      width: span(2);
-
-      @include breakpoint($medium) {
-        width: span(3);
-      }
-    }
-
-    &.mp-timer-current,
-    &.mp-progress-bar {
-      border-right: 0;
-    }
-
-    &.mp-progress-bar {
-      background-color: $light-gray;
-      border-radius: 1rem;
-      cursor: pointer;
-      height: 1rem;
-      margin: (($player-height - 1rem) / 2) 0;
-      width: span(3) + gutter();
-
-      @include breakpoint($medium) {
-        width: span(5) + gutter();
-      }
-    }
-  }
+  width: span(1);
 }
 
-[class^="mp-btn"] {
+.player__btn {
   display: block;
-  transition: background-color $transition-default;
+  text-shadow: $player-icon-shadow;
+  transition: background-color $trans-default;
   width: 100%;
 
   &:hover,
-  &.focus {
+  &--focus {
     color: $white;
+  }
+
+  &--focus {
+    background-color: $dark-gray;
   }
 
   &:active {
     color: $light-pink;
   }
 
-  &.focus {
-    background-color: $dark-gray;
-  }
+  &--playpause {
+    @include blur(.3rem, $white, $white-hint);
 
-  > i,
-  .mp-mute > i {
-    font-size: 2.4rem;
-    line-height: 6rem;
-    text-shadow: 0 -.1rem 0 $black-hint;
-  }
-
-  .mp-mute i:last-child {
-    font-size: 100%;
+    &:hover {
+      color: $white-hint;
+    }
   }
 }
 
-.mp-artwork {
-  @include absolute(left bottom);
-  height: $player-height;
-  width: $player-height;
-}
+.player__track {
+  @extend %small;
+  padding: 1rem;
+  text-align: left;
+  width: span(2);
 
-.mp-details {
-  .mp-title,
-  .mp-user {
-    // (playerheight / number of items) - padding
+  @include breakpoint($medium) {
+    width: span(3);
+  }
+
+  &--title,
+  &--user {
+    @extend %ellipsis;
     line-height: $player-height / 2 - 1;
     margin: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    span {
-      width: 100%;
-    }
-
-    span:hover {
-      animation: 5s linear .2s marquee forwards;
-      display: inline-block;
-    }
   }
 
-  .mp-title {
+  &--title {
     color: $white-primary;
     font-weight: 700;
   }
 }
 
-.mp-progress-slider {
-  background-color: $light-pink;
-  border-radius: 1rem;
-  height: 1rem;
-  overflow: hidden;
+.player__current {
+  border: 0;
 }
 
-.mp-volume-control {
-  @include absolute (bottom 100% right);
-  background-color: $dark-gray;
-  border-radius: 1rem 1rem 0 0;
-  box-shadow: 0 -.2rem .3rem $black-hint;
-  height: 0;
-  overflow: hidden;
-  transition: height ease .2s;
-  width: 100%;
-
-  &.enter {
-    height: 15rem;
-    overflow: visible;
-
-    > .mp-volume-range {
-      height: 13.5rem;
-    }
-  }
-}
-
-.mp-volume-range {
-  @include absolute(bottom right left);
+.player__progress {
   background-color: $light-gray;
   border-radius: 1rem;
   cursor: pointer;
-  height: 0;
-  margin: 0 auto;
-  transition: height ease .2s;
-  width: 20%;
+  height: 1rem;
+  margin: (($player-height - 1rem) / 2) 0;
+  width: span(3) + gutter();
+
+  @include breakpoint($medium) {
+    width: span(5) + gutter();
+  }
+
+  &--slider {
+    background-color: $light-pink;
+    border-radius: 1rem;
+    height: 1rem;
+    overflow: hidden;
+  }
 }
 
-.mp-volume-slider {
-  @include absolute(bottom);
-  background-color: $light-pink;
-  border-radius: 1rem;
-  max-height: 100%;
-  overflow: hidden;
-  width: 100%;
-}
+.player__volume {
+  &--control {
+    @include absolute (bottom 100% right);
+    background-color: $dark-gray;
+    border-radius: 1rem 1rem 0 0;
+    box-shadow: 0 -.2rem .3rem $black-hint;
+    height: 0;
+    overflow: hidden;
+    transition: height ease .2s;
+    width: 100%;
+  }
 
-@keyframes marquee {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-30%, 0, 0); }
+  &--range {
+    @include absolute(bottom right left);
+    background-color: $light-gray;
+    border-radius: 1rem;
+    cursor: pointer;
+    height: 0;
+    margin: 0 auto;
+    transition: height ease .2s;
+    width: 20%;
+  }
+
+  &--slider {
+    @include absolute(bottom);
+    background-color: $light-pink;
+    border-radius: 1rem;
+    max-height: 100%;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  &--expand {
+    height: 15rem;
+    overflow: visible;
+
+    > .player__volume--range {
+      height: 13.5rem;
+    }
+  }
 }

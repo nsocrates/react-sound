@@ -1,31 +1,35 @@
 .header {
   background-color: $shark;
+  color: $white-primary;
   height: $bar-height;
+  line-height: $bar-height;
+
+  &__container {
+    @extend %main-container;
+  }
 }
 
-.header-section {
+.header__section {
   @extend %ul-justify;
   color: $white-primary;
-  float: left;
 
-  &:last-child {
+  &--main {
+    float: left;
+  }
+
+  &--login {
     float: right;
   }
-
-  a,
-  i {
-    display: block;
-    line-height: $bar-height;
-  }
 }
 
-.title {
-  a {
+.header__item {
+  display: block;
+
+  &--link {
     color: $white-primary;
-    margin-left: 1.5rem;
   }
-}
 
-.login a {
-  color: $white-primary;
+  &--music {
+    margin-right: 1.5rem;
+  }
 }

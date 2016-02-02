@@ -25,14 +25,14 @@ export default class Collection extends React.Component {
     return (
       <div className={ componentClass }>
         <a
-          className="artwork"
+          className="gallery__artwork"
           href="#"
           onClick={ this.handleClick }
           style={ styles }
         />
-        <div className="song-group">
-          <h6 className="song-title">{ title }</h6>
-          <h6 className="song-user">{ user }</h6>
+        <div className="gallery__track">
+          <h6 className="gallery__track--title">{ title }</h6>
+          <h6 className="gallery__track--user">{ user }</h6>
         </div>
       </div>
     )
@@ -48,13 +48,14 @@ Collection.propTypes = {
   streamTrackId: React.PropTypes.number,
   styles: React.PropTypes.objectOf(React.PropTypes.string),
   title: React.PropTypes.string,
-  trackId: React.PropTypes.number.isRequired,
+  trackId: React.PropTypes.number,
   user: React.PropTypes.string
 }
 
 Collection.defaultProps = {
   componentClass: null,
   style: null,
-  title: 'Song Title',
-  user: 'Song User'
+  title: 'Track Title',
+  trackId: null,
+  user: 'Track User'
 }

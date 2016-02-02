@@ -1,5 +1,11 @@
-.container {
-  @include container;
+.main {
+  margin-top: $bar-height;
+  padding: gutter(6) 0;
+  position: relative;
+
+  &__container {
+    @extend %main-container;
+  }
 }
 
 .gallery {
@@ -19,34 +25,25 @@
   }
 }
 
-.artwork {
+.gallery__artwork {
   display: block;
   padding-top: 100%;
   width: 100%;
 }
 
-.song-title,
-.song-user {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.song-title {
-  font-weight: 700;
-}
-
-.main {
-  margin-top: $bar-height;
-  padding: gutter(6) 0;
-  position: relative;
-}
-
-.song-group {
+.gallery__track {
   box-shadow: 0 -.1rem .1rem $black-disabled;
   padding: gutter(3);
 
-  h6 {
+  &--title,
+  &--user {
     margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &--title {
+    font-weight: 700;
   }
 }

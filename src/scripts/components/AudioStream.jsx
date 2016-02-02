@@ -17,8 +17,9 @@ export default class AudioStream extends React.Component {
 
   // Resets audio duration and position
   handleLoadStart() {
-    const { playerActions } = this.props
+    const { playerActions, trackId } = this.props
 
+    playerActions.pushTrack(trackId)
     playerActions.setDuration(0)
     playerActions.setPosition(0)
   }
@@ -32,9 +33,8 @@ export default class AudioStream extends React.Component {
 
   // Plays audio when enough data has been loaded
   handleCanPlay() {
-    const { _audio, props: { streamActions, playerActions, trackId }} = this
+    const { _audio, props: { streamActions }} = this
     streamActions.streamCanPlay()
-    playerActions.pushTrack(trackId)
 
     _audio.play()
   }

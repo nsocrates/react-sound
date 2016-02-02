@@ -1,8 +1,9 @@
 import * as playerActionCreators from 'actions/player'
 import * as streamActionCreators from 'actions/stream'
+import { toggleTracklist } from 'actions/ui'
 import AudioPlayer from 'components/AudioPlayer'
 import AudioStream from 'components/AudioStream'
-import AudioTracksPanel from 'components/AudioTracksPanel'
+import TracklistContainer from './TracklistContainer'
 import omit from 'lodash/omit'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -41,7 +42,7 @@ export class AudioContainer extends React.Component {
       if (shouldPlay) {
         return (
           <ReactCSSTransitionGroup
-            className="music-player"
+            className="music-box"
             component="section"
             transitionEnterTimeout={ 500 }
             transitionLeaveTimeout={ 500 }
@@ -55,7 +56,7 @@ export class AudioContainer extends React.Component {
               streamActions={ streamActions }
               trackId={ trackId }
             />
-            <AudioTracksPanel />
+            <TracklistContainer />
             <AudioPlayer
               { ...rest }
               audioRef={ this._audioStream }
@@ -68,7 +69,7 @@ export class AudioContainer extends React.Component {
 
       return (
         <ReactCSSTransitionGroup
-          className="music-player"
+          className="music-box"
           component="section"
           transitionEnterTimeout={ 500 }
           transitionLeaveTimeout={ 500 }
@@ -108,7 +109,8 @@ AudioContainer.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     streamActions: bindActionCreators(streamActionCreators, dispatch),
-    playerActions: bindActionCreators(playerActionCreators, dispatch)
+    playerActions: bindActionCreators(playerActionCreators, dispatch),
+    uiActions: bindActionCreators({ toggleTracklist }, dispatch)
   }
 }
 

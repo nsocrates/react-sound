@@ -2,11 +2,21 @@ html {
   box-sizing: border-box;
 }
 
-body {
-  background-color: shade($light-gray, 1%);
-}
-
 *, *::before, *::after {
   box-sizing: inherit;
 }
 
+body {
+  background-color: shade($light-gray, 1%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}

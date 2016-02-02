@@ -17,15 +17,15 @@ export default class SideMenu extends React.Component {
     const { actions, genre, genreList } = this.props
 
     const menuItems = genreList.map((item, index) => {
-      const active = classNames('oc-item', {
-        'active': genre === item
+      const active = classNames('side-menu__list--item', {
+        'side-menu__list--item--active': genre === item
       })
 
       return (
         <MenuItem
           componentClass={ active }
           genre={ item }
-          key={ index }
+          key={ `side-menu__${index}_${item}` }
           loadGenre={ actions.loadGenre }
           toggleMenu={ actions.toggleMenu }
         >
@@ -36,15 +36,15 @@ export default class SideMenu extends React.Component {
 
     return (
       <nav
-        className={ "oc-menu" }
+        className="side-menu__nav"
       >
         <button
-          className="oc-times"
+          className="side-menu__btn"
           onClick={ actions.toggleMenu }
         >
           <i className="fa fa-times" />
         </button>
-        <div className="oc-item-container">
+        <div className="side-menu__list">
           { menuItems }
         </div>
       </nav>

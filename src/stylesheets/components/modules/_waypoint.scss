@@ -1,11 +1,19 @@
-.rw-gallery,
+.rw__gallery,
 .loader {
   clear: both;
   float: left;
   padding-top: gutter(6);
 }
 
-.rw-gallery {
+.debug {
+  background-color: red;
+  clear: both;
+  float: left;
+  height: 1rem;
+  width: 100%;
+}
+
+.rw__gallery {
   margin: 3.1rem 0;
 }
 

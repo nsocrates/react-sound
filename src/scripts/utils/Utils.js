@@ -28,17 +28,19 @@ export const trackFactory = obj => {
   }
 
   if (trackId) {
-    const userId = trackEntity[trackId].user_id
-    const title = trackEntity[trackId].title.split(' - ')
+    const track = trackEntity[trackId]
+    const userId = track.user_id
+    const title = track.title.split(' - ')
     trackData = {
       userName: userEntity[userId].username,
       songName: title[1] || title[0],
+      download: track.downloadable ? `${track.download_url}?client_id=${CLIENT_ID}` : null,
       getArtwork(format) {
         let artwork
-        if (!trackEntity[trackId].artwork_url) {
+        if (!track.artwork_url) {
           artwork = userEntity[userId].avatar_url
         } else {
-          artwork = trackEntity[trackId].artwork_url
+          artwork = track.artwork_url
         }
         if (/default_avatar/.test(artwork)) {
           switch (format) {

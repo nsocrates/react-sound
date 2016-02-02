@@ -17,3 +17,9 @@ export function triggerSticky() {
     type: ActionTypes.NAVBAR_STICK
   }
 }
+
+export function toggleTracklist() {
+  return {
+    type: ActionTypes.TOGGLE_TRACKLIST
+  }
+}

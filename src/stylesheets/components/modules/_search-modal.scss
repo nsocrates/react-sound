@@ -1,15 +1,13 @@
 .modal,
-.m-btn-portal {
+.modal__portal {
+  position: relative;
+
   @include breakpoint($large) {
     display: none;
   }
 }
 
-.modal {
-  position: relative;
-}
-
-.m-overlay {
+.modal__overlay {
   @include absolute(top .7rem right -.7rem);
   background-image: $m-overlay-bg;
   border-radius: 50%;
@@ -19,12 +17,12 @@
   width: 3rem;
   z-index: $m-stack-level;
 
-  &.is-open {
+  &--open {
     transform: scale(80);
   }
 }
 
-.m-form {
+.modal__form {
   @include fixed(top 50% left 50%);
   background-color: transparent;
   max-width: 90%;
@@ -41,7 +39,7 @@
   }
 }
 
-.m-btn-times {
+.modal__btn {
   @include fixed(top right);
   color: $black-secondary;
   padding: 1rem;
@@ -56,9 +54,8 @@
   }
 }
 
-.m-searchbar {
-  background-color: transparent;
-  border: 0;
+.modal__input {
+  @extend %input-search;
   border-bottom: .4rem solid rgba($white, $l-secondary);
   color: rgba($white, $l-primary);
   font-size: 2.4rem;
@@ -68,10 +65,6 @@
 
   @include breakpoint($medium) {
     font-size: 4.8rem;
-  }
-
-  &:focus {
-    outline: none;
   }
 
   &::placeholder {
@@ -85,29 +78,29 @@
     transform: scale(0);
   }
 
-  .m-form {
+  .modal__form {
     opacity: 0;
     transform: translate(-35%, -65%);
   }
 
-  .m-btn-times {
+  .modal__btn {
     opacity: 0;
     transform: translate(2rem) rotate(90deg);
   }
 
   &.modal-enter-active {
-    .m-overlay {
+    .modal__overlay {
       transform: scale(80);
       transition: transform $m-transition-long;
     }
 
-    .m-form {
+    .modal__form {
       opacity: 1;
       transform: translate(-50%, -65%);
       transition: all $m-transition-short .2s;
     }
 
-    .m-btn-times {
+    .modal__btn {
       opacity: 1;
       transform: none;
       transition: all $m-transition-short;
@@ -116,13 +109,13 @@
 }
 
 .modal-leave-active {
-  .m-form {
+  .modal__form {
     opacity: 0;
     transform: translate(-35%, -65%);
     transition: all $m-transition-short;
   }
 
-  .m-btn-times {
+  .modal__btn {
     opacity: 0;
     transform: translate(2rem) rotate(90deg);
     transition: all $m-transition-short;

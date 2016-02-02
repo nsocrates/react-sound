@@ -197,6 +197,7 @@ export default class AudioPlayer extends React.Component {
   render() {
     const {
       trackData,
+      uiActions,
       player: {
         volume: {
           shouldExpand,
@@ -212,17 +213,17 @@ export default class AudioPlayer extends React.Component {
       }
     } = this.props
 
-    const shouldFocus = classNames('mp-btn-volume', {
-      'focus': shouldExpand || isDragging
+    const shouldFocus = classNames('player__btn player__btn--volume', {
+      'player__btn--focus': shouldExpand || isDragging
     })
-    const isPlayOrPause = classNames('fa', {
+    const isPlayOrPause = classNames('player__icon player__icon--playpause fa', {
       'fa-pause': isPlaying,
       'fa-play': !isPlaying
     })
 
     // Keep volume expanded as long as isDragging === true
-    const shouldVolumeExpand = classNames('mp-volume-control', {
-      'enter': isDragging || shouldExpand
+    const shouldVolumeExpand = classNames('player__volume--control', {
+      'player__volume--expand': isDragging || shouldExpand
     })
 
     // Multiply by 100 to get percentage
@@ -247,16 +248,16 @@ export default class AudioPlayer extends React.Component {
     }
 
     const renderVolumeIcon = () => {
-      const volumeLevel = classNames('fa', {
+      const volumeLevel = classNames('player__icon fa', {
         'fa-volume-off': !level,
         'fa-volume-down': level < 0.5 && level,
         'fa-volume-up': level >= 0.5
       })
       if (isMuted) {
         return (
-          <span className="mp-mute">
-            <i className="fa fa-volume-off" />
-            <i className="fa fa-times" />
+          <span className="player__volume--mute">
+            <i className="player__icon fa fa-volume-off" />
+            <i className="player__icon player__icon--times fa fa-times" />
           </span>
         )
       }
@@ -270,14 +271,17 @@ export default class AudioPlayer extends React.Component {
     const progressRef = ref => this._progress = ref
 
     return (
-      <div className="mp-player">
-        <PlayerArtwork styles={ artworkStyle }/>
+      <div className="player">
+        <PlayerArtwork
+          className="player__artwork"
+          style={ artworkStyle }
+        />
 
-        <ul className="mp-controls">
+        <ul className="player__container">
           <PlayerButton
-            btnClassName="mp-btn-play-pause"
+            btnClassName="player__btn player__btn--playpause"
             btnOnClick={ this.handlePlayPause }
-            className="mp-play-pause"
+            className="player__ctrl player__playpause"
             iconClassName={ isPlayOrPause }
           />
 
@@ -286,7 +290,7 @@ export default class AudioPlayer extends React.Component {
             userName={ trackData.userName }
           />
 
-          <PlayerTimer componentClassName="mp-timer-current">
+          <PlayerTimer componentClassName="player__ctrl player__current">
             <small>
              { currentTime }
             </small>
@@ -300,16 +304,17 @@ export default class AudioPlayer extends React.Component {
             ref={ progressRef }
           />
 
-          <PlayerTimer componentClassName="mp-timer-end">
+          <PlayerTimer componentClassName="player__ctrl player__remaining">
             <small>
              { endTime }
             </small>
           </PlayerTimer>
 
           <PlayerButton
-            btnClassName="mp-btn-list"
-            className="mp-list"
-            iconClassName="fa fa-list"
+            btnClassName="player__btn player__btn--list"
+            btnOnClick={ uiActions.toggleTracklist }
+            className="player__ctrl player__tracklist"
+            iconClassName="player__icon fa fa-list"
           />
 
           <PlayerVolume
@@ -349,5 +354,8 @@ AudioPlayer.propTypes = {
     getArtWork: React.PropTypes.func,
     songName: React.PropTypes.string,
     userName: React.PropTypes.string
-  })
+  }),
+  uiActions: React.PropTypes.objectOf(
+    React.PropTypes.func.isRequired
+  )
 }

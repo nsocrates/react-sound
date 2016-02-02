@@ -21,14 +21,14 @@ class SideMenuContainer extends React.Component {
       if (isVisible) {
         return (
         <ReactCSSTransitionGroup
-          className = "off-canvas-menu"
+          className = "side-menu"
           component = "section"
           transitionEnterTimeout = { 500 }
           transitionLeaveTimeout = { 500 }
           transitionName = { ReactCSSTransitionNames }
         >
           <Overlay
-            classNames="oc-overlay"
+            classNames="side-menu__overlay"
             onOverlayClick={ actions.toggleMenu}
           />
           <Menu
@@ -40,7 +40,7 @@ class SideMenuContainer extends React.Component {
       }
       return (
         <ReactCSSTransitionGroup
-          className = "off-canvas-menu"
+          className = "side-menu"
           component = "section"
           transitionEnterTimeout = { 500 }
           transitionLeaveTimeout = { 500 }

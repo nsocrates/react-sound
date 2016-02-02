@@ -37,3 +37,9 @@
 @mixin relative($args: ()) {
   @include position(relative, $args);
 }
+
+// Blur
+@mixin blur($radius: 1px, $color: $black, $initial: transparent) {
+  color: $initial;
+  text-shadow: 0 0 $radius $color;
+}

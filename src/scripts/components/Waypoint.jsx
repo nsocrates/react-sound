@@ -15,19 +15,21 @@ const POSITIONS = {
 const propTypes = {
   // threshold is percentage of the height of the visible part of the
   // scrollable ancestor (e.g. 0.1)
-  classNames: PropTypes.string,
+  className: PropTypes.string,
   fireOnRapidScroll: PropTypes.bool,
   onEnter: PropTypes.func,
   onLeave: PropTypes.func,
   scrollableParent: PropTypes.node,
+  triggerFrom: PropTypes.string,
   threshold: PropTypes.number
 };
 
 const defaultProps = {
-  classNames: null,
+  className: null,
   fireOnRapidScroll: true,
   onEnter() {},
   onLeave() {},
+  triggerFrom: 'inside',
   threshold: 0
 };
 
@@ -121,6 +123,7 @@ export default class Waypoint extends React.Component {
   _handleScroll(event) {
     const currentPosition = this._currentPosition();
     const previousPosition = this._previousPosition || null;
+    const { triggerFrom } = this.props
 
     // Save previous position as early as possible to prevent cycles
     this._previousPosition = currentPosition;
@@ -129,9 +132,9 @@ export default class Waypoint extends React.Component {
       return;
     }
 
-    if (currentPosition === POSITIONS.inside) {
+    if (currentPosition === POSITIONS[triggerFrom]) {
       this.props.onEnter.call(this, event, previousPosition);
-    } else if (previousPosition === POSITIONS.inside) {
+    } else if (previousPosition === POSITIONS[triggerFrom]) {
       this.props.onLeave.call(this, event, currentPosition);
     }
 
@@ -213,10 +216,10 @@ export default class Waypoint extends React.Component {
   render() {
     // We need an element that we can locate in the DOM to determine where it is
     // rendered relative to the top of its context.
-    const { classNames } = this.props
+    const { className } = this.props
     return (
       <span
-        className={ classNames }
+        className={ className }
         style={{ fontSize: 0 }}
       />
     );

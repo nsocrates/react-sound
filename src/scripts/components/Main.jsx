@@ -5,7 +5,7 @@ const Main = ({ children = null }) => (
     className="main"
     id="main"
   >
-    <div className="container">
+    <div className="main__container">
       { children }
     </div>
   </main>

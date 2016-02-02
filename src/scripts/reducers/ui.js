@@ -2,18 +2,21 @@ import * as ActionTypes from 'constants/ActionTypes'
 
 const initialState = {
   navbar: {
-    isSticky: true
+    isSticky: false
   },
   sideMenu: {
     isVisible: false
   },
   searchModal: {
     isOpen: false
+  },
+  tracklist: {
+    isOpen: false
   }
 }
 
 export default function ui(state = initialState, action) {
-  const { navbar, sideMenu, searchModal } = state
+  const { navbar, sideMenu, searchModal, tracklist } = state
 
   switch (action.type) {
     case ActionTypes.NAVBAR_STICK:
@@ -32,6 +35,12 @@ export default function ui(state = initialState, action) {
       return Object.assign({}, state, {
         searchModal: {
           isOpen: !searchModal.isOpen
+        }
+      })
+    case ActionTypes.TOGGLE_TRACKLIST:
+      return Object.assign({}, state, {
+        tracklist: {
+          isOpen: !tracklist.isOpen
         }
       })
     default:

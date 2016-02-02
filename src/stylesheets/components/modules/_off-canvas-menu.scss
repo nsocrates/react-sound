@@ -1,10 +1,10 @@
-.off-canvas-menu {
+.side-menu {
   @include breakpoint($medium) {
     display: none;
   }
 }
 
-.oc-overlay {
+.side-menu__overlay {
   @include fixed(top left);
   background-color: $black-disabled;
   height: 100%;
@@ -26,7 +26,7 @@
   }
 }
 
-.oc-menu {
+.side-menu__nav {
   @include fixed(right inherit);
   background-color: $oc-background;
   box-shadow: .3rem 0 .6rem $black-disabled, .3rem 0 .6rem $black-hint;
@@ -50,7 +50,7 @@
   }
 }
 
-.oc-times {
+.side-menu__btn {
   @extend %lead;
   @include absolute(right);
   color: $oc-link;
@@ -59,19 +59,19 @@
   padding: 1rem;
 }
 
-.oc-item-container {
+.side-menu__list {
   padding: 4rem 2rem;
-}
 
-.oc-item {
-  @extend %lead;
-  border-bottom: $oc-border;
-  color: $oc-link;
-  display: block;
-  padding: 1.5rem;
+  &--item {
+    @extend %lead;
+    border-bottom: $oc-border;
+    color: $oc-link;
+    display: block;
+    padding: 1.5rem;
 
-  &:hover,
-  &.active {
-    color: $oc-hover;
+    &:hover,
+    &--active {
+      color: $oc-hover;
+    }
   }
 }

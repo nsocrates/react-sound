@@ -13,14 +13,14 @@ export default class PlayerProgressBar extends React.Component {
 
     return (
       <li
-        className="mp-progress-bar"
+        className="player__ctrl player__progress"
         onMouseDown={ componentMouseDown }
         onMouseMove={ componentMouseMove }
         onMouseUp={ componentMouseUp }
         ref={ position }
       >
         <div
-          className="mp-progress-slider"
+          className="player__progress--slider"
           style={ componentStyle }
         />
       </li>

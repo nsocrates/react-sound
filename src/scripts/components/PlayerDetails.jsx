@@ -1,9 +1,9 @@
 import React from 'react'
 
 const PlayerDetails = ({ songName = '', userName = '' }) => (
-  <li className="mp-details">
-    <p className="mp-title"><span>{ songName }</span></p>
-    <p className="mp-user">{ userName }</p>
+  <li className="player__ctrl player__track">
+    <p className="player__track--title">{ songName }</p>
+    <p className="player__track--user">{ userName }</p>
   </li>
 )
 

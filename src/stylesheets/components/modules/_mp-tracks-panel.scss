@@ -1,84 +1,133 @@
-.mp-tracks-panel {
-  background-color: rgba($shark, $primary);
-  border-radius: .3rem .3rem 0 0;
+.tracklist {
+  @extend %player-container;
+}
+
+.tracklist__wrapper {
+  background-color: rgba($shark, .9);
+  border-radius: .5rem .5rem 0 0;
   box-shadow: 0 -.2rem .3rem $black-hint;
   color: $white-primary;
-
-  &.enter {
-    transform: translate3d(0, 100%, 0);
-
-    &.enter-active {
-      transform: translate3d(0, 0, 0);
-      transition: transform $transition-default;
-    }
-  }
-
-  &.leave-active {
-    transform: translate3d(0, 100%, 0);
-    transition: transform $transition-default;
-  }
-}
-
-.mp-track-list {
-  @extend %reset-ul;
-  @include container(100%);
   height: 20rem;
   overflow: auto;
-  position: relative;
-}
 
-.mp-track {
-  box-shadow: 0 .1rem .1rem rgba($light-gray, $disabled);
-  display: block;
-  overflow: hidden;
-  padding: gutter();
+  &-enter,
+  &-enter-active,
+  &-leave-active {
+    transition: transform $trans-default;
+  }
 
-  img {
-    float: left;
-    height: $player-height;
-    margin-right: gutter();
-    object-fit: cover;
-    width: $player-height;
+  &-enter,
+  &-leave-active {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  &-enter-active {
+    transform: translate3d(0, 0, 0);
   }
 }
 
-.mp-track-data {
+.tracklist__track {
+  box-shadow: 0 .1rem .1rem rgba($light-gray, $disabled);
+  display: block;
+  opacity: $l-secondary;
+  overflow: hidden;
+  padding: gutter(16);
+  transition: opacity $trans-default;
+
+  &--active {
+    animation: .5s $trans-func fade;
+    background-color: rgba($shark, $hint);
+    opacity: 1;
+  }
+}
+
+.tracklist__artwork {
+  float: left;
+  height: $player-height;
+  margin-right: gutter();
+  position: relative;
+
+  &--filter {
+    &::before {
+      @include absolute(left);
+      background: $black-hint;
+      content: '';
+      height: $player-height;
+      width: $player-height;
+    }
+
+    &::after {
+      @include absolute(right left);
+      @include blur(.1rem, $white, $white-secondary);
+      content: '\266a';
+      font-size: 4rem;
+      height: 6rem;
+      line-height: 6rem;
+      margin: 0 auto;
+      text-align: center;
+      width: 4rem;
+    }
+  }
+}
+
+.tracklist__img {
+  height: $player-height;
+  object-fit: cover;
+  width: $player-height;
+}
+
+.tracklist__data {
   float: left;
   width: span(8);
 
-  .mp-title,
-  .mp-user {
+  &--title,
+  &--user {
+    @extend %ellipsis;
     line-height: $player-height / 2;
     margin: 0;
   }
 
-  .mp-user {
-    color: $white-hint;
+  &--user {
+    color: $white-secondary;
   }
 
-  .mp-title {
+  &--title {
     font-weight: 700;
   }
 }
 
-.mp-track-icons {
+.tracklist__icons {
   float: right;
   text-align: right;
   width: span(3);
+}
 
-  .fa {
-    cursor: pointer;
-    font-size: 3.1rem;
-    line-height: $player-height;
-    padding: 0 2rem;
+.tracklist__icon {
+  font-size: 2.5rem;
+  line-height: $player-height;
+  padding: 0 2rem;
+  text-shadow: $player-icon-shadow;
 
-    &:hover {
-      color: $white-secondary;
+  &:hover {
+    color: $white-secondary;
+  }
+
+  &--heart {
+    transition: color $trans-default;
+
+    &::before {
+      transition: color $trans-default;
     }
 
-    &.fa-heart-o:hover::before {
+    &:hover::before {
       color: $light-pink;
       content: '\f004';
+      transition: none;
     }
   }
+}
+
+@keyframes fade {
+  0% { opacity: $l-secondary; }
+  100% { opacity: 1; }
 }

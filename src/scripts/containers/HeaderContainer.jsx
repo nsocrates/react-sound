@@ -14,6 +14,7 @@ export default class HeaderContainer extends React.Component {
         <Waypoint
           onEnter={ actions.triggerSticky }
           onLeave={ actions.triggerSticky }
+          triggerFrom="above"
         />
       </Header>
     )

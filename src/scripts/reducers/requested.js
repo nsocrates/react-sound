@@ -1,7 +1,10 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
-// Updates selected request
-export default function requested(state = 'Trance', action) {
+const initialState = {
+  requested: 'Trance'
+}
+
+export default function requested(state = null, action) {
   switch (action.type) {
     case ActionTypes.GENRE_REQUEST:
       return action.genre

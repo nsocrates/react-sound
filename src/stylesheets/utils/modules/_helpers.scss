@@ -1,27 +1,28 @@
-%flex-container {
-  display: flex;
-  flex-wrap: wrap;
+%main-container {
+  @include container;
 }
 
-%reset-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+%player-container {
+  @include container(100%);
+  position: relative;
+}
+
+%input-search {
+  background-color: transparent;
+  border: 0;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 %ul-justify {
-  @extend %reset-ul;
   display: table;
 
   > li {
     display: table-cell;
     vertical-align: middle;
   }
-}
-
-%nav-active {
-  background-color: $n-focus;
-  box-shadow: $n-accent;
 }
 
 %clearfix {
@@ -44,4 +45,10 @@
 %lead {
   font-size: 125%;
   line-height: 1.6;
+}
+
+%ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

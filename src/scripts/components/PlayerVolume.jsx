@@ -13,7 +13,7 @@ export default class PlayerVolume extends React.Component {
     } = this.props
     return (
       <li
-        className="mp-volume"
+        className="player__ctrl player__volume"
         onMouseEnter={ componentMouseEnter }
         onMouseLeave={ componentMouseLeave }
       >
