@@ -5,7 +5,8 @@
   line-height: $bar-height;
   margin-bottom: -$bar-height;
 
-  @include breakpoint($medium) {
+//Temporary
+  @include susy-media(medium) {
     min-width: $tmp-min-width;
   }
 
@@ -26,13 +27,13 @@
   line-height: $bar-height;
 
   &--menu {
-    @include breakpoint($small-only) {
+    @include susy-media(small-only) {
       display: none;
     }
   }
 
   &--bars {
-    @include breakpoint($medium) {
+    @include susy-media(medium) {
       display: none;
     }
   }

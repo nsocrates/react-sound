@@ -3,7 +3,7 @@
 }
 
 .tracklist__wrapper {
-  background-color: rgba($shark, .9);
+  background-color: rgba($shark, .93);
   border-radius: .5rem .5rem 0 0;
   box-shadow: 0 -.2rem .3rem $black-hint;
   color: $white-primary;
@@ -50,7 +50,7 @@
   &--filter {
     &::before {
       @include absolute(left);
-      background: $black-hint;
+      background-color: rgba($shark, $hint);
       content: '';
       height: $player-height;
       width: $player-height;
@@ -58,11 +58,11 @@
 
     &::after {
       @include absolute(right left);
-      @include blur(.1rem, $white, $white-secondary);
+      @include blur(.1rem, $white, $white);
       content: '\266a';
       font-size: 4rem;
-      height: 6rem;
-      line-height: 6rem;
+      height: $player-height;
+      line-height: $player-height;
       margin: 0 auto;
       text-align: center;
       width: 4rem;
@@ -107,22 +107,30 @@
   line-height: $player-height;
   padding: 0 2rem;
   text-shadow: $player-icon-shadow;
+}
 
+.tracklist__btn {
   &:hover {
     color: $white-secondary;
   }
 
-  &--heart {
-    transition: color $trans-default;
+  &:active {
+    color: $pink-disabled;
+  }
+}
 
-    &::before {
-      transition: color $trans-default;
-    }
-
-    &:hover::before {
+.tracklist__btn--heart {
+  &:hover {
+    .tracklist__icon--heart::before {
       color: $light-pink;
       content: '\f004';
-      transition: none;
+      text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+    }
+  }
+
+  &:active {
+    .tracklist__icon--heart::before {
+      color: $pink-disabled;
     }
   }
 }

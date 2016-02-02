@@ -16,11 +16,11 @@
   margin-bottom: gutter();
   overflow: hidden;
 
-  @include breakpoint($medium) {
+  @include susy-media(medium) {
     @include gallery(4);
   }
 
-  @include breakpoint($large) {
+  @include susy-media(large) {
     @include gallery(2);
   }
 }

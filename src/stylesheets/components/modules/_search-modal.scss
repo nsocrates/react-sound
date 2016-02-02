@@ -1,8 +1,8 @@
 .modal,
-.modal__portal {
+&__portal {
   position: relative;
 
-  @include breakpoint($large) {
+  @include susy-media(large) {
     display: none;
   }
 }
@@ -35,7 +35,7 @@
   label {
     @include absolute(left bottom);
     color: rgba($white, $l-secondary);
-    padding: 1.5rem; // m-searchbar padding
+    padding: 1.5rem;
   }
 }
 
@@ -63,7 +63,7 @@
   padding: 1.5rem;
   width: span(full);
 
-  @include breakpoint($medium) {
+  @include susy-media(medium) {
     font-size: 4.8rem;
   }
 
@@ -74,9 +74,6 @@
 
 // ReactCSSTransitionGroup
 .modal-enter {
-  .m-overlay {
-    transform: scale(0);
-  }
 
   .modal__form {
     opacity: 0;
@@ -88,12 +85,7 @@
     transform: translate(2rem) rotate(90deg);
   }
 
-  &.modal-enter-active {
-    .modal__overlay {
-      transform: scale(80);
-      transition: transform $m-transition-long;
-    }
-
+  &-active {
     .modal__form {
       opacity: 1;
       transform: translate(-50%, -65%);

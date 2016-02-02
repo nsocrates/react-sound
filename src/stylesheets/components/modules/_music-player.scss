@@ -61,7 +61,6 @@
 .player__btn {
   display: block;
   text-shadow: $player-icon-shadow;
-  transition: background-color $trans-default;
   width: 100%;
 
   &:hover,
@@ -74,7 +73,7 @@
   }
 
   &:active {
-    color: $light-pink;
+    color: $pink-disabled;
   }
 
   &--playpause {
@@ -92,7 +91,7 @@
   text-align: left;
   width: span(2);
 
-  @include breakpoint($medium) {
+  @include susy-media(medium) {
     width: span(3);
   }
 
@@ -121,7 +120,7 @@
   margin: (($player-height - 1rem) / 2) 0;
   width: span(3) + gutter();
 
-  @include breakpoint($medium) {
+  @include susy-media(medium) {
     width: span(5) + gutter();
   }
 

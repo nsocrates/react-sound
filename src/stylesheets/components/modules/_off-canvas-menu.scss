@@ -1,5 +1,5 @@
 .side-menu {
-  @include breakpoint($medium) {
+  @include susy-media(medium) {
     display: none;
   }
 }

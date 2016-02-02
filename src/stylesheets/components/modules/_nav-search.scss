@@ -1,8 +1,6 @@
 .nav__form {
-  display: none;
-
-  @include breakpoint($large) {
-    display: initial;
+  @include susy-media(medium-down) {
+    display: none;
   }
 
   .fa-search {

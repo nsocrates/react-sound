@@ -75,7 +75,7 @@ export default class PlayerTracklist extends React.Component {
               <i className={ isPauseOrPlay } />
             </Button>
 
-            <Button btnClass="tracklist__btn">
+            <Button btnClass="tracklist__btn tracklist__btn--heart">
               <i className="tracklist__icon tracklist__icon--heart fa fa-heart-o" />
             </Button>
           </div>

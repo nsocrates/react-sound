@@ -39,7 +39,6 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
-    "breakpoint-sass": "^2.6.1",
     "classnames": "^2.2.1",
     "es6-promise": "^3.0.2",
     "history": "^2.0.0-rc2",
