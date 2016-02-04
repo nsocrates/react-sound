@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { triggerSticky } from 'actions/ui'
 
-export default class HeaderContainer extends React.Component {
+class HeaderContainer extends React.Component {
   render() {
     const { actions } = this.props
 

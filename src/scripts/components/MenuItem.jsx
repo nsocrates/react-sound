@@ -12,22 +12,28 @@ export default class MenuItem extends React.Component {
     return false
   }
 
-  handleClick(event) {
-    const { genre, loadGenre, toggleMenu } = this.props
-
-    event.preventDefault()
+  handleClick(e) {
+    const { genre, loadGenre, toggleMenu, push } = this.props
+    e.preventDefault()
     loadGenre(genre, false)
     toggleMenu()
+    const location = {
+      pathname: '#genre',
+      query: {
+        q: genre
+      }
+    }
+    push(location)
   }
 
   render() {
-    const { children, genre, componentClass } = this.props
+    const { children, componentClass } = this.props
 
     return (
       <Link
         className={ componentClass }
         onClick={ this.handleClick }
-        to={ `/genre/${genre}` }
+        to="#genre"
       >
         { children }
       </Link>
@@ -40,6 +46,7 @@ MenuItem.propTypes = {
   componentClass: React.PropTypes.string,
   genre: React.PropTypes.string.isRequired,
   loadGenre: React.PropTypes.func.isRequired,
+  push: React.PropTypes.func.isRequired,
   toggleMenu: React.PropTypes.func
 }
 

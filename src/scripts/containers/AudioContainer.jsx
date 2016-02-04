@@ -11,7 +11,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { constructStreamUrl, trackFactory } from 'utils/Utils'
 
-export class AudioContainer extends React.Component {
+class AudioContainer extends React.Component {
 
   render() {
     const {

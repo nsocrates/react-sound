@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import PlayerTracklist from 'components/PlayerTracklist'
 import { requestStream } from 'actions/stream'
 
-export class TracklistContainer extends React.Component {
+class TracklistContainer extends React.Component {
   render() {
     const { ui } = this.props
     const shouldRenderTracklist = () => {

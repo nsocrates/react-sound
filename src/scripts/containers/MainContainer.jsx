@@ -1,5 +1,5 @@
 import React from 'react'
-import Collection from 'components/Collection'
+import Gallery from 'components/Gallery'
 import Main from 'components/Main'
 import Waypoint from 'components/Waypoint'
 import { bindActionCreators } from 'redux'
@@ -10,7 +10,7 @@ import { loadGenre } from 'actions/genre'
 import { loadSearch } from 'actions/search'
 import { trackFactory } from 'utils/Utils'
 
-export class MainContainer extends React.Component {
+class MainContainer extends React.Component {
 
   constructor(props) {
     super(props)
@@ -42,9 +42,9 @@ export class MainContainer extends React.Component {
     const group = tracksByGenre[requested] || searchesByInput[requested]
     const { isFetching } = group
 
-    // Render Collection
+    // Render Gallery
     const trackIds = group.ids
-    const collection = trackIds.map((item, index) => {
+    const gallery = trackIds.map((item, index) => {
       const args = {
         trackId: group.ids[index],
         userEntity,
@@ -53,27 +53,14 @@ export class MainContainer extends React.Component {
       const trackData = trackFactory(args)
       const trackId = group.ids[index]
       const imgUrl = trackData.getArtwork(IMG_FORMAT.LARGE)
-      const style = {
-        backgroundImage: `url(${imgUrl}),
-                          repeating-linear-gradient(
-                            135deg,
-                            #dfe2ea,
-                            #dfe2ea 2rem,
-                            #fff 2rem,
-                            #fff 4rem
-                          )`,
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center center',
-        backgroundSize: 'cover'
-      }
       return (
-        <Collection
+        <Gallery
           actions={ actions }
           audioIsPlaying={ audioIsPlaying }
-          componentClass="gallery"
+          className="gallery"
+          imgUrl={ imgUrl }
           key={ `gallery__${index}_${trackId}` }
           streamTrackId={ streamTrackId }
-          styles={ style }
           title={ trackData.songName }
           trackId={ trackId }
           user={ trackData.userName }
@@ -100,7 +87,7 @@ export class MainContainer extends React.Component {
 
     return (
       <Main>
-        { collection }
+        { gallery }
         { shouldRenderWaypoint() }
       </Main>
     )

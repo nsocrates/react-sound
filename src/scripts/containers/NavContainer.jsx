@@ -6,14 +6,9 @@ import { connect } from 'react-redux'
 import { GENRES } from 'constants/ItemLists'
 import { loadGenre } from 'actions/genre'
 import { loadSearch } from 'actions/search'
+import { push } from 'react-router-redux'
 
 class NavContainer extends React.Component {
-
-  componentWillMount() {
-    const { apiActions } = this.props
-    apiActions.loadGenre('Trance')
-  }
-
   render() {
     return (
       <Nav
@@ -40,7 +35,8 @@ function mapDispatchToProps(dispatch) {
     apiActions: bindActionCreators({
       loadGenre,
       loadSearch
-    }, dispatch)
+    }, dispatch),
+    routeActions: bindActionCreators({ push }, dispatch)
   }
 }
 

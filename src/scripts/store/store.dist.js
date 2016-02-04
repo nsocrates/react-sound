@@ -17,10 +17,6 @@ const createStoreWithMiddleware = applyMiddleware(
   reduxRouter
 )(createStore)
 
-const store = createStoreWithMiddleware(reducer)
-
-reduxRouter.listenForReplays(store, state => state.router.location)
-
 export default function makeStore(initialState) {
   return createStoreWithMiddleware(reducer, initialState)
 }

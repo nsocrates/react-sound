@@ -37,9 +37,16 @@ export default class SearchModal extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     const { _mSearch: { _input }, props: { actions }} = this
+    const location = {
+      pathname: '#search',
+      query: {
+        q: _input.value
+      }
+    }
 
     actions.loadSearch(_input.value, false)
     actions.toggleModal()
+    actions.push(location)
   }
 
   hideBodyOverflow(shouldHide) {

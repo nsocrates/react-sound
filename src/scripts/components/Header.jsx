@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 
 export default class Header extends React.Component {
 
@@ -14,15 +15,15 @@ export default class Header extends React.Component {
             </li>
 
             <li className="header__item">
-              <a className="header__item--link" href="#">{ "reactSOUND" }</a>
+              <Link className="header__item--link" to="/">{ "reactSOUND" }</Link>
             </li>
           </ul>
 
           <ul className="header__section header__section--login">
             <li className="header__item">
-              <a className="header__item--link" href="#">
+              <Link className="header__item--link" to="/">
                 <i className="fa fa-user" />
-              </a>
+              </Link>
             </li>
           </ul>
 

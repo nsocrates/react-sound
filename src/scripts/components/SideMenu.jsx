@@ -27,6 +27,7 @@ export default class SideMenu extends React.Component {
           genre={ item }
           key={ `side-menu__${index}_${item}` }
           loadGenre={ actions.loadGenre }
+          push={ actions.push }
           toggleMenu={ actions.toggleMenu }
         >
           { item }

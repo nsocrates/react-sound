@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { GENRES } from 'constants/ItemLists'
 import { loadGenre } from 'actions/genre'
+import { push } from 'react-router-redux'
 import { toggleMenu } from 'actions/ui'
 
 class SideMenuContainer extends React.Component {
@@ -62,7 +63,7 @@ SideMenuContainer.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ loadGenre, toggleMenu }, dispatch)
+    actions: bindActionCreators({ loadGenre, toggleMenu, push }, dispatch)
   }
 }
 

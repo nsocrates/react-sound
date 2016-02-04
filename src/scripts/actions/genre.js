@@ -31,15 +31,18 @@ function loadCached(genre) {
 
 export function loadGenre(genre, next = true) {
   return (dispatch, getState) => {
-    const encoded = encodeURIComponent(genre)
+    const decoded = decodeURIComponent(genre.replace(/\+/g, '%20'))
+    const encoded = encodeURIComponent(decoded).replace(/%20/g, '+')
+    const { tracksByGenre } = getState().app.partition
+
     const {
       next_href = `/tracks?genres=${encoded}&`,
       offset = 0
-    } = getState().app.partition.tracksByGenre[genre] || {}
+    } = tracksByGenre[decoded] || {}
     if (offset > 0 && !next) {
-      return dispatch(loadCached(genre))
+      return dispatch(loadCached(decoded))
     }
 
-    return dispatch(fetchGenre(genre, next_href))
+    return dispatch(fetchGenre(decoded, next_href))
   }
 }

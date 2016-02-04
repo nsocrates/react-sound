@@ -13,14 +13,23 @@ export default class Nav extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    const { _search: { _input }, props: { apiActions }} = this
+    const { _search: { _input }, props: { apiActions, routeActions }} = this
+    const location = {
+      pathname: '#search',
+      query: {
+        q: _input.value
+      }
+    }
+
     apiActions.loadSearch(_input.value, false)
+    routeActions.push(location)
   }
 
   render() {
     const {
       apiActions,
       uiActions,
+      routeActions,
       genre,
       genreList,
       searchModal,
@@ -48,6 +57,7 @@ export default class Nav extends React.Component {
             componentClass={ active ? active : null }
             genre={ item }
             loadGenre={ apiActions.loadGenre }
+            push={ routeActions.push }
           >
             { item }
           </MenuItem>
@@ -111,6 +121,9 @@ Nav.propTypes = {
   navbar: React.PropTypes.shape({
     isSticky: React.PropTypes.bool.isRequired
   }),
+  routeActions: React.PropTypes.objectOf(
+    React.PropTypes.func.isRequired
+  ),
   searchModal: React.PropTypes.shape({
     isOpen: React.PropTypes.bool
   }),
