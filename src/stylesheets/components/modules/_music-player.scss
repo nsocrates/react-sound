@@ -1,6 +1,7 @@
 .music-box {
   @include fixed(bottom left right);
   min-width: $tmp-min-width;
+  z-index: $n-stack-level;
 }
 
 .player {
@@ -77,7 +78,7 @@
   }
 
   &--playpause {
-    @include blur(.3rem, $white, $white-hint);
+    @include blur(.2rem, $white, $white-hint);
 
     &:hover {
       color: $white-hint;

@@ -25,6 +25,11 @@
   }
 }
 
+%reset-white-space {
+  font-size: 0;
+  line-height: 0;
+}
+
 %clearfix {
   &::before,
   &::after {

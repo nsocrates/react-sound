@@ -10,6 +10,7 @@
 
 .gallery {
   @include gallery(6);
+  animation: $trans-duration $trans-func fade;
   background-color: $white;
   border-radius: .5rem;
   box-shadow: 0 .1rem .2rem $black-disabled;
@@ -26,13 +27,58 @@
 }
 
 .gallery__artwork {
+  @extend %reset-white-space;
+  @include relative;
   display: block;
-  padding-top: 100%;
   width: 100%;
+
+  // Overlay
+  &::before {
+    @include absolute(top left);
+    background-color: rgba($black, $secondary);
+    content: '';
+    height: 100%;
+    opacity: 0;
+    transition: opacity .1s ease-out;
+    width: 100%;
+  }
+
+  // Icon
+  &::after {
+    @include absolute(top left);
+    color: rgba($light-gray, $l-primary);
+    content: '\f04b';
+    font-size: 14vmin;
+    opacity: 0;
+    padding: 50% 0;
+    text-align: center;
+    transition: opacity .2s ease-in;
+    width: 100%;
+  }
+
+  &:hover {
+    &::before,
+    &::after {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .gallery__artwork--img {
+      filter: blur(5px);
+    }
+  }
+
+  &--img {
+    border-radius: .5rem .5rem 0 0;
+    box-shadow: 0 .1rem .1rem $black-disabled;
+    height: auto;
+    object-fit: cover;
+    transition: filter .1s ease-in-out;
+    width: 100%;
+  }
 }
 
 .gallery__track {
-  box-shadow: 0 -.1rem .1rem $black-disabled;
   padding: gutter(3);
 
   &--title,
@@ -46,4 +92,9 @@
   &--title {
     font-weight: 700;
   }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }

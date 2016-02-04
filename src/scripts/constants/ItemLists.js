@@ -14,6 +14,8 @@ export const IMG_FORMAT = {
 }
 
 export const IMG_FALLBACK = {
-  LARGE: 'https://s-media-cache-ak0.pinimg.com/736x/1c/76/36/1c7636906717be2719923f3e83c4502c.jpg',
-  SMALL: 'https://s-media-cache-ak0.pinimg.com/736x/94/35/f5/9435f55494ef35f86c7b22f945b7aaf0.jpg'
+  LARGE: 'https://dl.dropboxusercontent.com/s/4zmdgw0dlhgbz1v/c4b052d27baae25c4f0f0670e489131f.jpg?dl=0',
+  SMALL: 'https://dl.dropboxusercontent.com/s/184tk01gvcdcfdc/c4b052d27baae25c4f0f0670e489131f--small.jpg?dl=0',
+  ERROR_LARGE: 'https://dl.dropboxusercontent.com/s/xyklfgivd6ocm5z/harleymk-d4ry00x.png?dl=0',
+  ERROR_SMALL: 'https://dl.dropboxusercontent.com/s/batae9h5nx94ehn/harleymk-d4ry00x--small.png?dl=0'
 }

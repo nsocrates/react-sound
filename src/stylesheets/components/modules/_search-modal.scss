@@ -1,5 +1,5 @@
 .modal,
-&__portal {
+.modal__portal {
   position: relative;
 
   @include susy-media(large) {

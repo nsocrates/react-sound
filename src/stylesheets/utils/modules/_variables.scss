@@ -1,6 +1,9 @@
 // Temp min-width until I figure something out
 $tmp-min-width: 85rem;
 
+// z-index
+$stack-level: 10;
+
 // Typography
 $font-primary: 'Lato', sans-serif;
 $root-font-size: 62.5%;
@@ -57,13 +60,13 @@ $player-height: 6rem;
 $player-icon-shadow: 0 -.1rem .2rem $white-hint;
 
 // Nav Config
-$n-stack-level: 1;
+$n-stack-level: $stack-level + 10;
 $n-main-color: $white;
 $n-focus: shade($n-main-color, 3%);
 $n-accent: inset 0 -.2rem 0 $cyan;
 
 // Search Modal Config
-$m-stack-level: $n-stack-level + 1;
+$m-stack-level: $n-stack-level + 10;
 $m-transition-short: $trans-default;
 $m-transition-long: .5s $trans-func;
 $m-overlay-bg: linear-gradient(
@@ -78,22 +81,13 @@ $oc-hover: $light-pink;
 $oc-background: $shark;
 $oc-link: $white-secondary;
 $oc-border: solid .1rem $white-disabled;
-$oc-stack-level: $n-stack-level + 1;
+$oc-stack-level: $n-stack-level + 10;
 $oc-transition: .5s ease;
 
 // Breakpoints
 $small: 0;
 $medium: 640px;
 $large: 1024px;
-
-$susy-media: (
-  'small': $small,
-  'medium': $medium,
-  'large': $large,
-  'small-only': $small ($medium - 1px),
-  'medium-only': $medium ($large - 1px),
-  'medium-down': max-width ($large - 1px)
-);
 
 // Susy
 $susy: (
@@ -104,4 +98,13 @@ $susy: (
     image: show,
     output: overlay
   )
+);
+  // Susy Breakpoints
+$susy-media: (
+  'small': $small,
+  'medium': $medium,
+  'large': $large,
+  'small-only': $small ($medium - 1px),
+  'medium-only': $medium ($large - 1px),
+  'medium-down': max-width ($large - 1px)
 );
