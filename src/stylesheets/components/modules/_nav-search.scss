@@ -1,11 +1,13 @@
 .nav__form {
-  @include susy-media(medium-down) {
-    display: none;
-  }
+  display: none;
 
-  .fa-search {
-    @include absolute(top right);
-    line-height: $bar-height;
+  @include susy-media(large) {
+    display: initial;
+
+    .fa-search {
+      @include absolute(top right);
+      line-height: $bar-height;
+    }
   }
 }
 

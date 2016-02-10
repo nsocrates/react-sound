@@ -13,16 +13,17 @@ export default class MenuItem extends React.Component {
   }
 
   handleClick(e) {
-    const { genre, loadGenre, toggleMenu, push } = this.props
     e.preventDefault()
-    loadGenre(genre, false)
-    toggleMenu()
+    const { genre, loadGenre, toggleMenu, push } = this.props
     const location = {
       pathname: '#genre',
       query: {
         q: genre
       }
     }
+
+    loadGenre(genre, false)
+    toggleMenu()
     push(location)
   }
 

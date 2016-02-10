@@ -23,10 +23,10 @@ NavContainer.propTypes = {
   apiActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
-  genre: React.PropTypes.string,
   navbar: React.PropTypes.shape({
     isSticky: React.PropTypes.bool.isRequired
-  })
+  }),
+  requested: React.PropTypes.object
 }
 
 function mapDispatchToProps(dispatch) {
@@ -47,7 +47,7 @@ function mapStateToProps(state) {
     navbar,
     searchModal,
     sideMenu,
-    genre: requested
+    requested
   }
 }
 

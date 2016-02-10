@@ -64,6 +64,7 @@
 
   &--item {
     @extend %lead;
+    -webkit-font-smoothing: antialiased;
     border-bottom: $oc-border;
     color: $oc-link;
     display: block;

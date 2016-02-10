@@ -4,8 +4,9 @@
 
 import 'isomorphic-fetch'
 import { CALL_API } from 'constants/Api'
-import { constructUrl } from 'utils/Utils'
+import { constructUrl, extractNumber } from 'utils/Utils'
 import { normalize } from 'normalizr'
+import merge from 'lodash/merge'
 
 // Extracts the next page URI from API response.
 function getNextHref(json) {
@@ -20,6 +21,14 @@ function isStreamable(json) {
 // Accesses collection property; if it exists, filters streamable.
 function getCollection(json) {
   return json.collection ? json.collection.filter(isStreamable) : json
+}
+
+// Add web profile to Users Entity
+function fetchWebProfile(id, json) {
+  const { collection } = json
+  const entities = { entities: { users: { [id]: { web_profiles: collection }}}}
+
+  return entities
 }
 
 // Fetches an API response and normalizes the result JSON according to schema.
@@ -37,6 +46,12 @@ function callApi(endpoint, schema) {
     .then(json => {
       const next_href = getNextHref(json)
       const objectJSON = getCollection(json)
+
+      if (/web-profiles/.test(endpoint)) {
+        const profile = fetchWebProfile(extractNumber(endpoint), json)
+
+        return merge({}, normalize(objectJSON, schema), profile)
+      }
 
       return Object.assign({},
         normalize(objectJSON, schema),

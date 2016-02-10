@@ -1,5 +1,5 @@
 .tracklist {
-  @extend %player-container;
+  @extend %full-container;
 }
 
 .tracklist__wrapper {
@@ -50,7 +50,7 @@
   &--filter {
     &::before {
       @include absolute(left);
-      background-color: rgba($shark, $hint);
+      background-color: rgba($black, $secondary);
       content: '';
       height: $player-height;
       width: $player-height;
@@ -59,13 +59,14 @@
     &::after {
       @include absolute(right left);
       @include blur(.1rem, $white, $white);
-      content: '\266a';
-      font-size: 4rem;
+      animation: 2s linear infinite pulse;
+      content: '\f028';
+      font-size: 3.5rem;
       height: $player-height;
       line-height: $player-height;
       margin: 0 auto;
       text-align: center;
-      width: 4rem;
+      width: 3.5rem;
     }
   }
 }
@@ -138,4 +139,10 @@
 @keyframes fade {
   0% { opacity: $l-secondary; }
   100% { opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(.9); }
+  50% { transform: scale(1); }
+  100% { transform: scale(.9); }
 }

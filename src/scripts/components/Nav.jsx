@@ -30,7 +30,7 @@ export default class Nav extends React.Component {
       apiActions,
       uiActions,
       routeActions,
-      genre,
+      requested,
       genreList,
       searchModal,
       navbar
@@ -46,7 +46,7 @@ export default class Nav extends React.Component {
     const search = ref => this._search = ref
 
     const menuItems = genreList.map((item, index) => {
-      const active = classNames('nav__link', { 'nav__link--active': genre === item })
+      const active = classNames('nav__link', { 'nav__link--active': requested.query === item })
 
       return (
         <li
@@ -114,13 +114,13 @@ Nav.propTypes = {
   apiActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
-  genre: React.PropTypes.string,
   genreList: React.PropTypes.arrayOf(
     React.PropTypes.string.isRequired
   ),
   navbar: React.PropTypes.shape({
     isSticky: React.PropTypes.bool.isRequired
   }),
+  requested: React.PropTypes.object,
   routeActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),

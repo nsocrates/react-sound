@@ -22,9 +22,10 @@ function fetchGenre(genre, next_href) {
   }
 }
 
-function loadCached(genre) {
+function loadCached(genre, next_href) {
   return {
     genre,
+    next_href,
     type: ActionTypes.GENRE_CACHED
   }
 }
@@ -40,7 +41,7 @@ export function loadGenre(genre, next = true) {
       offset = 0
     } = tracksByGenre[decoded] || {}
     if (offset > 0 && !next) {
-      return dispatch(loadCached(decoded))
+      return dispatch(loadCached(decoded, next_href))
     }
 
     return dispatch(fetchGenre(decoded, next_href))

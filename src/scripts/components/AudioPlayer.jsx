@@ -29,11 +29,11 @@ export default class AudioPlayer extends React.Component {
   }
 
   componentDidMount() {
-    GlobalEvents.emit('padBottom', true)
+    GlobalEvents.emit('pushBottom', true)
   }
 
   componentWillUnmount() {
-    GlobalEvents.emit('padBottom', false)
+    GlobalEvents.emit('pushBottom', false)
   }
 
   handlePlayPause() {
@@ -286,8 +286,8 @@ export default class AudioPlayer extends React.Component {
           />
 
           <PlayerDetails
-            songName={ trackData.songName }
-            userName={ trackData.userName }
+            songName={ trackData.track.name }
+            userName={ trackData.user.name }
           />
 
           <PlayerTimer componentClassName="player__ctrl player__current">

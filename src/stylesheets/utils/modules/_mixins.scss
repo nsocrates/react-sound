@@ -39,7 +39,7 @@
 }
 
 // Blur
-@mixin blur($radius: 1px, $color: $black, $initial: transparent) {
-  color: $initial;
-  text-shadow: 0 0 $radius $color;
+@mixin blur($radius: 1px, $shadow: #000, $color: transparent) {
+  color: $color;
+  text-shadow: 0 0 $radius $shadow;
 }

@@ -25,13 +25,13 @@ export default class PlayerTracklist extends React.Component {
     const { tracklist, userEntity, trackEntity, trackId, audio: { isPlaying }} = this.props
     const renderTracklist = tracklist.ids.map((id, index) => {
       const obj = { userEntity, trackEntity, trackId: id }
-      const track = trackFactory(obj)
+      const trackData = trackFactory(obj)
 
       const shouldRenderDownload = () => {
-        if (track.download) {
+        if (trackData.download) {
           return (
             <Button btnClass="tracklist__btn">
-              <a href={ track.download }>
+              <a href={ trackData.download }>
                 <i className="tracklist__icon fa fa-download" />
               </a>
             </Button>
@@ -58,13 +58,13 @@ export default class PlayerTracklist extends React.Component {
           <aside className={ shouldFilter }>
             <img
               className="tracklist__img"
-              src={ track.getArtwork(IMG_FORMAT.BADGE) }
+              src={ trackData.getArtwork(IMG_FORMAT.BADGE) }
             />
           </aside>
 
           <div className="tracklist__data">
-            <p className="tracklist__data--title">{ track.songName }</p>
-            <p className="tracklist__data--user">{ track.userName }</p>
+            <p className="tracklist__data--title">{ trackData.track.name }</p>
+            <p className="tracklist__data--user">{ trackData.user.name }</p>
           </div>
           <div className="tracklist__icons">
             { shouldRenderDownload() }

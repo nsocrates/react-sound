@@ -14,11 +14,11 @@ export default class SideMenu extends React.Component {
   }
 
   render() {
-    const { actions, genre, genreList } = this.props
+    const { actions, requested, genreList } = this.props
 
     const menuItems = genreList.map((item, index) => {
       const active = classNames('side-menu__list--item', {
-        'side-menu__list--item--active': genre === item
+        'side-menu__list--item--active': requested.query === item
       })
 
       return (
@@ -57,9 +57,9 @@ SideMenu.propTypes = {
   actions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
-  genre: React.PropTypes.string.isRequired,
   genreList: React.PropTypes.arrayOf(
     React.PropTypes.string.isRequired
   ),
-  isVisible: React.PropTypes.bool.isRequired
+  isVisible: React.PropTypes.bool.isRequired,
+  requested: React.PropTypes.object
 }

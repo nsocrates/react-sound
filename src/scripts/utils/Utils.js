@@ -17,12 +17,19 @@ export function constructStreamUrl(trackId) {
   return trackId ? url : null
 }
 
+// Extracts number from string:
+export function extractNumber(string) {
+  const number = string.match(/\d/g).join('')
+
+  return number
+}
+
 // Extracts useful track data:
 export const trackFactory = obj => {
   const { trackId, userEntity, trackEntity } = obj
   let trackData = {
     userName: null,
-    songName: null,
+    trackName: null,
     fallback: { LARGE: null, SMALL: null },
     getArtwork() {}
   }
@@ -32,10 +39,19 @@ export const trackFactory = obj => {
     const userId = track.user_id
     const title = track.title.split(' - ')
     trackData = {
-      userName: userEntity[userId].username,
-      songName: title[1] || title[0],
+      user: {
+        id: userId,
+        name: userEntity[userId].username
+      },
+      track: {
+        id: trackId,
+        name: title[1] || title[0]
+      },
       download: track.downloadable ? `${track.download_url}?client_id=${CLIENT_ID}` : null,
       getArtwork(format) {
+        // Prevent pollution of trackData
+        // this.getArtwork = null
+
         let artwork
         if (!track.artwork_url) {
           artwork = userEntity[userId].avatar_url

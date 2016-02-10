@@ -1,7 +1,9 @@
 import App from 'containers/App'
-import MainContainer from 'containers/MainContainer'
+import GalleryContainer from 'containers/GalleryContainer'
+import UserContainer from 'containers/UserContainer'
+import End from 'components/End'
 import React from 'react'
-import { Router, Route, browserHistory/*, IndexRoute*/ } from 'react-router'
+import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
 const routes = (
   <Router history={ browserHistory }>
@@ -9,13 +11,17 @@ const routes = (
       component={ App }
       path="/"
     >
-      {/*  <IndexRoute component={ MainContainer }/>  */}
+      <IndexRoute component={ End }/>
       <Route
-        component={ MainContainer }
+        component={ GalleryContainer }
         path="#genre"
       />
       <Route
-        component={ MainContainer }
+        component={ UserContainer }
+        path="#user"
+      />
+      <Route
+        component={ GalleryContainer }
         path="#search"
       />
     </Route>

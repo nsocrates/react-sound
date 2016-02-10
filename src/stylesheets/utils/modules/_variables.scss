@@ -22,6 +22,7 @@ $light-gray: #ebeae8;
 $light-pink: #f7379f;
 $cyan: #00fff2;
 $pink-disabled: tint($light-pink, 30%);
+$wan-white-gray: shade($light-gray, 1%);
 
 // Opacity
 $disabled: .12;
@@ -92,7 +93,7 @@ $large: 1024px;
 // Susy
 $susy: (
   global-box-sizing: border-box,
-  container: 90%,
+  container: em($large),
   columns: 12,
   debug: (
     image: show,
@@ -102,9 +103,8 @@ $susy: (
   // Susy Breakpoints
 $susy-media: (
   'small': $small,
-  'medium': $medium,
-  'large': $large,
-  'small-only': $small ($medium - 1px),
-  'medium-only': $medium ($large - 1px),
-  'medium-down': max-width ($large - 1px)
+  'medium': em($medium),
+  'large': em($large),
+  'small-only': max-width (em($medium - 1px)),
+  'medium-only': em($medium) (em($large - 1px))
 );

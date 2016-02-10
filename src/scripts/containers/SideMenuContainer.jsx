@@ -72,7 +72,7 @@ function mapStateToProps(state) {
 
   return {
     isVisible,
-    genre: requested
+    requested
   }
 }
 

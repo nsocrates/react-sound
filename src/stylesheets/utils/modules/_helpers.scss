@@ -1,8 +1,22 @@
-%main-container {
-  @include container;
+%main {
+  padding-bottom: gutter(6);
+  padding-top: gutter(6);
+  position: relative;
+
+  &-container {
+    @include container;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    position: relative;
+    width: 100%;
+
+    @include susy-media(medium) {
+      width: 90%;
+    }
+  }
 }
 
-%player-container {
+%full-container {
   @include container(100%);
   position: relative;
 }

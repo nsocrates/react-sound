@@ -1,18 +1,22 @@
 import React from 'react'
 
-const Main = ({ children = null }) => (
+const Main = ({ children = null, className }) => (
   <main
-    className="main"
+    className={ className }
     id="main"
   >
-    <div className="main__container">
-      { children }
-    </div>
+    { children }
   </main>
 )
 
 Main.propTypes = {
-  children: React.PropTypes.node
+  children: React.PropTypes.node,
+  className: React.PropTypes.string
+}
+
+Main.defaultProps = {
+  children: null,
+  className: 'main'
 }
 
 export default Main

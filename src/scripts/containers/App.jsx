@@ -9,6 +9,7 @@ import SideMenuContainer from './SideMenuContainer'
 
 import { loadGenre } from 'actions/genre'
 import { loadSearch } from 'actions/search'
+import { loadUser } from 'actions/user'
 import { push } from 'react-router-redux'
 
 class App extends React.Component {
@@ -16,16 +17,25 @@ class App extends React.Component {
   componentDidMount() {
     const { dispatch, hash } = this.props
     const ref = hash.split('?') || null
+    const query = hash.split('=')[1]
 
     const location = {
       pathname: ref[0] || '/',
       search: ref[1] ? `?${ref[1]}` : null
     }
 
-    if (hash.match('genre')) {
-      dispatch(loadGenre(hash.split('=')[1]))
-    } else if (hash.match('search')) {
-      dispatch(loadSearch(hash.split('=')[1]))
+    switch (ref[0]) {
+      case '#genre':
+        dispatch(loadGenre(query))
+        break;
+      case '#search':
+        dispatch(loadSearch(query))
+        break;
+      case '#user':
+        dispatch(loadUser(query))
+        break
+      default:
+        break
     }
 
     return dispatch(push(location))

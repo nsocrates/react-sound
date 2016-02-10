@@ -1,23 +1,13 @@
 .rw__gallery,
-.loader {
+.rw__loader,
+.rw__end {
   clear: both;
   float: left;
-  padding-top: gutter(6);
+  margin: 2.5rem 0 0;
+  padding: 2.5rem 0;
 }
 
-.debug {
-  background-color: red;
-  clear: both;
-  float: left;
-  height: 1rem;
-  width: 100%;
-}
-
-.rw__gallery {
-  margin: 3.1rem 0;
-}
-
-.loader {
+.rw__loader {
   text-align: center;
   width: 100%;
 
@@ -25,4 +15,12 @@
     color: tint($shark, 10%);
     font-size: 3.1rem;
   }
+}
+
+.rw__end {
+  background-color: $wan-white-gray;
+  color: $black-hint;
+  margin: $bar-height 0 0;
+  text-align: center;
+  width: 100%;
 }

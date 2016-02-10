@@ -1,27 +1,50 @@
 import React from 'react'
-import { IMG_FALLBACK } from 'constants/ItemLists'
+import { Link } from 'react-router'
+import { IMG_FALLBACK, IMG_FORMAT } from 'constants/ItemLists'
 
 export default class Gallery extends React.Component {
 
   constructor(props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleError = this.handleError.bind(this)
+    this.handleClick_artwork = this.handleClick_artwork.bind(this)
+    this.handleError_img = this.handleError_img.bind(this)
+    this.handleClick_user = this.handleClick_user.bind(this)
+    this.handleClick_track = this.handleClick_track.bind(this)
   }
 
-  handleClick(e) {
-    const { actions, trackId, streamTrackId, audioIsPlaying } = this.props
+  handleClick_artwork(e) {
+    const { actions, streamTrackId, audioIsPlaying, trackData: { track }} = this.props
     const audio = document.getElementById('audio')
     e.preventDefault()
 
-    if (trackId === streamTrackId) {
+    if (track.id === streamTrackId) {
       return audioIsPlaying ? audio.pause() : audio.play()
     }
 
-    return actions.requestStream(trackId)
+    return actions.requestStream(track.id)
   }
 
-  handleError(e) {
+  handleClick_user(e) {
+    e.preventDefault()
+    const { actions, trackData: { user }} = this.props
+    const location = {
+      pathname: '#user',
+      query: {
+        q: user.id
+      }
+    }
+
+    actions.push(location)
+  }
+
+  handleClick_track(e) {
+    e.preventDefault()
+    const { actions, trackData: { track }} = this.props
+
+    console.log('track_id:', track.id)
+  }
+
+  handleError_img(e) {
     const { currentTarget } = e
     currentTarget.src = IMG_FALLBACK.ERROR_LARGE
 
@@ -29,27 +52,42 @@ export default class Gallery extends React.Component {
   }
 
   render() {
-    const { className, style, title, user, imgUrl } = this.props
+    const { trackData: { user, track, getArtwork }} = this.props
 
     return (
-      <div className={ className }>
+      <article className="gallery__wrap">
         <a
           className="fa gallery__artwork"
           href=""
-          onClick={ this.handleClick }
-          style={ style }
+          onClick={ this.handleClick_artwork }
         >
           <img
             className="gallery__artwork--img"
-            onError={ this.handleError }
-            src={ imgUrl }
+            onError={ this.handleError_img }
+            src={ getArtwork(IMG_FORMAT.LARGE) }
           />
         </a>
         <div className="gallery__track">
-          <h6 className="gallery__track--title">{ title }</h6>
-          <h6 className="gallery__track--user">{ user }</h6>
+          <h6 className="gallery__track--title" >
+            <a
+              className="gallery__track--link"
+              href=""
+              onClick={ this.handleClick_track }
+            >
+              { track.name }
+            </a>
+          </h6>
+          <h6 className="gallery__track--user">
+            <Link
+              className="gallery__track--link"
+              onClick={ this.handleClick_user }
+              to="#user"
+            >
+              { user.name }
+            </Link>
+          </h6>
         </div>
-      </div>
+      </article>
     )
   }
 }
@@ -59,17 +97,15 @@ Gallery.propTypes = {
     React.PropTypes.func.isRequired
   ),
   audioIsPlaying: React.PropTypes.bool.isRequired,
-  className: React.PropTypes.string,
   imgUrl: React.PropTypes.string,
   streamTrackId: React.PropTypes.number,
   style: React.PropTypes.objectOf(React.PropTypes.string),
   title: React.PropTypes.string,
-  trackId: React.PropTypes.number,
+  trackData: React.PropTypes.object,
   user: React.PropTypes.string
 }
 
 Gallery.defaultProps = {
-  className: null,
   imgUrl: null,
   style: null,
   title: 'Track Title',

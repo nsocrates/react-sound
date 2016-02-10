@@ -1,0 +1,11 @@
+.main {
+  @extend %main;
+
+  &__container {
+    @extend %main-container;
+  }
+}
+
+#main {
+  margin-top: $bar-height;
+}

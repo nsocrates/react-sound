@@ -1,7 +1,6 @@
 .nav {
   background-color: $n-main-color;
   box-shadow: 0 .1rem .3rem $black-hint;
-  height: $bar-height;
   line-height: $bar-height;
   margin-bottom: -$bar-height;
 
@@ -24,7 +23,6 @@
 .nav__section {
   @extend %ul-justify;
   float: left;
-  line-height: $bar-height;
 
   &--menu {
     @include susy-media(small-only) {

@@ -7,13 +7,13 @@ function hideBodyOverflow(shouldHide) {
   body.style.overflow = shouldHide ? 'hidden' : ''
 }
 
-function padBottom(shouldPad) {
+function pushBottom(shouldPush) {
   const main = document.getElementById('main')
-  main.style.marginBottom = shouldPad ? '6rem' : ''
+  main.style.marginBottom = shouldPush ? '6rem' : ''
 }
 
 GlobalEvents
   .on('hideBodyOverflow', hideBodyOverflow)
-  .on('padBottom', padBottom)
+  .on('pushBottom', pushBottom)
 
 export default GlobalEvents

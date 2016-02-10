@@ -1,0 +1,167 @@
+.user {
+  @include relative;
+
+  &__container {
+    @extend %main-container;
+  }
+}
+
+.user__splash {
+  @include relative;
+  color: $white-primary;
+  text-align: center;
+  width: 100%;
+
+  @include susy-media(medium) {
+    text-align: left;
+  }
+}
+
+.user__canvas,
+.user__canvas--inner {
+  height: 100%;
+  width: 100%;
+}
+
+.user__canvas {
+  @include absolute;
+  background-color: $shark;
+}
+
+.user__profile {
+  @extend %main-container;
+  padding-bottom: 1.5rem;
+  padding-top: 1.5rem;
+}
+
+.user__icon {
+  &--map-marker {
+    color: $white-secondary;
+    margin-right: 1rem;
+  }
+}
+
+.user__avatar {
+  @include span(full);
+  margin-bottom: 1rem;
+
+  @include susy-media(medium) {
+    @include span(4);
+    margin-bottom: 0;
+  }
+
+  &--link {
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+    overflow: hidden;
+    width: span(7);
+
+    @include susy-media(medium) {
+      @include span(full);
+      max-height: 30rem;
+      max-width: 30rem;
+    }
+  }
+
+  &--img {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+  }
+}
+
+.user__info {
+  @include span(full);
+  @include susy-media(medium) {
+    @include span(8);
+    margin-right: 0;
+    padding: 0 gutter();
+  }
+}
+
+.user__details {
+  @include span(full);
+  margin-bottom: gutter(8);
+
+  &--fullname {
+    -webkit-font-smoothing: antialiased;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+
+  &--username,
+  &--country {
+    color: $white-secondary;
+  }
+
+  &--username {
+    margin-bottom: 0;
+  }
+}
+
+.user__stats {
+  @include span(full);
+  margin-bottom: gutter(10);
+
+  &--td {
+    // @include span(4);
+    box-shadow: .1rem 0 $white-disabled;
+    float: left;
+    text-align: center;
+    width: (100 / 3) * 1%;
+
+    @include susy-media(medium) {
+      padding: 0 span(1);
+      width: initial;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+
+    &:last-child {
+      box-shadow: none;
+    }
+  }
+
+  &--title {
+    @extend %lead;
+  }
+
+  &--value {
+    color: $white-secondary;
+  }
+}
+
+.user__social-media {
+  @extend %reset-ul;
+  @include span(full);
+  background-color: rgba($shark, $hint);
+  border-radius: 3rem;
+  font-size: 2.4rem;
+  padding: 1rem;
+  text-align: center;
+
+  @include susy-media(medium) {
+    @include span(6);
+    margin-right: 0;
+  }
+
+  &--item {
+    float: left;
+    width: 25%;
+  }
+
+  &--link {
+    color: $white-secondary;
+
+    &:hover {
+      color: $white-primary;
+    }
+  }
+}
