@@ -8,28 +8,27 @@ import { constructUrl, extractNumber } from 'utils/Utils'
 import { normalize } from 'normalizr'
 import merge from 'lodash/merge'
 
-// Extracts the next page URI from API response.
-function getNextHref(json) {
-  return json.next_href ? json.next_href : null
-}
+const entityFactory = json => ({
+  next_href: json.next_href || null,
+  _isStreamable(item) {
+    return item.streamable
+  },
 
-// Checks for streamable property.
-function isStreamable(json) {
-  return json.streamable
-}
+  // Accesses collection property; if it exists, filters streamable
+  getCollection() {
+    this.getCollection = null
 
-// Accesses collection property; if it exists, filters streamable.
-function getCollection(json) {
-  return json.collection ? json.collection.filter(isStreamable) : json
-}
+    return json.collection ? json.collection.filter(this._isStreamable) : json
+  },
+  getWebProfiles(id) {
+    this.getWebProfiles = null
 
-// Add web profile to Users Entity
-function fetchWebProfile(id, json) {
-  const { collection } = json
-  const entities = { entities: { users: { [id]: { web_profiles: collection }}}}
+    const { collection } = json
+    const entity = { entities: { users: { [id]: { web_profiles: collection }}}}
 
-  return entities
-}
+    return entity
+  }
+})
 
 // Fetches an API response and normalizes the result JSON according to schema.
 function callApi(endpoint, schema) {
@@ -44,17 +43,17 @@ function callApi(endpoint, schema) {
       return response.json()
     })
     .then(json => {
-      const next_href = getNextHref(json)
-      const objectJSON = getCollection(json)
+      const entity = entityFactory(json)
+      const { next_href } = entity
 
       if (/web-profiles/.test(endpoint)) {
-        const profile = fetchWebProfile(extractNumber(endpoint), json)
+        const profile = entity.getWebProfiles(extractNumber(endpoint))
 
-        return merge({}, normalize(objectJSON, schema), profile)
+        return merge({}, normalize(json, schema), profile)
       }
 
       return Object.assign({},
-        normalize(objectJSON, schema),
+        normalize(entity.getCollection(), schema),
         { next_href })
     })
 }

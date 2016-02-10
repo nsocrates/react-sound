@@ -20,7 +20,7 @@ function fetchSearch(input, next_href) {
 function loadCached(input, next_href) {
   return {
     input,
-    next_href,
+    next_href: !!next_href,
     type: ActionTypes.SEARCH_CACHED
   }
 }

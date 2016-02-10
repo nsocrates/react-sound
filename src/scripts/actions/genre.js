@@ -25,7 +25,7 @@ function fetchGenre(genre, next_href) {
 function loadCached(genre, next_href) {
   return {
     genre,
-    next_href,
+    next_href: !!next_href,
     type: ActionTypes.GENRE_CACHED
   }
 }
