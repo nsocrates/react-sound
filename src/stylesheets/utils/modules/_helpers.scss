@@ -1,7 +1,12 @@
 %main {
-  padding-bottom: gutter(6);
-  padding-top: gutter(6);
+  padding-bottom: gutter(8);
+  padding-top: gutter(8);
   position: relative;
+
+  @include susy-media(medium) {
+    padding-bottom: gutter();
+    padding-top: gutter();
+  }
 
   &-container {
     @include container;

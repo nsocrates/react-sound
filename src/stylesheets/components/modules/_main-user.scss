@@ -2,6 +2,7 @@
   @include relative;
 
   &__container {
+    @extend %main;
     @extend %main-container;
   }
 }
@@ -41,27 +42,45 @@
   }
 }
 
+.user__link {
+  color: $white-secondary;
+  display: block;
+
+  &:hover {
+    color: $white-primary;
+  }
+
+  &--avatar {
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+    overflow: hidden;
+    width: span(6) + gutter();
+
+    @include susy-media(medium) {
+      @include span(full);
+      height: auto;
+      max-width: 30rem;
+      min-width: 22.5rem;
+    }
+  }
+
+  &--social-media {
+    text-shadow: 0 0 .1rem $white-hint;
+  }
+}
+
 .user__avatar {
   @include span(full);
   margin-bottom: 1rem;
 
   @include susy-media(medium) {
-    @include span(4);
-    margin-bottom: 0;
+    @include span(5);
   }
 
-  &--link {
-    border-radius: 50%;
-    display: block;
-    margin: 0 auto;
-    overflow: hidden;
-    width: span(7);
-
-    @include susy-media(medium) {
-      @include span(full);
-      max-height: 30rem;
-      max-width: 30rem;
-    }
+  @include susy-media(large) {
+    @include span(4 wider);
+    margin-bottom: 0;
   }
 
   &--img {
@@ -74,9 +93,13 @@
 .user__info {
   @include span(full);
   @include susy-media(medium) {
-    @include span(8);
-    margin-right: 0;
-    padding: 0 gutter();
+    float: right;
+    width: span(7);
+  }
+
+  @include susy-media(large) {
+    float: left;
+    width: span(6);
   }
 }
 
@@ -88,6 +111,7 @@
     -webkit-font-smoothing: antialiased;
     font-weight: 700;
     margin-bottom: 0;
+    text-shadow: 0 0 .1rem $white-secondary;
   }
 
   &--username,
@@ -105,7 +129,6 @@
   margin-bottom: gutter(10);
 
   &--td {
-    // @include span(4);
     box-shadow: .1rem 0 $white-disabled;
     float: left;
     text-align: center;
@@ -130,16 +153,20 @@
   }
 
   &--title {
-    @extend %lead;
+    line-height: 1;
+    margin-bottom: .2rem;
   }
 
   &--value {
-    color: $white-secondary;
+    -webkit-font-smoothing: antialiased;
+    color: $white-primary;
+    font-weight: 700;
+    margin-bottom: 0;
+    text-shadow: 0 0 .1rem $white-secondary;
   }
 }
 
 .user__social-media {
-  @extend %reset-ul;
   @include span(full);
   background-color: rgba($shark, $hint);
   border-radius: 3rem;
@@ -148,20 +175,157 @@
   text-align: center;
 
   @include susy-media(medium) {
-    @include span(6);
+    margin-right: span(7) + gutter();
+    width: span(5);
+  }
+
+  @include susy-media(large) {
     margin-right: 0;
+    width: span(6);
   }
 
   &--item {
     float: left;
     width: 25%;
   }
+}
+
+.menu {
+  background-color: $white-primary;
+  border-radius: .5rem;
+  color: $black-secondary;
+  line-height: $bar-height;
+  margin-bottom: gutter(8);
+
+  @include susy-media(medium) {
+    margin-bottom: gutter();
+  }
+
+  &__inner {
+    @extend %ul-justify;
+    font-size: 2.4rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  &__item {
+    border-right: .1rem solid $black-disabled;
+    width: 25%;
+
+    &:last-child {
+      border: 0;
+    }
+  }
+
+  &__link {
+    display: block;
+    padding: 0 1.5rem;
+    transition: background-color, box-shadow, $trans-default;
+
+    &:hover,
+    &--active {
+      background-color: $n-focus;
+      box-shadow: $n-accent;
+      color: $n-text-active;
+    }
+  }
+
+  &__icon {
+    line-height: $bar-height;
+    margin-right: gutter(4);
+  }
+
+  &__text {
+    display: none;
+
+    @include susy-media(medium) {
+      display: inline-block;
+      font-size: 1.6rem;
+      vertical-align: top;
+    }
+  }
+}
+
+.card {
+  @include span(full);
+  background-color: transparent;
+}
+
+.card__item {
+  @include span(full);
+  background-color: $white;
+  border-radius: .5rem;
+  margin-bottom: gutter(8);
+  overflow: hidden;
+
+  @include susy-media(medium) {
+    margin-bottom: gutter();
+  }
+
+  @include susy-media(large) {
+    @include gallery(6);
+    padding: 1rem;
+  }
+
+  @include susy-media(xlarge) {
+    @include gallery(4);
+  }
+}
+
+.card__cover {
+  float: left;
+  height: 12.5rem;
+  margin-bottom: gutter();
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  @include susy-media(medium) {
+    @include span(4);
+    height: auto;
+    margin-bottom: 0;
+    max-height: 20rem;
+    max-width: 20rem;
+  }
+
+  @include susy-media(large) {
+    @include span(6 wider);
+    max-height: none;
+    max-width: none;
+  }
 
   &--link {
-    color: $white-secondary;
+    background-color: $light-gray;
+    display: block;
+    height: auto;
+    padding-bottom: 100%;
+    width: 100%;
+  }
 
-    &:hover {
-      color: $white-primary;
+  &--img {
+    @include absolute(top right bottom left);
+    display: block;
+    height: auto;
+    margin: auto;
+    width: 100%;
+
+    @include susy-media(medium) {
+      float: left;
+      position: relative;
     }
+  }
+}
+
+.card__content {
+  padding: 0 1rem;
+
+  @include susy-media(medium) {
+    float: left;
+    width: span(8);
+  }
+
+  @include susy-media(large) {
+    padding: 0;
+    width: span(5) + gutter();
   }
 }

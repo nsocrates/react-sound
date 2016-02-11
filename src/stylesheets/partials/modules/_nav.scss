@@ -22,6 +22,7 @@
 
 .nav__section {
   @extend %ul-justify;
+  color: $n-text-color;
   float: left;
 
   &--menu {
@@ -54,13 +55,12 @@
 .nav__link {
   display: block;
   padding: 0 1.5rem;
-  transition-duration: $trans-duration;
-  transition-property: background-color, box-shadow;
-  transition-timing-function: $trans-func;
+  transition: background-color, box-shadow, $trans-default;
 
   &:hover,
   &--active {
     background-color: $n-focus;
     box-shadow: $n-accent;
+    color: $n-text-active;
   }
 }

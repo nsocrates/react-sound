@@ -28,6 +28,7 @@
 .gallery__artwork {
   @extend %reset-white-space;
   @include relative;
+  background-color: $light-gray;
   display: block;
   padding-bottom: 100%;
   width: 100%;
