@@ -7,7 +7,7 @@ import { CALL_API } from 'constants/Api'
 import { Schemas } from 'constants/Schemas'
 
 // Fetches a single user:
-function fetchUser(id, endpoint) {
+function fetchUser(id, endpoint, schema) {
   return {
     id,
     [CALL_API]: {
@@ -17,43 +17,40 @@ function fetchUser(id, endpoint) {
         ActionTypes.USER_FAILURE
       ],
       endpoint,
-      schema: Schemas.USER
+      schema
     }
   }
 }
-
-// function fetchWebProfiles(id) {
-//   return {
-//     id,
-//     [CALL_API]: {
-//       types: [
-//         ActionTypes.USER_REQUEST,
-//         ActionTypes.USER_SUCCESS,
-//         ActionTypes.USER_FAILURE
-//       ],
-//       endpoint: `/users/${id}/web-profiles?`,
-//       schema: Schemas.USER
-//     }
-//   }
-// }
 
 // Fetches a single user from SoundCloud API unless it is cached:
 export function loadUser(id) {
   return (dispatch, getState) => {
     const user = getState().app.entities.users[id]
-    const endpoints = {
-      base: `/users/${id}?`,
-      profile: `/users/${id}/web-profiles?`
+    const action = {
+      base: {
+        endpoint: `/users/${id}?`,
+        schema: Schemas.USER
+      },
+      profile: {
+        endpoint: `/users/${id}/web-profiles?`,
+        schema: Schemas.USER
+      },
+      tracks: {
+        endpoint: `/users/${id}/tracks?`,
+        schema: Schemas.TRACK_ARRAY
+      }
     }
+    const { base, profile, tracks } = action
 
     if (user && user.hasOwnProperty('online')) {
       return null
     }
     return dispatch(
-      fetchUser(id, endpoints.base)
+      fetchUser(id, base.endpoint, base.schema)
     ).then(() =>
       Promise.all([
-        dispatch(fetchUser(id, endpoints.profile))
+        dispatch(fetchUser(id, profile.endpoint, profile.schema)),
+        dispatch(fetchUser(id, tracks.endpoint, tracks.schema))
       ])
     )
   }

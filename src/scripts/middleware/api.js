@@ -49,7 +49,7 @@ function callApi(endpoint, schema) {
       if (/web-profiles/.test(endpoint)) {
         const profile = entity.getWebProfiles(extractNumber(endpoint))
 
-        return merge({}, normalize(json, schema), profile)
+        return merge({}, profile)
       }
 
       return Object.assign({},

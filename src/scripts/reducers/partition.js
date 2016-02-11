@@ -71,12 +71,12 @@ function partitionate({ types, mapActionToKey }) {
 
 // Updates partition data for different actions:
 const partition = combineReducers({
-  playlistByUser: partitionate({
+  tracksByUser: partitionate({
     mapActionToKey: action => action.id,
     types: [
-      ActionTypes.PLAYLIST_REQUEST,
-      ActionTypes.PLAYLIST_SUCCESS,
-      ActionTypes.PLAYLIST_FAILURE
+      ActionTypes.USER_REQUEST,
+      ActionTypes.USER_SUCCESS,
+      ActionTypes.USER_FAILURE
     ]
   }),
   tracksByGenre: partitionate({
