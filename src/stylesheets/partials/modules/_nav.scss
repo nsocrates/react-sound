@@ -4,11 +4,6 @@
   line-height: $bar-height;
   margin-bottom: -$bar-height;
 
-//Temporary
-  @include susy-media(medium) {
-    min-width: $tmp-min-width;
-  }
-
   &--sticky {
     @include fixed(top);
     width: 100%;
@@ -17,21 +12,31 @@
 }
 
 .nav__container {
-  @extend %main-container;
+  @extend %main__container;
 }
 
 .nav__section {
-  @extend %ul-justify;
   color: $n-text-color;
   float: left;
 
   &--menu {
-    @include susy-media(small-only) {
-      display: none;
+    display: none;
+
+    @include susy-media(medium) {
+      @extend %menu;
+      display: initial;
+      float: left;
+      width: span(11);
+    }
+
+    @include susy-media(large) {
+      width: span(7);
     }
   }
 
   &--bars {
+    float: left;
+
     @include susy-media(medium) {
       display: none;
     }
@@ -40,12 +45,13 @@
   &--search {
     float: right;
     position: relative;
+    text-align: right;
   }
 }
 
 .nav__item {
+  @extend %menu__item;
   border-right: .1rem solid $black-disabled;
-  border-top: .1rem solid $light-gray;
 
   &:first-child {
     border-left: .1rem solid $black-disabled;
@@ -53,14 +59,10 @@
 }
 
 .nav__link {
-  display: block;
-  padding: 0 1.5rem;
-  transition: background-color, box-shadow, $trans-default;
+  @extend %menu__link;
 
   &:hover,
   &--active {
-    background-color: $n-focus;
-    box-shadow: $n-accent;
-    color: $n-text-active;
+    @extend %menu__link--active;
   }
 }

@@ -34,7 +34,7 @@ class UserContainer extends React.Component {
     const canvasRef = ref => this._canvas = ref
 
     return (
-      <Main className="user">
+      <Main className="main--user">
 
         {/*-- Banner --*/}
         <div className="user__splash">
@@ -143,7 +143,7 @@ class UserContainer extends React.Component {
             <ul className="menu__inner">
 
               <li className="menu__item">
-                <a className="menu__link" href="#">
+                <a className="menu__link menu__link--active" href="#">
                   <i className="menu__icon fa fa-eye" />
                   <span className="menu__text">{"View All"}</span>
                 </a>

@@ -1,9 +1,5 @@
-.gallery {
-  @extend %main;
-
-  &__container {
-    @extend %main-container;
-  }
+.gallery__container {
+  @extend %main__container;
 }
 
 .gallery__wrap {

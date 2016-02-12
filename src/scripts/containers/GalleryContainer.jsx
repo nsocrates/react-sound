@@ -82,7 +82,7 @@ class GalleryContainer extends React.Component {
     }
 
     return (
-      <Main className="gallery">
+      <Main className="main--gallery">
         <div className="gallery__container">
           { hasCache ? renderGallery() : null }
           { isFetching ? <Loader /> : shouldRenderWaypoint() }

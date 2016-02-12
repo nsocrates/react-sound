@@ -1,11 +1,12 @@
 .main {
-  @extend %main;
+  margin-top: $bar-height;
+  position: relative;
 
-  &__container {
-    @extend %main-container;
+  &--gallery {
+    @extend %main;
   }
 }
 
-#main {
-  margin-top: $bar-height;
+.main__container {
+  @extend %main__container;
 }

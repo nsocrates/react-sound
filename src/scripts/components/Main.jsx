@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Main = ({ children = null, className }) => (
+const Main = ({ children = null, className = null }) => (
   <main
-    className={ className }
+    className={`main ${className}`}
     id="main"
   >
     { children }
@@ -12,11 +12,6 @@ const Main = ({ children = null, className }) => (
 Main.propTypes = {
   children: React.PropTypes.node,
   className: React.PropTypes.string
-}
-
-Main.defaultProps = {
-  children: null,
-  className: 'main'
 }
 
 export default Main

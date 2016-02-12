@@ -5,12 +5,12 @@
   line-height: $bar-height;
 
   &__container {
-    @extend %main-container;
+    @extend %main__container;
   }
 }
 
 .header__section {
-  @extend %ul-justify;
+  @extend %justified;
   color: $white-primary;
 
   &--main {
@@ -23,7 +23,7 @@
 }
 
 .header__item {
-  display: block;
+  @extend %justified__item;
 
   &--link {
     color: $white-primary;

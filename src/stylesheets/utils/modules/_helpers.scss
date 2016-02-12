@@ -1,49 +1,4 @@
-%main {
-  padding-bottom: gutter(8);
-  padding-top: gutter(8);
-  position: relative;
-
-  @include susy-media(medium) {
-    padding-bottom: gutter();
-    padding-top: gutter();
-  }
-
-  &-container {
-    @include container;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    position: relative;
-    width: 100%;
-
-    @include susy-media(medium) {
-      width: 90%;
-    }
-  }
-}
-
-%full-container {
-  @include container(100%);
-  position: relative;
-}
-
-%input-search {
-  background-color: transparent;
-  border: 0;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-%ul-justify {
-  display: table;
-
-  > li {
-    display: table-cell;
-    vertical-align: middle;
-  }
-}
-
+// Resets
 %reset-white-space {
   font-size: 0;
   line-height: 0;
@@ -61,6 +16,28 @@
   }
 }
 
+// Form
+%input-search {
+  background-color: transparent;
+  border: 0;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+// Lists
+%justified {
+  display: table;
+  table-layout: fixed;
+
+  > %justified__item {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+
+// Text
 %small {
   font-size: 80%;
   line-height: inherit;
@@ -75,4 +52,56 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+// Wrappers
+%main {
+  padding-bottom: gutter(8);
+  padding-top: gutter(8);
+
+  @include susy-media(medium) {
+    padding-bottom: gutter();
+    padding-top: gutter();
+  }
+
+  &__container {
+    @include container;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    position: relative;
+    width: 100%;
+
+    @include susy-media(medium) {
+      width: 90%;
+    }
+  }
+}
+
+%full__container {
+  @include container(100%);
+  position: relative;
+}
+
+// Menu
+%menu {
+  @extend %justified;
+  overflow: hidden;
+  text-align: center;
+
+  > %menu__item {
+    @extend %justified__item;
+    white-space: nowrap;
+    width: 1%;
+
+    > %menu__link {
+      display: block;
+      transition: background-color, box-shadow, $trans-default;
+
+      &--active {
+        background-color: $n-focus;
+        box-shadow: $n-accent;
+        color: $n-text-active;
+      }
+    }
+  }
 }

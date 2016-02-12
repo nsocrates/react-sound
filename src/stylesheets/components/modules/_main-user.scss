@@ -1,17 +1,12 @@
-.user {
-  @include relative;
-
-  &__container {
-    @extend %main;
-    @extend %main-container;
-  }
+.user__container {
+  @extend %main;
+  @extend %main__container;
 }
 
 .user__splash {
-  @include relative;
+  @extend %full__container;
   color: $white-primary;
   text-align: center;
-  width: 100%;
 
   @include susy-media(medium) {
     text-align: left;
@@ -30,7 +25,7 @@
 }
 
 .user__profile {
-  @extend %main-container;
+  @extend %main__container;
   padding-bottom: 1.5rem;
   padding-top: 1.5rem;
 }
@@ -202,15 +197,14 @@
   }
 
   &__inner {
-    @extend %ul-justify;
+    @extend %menu;
     font-size: 2.4rem;
-    text-align: center;
     width: 100%;
   }
 
   &__item {
+    @extend %menu__item;
     border-right: .1rem solid $black-disabled;
-    width: 25%;
 
     &:last-child {
       border: 0;
@@ -218,15 +212,11 @@
   }
 
   &__link {
-    display: block;
-    padding: 0 1.5rem;
-    transition: background-color, box-shadow, $trans-default;
+    @extend %menu__link;
 
     &:hover,
     &--active {
-      background-color: $n-focus;
-      box-shadow: $n-accent;
-      color: $n-text-active;
+      @extend %menu__link--active;
     }
   }
 
