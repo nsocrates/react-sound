@@ -32,14 +32,13 @@
 
 .user__icon {
   &--map-marker {
-    color: $white-secondary;
+    color: $white-hint;
     margin-right: 1rem;
   }
 }
 
 .user__link {
   color: $white-secondary;
-  display: block;
 
   &:hover {
     color: $white-primary;
@@ -61,6 +60,7 @@
   }
 
   &--social-media {
+    display: inline-block;
     text-shadow: 0 0 .1rem $white-hint;
   }
 }
@@ -89,11 +89,13 @@
   @include span(full);
   @include susy-media(medium) {
     float: right;
+    padding-left: gutter();
     width: span(7);
   }
 
   @include susy-media(large) {
     float: left;
+    padding-left: 0;
     width: span(6);
   }
 }
@@ -105,17 +107,17 @@
   &--fullname {
     -webkit-font-smoothing: antialiased;
     font-weight: 700;
-    margin-bottom: 0;
+    line-height: 1;
     text-shadow: 0 0 .1rem $white-secondary;
   }
 
-  &--username,
-  &--country {
+  &--username {
     color: $white-secondary;
+    margin-bottom: 0;
   }
 
-  &--username {
-    margin-bottom: 0;
+  &--location {
+    color: $white-hint;
   }
 }
 
@@ -180,142 +182,7 @@
   }
 
   &--item {
-    float: left;
+    display: inline-block;
     width: 25%;
-  }
-}
-
-.menu {
-  background-color: $white-primary;
-  border-radius: .5rem;
-  color: $black-secondary;
-  line-height: $bar-height;
-  margin-bottom: gutter(8);
-
-  @include susy-media(medium) {
-    margin-bottom: gutter();
-  }
-
-  &__inner {
-    @extend %menu;
-    font-size: 2.4rem;
-    width: 100%;
-  }
-
-  &__item {
-    @extend %menu__item;
-    border-right: .1rem solid $black-disabled;
-
-    &:last-child {
-      border: 0;
-    }
-  }
-
-  &__link {
-    @extend %menu__link;
-
-    &:hover,
-    &--active {
-      @extend %menu__link--active;
-    }
-  }
-
-  &__icon {
-    line-height: $bar-height;
-    margin-right: gutter(4);
-  }
-
-  &__text {
-    display: none;
-
-    @include susy-media(medium) {
-      display: inline-block;
-      font-size: 1.6rem;
-      vertical-align: top;
-    }
-  }
-}
-
-.card {
-  @include span(full);
-  background-color: transparent;
-}
-
-.card__item {
-  @include span(full);
-  background-color: $white;
-  border-radius: .5rem;
-  margin-bottom: gutter(8);
-  overflow: hidden;
-
-  @include susy-media(medium) {
-    margin-bottom: gutter();
-  }
-
-  @include susy-media(large) {
-    @include gallery(6);
-    padding: 1rem;
-  }
-
-  @include susy-media(xlarge) {
-    @include gallery(4);
-  }
-}
-
-.card__cover {
-  float: left;
-  height: 12.5rem;
-  margin-bottom: gutter();
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-
-  @include susy-media(medium) {
-    @include span(4);
-    height: auto;
-    margin-bottom: 0;
-    max-height: 20rem;
-    max-width: 20rem;
-  }
-
-  @include susy-media(large) {
-    @include span(6 wider);
-    max-height: none;
-    max-width: none;
-  }
-
-  &--link {
-    background-color: $light-gray;
-    display: block;
-    height: auto;
-    padding-bottom: 100%;
-    width: 100%;
-  }
-
-  &--img {
-    @include absolute(top right bottom left);
-    display: block;
-    height: auto;
-    margin: auto;
-    width: 100%;
-
-    @include susy-media(medium) {
-      float: left;
-      position: relative;
-    }
-  }
-}
-
-.card__content {
-  padding: 0 1rem;
-
-  @include susy-media(medium) {
-    float: left;
-    width: span(8);
-  }
-
-  @include susy-media(large) {
-    padding: 0;
-    width: span(5) + gutter();
   }
 }

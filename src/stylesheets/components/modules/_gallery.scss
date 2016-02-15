@@ -1,8 +1,4 @@
-.gallery__container {
-  @extend %main__container;
-}
-
-.gallery__wrap {
+.gallery {
   @include gallery(6);
   animation: $trans-duration linear forwards scale-in;
   background-color: $white;
@@ -76,11 +72,11 @@
   }
 }
 
-.gallery__track {
+.gallery__content {
   padding: gutter(3);
 
   &--title,
-  &--user {
+  &--byline {
     margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;

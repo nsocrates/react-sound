@@ -1,0 +1,54 @@
+.tags {
+  @include span(full);
+}
+
+.tag {
+  float: left;
+  margin-bottom: gutter();
+  margin-right: gutter();
+}
+
+.tag__item {
+  @extend %ellipsis;
+  @include relative;
+  background-color: rgba($light-gray, $secondary);
+  border-radius: .5rem;
+  color: $black-secondary;
+  display: inline-block;
+  height: 2.6rem;
+  line-height: 2.6rem;
+  max-width: 15rem;
+  padding: 0 2rem 0 2.3rem;
+  transition: color $trans-duration;
+
+  &::before {
+    @include absolute(top left);
+    background-color: $white-primary;
+    border-bottom: 1.4rem solid transparent;
+    border-right: 1.5rem solid rgba($light-gray, $secondary);
+    border-top: 1.4rem solid transparent;
+    content: '';
+    display: block;
+  }
+
+  &::after {
+    @include absolute(top 50% left 1rem);
+    background-color: $white-primary;
+    border-radius: 1rem;
+    box-shadow: 0 -.1rem .1rem $black-hint;
+    content: '';
+    display: block;
+    height: .6rem;
+    margin-top: -.2rem;
+    width: .6rem;
+  }
+
+  &:hover {
+    background-color: rgba($light-gray, $primary);
+    color: $black-primary;
+
+    &::before {
+      border-right-color: rgba($light-gray, $primary);
+    }
+  }
+}

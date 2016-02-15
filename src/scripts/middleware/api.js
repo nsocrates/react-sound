@@ -8,27 +8,27 @@ import { constructUrl, extractNumber } from 'utils/Utils'
 import { normalize } from 'normalizr'
 import merge from 'lodash/merge'
 
-const entityFactory = json => ({
-  next_href: json.next_href || null,
-  _isStreamable(item) {
-    return item.streamable
-  },
+const entityFactory = json => {
+  const isStreamable = item => item.streamable
 
-  // Accesses collection property; if it exists, filters streamable
-  getCollection() {
-    this.getCollection = null
+  return {
+    next_href: json.next_href || null,
 
-    return json.collection ? json.collection.filter(this._isStreamable) : json
-  },
-  getWebProfiles(id) {
-    this.getWebProfiles = null
+    // Accesses collection property; if it exists, filters streamable
+    getCollection() {
+      this.getCollection = null
 
-    const { collection } = json
-    const entity = { entities: { users: { [id]: { web_profiles: collection }}}}
+      return json.collection ? json.collection.filter(isStreamable) : json
+    },
+    getWebProfiles(id) {
+      this.getWebProfiles = null
+      const { collection } = json
+      const entity = { entities: { users: { [id]: { web_profiles: collection }}}}
 
-    return entity
+      return entity
+    }
   }
-})
+}
 
 // Fetches an API response and normalizes the result JSON according to schema.
 function callApi(endpoint, schema) {

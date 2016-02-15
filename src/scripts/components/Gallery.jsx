@@ -55,7 +55,7 @@ export default class Gallery extends React.Component {
     const { trackData: { user, track, getArtwork }} = this.props
 
     return (
-      <article className="gallery__wrap">
+      <article className="gallery">
         <a
           className="fa gallery__artwork"
           href=""
@@ -67,19 +67,19 @@ export default class Gallery extends React.Component {
             src={ getArtwork(IMG_FORMAT.LARGE) }
           />
         </a>
-        <div className="gallery__track">
-          <h6 className="gallery__track--title" >
+        <div className="gallery__content">
+          <h6 className="gallery__content--title" >
             <a
-              className="gallery__track--link"
-              href=""
+              className="gallery__content--link"
+              href="#"
               onClick={ this.handleClick_track }
             >
               { track.name }
             </a>
           </h6>
-          <h6 className="gallery__track--user">
+          <h6 className="gallery__content--byline">
             <Link
-              className="gallery__track--link"
+              className="gallery__content--link"
               onClick={ this.handleClick_user }
               to="#user"
             >

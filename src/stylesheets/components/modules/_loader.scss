@@ -1,0 +1,21 @@
+.loader {
+  @extend %full__container;
+  clear: both;
+  float: left;
+  text-align: center;
+  width: 100%;
+
+  &--center {
+    transform: translate3d(0, 40vh, 0);
+  }
+
+  &--end {
+    margin: 2.5rem 0 0;
+    padding: 2.5rem 0;
+  }
+}
+
+.loader__icon {
+  color: tint($shark, 10%);
+  font-size: 3.1rem;
+}

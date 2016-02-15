@@ -1,3 +1,37 @@
+.nav {
+  box-shadow: 0 .1rem .3rem $black-hint;
+  margin-bottom: -$bar-height;
+
+  &--sticky {
+    @include fixed(top);
+    width: 100%;
+    z-index: $n-stack-level;
+  }
+}
+
+.nav__container {
+  @extend %main__container;
+}
+
+.nav__section {
+  color: $n-text-color;
+  float: left;
+
+  &--bars {
+    float: left;
+
+    @include susy-media(medium) {
+      display: none;
+    }
+  }
+
+  &--search {
+    float: right;
+    position: relative;
+    text-align: right;
+  }
+}
+
 .nav__form {
   display: none;
 

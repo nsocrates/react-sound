@@ -1,20 +1,9 @@
 .rw__gallery,
-.rw__loader,
 .rw__end {
   clear: both;
   float: left;
   margin: 2.5rem 0 0;
   padding: 2.5rem 0;
-}
-
-.rw__loader {
-  text-align: center;
-  width: 100%;
-
-  > i {
-    color: tint($shark, 10%);
-    font-size: 3.1rem;
-  }
 }
 
 .rw__end {

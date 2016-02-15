@@ -1,0 +1,92 @@
+.card {
+  @include span(full);
+  background-color: transparent;
+}
+
+.card__item {
+  @include span(full);
+  background-color: $white;
+  border-radius: .5rem;
+  margin-bottom: gutter(8);
+  overflow: hidden;
+
+  @include susy-media(medium) {
+    margin-bottom: gutter();
+  }
+
+  @include susy-media(large) {
+    @include gallery(6);
+    padding: 1rem;
+  }
+
+  @include susy-media(xlarge) {
+    @include gallery(4);
+  }
+}
+
+.card__cover {
+  float: left;
+  height: 12.5rem;
+  margin-bottom: gutter();
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  @include susy-media(medium) {
+    @include span(4);
+    height: auto;
+    margin-bottom: 0;
+    max-height: 20rem;
+    max-width: 20rem;
+  }
+
+  @include susy-media(large) {
+    @include span(6 wider);
+    max-height: none;
+    max-width: none;
+  }
+
+  &--link {
+    background-color: $light-gray;
+    display: block;
+    height: auto;
+    padding-bottom: 100%;
+    width: 100%;
+  }
+
+  &--img {
+    @include absolute(top right bottom left);
+    display: block;
+    height: auto;
+    margin: auto;
+    width: 100%;
+
+    @include susy-media(medium) {
+      float: left;
+      position: relative;
+    }
+  }
+}
+
+.card__content {
+  padding: 0 1rem;
+
+  @include susy-media(medium) {
+    float: left;
+    width: span(8);
+  }
+
+  @include susy-media(large) {
+    padding: 0;
+    width: span(5) + gutter();
+  }
+
+  &--title {
+    margin: 0;
+  }
+
+  &--byline {
+    color: $black-hint;
+    margin-bottom: 1rem;
+  }
+}

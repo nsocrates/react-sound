@@ -79,6 +79,14 @@ const partition = combineReducers({
       ActionTypes.USER_FAILURE
     ]
   }),
+  playlistsByUser: partitionate({
+    mapActionToKey: action => action.id,
+    types: [
+      ActionTypes.PLAYLIST_REQUEST,
+      ActionTypes.PLAYLIST_SUCCESS,
+      ActionTypes.PLAYLIST_FAILURE
+    ]
+  }),
   tracksByGenre: partitionate({
     mapActionToKey: action => action.genre,
     types: [

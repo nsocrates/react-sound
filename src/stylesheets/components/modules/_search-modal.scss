@@ -7,6 +7,14 @@
   }
 }
 
+.modal__portal {
+  transition: color $trans-duration;
+
+  &:hover {
+    color: $black-primary;
+  }
+}
+
 .modal__overlay {
   @include absolute(top .7rem right -.7rem);
   background-image: $m-overlay-bg;

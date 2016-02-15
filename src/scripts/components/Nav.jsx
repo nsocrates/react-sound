@@ -39,19 +39,19 @@ export default class Nav extends React.Component {
     const shouldExpandOverlay = classNames('modal__overlay', {
       'modal__overlay--open': searchModal.isOpen
     })
-    const shouldStick = classNames('nav', {
+    const shouldStick = classNames('nav menu', {
       'nav--sticky': navbar.isSticky
     })
     const refNavbar = ref => this._navbar = ref
     const search = ref => this._search = ref
 
     const menuItems = genreList.map((item, index) => {
-      const active = classNames('nav__link', { 'nav__link--active': requested.query === item })
+      const active = classNames('menu__link', { 'menu__link--active': requested.query === item })
 
       return (
         <li
-          className="nav__item"
-          key={ `nav__${index}_${item}` }
+          className="menu__item menu__item--nav"
+          key={ `menu--nav__${index}_${item}` }
         >
           <MenuItem
             componentClass={ active ? active : null }
@@ -71,7 +71,7 @@ export default class Nav extends React.Component {
         ref={ refNavbar }
       >
         <div className="nav__container">
-          <ul className="nav__section nav__section--menu">
+          <ul className="menu__inner menu__inner--nav">
             { menuItems }
           </ul>
           <ul className="nav__section nav__section--bars">

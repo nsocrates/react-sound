@@ -27,18 +27,19 @@ export function extractNumber(string) {
 // Extracts useful track data:
 export const trackFactory = obj => {
   const { trackId, userEntity, trackEntity } = obj
-  let trackData = {
-    userName: null,
-    trackName: null,
-    fallback: { LARGE: null, SMALL: null },
-    getArtwork() {}
+
+  function parseTags(list) {
+    const regex = /"[^"]*"|[^\s"]+/g
+    return list.match(regex)
+               .map(item => item.replace(/"/g, ''))
   }
 
   if (trackId) {
     const track = trackEntity[trackId]
     const userId = track.user_id
     const title = track.title.split(' - ')
-    trackData = {
+
+    return {
       user: {
         id: userId,
         name: userEntity[userId].username
@@ -48,10 +49,8 @@ export const trackFactory = obj => {
         name: title[1] || title[0]
       },
       download: track.downloadable ? `${track.download_url}?client_id=${CLIENT_ID}` : null,
+      tags: track.tag_list ? parseTags(track.tag_list) : null,
       getArtwork(format) {
-        // Prevent pollution of trackData
-        // this.getArtwork = null
-
         let artwork
         if (!track.artwork_url) {
           artwork = userEntity[userId].avatar_url
@@ -79,7 +78,6 @@ export const trackFactory = obj => {
       }
     }
   }
-  return trackData
 }
 
 // Formats seconds into readable time:

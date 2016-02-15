@@ -1,5 +1,5 @@
 import App from 'containers/App'
-import GalleryContainer from 'containers/GalleryContainer'
+import CollectionContainer from 'containers/CollectionContainer'
 import UserContainer from 'containers/UserContainer'
 import End from 'components/End'
 import React from 'react'
@@ -13,7 +13,7 @@ const routes = (
     >
       <IndexRoute component={ End }/>
       <Route
-        component={ GalleryContainer }
+        component={ CollectionContainer }
         path="#genre"
       />
       <Route
@@ -21,7 +21,7 @@ const routes = (
         path="#user"
       />
       <Route
-        component={ GalleryContainer }
+        component={ CollectionContainer }
         path="#search"
       />
     </Route>

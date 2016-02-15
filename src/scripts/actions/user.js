@@ -38,9 +38,13 @@ export function loadUser(id) {
       tracks: {
         endpoint: `/users/${id}/tracks?`,
         schema: Schemas.TRACK_ARRAY
+      },
+      playlists: {
+        endpoint: `/users/${id}/playlists?`,
+        schema: Schemas.PLAYLIST_ARRAY
       }
     }
-    const { base, profile, tracks } = action
+    const { base, profile, tracks, playlists } = action
 
     if (user && user.hasOwnProperty('online')) {
       return null

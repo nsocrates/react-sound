@@ -13,7 +13,7 @@ import { push } from 'react-router-redux'
 import { requestStream } from 'actions/stream'
 import { trackFactory } from 'utils/Utils'
 
-class GalleryContainer extends React.Component {
+class CollectionContainer extends React.Component {
 
   constructor(props) {
     super(props)
@@ -82,10 +82,10 @@ class GalleryContainer extends React.Component {
     }
 
     return (
-      <Main className="main--gallery">
-        <div className="gallery__container">
+      <Main className="main--collection">
+        <div className="collection__container">
           { hasCache ? renderGallery() : null }
-          { isFetching ? <Loader /> : shouldRenderWaypoint() }
+          { isFetching ? <Loader className="loader--end"/> : shouldRenderWaypoint() }
           { !hasMore && !isFetching ? <End className="rw__end rw__end--gallery" /> : null }
         </div>
       </Main>
@@ -93,7 +93,7 @@ class GalleryContainer extends React.Component {
   }
 }
 
-GalleryContainer.propTypes = {
+CollectionContainer.propTypes = {
   actions: React.PropTypes.shape(
     React.PropTypes.func.isRequired
   ),
@@ -148,4 +148,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GalleryContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CollectionContainer)

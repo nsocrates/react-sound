@@ -1,3 +1,7 @@
+.invis {
+  visibility: hidden;
+}
+
 // Resets
 %reset-white-space {
   font-size: 0;
@@ -80,28 +84,4 @@
 %full__container {
   @include container(100%);
   position: relative;
-}
-
-// Menu
-%menu {
-  @extend %justified;
-  overflow: hidden;
-  text-align: center;
-
-  > %menu__item {
-    @extend %justified__item;
-    white-space: nowrap;
-    width: 1%;
-
-    > %menu__link {
-      display: block;
-      transition: background-color, box-shadow, $trans-default;
-
-      &--active {
-        background-color: $n-focus;
-        box-shadow: $n-accent;
-        color: $n-text-active;
-      }
-    }
-  }
 }

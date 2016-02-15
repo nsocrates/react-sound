@@ -1,37 +1,141 @@
 // import Waypoint from 'components/Waypoint'
 // import { bindActionCreators } from 'redux'
-import Button from 'components/Button'
+// import Button from 'components/Button'
+import Loader from 'components/Loader'
+import End from 'components/End'
+import Canvas from 'components/Canvas'
 import Main from 'components/Main'
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { IMG_FORMAT, IMG_FALLBACK } from 'constants/ItemLists'
+import { IMG_FORMAT } from 'constants/ItemLists'
 import { loadUser } from 'actions/user'
+import MediaItem from 'components/MediaItem'
+import Card from 'components/Card'
+import { trackFactory } from 'utils/Utils'
+import Tag from 'components/Tag'
 
 class UserContainer extends React.Component {
 
   componentDidMount() {
     const { dispatch, location } = this.props
 
-    this.drawCanvas()
     dispatch(loadUser(location.query.q))
   }
 
-  drawCanvas() {
-    const { _canvas } = this
-    const { width, height } = _canvas
-    const ctx = _canvas.getContext('2d')
-    const gradient = ctx.createLinearGradient(0, 0, height, 0)
-    gradient.addColorStop(0,'rgba(38, 39, 40, 0.5)')
-    gradient.addColorStop(1,'rgba(255, 255, 255, 0.5)')
-
-    ctx.fillStyle = gradient
-    return ctx.fillRect(0, 0, width, height)
-  }
-
   render() {
-    const { location, userEntity } = this.props
-    // const avatarUrl = userEntity[location.query.q].avatar_url.replace(/large/, IMG_FORMAT.LARGE)
-    const canvasRef = ref => this._canvas = ref
+    const { location, userEntity, trackEntity, tracksByUser } = this.props
+    const user = userEntity[location.query.q]
+
+    if (!user) {
+      return <Loader className="loader--center" />
+    }
+
+    const {
+      avatar_url,
+      city,
+      country,
+      followers_count,
+      followings_count,
+      full_name,
+      permalink_url,
+      track_count,
+      username,
+      website
+    } = user
+
+    const avatarUrl = avatar_url.replace(/large/, IMG_FORMAT.LARGE)
+
+    const renderLocation = () => {
+      if (city || country) {
+        return (
+          <h5 className="user__details--location">
+            <i className="user__icon user__icon--map-marker fa fa-map-marker" />
+            { city && country ? `${city}, ${country}` : country || city }
+          </h5>
+        )
+      }
+    }
+
+    const renderWebIcons = () => {
+      if (user.web_profiles) {
+        const { web_profiles } = user
+        return web_profiles.map((item, index) => {
+          const { service, url, id } = item
+          let icon
+
+          switch (service) {
+            case 'facebook':
+              icon = 'fa-facebook-official'
+              break
+            case 'instagram':
+              icon = 'fa-instagram'
+              break
+            case 'youtube':
+              icon = 'fa-youtube-square'
+              break
+            case 'twitter':
+              icon = 'fa-twitter-square'
+              break
+            default:
+              return null
+          }
+
+          return (
+            <MediaItem
+              href={ url }
+              iconClassName={ `user__icon user__icon--${service} fa ${icon}` }
+              key={`web_profile__${index}_${id}`}
+              linkClassName="user__link user__link--social-media"
+              listClassName="user__social-media--item"
+            />
+          )
+        })
+      }
+    }
+
+    const renderCards = () => {
+      if (tracksByUser[user.id]) {
+        const tracks = tracksByUser[user.id]
+        const { ids } = tracks
+
+        return ids.map((item, index) => {
+          const obj = {
+            userEntity,
+            trackEntity,
+            trackId: item
+          }
+          const trackData = trackFactory(obj)
+
+          const renderTags = () => {
+            if (trackData.tags) {
+              return trackData.tags.map((tag, idx) => {
+                if (idx < 10) {
+                  return (
+                    <Tag
+                      key={`tag__${idx}_${tag}`}
+                      text={ tag }
+                    />
+                  )
+                }
+              })
+            }
+          }
+
+          return (
+            <Card
+              byline={ trackData.user.name }
+              imgUrl={ trackData.getArtwork(IMG_FORMAT.XLARGE) }
+              key={ `user_card__${index}_${item}` }
+              title={ trackData.track.name }
+            >
+              <ul className="tags">
+                { renderTags() }
+              </ul>
+            </Card>
+          )
+        })
+      }
+    }
 
     return (
       <Main className="main--user">
@@ -40,23 +144,20 @@ class UserContainer extends React.Component {
         <div className="user__splash">
 
           <div className="user__canvas">
-            <canvas
-              className="user__canvas--inner"
-              height="100%"
-              ref={ canvasRef }
-              width="100%"
-            />
+            <Canvas className="user__canvas--inner" />
           </div>
 
           {/*-- Profile --*/}
           <div className="user__profile">
 
             <section className="user__avatar">
-              <a className="user__link user__link--avatar" href="#">
+              <a
+                className="user__link user__link--avatar"
+                href={ website || permalink_url }
+              >
                 <img
                   className="user__avatar--img"
-                  src={ IMG_FALLBACK.LARGE }
-                  // src={ avatarUrl }
+                  src={ avatarUrl }
                 />
               </a>
             </section>
@@ -66,16 +167,14 @@ class UserContainer extends React.Component {
 
               <article className="user__details">
                 <h1 className="user__details--fullname">
-                  {"Full Name"}
+                  { full_name || username }
                 </h1>
                 <h4 className="user__details--username">
-                  {"UserName"}
+                  { username }
                 </h4>
-                <h5 className="user__details--country">
-                  <i className="user__icon user__icon--map-marker fa fa-map-marker" />
-                  {"Country"}
-                </h5>
+                { renderLocation() }
               </article>
+              <hr className="invis" />
 
               <table className="user__stats">
                 <tbody>
@@ -83,19 +182,19 @@ class UserContainer extends React.Component {
                     <td className="user__stats--td">
                       <a className="user__link user__link--stats" href="#">
                         <h6 className="user__stats--title">{"Followers"}</h6>
-                        <h3 className="user__stats--value">{"24"}</h3>
+                        <h3 className="user__stats--value">{ followers_count }</h3>
                       </a>
                     </td>
                     <td className="user__stats--td">
                       <a className="user__link user__link--stats" href="#">
                         <h6 className="user__stats--title">{"Following"}</h6>
-                        <h3 className="user__stats--value">{"12"}</h3>
+                        <h3 className="user__stats--value">{ followings_count }</h3>
                       </a>
                     </td>
                     <td className="user__stats--td">
                       <a className="user__link user__link--stats" href="#">
                         <h6 className="user__stats--title">{"Tracks"}</h6>
-                        <h3 className="user__stats--value">{"7"}</h3>
+                        <h3 className="user__stats--value">{ track_count }</h3>
                       </a>
                     </td>
                   </tr>
@@ -103,34 +202,9 @@ class UserContainer extends React.Component {
               </table>
 
             </section>{/*-- !User Info --*/}
-
             {/*-- User Social Media --*/}
             <ul className="user__social-media">
-
-              <li className="user__social-media--item user__social-media--facebook">
-                <a className="user__link user__link--social-media" href="#">
-                  <i className="user__icon user__icon--facebook fa fa-facebook-official" />
-                </a>
-              </li>
-
-              <li className="user__social-media--item user__social-media--twitter">
-                <a className="user__link user__link--social-media" href="#">
-                  <i className="user__icon user__icon--twitter fa fa-twitter-square" />
-                </a>
-              </li>
-
-              <li className="user__social-media--item user__social-media--instagram">
-                <a className="user__link user__link--social-media" href="#">
-                  <i className="user__icon user__icon--instagram fa fa-instagram" />
-                </a>
-              </li>
-
-              <li className="user__social-media--item user__social-media--youtube">
-                <a className="user__link user__link--social-media" href="#">
-                  <i className="user__icon user__icon--youtube fa fa-youtube-square" />
-                </a>
-              </li>
-
+              { renderWebIcons() }
             </ul>{/*-- !User Social Media --*/}
           </div>{/*-- !Profile --*/}
         </div>{/*-- !Banner --*/}
@@ -139,10 +213,10 @@ class UserContainer extends React.Component {
         <div className="user__container">
 
           {/*-- Menu --*/}
-          <section className="menu">
-            <ul className="menu__inner">
+          <section className="menu menu--profile">
+            <ul className="menu__inner menu__inner--profile">
 
-              <li className="menu__item">
+              <li className="menu__item menu__item--profile">
                 <a className="menu__link menu__link--active" href="#">
                   <i className="menu__icon fa fa-eye" />
                   <span className="menu__text">{"View All"}</span>
@@ -175,63 +249,11 @@ class UserContainer extends React.Component {
           {/*-- Card --*/}
           <section className="card">
 
-            <article className="card__item">
-              <div className="card__cover">
-                <a className="card__cover--link" href="#">
-                  <img
-                    className="card__cover--img"
-                    src={ IMG_FALLBACK.LARGE }
-                  />
-                </a>
-              </div>
-              <div className="card__content">
-                <h5>{"Article Title"}</h5>
-              </div>
-            </article>
-
-            <article className="card__item">
-              <div className="card__cover">
-                <a className="card__cover--link" href="#">
-                  <img
-                    className="card__cover--img"
-                    src={ IMG_FALLBACK.LARGE }
-                  />
-                </a>
-              </div>
-              <div className="card__content">
-                <h5>{"Article Title"}</h5>
-              </div>
-            </article>
-
-            <article className="card__item">
-              <div className="card__cover">
-                <a className="card__cover--link" href="#">
-                  <img
-                    className="card__cover--img"
-                    src={ IMG_FALLBACK.LARGE }
-                  />
-                </a>
-              </div>
-              <div className="card__content">
-                <h5>{"Article Title"}</h5>
-              </div>
-            </article>
-
-            <article className="card__item">
-              <div className="card__cover">
-                <a className="card__cover--link" href="#">
-                  <img
-                    className="card__cover--img"
-                    src={ IMG_FALLBACK.LARGE }
-                  />
-                </a>
-              </div>
-              <div className="card__content">
-                <h5>{"Article Title"}</h5>
-              </div>
-            </article>
+            { renderCards() }
 
           </section>{/*-- !Card --*/}
+{/*          <Loader className="loader--end" />
+          <End className="rw__end rw__end--gallery" />*/}
         </div>{/*-- !Page Container --*/}
       </Main>
     )
@@ -239,9 +261,11 @@ class UserContainer extends React.Component {
 }
 
 UserContainer.propTypes = {
-  actions: React.PropTypes.objectOf(
-    React.PropTypes.func.isRequired
-  )
+  dispatch: PropTypes.func,
+  location: PropTypes.object,
+  trackEntity: PropTypes.object,
+  tracksByUser: PropTypes.object,
+  userEntity: PropTypes.object
 }
 
 // function mapDispatchToProps(dispatch) {
@@ -253,11 +277,19 @@ UserContainer.propTypes = {
 // }
 
 function mapStateToProps(state) {
-  const { router: { location }, app: { requested, entities: { users, tracks }}} = state
+  const {
+    router: { location },
+    app: {
+      requested,
+      partition: { tracksByUser },
+      entities: { users, tracks }
+    }
+  } = state
 
   return {
     location,
     requested,
+    tracksByUser,
     userEntity: users,
     trackEntity: tracks
   }
