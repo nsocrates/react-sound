@@ -1,5 +1,4 @@
 import classNames from 'classnames'
-import GlobalEvents from 'utils/GlobalEvents'
 import React from 'react'
 import { IMG_FORMAT } from 'constants/ItemLists'
 import { timeFactory, coordinatesFactory } from 'utils/Utils'
@@ -26,14 +25,6 @@ export default class AudioPlayer extends React.Component {
     this.handleVolumeMouseDown = this.handleVolumeMouseDown.bind(this)
     this.handleVolumeMouseMove = this.handleVolumeMouseMove.bind(this)
     this.handleVolumeMouseUp = this.handleVolumeMouseUp.bind(this)
-  }
-
-  componentDidMount() {
-    GlobalEvents.emit('pushBottom', true)
-  }
-
-  componentWillUnmount() {
-    GlobalEvents.emit('pushBottom', false)
   }
 
   handlePlayPause() {
@@ -273,7 +264,7 @@ export default class AudioPlayer extends React.Component {
     return (
       <div className="player">
 
-        <ul className="player__container">
+        <ul className="player__wrapper">
 
           <PlayerArtwork
             className="player__artwork"

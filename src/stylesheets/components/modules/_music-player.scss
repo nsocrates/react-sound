@@ -1,6 +1,5 @@
 .music-box {
   @include fixed(bottom left right);
-  // min-width: $tmp-min-width;
   z-index: $n-stack-level;
 }
 
@@ -26,7 +25,7 @@
     transition: transform $trans-default;
   }
 
-  &__container {
+  &__wrapper {
     @extend %justified;
     height: 100%;
     width: 100%;
@@ -49,7 +48,6 @@
   box-shadow: .1rem 0 0 $white-disabled;
   display: table-cell;
   height: $player-height;
-  max-width: 8rem;
   position: relative;
   vertical-align: middle;
   width: 7.5rem;
@@ -165,7 +163,6 @@
   box-shadow: 0 -.2rem .3rem $black-disabled;
   display: table;
   height: 0;
-  max-width: none;
   table-layout: fixed;
   width: 100%;
 
@@ -188,10 +185,6 @@
     @include susy-media(medium) {
       display: table-cell;
       width: 7rem;
-    }
-
-    @include susy-media(large) {
-      width: 8rem;
     }
   }
 
