@@ -1,15 +1,37 @@
-.rw__gallery,
-.rw__end {
+.waypoint,
+.loader,
+.end {
   clear: both;
   float: left;
-  margin: 2.5rem 0 0;
-  padding: 2.5rem 0;
+
+  &--top {
+    margin: 11.5rem 0;
+  }
+
+  &--center {
+    transform: translate3d(0, 40vh, 0);
+  }
+
+  &--bottom {
+    margin: 5rem 0;
+  }
 }
 
-.rw__end {
+.loader {
+  text-align: center;
+  width: 100%;
+
+  &__icon {
+    color: tint($shark, 10%);
+    font-size: 3.1rem;
+  }
+}
+
+.end {
   background-color: $wan-white-gray;
+  clear: both;
   color: $black-hint;
-  margin: $bar-height 0 0;
+  float: left;
   text-align: center;
   width: 100%;
 }

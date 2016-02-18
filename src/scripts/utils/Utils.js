@@ -129,3 +129,18 @@ export const coordinatesFactory = event => {
     )
   }
 }
+
+// Prefixes numbers >= 1000
+export function kFormatter(number) {
+  return number > 999 ? `${Number((number / 1000).toFixed(1))}k` : number
+}
+
+// Splits paragraphs into array; separates link from paragraph
+export function splitLines(string) {
+  const reUrl = /(http.*?:\/\/[^\s]+)/g
+  const arr = string.split(/\n/)
+                    .map(item => item.split(reUrl)
+                                     .filter(n => !!n))
+                    .filter(j => j.length > 0)
+  return arr
+}

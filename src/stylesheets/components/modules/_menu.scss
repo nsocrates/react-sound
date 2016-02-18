@@ -7,6 +7,7 @@
     border-radius: .5rem;
     color: $n-text-color;
     margin-bottom: gutter(8);
+    overflow: hidden;
 
     @include susy-media(medium) {
       margin-bottom: gutter();
@@ -17,15 +18,16 @@
 .menu__inner {
   @extend %justified;
   color: $n-text-color;
-  float: left;
   overflow: hidden;
   text-align: center;
+  white-space: nowrap;
 
   &--nav {
     display: none;
 
     @include susy-media(medium) {
       display: initial;
+      float: left;
       width: span(11);
     }
 
@@ -43,7 +45,6 @@
 .menu__item {
   @extend %justified__item;
   border-right: .1rem solid $black-disabled;
-  white-space: nowrap;
   width: 1%;
 
   &--nav {

@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
-import MenuItem from './MenuItem'
 import GlobalEvents from 'utils/GlobalEvents'
+import LinkItem from './LinkItem'
 
 export default class SideMenu extends React.Component {
 
@@ -21,17 +21,29 @@ export default class SideMenu extends React.Component {
         'side-menu__list--item--active': requested.query === item
       })
 
+      const _handleClick = e => {
+        e.preventDefault()
+
+        const location = {
+          pathname: '#genre',
+          query: {
+            q: item
+          }
+        }
+
+        actions.push(location)
+        actions.toggleMenu()
+      }
+
       return (
-        <MenuItem
-          componentClass={ active }
-          genre={ item }
+        <LinkItem
+          className={ active }
           key={ `side-menu__${index}_${item}` }
-          loadGenre={ actions.loadGenre }
-          push={ actions.push }
-          toggleMenu={ actions.toggleMenu }
+          onClick={ _handleClick }
+          to="#genre"
         >
           { item }
-        </MenuItem>
+        </LinkItem>
       )
     })
 

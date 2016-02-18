@@ -36,6 +36,7 @@ export function loadSearch(input, next = true) {
       next_href = `/tracks/?q=${encoded}&`,
       offset = 0
     } = getState().app.partition.searchesByInput[decoded] || {}
+
     if (offset > 0 && !next) {
       return dispatch(loadCached(decoded, next_href))
     }

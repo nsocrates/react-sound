@@ -22,7 +22,7 @@ export default class Header extends React.Component {
           <ul className="header__section header__section--login">
             <li className="header__item">
               <Link className="header__item--link" to="/">
-                <i className="fa fa-user" />
+                <img className="header__item--img soundcloud--connect" />
               </Link>
             </li>
           </ul>

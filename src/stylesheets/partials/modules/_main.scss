@@ -2,7 +2,11 @@
   margin-top: $bar-height;
   position: relative;
 
-  &--collection {
+  &--push {
+    margin-bottom: $player-height;
+  }
+
+  &__collection {
     @extend %main;
   }
 }

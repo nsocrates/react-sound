@@ -46,14 +46,6 @@
     max-width: none;
   }
 
-  &--link {
-    background-color: $light-gray;
-    display: block;
-    height: auto;
-    padding-bottom: 100%;
-    width: 100%;
-  }
-
   &--img {
     @include absolute(top right bottom left);
     display: block;
@@ -64,6 +56,58 @@
     @include susy-media(medium) {
       float: left;
       position: relative;
+    }
+  }
+}
+
+.card__cover--link {
+  @extend %reset-white-space;
+  @include relative;
+  background-color: $light-gray;
+  display: block;
+  height: auto;
+  padding-bottom: 25%;
+  width: 100%;
+
+  @include susy-media(medium) {
+    padding-bottom: 100%;
+
+    &::before,
+    &::after {
+      opacity: 0;
+      transition: opacity .2s ease-in;
+    }
+
+    // Circle
+    &::before {
+      @include absolute(top right bottom left);
+      background-color: $black-hint;
+      border: .5rem solid rgba($white, .9);
+      border-radius: 50%;
+      content: '';
+      height: 50%;
+      margin: auto;
+      width: 50%;
+    }
+
+    // Icon
+    &::after {
+      @include absolute(top left);
+      color: rgba($white, .9);
+      content: '\25B6';
+      font-size: 15vmin;
+      height: 100%;
+      padding: 50% 0;
+      text-align: center;
+      width: 100%;
+    }
+
+    &:hover {
+      &::before,
+      &::after {
+        opacity: 1;
+        z-index: 1;
+      }
     }
   }
 }

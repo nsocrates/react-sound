@@ -13,10 +13,9 @@ export default function Tag(props) {
 
 Tag.propTypes = {
   href: PropTypes.string,
-  text: PropTypes.string
+  text: PropTypes.string.isRequired
 }
 
 Tag.defaultProps = {
-  href: '#',
-  text: null
+  href: '#'
 }

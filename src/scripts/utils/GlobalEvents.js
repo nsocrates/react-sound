@@ -8,8 +8,9 @@ function hideBodyOverflow(shouldHide) {
 }
 
 function pushBottom(shouldPush) {
-  const main = document.getElementById('main')
-  main.style.marginBottom = shouldPush ? '6rem' : ''
+  return null
+  // const main = document.getElementById('main')
+  // main.style.marginBottom = shouldPush ? '6rem' : ''
 }
 
 GlobalEvents

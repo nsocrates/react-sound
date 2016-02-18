@@ -12,12 +12,32 @@ import { loadUser } from 'actions/user'
 import { push } from 'react-router-redux'
 import { requestStream } from 'actions/stream'
 import { trackFactory } from 'utils/Utils'
+import { loadCollection } from 'actions/collection'
 
 class CollectionContainer extends React.Component {
 
   constructor(props) {
     super(props)
     this.handleWaypointEnter = this.handleWaypointEnter.bind(this)
+  }
+
+  componentDidMount() {
+    return this.updateCollection()
+  }
+
+  componentDidUpdate() {
+    const { requested, location } = this.props
+
+    if (location.query.q !== requested.query) {
+      return this.updateCollection()
+    }
+  }
+
+  updateCollection() {
+    const { location, actions } = this.props
+    const { pathname, query } = location
+
+    actions.loadCollection(pathname, query.q)
   }
 
   handleWaypointEnter() {
@@ -37,26 +57,31 @@ class CollectionContainer extends React.Component {
       searchesByInput,
       userEntity,
       trackEntity,
+      shouldPlay,
       requested: {
         isFetching,
         query,
-        hasMore,
-        hasCache
+        hasMore
       }
     } = this.props
 
+    const collection = tracksByGenre[query] || searchesByInput[query]
+
+    if (!collection) {
+      return null
+    }
+
     // Render Gallery
     const renderGallery = () => {
-      const group = tracksByGenre[query] || searchesByInput[query]
-      const trackIds = group.ids
+      const trackIds = collection.ids
       const gallery = trackIds.map((item, index) => {
         const args = {
-          trackId: group.ids[index],
+          trackId: collection.ids[index],
           userEntity,
           trackEntity
         }
         const trackData = trackFactory(args)
-        const trackId = group.ids[index]
+        const trackId = collection.ids[index]
         return (
           <Gallery
             actions={ actions }
@@ -74,7 +99,7 @@ class CollectionContainer extends React.Component {
       if (hasMore) {
         return (
           <Waypoint
-            className="rw__gallery"
+            className="waypoint waypoint--bottom"
             onEnter={ this.handleWaypointEnter }
           />
         )
@@ -82,11 +107,14 @@ class CollectionContainer extends React.Component {
     }
 
     return (
-      <Main className="main--collection">
+      <Main
+        className="main__collection"
+        shouldPush={ shouldPlay }
+      >
         <div className="collection__container">
-          { hasCache ? renderGallery() : null }
-          { isFetching ? <Loader className="loader--end"/> : shouldRenderWaypoint() }
-          { !hasMore && !isFetching ? <End className="rw__end rw__end--gallery" /> : null }
+          { renderGallery() }
+          { isFetching ? <Loader className="loader--bottom"/> : shouldRenderWaypoint() }
+          { !hasMore && !isFetching ? <End className="end--bottom" /> : null }
         </div>
       </Main>
     )
@@ -98,6 +126,7 @@ CollectionContainer.propTypes = {
     React.PropTypes.func.isRequired
   ),
   audioIsPlaying: React.PropTypes.bool,
+  location: React.PropTypes.object,
   requested: React.PropTypes.object,
   searchesByInput: React.PropTypes.objectOf(
     React.PropTypes.shape({
@@ -106,6 +135,7 @@ CollectionContainer.propTypes = {
       )
     })
   ),
+  shouldPlay: React.PropTypes.bool,
   streamTrackId: React.PropTypes.number,
   trackEntity: React.PropTypes.objectOf(
     React.PropTypes.object
@@ -126,6 +156,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       requestStream,
+      loadCollection,
       loadGenre,
       loadSearch,
       loadUser,
@@ -135,13 +166,17 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  const { entities, requested, partition, media } = state.app
+  const {
+    app: { entities, requested, partition, media }
+  } = state
 
   return {
+    // location,
     audioIsPlaying: media.player.audio.isPlaying,
     requested,
-    streamTrackId: media.stream.trackId,
     searchesByInput: partition.searchesByInput,
+    shouldPlay: media.stream.shouldPlay,
+    streamTrackId: media.stream.trackId,
     trackEntity: entities.tracks,
     tracksByGenre: partition.tracksByGenre,
     userEntity: entities.users

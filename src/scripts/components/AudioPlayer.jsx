@@ -272,12 +272,15 @@ export default class AudioPlayer extends React.Component {
 
     return (
       <div className="player">
-        <PlayerArtwork
-          className="player__artwork"
-          style={ artworkStyle }
-        />
 
         <ul className="player__container">
+
+          <PlayerArtwork
+            className="player__artwork"
+            src={ imgUrl }
+            style={ artworkStyle }
+          />
+
           <PlayerButton
             btnClassName="player__btn player__btn--playpause"
             btnOnClick={ this.handlePlayPause }
@@ -290,25 +293,31 @@ export default class AudioPlayer extends React.Component {
             userName={ trackData.user.name }
           />
 
-          <PlayerTimer componentClassName="player__ctrl player__current">
-            <small>
-             { currentTime }
-            </small>
-          </PlayerTimer>
+          <ul className="player__timer">
+            <PlayerTimer componentClassName="timer__item timer__item--current">
+              <small>
+               { currentTime }
+              </small>
+            </PlayerTimer>
 
-          <PlayerProgressBar
-            componentMouseDown={ this.handleProgressMouseDown }
-            componentMouseMove={ this.handleProgressMouseMove }
-            componentMouseUp={ this.handleProgressMouseUp }
-            componentStyle={ progressStyle }
-            ref={ progressRef }
-          />
+            <li className="timer__item timer__item--progress">
+              <PlayerProgressBar
+                componentMouseDown={ this.handleProgressMouseDown }
+                componentMouseMove={ this.handleProgressMouseMove }
+                componentMouseUp={ this.handleProgressMouseUp }
+                componentStyle={ progressStyle }
+                rangeClassName="player__progress--wrap"
+                ref={ progressRef }
+                selectorClassName="player__progress--slider"
+              />
+            </li>
 
-          <PlayerTimer componentClassName="player__ctrl player__remaining">
-            <small>
-             { endTime }
-            </small>
-          </PlayerTimer>
+            <PlayerTimer componentClassName="timer__item timer__item--remaining">
+              <small>
+               { endTime }
+              </small>
+            </PlayerTimer>
+          </ul>
 
           <PlayerButton
             btnClassName="player__btn player__btn--list"

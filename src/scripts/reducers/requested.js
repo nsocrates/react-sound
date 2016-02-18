@@ -28,6 +28,12 @@ export default function requested(state = initialState, action) {
         query: id,
         isFetching: true
       })
+    case ActionTypes.USER_CACHED:
+      return Object.assign({}, state, {
+        type: action.type.split('_')[0],
+        query: id,
+        hasMore: !!action.next_href
+      })
     case ActionTypes.SEARCH_REQUEST:
     case ActionTypes.SEARCH_CACHED:
       return Object.assign({}, state, {

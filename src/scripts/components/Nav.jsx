@@ -1,9 +1,9 @@
 import React from 'react'
-import MenuItem from './MenuItem'
-import SearchForm from './SearchForm'
 import Button from './Button'
 import classNames from 'classnames'
+import LinkItem from './LinkItem'
 import Overlay from './Overlay'
+import SearchForm from './SearchForm'
 
 export default class Nav extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ export default class Nav extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    const { _search: { _input }, props: { apiActions, routeActions }} = this
+    const { _search: { _input }, props: { routeActions }} = this
     const location = {
       pathname: '#search',
       query: {
@@ -21,13 +21,11 @@ export default class Nav extends React.Component {
       }
     }
 
-    apiActions.loadSearch(_input.value, false)
     routeActions.push(location)
   }
 
   render() {
     const {
-      apiActions,
       uiActions,
       routeActions,
       requested,
@@ -47,20 +45,31 @@ export default class Nav extends React.Component {
 
     const menuItems = genreList.map((item, index) => {
       const active = classNames('menu__link', { 'menu__link--active': requested.query === item })
+      const _handleClick = e => {
+        e.preventDefault()
+
+        const location = {
+          pathname: '#genre',
+          query: {
+            q: item
+          }
+        }
+
+        routeActions.push(location)
+      }
 
       return (
         <li
           className="menu__item menu__item--nav"
           key={ `menu--nav__${index}_${item}` }
         >
-          <MenuItem
-            componentClass={ active ? active : null }
-            genre={ item }
-            loadGenre={ apiActions.loadGenre }
-            push={ routeActions.push }
+          <LinkItem
+            className={ active ? active : null }
+            onClick={ _handleClick }
+            to="#genre"
           >
             { item }
-          </MenuItem>
+          </LinkItem>
         </li>
       )
     })
@@ -111,9 +120,6 @@ export default class Nav extends React.Component {
 }
 
 Nav.propTypes = {
-  apiActions: React.PropTypes.objectOf(
-    React.PropTypes.func.isRequired
-  ),
   genreList: React.PropTypes.arrayOf(
     React.PropTypes.string.isRequired
   ),

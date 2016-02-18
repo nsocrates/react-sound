@@ -1,11 +1,15 @@
 import React, { PropTypes } from 'react'
 
 export default function Card(props) {
-  const { children, imgUrl, href, title, byline } = props
+  const { children, imgUrl, href, title, byline, onCoverClick } = props
   return (
     <article className="card__item">
       <div className="card__cover">
-        <a className="card__cover--link" href={ href }>
+        <a
+          className="fa card__cover--link"
+          href={ href }
+          onClick={ onCoverClick }
+        >
           <img
             className="card__cover--img"
             src={ imgUrl }
@@ -26,6 +30,7 @@ Card.propTypes = {
   children: PropTypes.node,
   href: PropTypes.string,
   imgUrl: PropTypes.string,
+  onCoverClick: PropTypes.func,
   title: PropTypes.string
 }
 
@@ -34,5 +39,6 @@ Card.defaultProps = {
   children: null,
   href: '#',
   imgUrl: null,
-  title: null
+  title: null,
+  onCoverClick() {}
 }

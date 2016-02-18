@@ -5,7 +5,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { GENRES } from 'constants/ItemLists'
-import { loadGenre } from 'actions/genre'
 import { push } from 'react-router-redux'
 import { toggleMenu } from 'actions/ui'
 
@@ -63,7 +62,7 @@ SideMenuContainer.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ loadGenre, toggleMenu, push }, dispatch)
+    actions: bindActionCreators({ toggleMenu, push }, dispatch)
   }
 }
 

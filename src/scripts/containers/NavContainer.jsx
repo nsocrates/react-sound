@@ -4,8 +4,6 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { GENRES } from 'constants/ItemLists'
-import { loadGenre } from 'actions/genre'
-import { loadSearch } from 'actions/search'
 import { push } from 'react-router-redux'
 
 class NavContainer extends React.Component {
@@ -20,9 +18,6 @@ class NavContainer extends React.Component {
 }
 
 NavContainer.propTypes = {
-  apiActions: React.PropTypes.objectOf(
-    React.PropTypes.func.isRequired
-  ),
   navbar: React.PropTypes.shape({
     isSticky: React.PropTypes.bool.isRequired
   }),
@@ -32,10 +27,6 @@ NavContainer.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     uiActions: bindActionCreators(uiActionCreators, dispatch),
-    apiActions: bindActionCreators({
-      loadGenre,
-      loadSearch
-    }, dispatch),
     routeActions: bindActionCreators({ push }, dispatch)
   }
 }

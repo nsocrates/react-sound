@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
-const Loader = ({ className = '' }) => {
+export default function Loader({ className = 'loader--center' }) {
   const loaderClass = `loader ${className}`
 
   return (
@@ -11,7 +11,7 @@ const Loader = ({ className = '' }) => {
 }
 
 Loader.propTypes = {
-  className: React.PropTypes.string
+  className: PropTypes.string
 }
 
 export default Loader

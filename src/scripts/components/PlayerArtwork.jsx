@@ -1,14 +1,15 @@
 import React from 'react'
 
-const PlayerArtwork = ({ style = {}}) => (
-  <aside
-    className="player__artwork"
-    style={ style }
-  />
-)
-
-PlayerArtwork.propTypes = {
-  style: React.PropTypes.object
+export default function PlayerArtwork({ src }) {
+  return (
+    <li
+      className="player__ctrl player__artwork"
+    >
+      <img className="player__artwork--img" src={ src }/>
+    </li>
+  )
 }
 
-export default PlayerArtwork
+PlayerArtwork.propTypes = {
+  src: React.PropTypes.string
+}

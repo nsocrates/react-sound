@@ -186,3 +186,28 @@
     width: 25%;
   }
 }
+
+.user__description {
+  background-color: $white-primary;
+  border-radius: .5rem;
+  padding: 1.5rem;
+
+  &--span {
+    margin-right: .2rem;
+  }
+
+  &--link {
+    border-bottom: .1rem solid $black-disabled;
+    color: $light-pink;
+    padding-bottom: .1rem;
+
+    @include susy-media(medium) {
+      font-size: 125%;
+      line-height: 1.6;
+    }
+
+    &:hover {
+      border-color: $pink-disabled;
+    }
+  }
+}

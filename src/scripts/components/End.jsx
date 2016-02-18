@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
-const End = ({ className = 'rw__end' }) => (
-  <h5 className={ className }>
-    {"NO MORE ITEMS TO DISPLAY"}
-  </h5>
-)
+export default function End({ className = 'end--top' }) {
+  const componentClassName = `end ${className}`
 
-export default End
+  return (
+    <h5 className={ componentClassName.trim() }>
+      {"NO MORE ITEMS TO DISPLAY"}
+    </h5>
+  )
+}
+
+End.propTypes = {
+  className: PropTypes.string
+}

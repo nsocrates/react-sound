@@ -28,10 +28,7 @@ export default class Gallery extends React.Component {
     e.preventDefault()
     const { actions, trackData: { user }} = this.props
     const location = {
-      pathname: '#user',
-      query: {
-        q: user.id
-      }
+      pathname: `#user/${user.id}`
     }
 
     actions.push(location)
@@ -81,7 +78,7 @@ export default class Gallery extends React.Component {
             <Link
               className="gallery__content--link"
               onClick={ this.handleClick_user }
-              to="#user"
+              to={`#user/${user.id}`}
             >
               { user.name }
             </Link>

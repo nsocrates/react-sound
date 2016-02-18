@@ -44,7 +44,6 @@ export default class SearchModal extends React.Component {
       }
     }
 
-    actions.loadSearch(_input.value, false)
     actions.toggleModal()
     actions.push(location)
   }

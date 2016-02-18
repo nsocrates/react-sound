@@ -7,23 +7,25 @@ export default class PlayerProgressBar extends React.Component {
       componentMouseDown,
       componentMouseMove,
       componentMouseUp,
-      componentStyle
+      componentStyle,
+      rangeClassName,
+      selectorClassName
     } = this.props
     const position = ref => this._position = ref
 
     return (
-      <li
-        className="player__ctrl player__progress"
+      <div
+        className={rangeClassName }
         onMouseDown={ componentMouseDown }
         onMouseMove={ componentMouseMove }
         onMouseUp={ componentMouseUp }
         ref={ position }
       >
         <div
-          className="player__progress--slider"
+          className={selectorClassName }
           style={ componentStyle }
         />
-      </li>
+      </div>
     )
   }
 }
@@ -32,5 +34,7 @@ PlayerProgressBar.propTypes = {
   componentMouseDown: React.PropTypes.func,
   componentMouseMove: React.PropTypes.func,
   componentMouseUp: React.PropTypes.func,
-  componentStyle: React.PropTypes.object
+  componentStyle: React.PropTypes.object,
+  rangeClassName: React.PropTypes.string,
+  selectorClassName: React.PropTypes.string
 }

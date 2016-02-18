@@ -1,13 +1,20 @@
 import React from 'react'
+import classNames from 'classnames'
 
-const Main = ({ children = null, className = null }) => (
-  <main
-    className={`main ${className}`}
-    id="main"
-  >
-    { children }
-  </main>
-)
+export default function Main({ children = null, className = null, shouldPush = false }) {
+  const push = classNames(`main ${className}`, {
+    'main--push': shouldPush
+  })
+
+  return (
+    <main
+      className={ push }
+      id="main"
+    >
+      { children }
+    </main>
+  )
+}
 
 Main.propTypes = {
   children: React.PropTypes.node,

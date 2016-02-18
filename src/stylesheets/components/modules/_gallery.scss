@@ -25,28 +25,30 @@
   padding-bottom: 100%;
   width: 100%;
 
+  &::before,
+  &::after {
+    opacity: 0;
+    width: 100%;
+  }
+
   // Overlay
   &::before {
     @include absolute;
     background-color: rgba($black, $l-secondary);
     content: '';
     height: 100%;
-    opacity: 0;
     transition: opacity .1s ease-out;
-    width: 100%;
   }
 
   // Icon
   &::after {
     @include absolute;
-    @include blur(.3rem, rgba($light-gray, $l-primary), rgba($light-gray, $l-primary));
+    @include blur(.3rem, rgba($light-gray, $l-secondary), rgba($light-gray, $l-secondary));
     content: '\f04b';
     font-size: 14vmin;
-    opacity: 0;
     padding: 50% 0;
     text-align: center;
     transition: opacity .2s ease-in;
-    width: 100%;
   }
 
   &:hover {

@@ -5,26 +5,12 @@ import classNames from 'classnames'
 import Button from './Button'
 
 export default class PlayerTracklist extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handlePlayPause = this.handlePlayPause.bind(this)
-  }
-
-  handlePlayPause(id) {
-    const audio = document.getElementById('audio')
-    const { actions, trackId, audio: { isPlaying }} = this.props
-    const isCurrentTrack = trackId === id
-    if (isCurrentTrack) {
-      return isPlaying ? audio.pause() : audio.play()
-    }
-
-    actions.requestStream(id)
-  }
-
   render() {
     const { tracklist, userEntity, trackEntity, trackId, audio: { isPlaying }} = this.props
+
     const renderTracklist = tracklist.ids.map((id, index) => {
       const obj = { userEntity, trackEntity, trackId: id }
+      const isCurrentTrack = trackId === id
       const trackData = trackFactory(obj)
 
       const shouldRenderDownload = () => {
@@ -39,7 +25,18 @@ export default class PlayerTracklist extends React.Component {
         }
       }
 
-      const isCurrentTrack = trackId === id
+      const _handlePlayPause = e => {
+        e.preventDefault()
+        const { actions } = this.props
+        const audio = document.getElementById('audio')
+
+        if (isCurrentTrack) {
+          return isPlaying ? audio.pause() : audio.play()
+        }
+
+        return actions.requestStream(id)
+      }
+
       const isPauseOrPlay = classNames('tracklist__icon fa', {
         'fa-play': !isCurrentTrack || !isPlaying,
         'fa-pause': isPlaying && isCurrentTrack
@@ -62,23 +59,28 @@ export default class PlayerTracklist extends React.Component {
             />
           </aside>
 
-          <div className="tracklist__data">
-            <p className="tracklist__data--title">{ trackData.track.name }</p>
-            <p className="tracklist__data--user">{ trackData.user.name }</p>
-          </div>
-          <div className="tracklist__icons">
-            { shouldRenderDownload() }
-            <Button
-              btnClass="tracklist__btn"
-              onBtnClick={ this.handlePlayPause.bind(this, id) }
-            >
-              <i className={ isPauseOrPlay } />
-            </Button>
+            <section className="tracklist__icons">
 
-            <Button btnClass="tracklist__btn tracklist__btn--heart">
-              <i className="tracklist__icon tracklist__icon--heart fa fa-heart-o" />
-            </Button>
-          </div>
+              { shouldRenderDownload() }
+
+              <Button
+                btnClass="tracklist__btn"
+                onBtnClick={ _handlePlayPause }
+              >
+                <i className={ isPauseOrPlay } />
+              </Button>
+
+              <Button btnClass="tracklist__btn tracklist__btn--heart">
+                <i className="tracklist__icon tracklist__icon--heart fa fa-heart-o" />
+              </Button>
+
+            </section>
+
+            <section className="tracklist__data">
+              <p className="tracklist__data--title">{ trackData.track.name }</p>
+              <p className="tracklist__data--user">{ trackData.user.name }</p>
+            </section>
+
         </li>
       )
     })

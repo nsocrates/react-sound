@@ -1,10 +1,11 @@
 .music-box {
   @include fixed(bottom left right);
-  min-width: $tmp-min-width;
+  // min-width: $tmp-min-width;
   z-index: $n-stack-level;
 }
 
 .player {
+  @extend %full__container;
   background-color: $shark;
   box-shadow: 0 -.2rem .3rem $black-hint;
   color: $white-secondary;
@@ -26,20 +27,14 @@
   }
 
   &__container {
-    @extend %full__container;
-    margin-left: $player-height;
+    @extend %justified;
+    height: 100%;
+    width: 100%;
   }
-}
-
-.player__artwork {
-  @include absolute(left bottom);
-  height: $player-height;
-  width: $player-height;
 }
 
 .player__icon {
   font-size: 2rem;
-  line-height: $player-height;
 
   &--playpause {
     font-size: 3.1rem;
@@ -51,16 +46,18 @@
 }
 
 .player__ctrl {
-  border-right: .1rem solid $white-disabled;
-  float: left;
+  box-shadow: .1rem 0 0 $white-disabled;
+  display: table-cell;
   height: $player-height;
-  line-height: $player-height;
+  max-width: 8rem;
   position: relative;
-  width: span(1);
+  vertical-align: middle;
+  width: 7.5rem;
 }
 
 .player__btn {
   display: block;
+  height: $player-height;
   text-shadow: $player-icon-shadow;
   width: 100%;
 
@@ -86,14 +83,25 @@
   }
 }
 
+.player__artwork {
+  overflow: hidden;
+  width: $player-height;
+
+  &--img {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+  }
+}
+
 .player__track {
   @extend %small;
   padding: 1rem;
   text-align: left;
-  width: span(2);
+  width: 100%;
 
   @include susy-media(medium) {
-    width: span(3);
+    width: span(2 wider) + gutter();
   }
 
   &--title,
@@ -109,31 +117,8 @@
   }
 }
 
-.player__current {
-  border: 0;
-}
-
-.player__progress {
-  background-color: $light-gray;
-  border-radius: 1rem;
-  cursor: pointer;
-  height: 1rem;
-  margin: (($player-height - 1rem) / 2) 0;
-  width: span(3) + gutter();
-
-  @include susy-media(medium) {
-    width: span(5) + gutter();
-  }
-
-  &--slider {
-    background-color: $light-pink;
-    border-radius: 1rem;
-    height: 1rem;
-    overflow: hidden;
-  }
-}
-
 .player__volume {
+
   &--control {
     @include absolute (bottom 100% right);
     background-color: $dark-gray;
@@ -172,5 +157,71 @@
     > .player__volume--range {
       height: 13.5rem;
     }
+  }
+}
+
+.player__timer {
+  @include absolute(bottom $player-height left);
+  box-shadow: 0 -.2rem .3rem $black-disabled;
+  display: table;
+  height: 0;
+  max-width: none;
+  table-layout: fixed;
+  width: 100%;
+
+  @include susy-media(medium) {
+    box-shadow: .1rem 0 0 $white-disabled;
+    height: $player-height;
+    position: unset;
+  }
+}
+
+.timer__item {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+
+  &--current,
+  &--remaining {
+    display: none;
+
+    @include susy-media(medium) {
+      display: table-cell;
+      width: 7rem;
+    }
+
+    @include susy-media(large) {
+      width: 8rem;
+    }
+  }
+
+  &--progress {
+    overflow: hidden;
+    width: auto;
+  }
+}
+
+.player__progress {
+  &--wrap,
+  &--slider {
+    height: .5rem;
+
+    @include susy-media(medium) {
+      height: 1rem;
+    }
+  }
+
+  &--wrap {
+    background-color: $light-gray;
+    cursor: pointer;
+    overflow: hidden;
+
+    @include susy-media(medium) {
+      border-radius: 1rem;
+    }
+  }
+
+  &--slider {
+    background-color: $light-pink;
   }
 }

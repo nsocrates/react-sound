@@ -3,7 +3,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import SearchModal from 'components/SearchModal'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { loadSearch } from 'actions/search'
 import { push } from 'react-router-redux'
 import { toggleModal } from 'actions/ui'
 
@@ -46,7 +45,6 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       toggleModal,
-      loadSearch,
       push
     }, dispatch)
   }

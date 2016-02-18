@@ -1,33 +1,44 @@
 // import Waypoint from 'components/Waypoint'
 // import { bindActionCreators } from 'redux'
 // import Button from 'components/Button'
-import Loader from 'components/Loader'
-import End from 'components/End'
-import Canvas from 'components/Canvas'
-import Main from 'components/Main'
 import React, { PropTypes } from 'react'
+
+import Canvas from 'components/Canvas'
+import LinkItem from 'components/LinkItem'
+import Loader from 'components/Loader'
+import Main from 'components/Main'
+import MediaItem from 'components/MediaItem'
 import { connect } from 'react-redux'
 import { IMG_FORMAT } from 'constants/ItemLists'
 import { loadUser } from 'actions/user'
-import MediaItem from 'components/MediaItem'
-import Card from 'components/Card'
-import { trackFactory } from 'utils/Utils'
-import Tag from 'components/Tag'
+import { push } from 'react-router-redux'
+import { kFormatter } from 'utils/Utils'
+
 
 class UserContainer extends React.Component {
 
   componentDidMount() {
-    const { dispatch, location } = this.props
+    return this.updateComponent()
+  }
 
-    dispatch(loadUser(location.query.q))
+  updateComponent() {
+    const { dispatch, params } = this.props
+
+    dispatch(loadUser(params.id))
   }
 
   render() {
-    const { location, userEntity, trackEntity, tracksByUser } = this.props
-    const user = userEntity[location.query.q]
+    const {
+      userEntity,
+      dispatch,
+      params,
+      shouldPlay
+    } = this.props
+
+    const user = userEntity[params.id]
 
     if (!user) {
-      return <Loader className="loader--center" />
+      return <Loader className="loader--top" />
     }
 
     const {
@@ -54,6 +65,50 @@ class UserContainer extends React.Component {
           </h5>
         )
       }
+    }
+
+    const renderMenuItems = () => {
+      const itemList = [
+        { text: 'Description',
+          icon: 'fa-soundcloud',
+          path: `#user/${params.id}` },
+
+        { text: 'Tracks',
+          icon: 'fa-caret-square-o-right',
+          path: `#user/${params.id}/tracks` },
+
+        { text: 'Playlists',
+          icon: 'fa-list',
+          path: `#user/${params.id}/playlists` },
+
+        { text: 'Favorites',
+          icon: 'fa-heart',
+          path: `#user/${params.id}/favorites` }
+      ]
+
+      return itemList.map((item, index) => {
+        const _handleClick = e => {
+          e.preventDefault()
+
+          dispatch(push({ pathname: item.path }))
+        }
+
+        return (
+          <li
+            className="menu__item"
+            key={`menu__${item.text}_${index}`}
+          >
+            <LinkItem
+              className="menu__link menu__link--profile"
+              onClick={ _handleClick }
+              to={ item.path }
+            >
+              <i className={`menu__icon fa ${item.icon}`} />
+              <span className="menu__text">{ item.text }</span>
+            </LinkItem>
+          </li>
+        )
+      })
     }
 
     const renderWebIcons = () => {
@@ -93,52 +148,11 @@ class UserContainer extends React.Component {
       }
     }
 
-    const renderCards = () => {
-      if (tracksByUser[user.id]) {
-        const tracks = tracksByUser[user.id]
-        const { ids } = tracks
-
-        return ids.map((item, index) => {
-          const obj = {
-            userEntity,
-            trackEntity,
-            trackId: item
-          }
-          const trackData = trackFactory(obj)
-
-          const renderTags = () => {
-            if (trackData.tags) {
-              return trackData.tags.map((tag, idx) => {
-                if (idx < 10) {
-                  return (
-                    <Tag
-                      key={`tag__${idx}_${tag}`}
-                      text={ tag }
-                    />
-                  )
-                }
-              })
-            }
-          }
-
-          return (
-            <Card
-              byline={ trackData.user.name }
-              imgUrl={ trackData.getArtwork(IMG_FORMAT.XLARGE) }
-              key={ `user_card__${index}_${item}` }
-              title={ trackData.track.name }
-            >
-              <ul className="tags">
-                { renderTags() }
-              </ul>
-            </Card>
-          )
-        })
-      }
-    }
-
     return (
-      <Main className="main--user">
+      <Main
+        className="main__user"
+        shouldPush={ shouldPlay }
+      >
 
         {/*-- Banner --*/}
         <div className="user__splash">
@@ -182,19 +196,19 @@ class UserContainer extends React.Component {
                     <td className="user__stats--td">
                       <a className="user__link user__link--stats" href="#">
                         <h6 className="user__stats--title">{"Followers"}</h6>
-                        <h3 className="user__stats--value">{ followers_count }</h3>
+                        <h3 className="user__stats--value">{ kFormatter(followers_count) }</h3>
                       </a>
                     </td>
                     <td className="user__stats--td">
                       <a className="user__link user__link--stats" href="#">
                         <h6 className="user__stats--title">{"Following"}</h6>
-                        <h3 className="user__stats--value">{ followings_count }</h3>
+                        <h3 className="user__stats--value">{ kFormatter(followings_count) }</h3>
                       </a>
                     </td>
                     <td className="user__stats--td">
                       <a className="user__link user__link--stats" href="#">
                         <h6 className="user__stats--title">{"Tracks"}</h6>
-                        <h3 className="user__stats--value">{ track_count }</h3>
+                        <h3 className="user__stats--value">{ kFormatter(track_count) }</h3>
                       </a>
                     </td>
                   </tr>
@@ -202,10 +216,12 @@ class UserContainer extends React.Component {
               </table>
 
             </section>{/*-- !User Info --*/}
+
             {/*-- User Social Media --*/}
             <ul className="user__social-media">
               { renderWebIcons() }
             </ul>{/*-- !User Social Media --*/}
+
           </div>{/*-- !Profile --*/}
         </div>{/*-- !Banner --*/}
 
@@ -215,45 +231,11 @@ class UserContainer extends React.Component {
           {/*-- Menu --*/}
           <section className="menu menu--profile">
             <ul className="menu__inner menu__inner--profile">
-
-              <li className="menu__item menu__item--profile">
-                <a className="menu__link menu__link--active" href="#">
-                  <i className="menu__icon fa fa-eye" />
-                  <span className="menu__text">{"View All"}</span>
-                </a>
-              </li>
-
-              <li className="menu__item">
-                <a className="menu__link" href="#">
-                  <i className="menu__icon fa fa-caret-square-o-right" />
-                  <span className="menu__text">{"Tracks"}</span>
-                </a>
-              </li>
-
-              <li className="menu__item">
-                <a className="menu__link" href="#">
-                  <i className="menu__icon fa fa-list" />
-                  <span className="menu__text">{"Playlists"}</span>
-                </a>
-              </li>
-
-              <li className="menu__item">
-                <a className="menu__link" href="#">
-                  <i className="menu__icon fa fa-heart" />
-                  <span className="menu__text">{"Favorites"}</span>
-                </a>
-              </li>
+              { renderMenuItems() }
             </ul>
           </section>{/*-- !Menu --*/}
 
-          {/*-- Card --*/}
-          <section className="card">
-
-            { renderCards() }
-
-          </section>{/*-- !Card --*/}
-{/*          <Loader className="loader--end" />
-          <End className="rw__end rw__end--gallery" />*/}
+          { this.props.children }
         </div>{/*-- !Page Container --*/}
       </Main>
     )
@@ -261,8 +243,12 @@ class UserContainer extends React.Component {
 }
 
 UserContainer.propTypes = {
+  children: PropTypes.node.isRequired,
   dispatch: PropTypes.func,
-  location: PropTypes.object,
+  isPlaying: PropTypes.bool,
+  params: PropTypes.object,
+  shouldPlay: PropTypes.bool,
+  streamTrackId: PropTypes.number,
   trackEntity: PropTypes.object,
   tracksByUser: PropTypes.object,
   userEntity: PropTypes.object
@@ -278,11 +264,16 @@ UserContainer.propTypes = {
 
 function mapStateToProps(state) {
   const {
-    router: { location },
     app: {
       requested,
       partition: { tracksByUser },
-      entities: { users, tracks }
+      entities: { users, tracks },
+      media: {
+        stream: { trackId, shouldPlay },
+        player: {
+          audio: { isPlaying }
+        }
+      }
     }
   } = state
 
@@ -291,7 +282,10 @@ function mapStateToProps(state) {
     requested,
     tracksByUser,
     userEntity: users,
-    trackEntity: tracks
+    trackEntity: tracks,
+    streamTrackId: trackId,
+    shouldPlay,
+    isPlaying
   }
 }
 

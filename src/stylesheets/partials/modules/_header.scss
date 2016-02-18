@@ -27,9 +27,28 @@
 
   &--link {
     color: $white-primary;
+    display: block;
+  }
+
+  &--img {
+    vertical-align: middle;
   }
 
   &--music {
     margin-right: 1.5rem;
+  }
+}
+
+.soundcloud {
+  &--connect {
+    content: url('http://connect.soundcloud.com/2/btn-connect-m.png');
+
+    @include susy-media(medium) {
+      content: url('http://connect.soundcloud.com/2/btn-connect-sc-m.png');
+    }
+  }
+
+  &--disconnect {
+    content: url('http://connect.soundcloud.com/2/btn-disconnect-m.png');
   }
 }

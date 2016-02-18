@@ -46,6 +46,7 @@
   height: $player-height;
   margin-right: gutter();
   position: relative;
+  width: $player-height;
 
   &--filter {
     &::before {
@@ -78,8 +79,7 @@
 }
 
 .tracklist__data {
-  float: left;
-  width: span(8);
+  overflow: hidden;
 
   &--title,
   &--user {
@@ -99,6 +99,7 @@
 
 .tracklist__icons {
   float: right;
+  min-width: 20rem;
   text-align: right;
   width: span(3);
 }
