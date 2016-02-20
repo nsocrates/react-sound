@@ -20,7 +20,7 @@
 .gallery__artwork {
   @extend %reset-white-space;
   @include relative;
-  background-color: $light-gray;
+  background-color: $shark;
   display: block;
   padding-bottom: 100%;
   width: 100%;

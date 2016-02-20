@@ -141,6 +141,18 @@ export function splitLines(string) {
   const arr = string.split(/\n/)
                     .map(item => item.split(reUrl)
                                      .filter(n => !!n))
-                    .filter(j => j.length > 0)
+                    .filter(item => item.length > 0)
+
+  // Sets link to array[1]
+  arr.forEach(item => {
+    const another = item
+    if (another.toString().match(reUrl) && !another[1]) {
+      another[1] = another[0]
+      another[0] = ''
+
+      return another
+    }
+  })
+
   return arr
 }

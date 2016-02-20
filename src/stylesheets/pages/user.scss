@@ -54,8 +54,12 @@
     @include susy-media(medium) {
       @include span(full);
       height: auto;
-      max-width: 30rem;
+      max-width: 27rem;
       min-width: 22.5rem;
+    }
+
+    @include susy-media(large) {
+      max-width: 35rem;
     }
   }
 
@@ -87,6 +91,7 @@
 
 .user__info {
   @include span(full);
+
   @include susy-media(medium) {
     float: right;
     padding-left: gutter();
@@ -163,27 +168,57 @@
   }
 }
 
-.user__social-media {
+.user__action {
   @include span(full);
-  background-color: rgba($shark, $hint);
   border-radius: 3rem;
-  font-size: 2.4rem;
+  margin-bottom: gutter();
   padding: 1rem;
   text-align: center;
 
   @include susy-media(medium) {
-    margin-right: span(7) + gutter();
     width: span(5);
   }
 
   @include susy-media(large) {
-    margin-right: 0;
     width: span(6);
   }
 
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &--social-media {
+    background-color: rgba($shark, $hint);
+  }
+
+  &--soundcloud {
+    background-color: #f50;
+    padding: 1.5rem;
+
+    @include susy-media(medium) {
+      margin-right: span(7) + gutter();
+    }
+
+    @include susy-media(large) {
+      margin-right: 0;
+    }
+  }
+}
+
+.user__social-media {
+  font-size: 2.4rem;
+
   &--item {
     display: inline-block;
-    width: 25%;
+    width: (100 / 4) * 1%;
+  }
+}
+
+.user__soundcloud {
+  &--img {
+    display: block;
+    height: 2rem;
+    margin: auto;
   }
 }
 

@@ -70,7 +70,7 @@ class UserContainer extends React.Component {
     const renderMenuItems = () => {
       const itemList = [
         { text: 'Description',
-          icon: 'fa-soundcloud',
+          icon: 'fa-pencil-square-o',
           path: `#user/${params.id}` },
 
         { text: 'Tracks',
@@ -120,7 +120,7 @@ class UserContainer extends React.Component {
 
           switch (service) {
             case 'facebook':
-              icon = 'fa-facebook-official'
+              icon = 'fa-facebook-square'
               break
             case 'instagram':
               icon = 'fa-instagram'
@@ -218,9 +218,13 @@ class UserContainer extends React.Component {
             </section>{/*-- !User Info --*/}
 
             {/*-- User Social Media --*/}
-            <ul className="user__social-media">
+            <ul className="user__action user__action--social-media user__social-media">
               { renderWebIcons() }
             </ul>{/*-- !User Social Media --*/}
+
+            <a className="user__action user__action--soundcloud" href={ permalink_url }>
+              <img className="user__soundcloud--img" src="https://developers.soundcloud.com/assets/logo_white-af5006050dd9cba09b0c48be04feac57.png" />
+            </a>
 
           </div>{/*-- !Profile --*/}
         </div>{/*-- !Banner --*/}

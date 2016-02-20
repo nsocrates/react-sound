@@ -14,6 +14,7 @@ export default function Card(props) {
             className="card__cover--img"
             src={ imgUrl }
           />
+          <aside className="card__cover--filter" />
         </a>
       </div>
       <div className="card__content">
