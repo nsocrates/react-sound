@@ -140,12 +140,13 @@ export function splitLines(string) {
   const reUrl = /(http.*?:\/\/[^\s]+)/g
   const arr = string.split(/\n/)
                     .map(item => item.split(reUrl)
-                                     .filter(n => !!n))
+                                     .filter(n => !!n.trim()))
                     .filter(item => item.length > 0)
 
   // Sets link to array[1]
   arr.forEach(item => {
     const another = item
+
     if (another.toString().match(reUrl) && !another[1]) {
       another[1] = another[0]
       another[0] = ''
