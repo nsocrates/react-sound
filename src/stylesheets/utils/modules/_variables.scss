@@ -22,7 +22,14 @@ $light-gray: #ebeae8;
 $light-pink: #f7379f;
 $cyan: #00fff2;
 $pink-disabled: tint($light-pink, 30%);
+$pink-dark: shade($light-pink, 5%);
 $wan-white-gray: shade($light-gray, 1%);
+ // SoundCloud Colors
+$sc-orange: #f50;
+$sc-focus: shade($sc-orange, 3%);
+$sc-pink: mix($light-pink, $sc-orange, 48%);
+$sc-pink--dark: shade($sc-pink, 5%);
+$sc-pink--disabled: tint($sc-pink, 30%);
 
 // Opacity
 $disabled: .12;

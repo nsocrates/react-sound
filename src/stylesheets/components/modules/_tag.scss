@@ -3,7 +3,6 @@
 }
 
 .tag {
-  @extend %small;
   float: left;
   margin-bottom: gutter();
   margin-right: gutter();
@@ -16,10 +15,11 @@
   border-radius: .5rem;
   color: $black-secondary;
   display: inline-block;
+  font-size: 1.2rem;
   height: 2.6rem;
   line-height: 2.6rem;
   max-width: 50rem;
-  padding: 0 2rem 0 2.3rem;
+  padding: 0 1rem 0 2.3rem;
   transition: color $trans-duration;
 
   @include susy-media(medium) {

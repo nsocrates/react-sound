@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import { IMG_FORMAT } from 'constants/ItemLists'
 import { trackFactory } from 'utils/Utils'
 import classNames from 'classnames'
 import Button from './Button'
@@ -55,7 +54,7 @@ export default class PlayerTracklist extends React.Component {
           <aside className={ shouldFilter }>
             <img
               className="tracklist__img"
-              src={ trackData.getArtwork(IMG_FORMAT.BADGE) }
+              src={ trackData.artwork.badge }
             />
           </aside>
 

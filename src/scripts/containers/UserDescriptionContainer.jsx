@@ -25,12 +25,26 @@ class UserDescriptionContainer extends React.Component {
 
     const user = userEntity[params.id]
 
-    if (!user.description || requested.isFetching) {
+    if (requested.isFetching || !user.description) {
+      if (!user.description && user.description !== undefined) {
+        return (
+          <section className="user__description">
+            <p className="user__description--none">
+              { "USER DOES NOT HAVE A DESCRIPTION." }
+            </p>
+          </section>
+        )
+      }
+
       return <Loader className="loader--bottom" />
     }
 
     const paragraphs = splitLines(user.description).map((item, index) => {
+      const reAtSound = /(@\S.*)/i
+
       if (item[1]) {
+        const hasProtocol = /http/.test(item[1])
+
         return (
           <p
             className="user__description--paragraph"
@@ -41,9 +55,26 @@ class UserDescriptionContainer extends React.Component {
             </span>
             <a
               className="user__description--link"
-              href={ item[1] }
+              href={ hasProtocol ? item[1] : `http://${item[1]}` }
             >
               { item[1] }
+            </a>
+          </p>
+        )
+      }
+
+      if (reAtSound.test(item[0])) {
+        const scUser = item[0].split('@')[1]
+        return (
+          <p
+            className="user__description--paragraph"
+            key={`description--soundcloud__${item[0]}_${index}`}
+          >
+            <a
+              className="user__description--link user__description--atSoundCloud"
+              href={ `https://soundcloud.com/${scUser}` }
+            >
+              { item[0] }
             </a>
           </p>
         )
@@ -61,7 +92,9 @@ class UserDescriptionContainer extends React.Component {
 
     return (
       <section className="user__description">
-        { paragraphs }
+        <div className="user__description--inner">
+          { paragraphs }
+        </div>
       </section>
     )
   }

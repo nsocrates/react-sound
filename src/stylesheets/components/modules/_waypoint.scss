@@ -3,6 +3,7 @@
 .end {
   clear: both;
   float: left;
+  width: 100%;
 
   &--top {
     margin: 11.5rem 0;
@@ -17,21 +18,22 @@
   }
 }
 
-.loader {
-  text-align: center;
-  width: 100%;
+.waypoint--debug {
+  background-color: $sc-orange;
+  padding: 1rem 0;
+}
 
-  &__icon {
-    color: tint($shark, 10%);
-    font-size: 3.1rem;
-  }
+.loader,
+.end {
+  text-align: center;
+}
+
+.loader__icon {
+  color: tint($shark, 10%);
+  font-size: 3.1rem;
 }
 
 .end {
   background-color: $wan-white-gray;
-  clear: both;
   color: $black-hint;
-  float: left;
-  text-align: center;
-  width: 100%;
 }

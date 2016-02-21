@@ -35,11 +35,11 @@ export function loadGenre(genre, next = true) {
     const decoded = decodeURIComponent(genre.replace(/\+/g, '%20'))
     const encoded = encodeURIComponent(decoded).replace(/%20/g, '+')
     const { tracksByGenre } = getState().app.partition
-
     const {
       next_href = `/tracks?genres=${encoded}&`,
       offset = 0
     } = tracksByGenre[decoded] || {}
+
     if (offset > 0 && !next) {
       return dispatch(loadCached(decoded, next_href))
     }

@@ -171,7 +171,6 @@ function mapStateToProps(state) {
   } = state
 
   return {
-    // location,
     audioIsPlaying: media.player.audio.isPlaying,
     requested,
     searchesByInput: partition.searchesByInput,

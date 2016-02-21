@@ -192,7 +192,7 @@
   }
 
   &--soundcloud {
-    background-color: #f50;
+    background-color: $sc-orange;
     padding: 1.5rem;
 
     @include susy-media(medium) {
@@ -201,6 +201,10 @@
 
     @include susy-media(large) {
       margin-right: 0;
+    }
+
+    &:hover {
+      background-color: $sc-focus;
     }
   }
 }
@@ -225,24 +229,45 @@
 .user__description {
   background-color: $white-primary;
   border-radius: .5rem;
+  font-size: 1.8rem;
+  line-height: 1.55;
   padding: 1.5rem;
+
+  &--inner {
+    width: 100%;
+
+    @include susy-media(medium) {
+      margin: 0 auto;
+      max-width: 90%;
+      padding-bottom: 3rem;
+      padding-top: 3rem;
+      width: em($medium);
+    }
+  }
 
   &--span {
     margin-right: .2rem;
   }
 
   &--link {
-    border-bottom: .1rem solid $black-disabled;
+    border-bottom: .1rem dotted $black-disabled;
     color: $light-pink;
-    padding-bottom: .1rem;
-
-    @include susy-media(medium) {
-      font-size: 125%;
-      line-height: 1.6;
-    }
 
     &:hover {
-      border-color: $pink-disabled;
+      border-color: $pink-dark;
     }
+  }
+
+  &--atSoundCloud {
+    color: $sc-pink;
+
+    &:hover {
+      border-color: $sc-pink--dark;
+    }
+  }
+
+  &--none {
+    color: $black-hint;
+    text-align: center;
   }
 }

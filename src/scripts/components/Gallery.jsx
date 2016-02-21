@@ -49,7 +49,7 @@ export default class Gallery extends React.Component {
   }
 
   render() {
-    const { trackData: { user, track, getArtwork }} = this.props
+    const { trackData: { user, track, artwork }} = this.props
 
     return (
       <article className="gallery">
@@ -61,7 +61,7 @@ export default class Gallery extends React.Component {
           <img
             className="gallery__artwork--img"
             onError={ this.handleError_img }
-            src={ getArtwork(IMG_FORMAT.LARGE) }
+            src={ artwork.large }
           />
         </a>
         <div className="gallery__content">

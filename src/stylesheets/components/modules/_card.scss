@@ -62,7 +62,7 @@
 
 .card__cover--link {
   @extend %reset-white-space;
-  background-color: $light-gray;
+  background-color: $shark;
   display: block;
   height: auto;
   padding-bottom: 25%;
@@ -124,20 +124,20 @@
   padding: 0 1rem;
 
   @include susy-media(medium) {
-    float: left;
-    width: span(8);
+    overflow: hidden;
+    width: auto;
   }
 
-  @include susy-media(large) {
-    padding: 0;
-    width: span(5) + gutter();
-  }
-
-  &--title {
+  &--title,
+  &--byline {
     margin: 0;
   }
 
   &--byline {
+    color: $black-secondary;
+  }
+
+  &--date {
     color: $black-hint;
     margin-bottom: 1rem;
   }

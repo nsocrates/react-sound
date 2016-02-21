@@ -17,6 +17,11 @@ import { kFormatter } from 'utils/Utils'
 
 class UserContainer extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.handlePushToTracks = this.handlePushToTracks.bind(this)
+  }
+
   componentDidMount() {
     return this.updateComponent()
   }
@@ -25,6 +30,15 @@ class UserContainer extends React.Component {
     const { dispatch, params } = this.props
 
     dispatch(loadUser(params.id))
+  }
+
+  handlePushToTracks(e) {
+    e.preventDefault()
+
+    const { dispatch, params } = this.props
+    const path = `#user/${params.id}/tracks`
+
+    dispatch(push({ pathname: path }))
   }
 
   render() {
@@ -69,7 +83,7 @@ class UserContainer extends React.Component {
 
     const renderMenuItems = () => {
       const itemList = [
-        { text: 'Description',
+        { text: 'Bio',
           icon: 'fa-pencil-square-o',
           path: `#user/${params.id}` },
 
@@ -95,7 +109,7 @@ class UserContainer extends React.Component {
 
         return (
           <li
-            className="menu__item"
+            className="menu__item menu__item--profile"
             key={`menu__${item.text}_${index}`}
           >
             <LinkItem
@@ -206,10 +220,14 @@ class UserContainer extends React.Component {
                       </a>
                     </td>
                     <td className="user__stats--td">
-                      <a className="user__link user__link--stats" href="#">
+                      <LinkItem
+                        className="user__link user__link--stats"
+                        onClick={ this.handlePushToTracks }
+                        to={ `#user/${params.id}/tracks` }
+                      >
                         <h6 className="user__stats--title">{"Tracks"}</h6>
                         <h3 className="user__stats--value">{ kFormatter(track_count) }</h3>
-                      </a>
+                      </LinkItem>
                     </td>
                   </tr>
                 </tbody>
@@ -269,7 +287,6 @@ UserContainer.propTypes = {
 function mapStateToProps(state) {
   const {
     app: {
-      requested,
       partition: { tracksByUser },
       entities: { users, tracks },
       media: {
@@ -283,7 +300,6 @@ function mapStateToProps(state) {
 
   return {
     location,
-    requested,
     tracksByUser,
     userEntity: users,
     trackEntity: tracks,

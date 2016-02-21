@@ -1,5 +1,5 @@
 import { API_ROOT, API_DATA, CLIENT_ID } from 'constants/Api'
-import { IMG_FORMAT, IMG_FALLBACK } from 'constants/ItemLists'
+import { IMG_FORMAT } from 'constants/ItemLists'
 
 // Constructs url from endpoint.
 export function constructUrl(endpoint) {
@@ -34,6 +34,31 @@ export const trackFactory = obj => {
                .map(item => item.replace(/"/g, ''))
   }
 
+  function dateFormater(date) {
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
+                        'July', 'Aug','Sept', 'Oct', 'Nov', 'Dec']
+    const dt = new Date(date)
+    return `${monthNames[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`
+  }
+
+  function getArtwork(format) {
+    const track = trackEntity[trackId]
+    const artwork = track.artwork_url || null
+
+    if (artwork) {
+      switch (format) {
+        case IMG_FORMAT.XLARGE:
+          return artwork.replace(/large/, IMG_FORMAT.XLARGE)
+        case IMG_FORMAT.LARGE:
+          return artwork.replace(/large/, IMG_FORMAT.LARGE)
+        case IMG_FORMAT.BADGE:
+          return artwork.replace(/large/, IMG_FORMAT.BADGE)
+        default:
+          return artwork
+      }
+    }
+  }
+
   if (trackId) {
     const track = trackEntity[trackId]
     const userId = track.user_id
@@ -48,34 +73,15 @@ export const trackFactory = obj => {
         id: trackId,
         name: title[1] || title[0]
       },
+      artwork: {
+        xLarge: getArtwork(IMG_FORMAT.XLARGE),
+        large: getArtwork(IMG_FORMAT.LARGE),
+        medium: track.artwork_url || null,
+        badge: getArtwork(IMG_FORMAT.BADGE)
+      },
       download: track.downloadable ? `${track.download_url}?client_id=${CLIENT_ID}` : null,
       tags: track.tag_list ? parseTags(track.tag_list) : null,
-      getArtwork(format) {
-        let artwork
-        if (!track.artwork_url) {
-          artwork = userEntity[userId].avatar_url
-        } else {
-          artwork = track.artwork_url
-        }
-        if (/default_avatar/.test(artwork)) {
-          switch (format) {
-            case IMG_FORMAT.BADGE:
-              return IMG_FALLBACK.SMALL
-            default:
-              return IMG_FALLBACK.LARGE
-          }
-        }
-        switch (format) {
-          case IMG_FORMAT.XLARGE:
-            return artwork.replace(/large/, IMG_FORMAT.XLARGE)
-          case IMG_FORMAT.LARGE:
-            return artwork.replace(/large/, IMG_FORMAT.LARGE)
-          case IMG_FORMAT.BADGE:
-            return artwork.replace(/large/, IMG_FORMAT.BADGE)
-          default:
-            return artwork
-        }
-      }
+      createdAt: dateFormater(track.created_at)
     }
   }
 }
@@ -137,19 +143,23 @@ export function kFormatter(number) {
 
 // Splits paragraphs into array; separates link from paragraph
 export function splitLines(string) {
-  const reUrl = /(http.*?:\/\/[^\s]+)/g
+  /**
+   * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+   * http://stackoverflow.com/questions/6927719/url-regex-does-not-work-in-javascript
+   */
+  const reUrl = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/i
   const arr = string.split(/\n/)
                     .map(item => item.split(reUrl)
-                                     .filter(n => !!n.trim()))
+                                     .filter(n => !!n))
                     .filter(item => item.length > 0)
 
-  // Sets link to array[1]
+  // Sets url to array[1]
   arr.forEach(item => {
     const another = item
 
     if (another.toString().match(reUrl) && !another[1]) {
       another[1] = another[0]
-      another[0] = ''
+      another[0] = null
 
       return another
     }

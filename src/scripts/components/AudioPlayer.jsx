@@ -1,6 +1,5 @@
 import classNames from 'classnames'
 import React from 'react'
-import { IMG_FORMAT } from 'constants/ItemLists'
 import { timeFactory, coordinatesFactory } from 'utils/Utils'
 
 import PlayerArtwork from './PlayerArtwork'
@@ -224,7 +223,7 @@ export default class AudioPlayer extends React.Component {
       height: sliderPosition
     }
     // Sets artwork for current track:
-    const imgUrl = trackData.getArtwork(IMG_FORMAT.BADGE)
+    const imgUrl = trackData.artwork.badge
     const artworkStyle = {
       backgroundImage: `url(${imgUrl})`,
       backgroundRepeat: 'no-repeat',

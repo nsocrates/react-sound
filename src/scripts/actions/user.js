@@ -22,10 +22,19 @@ function fetchUser(id, endpoint = `/users/${id}?`, schema = Schemas.USER) {
   }
 }
 
-export function loadUserTracks(id) {
-  return dispatch => {
-    const endpoint = `/users/${id}/tracks?`
+export function loadUserTracks(id, next = false) {
+  return (dispatch, getState) => {
     const schema = Schemas.TRACK_ARRAY
+    const { tracksByUser } = getState().app.partition
+    const {
+      ids,
+      next_href = `/users/${id}/tracks?`
+    } = tracksByUser[id] || {}
+    const endpoint = next_href ? next_href : `/users/${id}/tracks?`
+
+    if (ids.length && !next) {
+      return null
+    }
 
     return dispatch(fetchUser(id, endpoint, schema))
   }
@@ -52,27 +61,22 @@ export function loadUser(id) {
         endpoint: `/users/${id}/web-profiles?`,
         schema: Schemas.USER
       },
-      tracks: {
-        endpoint: `/users/${id}/tracks?`,
-        schema: Schemas.TRACK_ARRAY
-      },
       playlists: {
         endpoint: `/users/${id}/playlists?`,
         schema: Schemas.PLAYLIST_ARRAY
       }
     }
-    const { base, profile, tracks } = action
+    const { base, profile } = action
 
     if (user && user.hasOwnProperty('online')) {
-      console.log('Cache User')
+      return null
     }
+
     return dispatch(
       fetchUser(id, base.endpoint, base.schema)
-    ).then(() =>
-      Promise.all([
+    ).then(() => (
         dispatch(fetchUser(id, profile.endpoint, profile.schema))
-        // dispatch(fetchUser(id, tracks.endpoint, tracks.schema))
-      ])
+      )
     )
   }
 }

@@ -1,33 +1,44 @@
 import React, { PropTypes } from 'react'
 import Card from 'components/Card'
-import Tag from 'components/Tag'
-import Loader from 'components/Loader'
 import End from 'components/End'
-import { trackFactory } from 'utils/Utils'
+import Loader from 'components/Loader'
+import Tag from 'components/Tag'
+import Waypoint from 'components/Waypoint'
 import { IMG_FORMAT } from 'constants/ItemLists'
-import { requestStream } from 'actions/stream'
 import { loadUserTracks } from 'actions/user'
+import { requestStream } from 'actions/stream'
+import { trackFactory } from 'utils/Utils'
 
 import { connect } from 'react-redux'
 
 class UserTracksContainer extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.handleWaypointEnter = this.handleWaypointEnter.bind(this)
+  }
+
   componentDidMount() {
     return this.updateComponent()
   }
 
-  componentWillUnmount() {
-    console.log('UserTracksContainer.WillUnmount')
-  }
-
-  updateComponent() {
+  updateComponent(next) {
     const { dispatch, params } = this.props
 
-    return dispatch(loadUserTracks(params.id))
+    return dispatch(loadUserTracks(params.id, next))
+  }
+
+  handleWaypointEnter() {
+    const { tracksByUser, params } = this.props
+    const tracks = tracksByUser[params.id]
+
+    if (!tracks.isFetching) {
+      return this.updateComponent(true)
+    }
   }
 
   render() {
     const {
-      requested,
       userEntity,
       trackEntity,
       tracksByUser,
@@ -36,14 +47,14 @@ class UserTracksContainer extends React.Component {
     } = this.props
 
     const user = userEntity[params.id]
+    const tracks = tracksByUser[params.id]
 
-    if (!user || requested.isFetching) {
+    if (!user) {
       return <Loader className="loader--bottom" />
     }
 
     const renderCards = () => {
-      if (tracksByUser[user.id]) {
-        const tracks = tracksByUser[user.id]
+      if (tracks) {
         const { ids } = tracks
 
         return ids.map((item, index) => {
@@ -85,7 +96,8 @@ class UserTracksContainer extends React.Component {
           return (
             <Card
               byline={ trackData.user.name }
-              imgUrl={ trackData.getArtwork(IMG_FORMAT.LARGE) }
+              date={ `Created ${trackData.createdAt}` }
+              imgUrl={ trackData.artwork.large }
               key={ `user_card__${index}_${item}` }
               onCoverClick={ _handleCoverClick }
               title={ trackData.track.name }
@@ -99,10 +111,22 @@ class UserTracksContainer extends React.Component {
       }
     }
 
+    const shouldRenderWaypoint = () => {
+      if (tracks.next_href) {
+        return (
+          <Waypoint
+            className="waypoint waypoint--bottom"
+            onEnter={ this.handleWaypointEnter }
+          />
+        )
+      }
+    }
+
     return (
       <section className="card">
         { renderCards() }
-        <End className="end--bottom" />
+        { tracks.isFetching ? <Loader className="loader--bottom"/> : shouldRenderWaypoint() }
+        { !tracks.next_href && !tracks.isFetching ? <End className="end--bottom" /> : null }
       </section>
     )
   }
@@ -112,7 +136,6 @@ UserTracksContainer.propTypes = {
   dispatch: PropTypes.func,
   isPlaying: PropTypes.bool,
   params: PropTypes.object,
-  requested: PropTypes.object,
   streamTrackId: PropTypes.number,
   trackEntity: PropTypes.object,
   tracksByUser: PropTypes.object,
@@ -121,7 +144,6 @@ UserTracksContainer.propTypes = {
 
 function mapStateToProps(state) {
   const {
-    requested,
     entities: { users, tracks },
     partition: { tracksByUser },
     media: {
@@ -134,7 +156,6 @@ function mapStateToProps(state) {
 
   return {
     isPlaying,
-    requested,
     tracksByUser,
     streamTrackId: trackId,
     trackEntity: tracks,
