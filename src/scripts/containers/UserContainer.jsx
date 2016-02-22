@@ -136,6 +136,7 @@ class UserContainer extends React.Component {
           'menu__link--active': currPath === item.text.toLowerCase()
                                 || !currPath && item.text === 'Bio'
         })
+
         const _handleClick = e => {
           e.preventDefault()
 
@@ -295,6 +296,7 @@ class UserContainer extends React.Component {
         {/*-- Page Container --*/}
         <div className="menu__sibling user__container">
           <Waypoint
+            className="waypoint"
             onEnter={ this.handleWaypointEvent }
             onLeave={ this.handleWaypointEvent }
             triggerFrom="above"

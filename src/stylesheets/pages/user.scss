@@ -180,8 +180,9 @@
 .user__action-bar {
   @include span(full);
   border-radius: 3rem;
+  height: 5rem;
+  line-height: 5rem;
   margin-bottom: gutter();
-  padding: 1rem;
   text-align: center;
 
   @include susy-media(medium) {
@@ -202,7 +203,8 @@
 
   &--soundcloud {
     background-color: $sc-orange;
-    padding: 1.5rem;
+    overflow: hidden;
+    position: relative;
 
     @include susy-media(medium) {
       margin-right: span(7) + gutter();
@@ -215,12 +217,6 @@
     &:hover {
       background-color: $sc-focus;
     }
-  }
-}
-
-@for $i from 1 through 7 {
-  &--item-#{$i} {
-    width: (100 / $i) * 1%;
   }
 }
 
@@ -243,9 +239,9 @@
 
 .user__soundcloud {
   &--img {
-    display: block;
-    height: 2rem;
+    @include absolute(top right bottom left);
     margin: auto;
+    width: 12rem;
   }
 }
 
