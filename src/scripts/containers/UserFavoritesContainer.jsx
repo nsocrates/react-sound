@@ -4,13 +4,13 @@ import End from 'components/End'
 import Loader from 'components/Loader'
 import Tag from 'components/Tag'
 import Waypoint from 'components/Waypoint'
-import { loadUserTracks } from 'actions/user'
+import { loadUserFavorites } from 'actions/user'
 import { requestStream } from 'actions/stream'
 import { trackFactory } from 'utils/Utils'
 
 import { connect } from 'react-redux'
 
-class UserTracksContainer extends React.Component {
+class UserFavoritesContainer extends React.Component {
 
   constructor(props) {
     super(props)
@@ -24,12 +24,12 @@ class UserTracksContainer extends React.Component {
   updateComponent(next) {
     const { dispatch, params } = this.props
 
-    return dispatch(loadUserTracks(params.id, next))
+    return dispatch(loadUserFavorites(params.id, next))
   }
 
   handleWaypointEnter() {
-    const { tracksByUser, params } = this.props
-    const tracks = tracksByUser[params.id]
+    const { favoritesByUser, params } = this.props
+    const tracks = favoritesByUser[params.id]
 
     if (!tracks.isFetching) {
       return this.updateComponent(true)
@@ -40,13 +40,13 @@ class UserTracksContainer extends React.Component {
     const {
       userEntity,
       trackEntity,
-      tracksByUser,
+      favoritesByUser,
       dispatch,
       params
     } = this.props
 
     const user = userEntity[params.id]
-    const tracks = tracksByUser[params.id]
+    const tracks = favoritesByUser[params.id]
 
     if (!user || !tracks) {
       return <Loader className="loader--bottom" />
@@ -133,7 +133,7 @@ class UserTracksContainer extends React.Component {
   }
 }
 
-UserTracksContainer.propTypes = {
+UserFavoritesContainer.propTypes = {
   dispatch: PropTypes.func,
   favoritesByUser: PropTypes.object,
   isPlaying: PropTypes.bool,
@@ -148,7 +148,7 @@ UserTracksContainer.propTypes = {
 function mapStateToProps(state) {
   const {
     entities: { users, tracks },
-    partition: { tracksByUser, favoritesByUser },
+    partition: { favoritesByUser },
     media: {
       stream: { trackId },
       player: {
@@ -159,7 +159,6 @@ function mapStateToProps(state) {
 
   return {
     isPlaying,
-    tracksByUser,
     favoritesByUser,
     streamTrackId: trackId,
     trackEntity: tracks,
@@ -167,4 +166,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(UserTracksContainer)
+export default connect(mapStateToProps)(UserFavoritesContainer)

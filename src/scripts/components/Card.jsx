@@ -1,14 +1,15 @@
 import React, { PropTypes } from 'react'
+import LinkItem from 'components/LinkItem'
 
 export default function Card(props) {
   const { children, imgUrl, href, title, byline, onCoverClick, date,
-        titlePath, bylinePath, onTitleClick, onBylineClick } = props
+        titlePath, bylinePath, onTitleClick, dispatch } = props
   return (
     <article className="card__item">
 
       <div className="card__cover">
         <a
-          className="fa card__cover--link"
+          className="fa card__cover--link artwork"
           href={ href }
           onClick={ onCoverClick }
         >
@@ -32,12 +33,12 @@ export default function Card(props) {
         </h5>
 
         <h6 className="card__content--byline">
-          <a
-            href={ bylinePath }
-            onClick={ onBylineClick }
+          <LinkItem
+            dispatch={ dispatch }
+            to={ bylinePath }
           >
             { byline }
-          </a>
+          </LinkItem>
         </h6>
 
         <h6 className="card__content--date">
@@ -55,9 +56,9 @@ Card.propTypes = {
   bylinePath: PropTypes.string,
   children: PropTypes.node,
   date: PropTypes.string,
+  dispatch: PropTypes.func.isRequired,
   href: PropTypes.string,
   imgUrl: PropTypes.string,
-  onBylineClick: PropTypes.func,
   onCoverClick: PropTypes.func,
   onTitleClick: PropTypes.func,
   title: PropTypes.string,
@@ -74,6 +75,5 @@ Card.defaultProps = {
   titlePath: '#',
   bylinePath: '#',
   onCoverClick() {},
-  onTitleClick() {},
-  onBylineClick() {}
+  onTitleClick() {}
 }

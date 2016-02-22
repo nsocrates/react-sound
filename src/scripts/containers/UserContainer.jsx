@@ -1,16 +1,17 @@
-// import Waypoint from 'components/Waypoint'
-// import { bindActionCreators } from 'redux'
-// import Button from 'components/Button'
 import React, { PropTypes } from 'react'
 
 import Canvas from 'components/Canvas'
 import LinkItem from 'components/LinkItem'
 import Loader from 'components/Loader'
 import Main from 'components/Main'
-import MediaItem from 'components/MediaItem'
+import WebIcon from 'components/WebIcon'
+import Menu from 'components/Menu'
+import Waypoint from 'components/Waypoint'
+import classNames from 'classnames'
 import { connect } from 'react-redux'
-import { IMG_FORMAT } from 'constants/ItemLists'
+import { IMG_FORMAT, IMG_FALLBACK } from 'constants/ItemLists'
 import { loadUser } from 'actions/user'
+import { triggerStickyMenu } from 'actions/ui'
 import { push } from 'react-router-redux'
 import { kFormatter } from 'utils/Utils'
 
@@ -20,16 +21,41 @@ class UserContainer extends React.Component {
   constructor(props) {
     super(props)
     this.handlePushToTracks = this.handlePushToTracks.bind(this)
+    this.handleError_img = this.handleError_img.bind(this)
+    this.handleWaypointEvent = this.handleWaypointEvent.bind(this)
   }
 
   componentDidMount() {
     return this.updateComponent()
   }
 
+  componentWillUnmount() {
+    return this.dispatchStickyMenu(false)
+  }
+
   updateComponent() {
     const { dispatch, params } = this.props
 
-    dispatch(loadUser(params.id))
+    return dispatch(loadUser(params.id))
+  }
+
+  dispatchStickyMenu(shouldStick) {
+    const { dispatch } = this.props
+
+    return dispatch(triggerStickyMenu(shouldStick))
+  }
+
+  handleWaypointEvent() {
+    const { menu } = this.props
+
+    return this.dispatchStickyMenu(!menu.isSticky)
+  }
+
+  handleError_img(e) {
+    const { currentTarget } = e
+    currentTarget.src = IMG_FALLBACK.AVATAR.LARGE
+
+    return currentTarget
   }
 
   handlePushToTracks(e) {
@@ -46,7 +72,9 @@ class UserContainer extends React.Component {
       userEntity,
       dispatch,
       params,
-      shouldPlay
+      shouldPlay,
+      menu,
+      routes
     } = this.props
 
     const user = userEntity[params.id]
@@ -68,7 +96,9 @@ class UserContainer extends React.Component {
       website
     } = user
 
-    const avatarUrl = avatar_url.replace(/large/, IMG_FORMAT.LARGE)
+    const avatarUrl = avatar_url
+                        ? avatar_url.replace(/large/, IMG_FORMAT.LARGE)
+                        : IMG_FALLBACK.AVATAR.LARGE
 
     const renderLocation = () => {
       if (city || country) {
@@ -101,6 +131,11 @@ class UserContainer extends React.Component {
       ]
 
       return itemList.map((item, index) => {
+        const currPath = routes[routes.length - 1].path
+        const isActive = classNames('menu__link menu__link--profile', {
+          'menu__link--active': currPath === item.text.toLowerCase()
+                                || !currPath && item.text === 'Bio'
+        })
         const _handleClick = e => {
           e.preventDefault()
 
@@ -113,7 +148,7 @@ class UserContainer extends React.Component {
             key={`menu__${item.text}_${index}`}
           >
             <LinkItem
-              className="menu__link menu__link--profile"
+              className={ isActive }
               onClick={ _handleClick }
               to={ item.path }
             >
@@ -150,12 +185,12 @@ class UserContainer extends React.Component {
           }
 
           return (
-            <MediaItem
+            <WebIcon
               href={ url }
-              iconClassName={ `user__icon user__icon--${service} fa ${icon}` }
+              iconClassName={ `fa ${icon}` }
+              itemClassName="web-icon__list--item"
               key={`web_profile__${index}_${id}`}
-              linkClassName="user__link user__link--social-media"
-              listClassName="user__social-media--item"
+              linkClassName="web-icon__link"
             />
           )
         })
@@ -180,11 +215,12 @@ class UserContainer extends React.Component {
 
             <section className="user__avatar">
               <a
-                className="user__link user__link--avatar"
+                className="user__link user__link--avatar avatar"
                 href={ website || permalink_url }
               >
                 <img
                   className="user__avatar--img"
+                  onError={ this.handleError_img }
                   src={ avatarUrl }
                 />
               </a>
@@ -236,27 +272,33 @@ class UserContainer extends React.Component {
             </section>{/*-- !User Info --*/}
 
             {/*-- User Social Media --*/}
-            <ul className="user__action user__action--social-media user__social-media">
+            <ul className="user__action-bar user__action-bar--social-media web-icon__list">
               { renderWebIcons() }
             </ul>{/*-- !User Social Media --*/}
 
-            <a className="user__action user__action--soundcloud" href={ permalink_url }>
+            <a className="user__action-bar user__action-bar--soundcloud" href={ permalink_url }>
               <img className="user__soundcloud--img" src="https://developers.soundcloud.com/assets/logo_white-af5006050dd9cba09b0c48be04feac57.png" />
             </a>
 
           </div>{/*-- !Profile --*/}
         </div>{/*-- !Banner --*/}
 
+        {/*-- Menu --*/}
+        <Menu
+          innerClassName="menu__inner--profile"
+          isSticky={ menu.isSticky }
+          outerClassName="menu--profile"
+        >
+          { renderMenuItems() }
+        </Menu>{/*-- !Menu --*/}
+
         {/*-- Page Container --*/}
-        <div className="user__container">
-
-          {/*-- Menu --*/}
-          <section className="menu menu--profile">
-            <ul className="menu__inner menu__inner--profile">
-              { renderMenuItems() }
-            </ul>
-          </section>{/*-- !Menu --*/}
-
+        <div className="menu__sibling user__container">
+          <Waypoint
+            onEnter={ this.handleWaypointEvent }
+            onLeave={ this.handleWaypointEvent }
+            triggerFrom="above"
+          />
           { this.props.children }
         </div>{/*-- !Page Container --*/}
       </Main>
@@ -268,21 +310,15 @@ UserContainer.propTypes = {
   children: PropTypes.node.isRequired,
   dispatch: PropTypes.func,
   isPlaying: PropTypes.bool,
+  menu: PropTypes.object,
   params: PropTypes.object,
+  routes: PropTypes.array,
   shouldPlay: PropTypes.bool,
   streamTrackId: PropTypes.number,
   trackEntity: PropTypes.object,
   tracksByUser: PropTypes.object,
   userEntity: PropTypes.object
 }
-
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     actions: bindActionCreators({
-//       triggerSticky
-//     }, dispatch)
-//   }
-// }
 
 function mapStateToProps(state) {
   const {
@@ -294,18 +330,20 @@ function mapStateToProps(state) {
         player: {
           audio: { isPlaying }
         }
-      }
+      },
+      ui: { menu }
     }
   } = state
 
   return {
+    isPlaying,
     location,
+    menu,
+    shouldPlay,
     tracksByUser,
     userEntity: users,
     trackEntity: tracks,
-    streamTrackId: trackId,
-    shouldPlay,
-    isPlaying
+    streamTrackId: trackId
   }
 }
 

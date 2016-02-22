@@ -5,6 +5,8 @@ import React from 'react'
 import UserContainer from 'containers/UserContainer'
 import UserDescriptionContainer from 'containers/UserDescriptionContainer'
 import UserTracksContainer from 'containers/UserTracksContainer'
+import UserFavoritesContainer from 'containers/UserFavoritesContainer'
+import UserPlaylistsContainer from 'containers/UserPlaylistsContainer'
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
 const routes = (
@@ -16,6 +18,8 @@ const routes = (
       <Route component={ UserContainer } path="#user/:id">
         <IndexRoute component={ UserDescriptionContainer }/>
         <Route component={ UserTracksContainer } path="tracks" />
+        <Route component={ UserFavoritesContainer } path="favorites" />
+        <Route component={ UserPlaylistsContainer } path="playlists" />
       </Route>
     </Route>
   </Router>

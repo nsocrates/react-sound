@@ -28,10 +28,10 @@ export default class Nav extends React.Component {
     const {
       uiActions,
       routeActions,
-      requested,
       genreList,
       searchModal,
-      navbar
+      navbar,
+      location
     } = this.props
 
     const shouldExpandOverlay = classNames('modal__overlay', {
@@ -44,18 +44,21 @@ export default class Nav extends React.Component {
     const search = ref => this._search = ref
 
     const menuItems = genreList.map((item, index) => {
-      const active = classNames('menu__link', { 'menu__link--active': requested.query === item })
+      const active = classNames('menu__link', {
+        'menu__link--active': location.query.q === item
+      })
+
       const _handleClick = e => {
         e.preventDefault()
 
-        const location = {
+        const locationDescriptor = {
           pathname: '#genre',
           query: {
             q: item
           }
         }
 
-        routeActions.push(location)
+        routeActions.push(locationDescriptor)
       }
 
       return (
@@ -123,10 +126,10 @@ Nav.propTypes = {
   genreList: React.PropTypes.arrayOf(
     React.PropTypes.string.isRequired
   ),
+  location: React.PropTypes.object,
   navbar: React.PropTypes.shape({
     isSticky: React.PropTypes.bool.isRequired
   }),
-  requested: React.PropTypes.object,
   routeActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),

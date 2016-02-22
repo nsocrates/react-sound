@@ -4,13 +4,13 @@ import End from 'components/End'
 import Loader from 'components/Loader'
 import Tag from 'components/Tag'
 import Waypoint from 'components/Waypoint'
-import { loadUserTracks } from 'actions/user'
+import { loadUserPlaylists } from 'actions/user'
 import { requestStream } from 'actions/stream'
 import { trackFactory } from 'utils/Utils'
 
 import { connect } from 'react-redux'
 
-class UserTracksContainer extends React.Component {
+class UserPlaylistsContainer extends React.Component {
 
   constructor(props) {
     super(props)
@@ -24,12 +24,12 @@ class UserTracksContainer extends React.Component {
   updateComponent(next) {
     const { dispatch, params } = this.props
 
-    return dispatch(loadUserTracks(params.id, next))
+    return dispatch(loadUserPlaylists(params.id, next))
   }
 
   handleWaypointEnter() {
-    const { tracksByUser, params } = this.props
-    const tracks = tracksByUser[params.id]
+    const { playlistsByUser, params } = this.props
+    const tracks = playlistsByUser[params.id]
 
     if (!tracks.isFetching) {
       return this.updateComponent(true)
@@ -40,26 +40,27 @@ class UserTracksContainer extends React.Component {
     const {
       userEntity,
       trackEntity,
-      tracksByUser,
+      playlistEntity,
+      playlistsByUser,
       dispatch,
       params
     } = this.props
 
     const user = userEntity[params.id]
-    const tracks = tracksByUser[params.id]
+    const playlists = playlistsByUser[params.id]
 
-    if (!user || !tracks) {
+    if (!user || !playlists) {
       return <Loader className="loader--bottom" />
     }
 
     const renderCards = () => {
-      if (tracks) {
-        const { ids } = tracks
+      if (playlists) {
+        const { ids } = playlists
 
         return ids.map((item, index) => {
           const obj = {
             userEntity,
-            mediaEntity: trackEntity,
+            mediaEntity: playlistEntity,
             id: item
           }
           const mediaData = trackFactory(obj)
@@ -113,7 +114,7 @@ class UserTracksContainer extends React.Component {
     }
 
     const shouldRenderWaypoint = () => {
-      if (tracks.next_href) {
+      if (playlists.next_href) {
         return (
           <Waypoint
             className="waypoint waypoint--bottom"
@@ -126,29 +127,30 @@ class UserTracksContainer extends React.Component {
     return (
       <section className="card">
         { renderCards() }
-        { tracks.isFetching ? <Loader className="loader--bottom"/> : shouldRenderWaypoint() }
-        { !tracks.next_href && !tracks.isFetching ? <End className="end--bottom" /> : null }
+        { playlists.isFetching ? <Loader className="loader--bottom"/> : shouldRenderWaypoint() }
+        { !playlists.next_href && !playlists.isFetching ? <End className="end--bottom" /> : null }
       </section>
     )
   }
 }
 
-UserTracksContainer.propTypes = {
+UserPlaylistsContainer.propTypes = {
   dispatch: PropTypes.func,
   favoritesByUser: PropTypes.object,
   isPlaying: PropTypes.bool,
   params: PropTypes.object,
+  playlistEntity: PropTypes.object,
+  playlistsByUser: PropTypes.object,
   route: PropTypes.object,
   streamTrackId: PropTypes.number,
   trackEntity: PropTypes.object,
-  tracksByUser: PropTypes.object,
   userEntity: PropTypes.object
 }
 
 function mapStateToProps(state) {
   const {
-    entities: { users, tracks },
-    partition: { tracksByUser, favoritesByUser },
+    entities: { users, tracks, playlists },
+    partition: { playlistsByUser, favoritesByUser },
     media: {
       stream: { trackId },
       player: {
@@ -159,12 +161,13 @@ function mapStateToProps(state) {
 
   return {
     isPlaying,
-    tracksByUser,
+    playlistsByUser,
     favoritesByUser,
     streamTrackId: trackId,
     trackEntity: tracks,
-    userEntity: users
+    userEntity: users,
+    playlistEntity: playlists
   }
 }
 
-export default connect(mapStateToProps)(UserTracksContainer)
+export default connect(mapStateToProps)(UserPlaylistsContainer)

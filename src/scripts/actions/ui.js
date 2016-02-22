@@ -23,3 +23,10 @@ export function toggleTracklist() {
     type: ActionTypes.TOGGLE_TRACKLIST
   }
 }
+
+export function triggerStickyMenu(isTrue = false) {
+  return {
+    type: ActionTypes.MENU_STICK,
+    isTrue
+  }
+}

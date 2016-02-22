@@ -1,8 +1,6 @@
-// Temp min-width until I figure something out
-$tmp-min-width: 85rem;
-
 // z-index
 $stack-level: 10;
+
 
 // Typography
 $font-primary: 'Lato', sans-serif;
@@ -12,6 +10,21 @@ $base-line-height: 1.5;
 
 $header-line-height: 1.4;
 $header-margin: 0 0 .8rem 0;
+
+
+// Opacity
+$disabled: .12;
+
+// Dark Colors
+$primary: .87;
+$secondary: .54;
+$hint: .38;
+
+// Light Colors
+$l-primary: 1;
+$l-secondary: .7;
+$l-hint: .3;
+
 
 // Main Color Scheme
 $white: #fff;
@@ -24,27 +37,16 @@ $cyan: #00fff2;
 $pink-disabled: tint($light-pink, 30%);
 $pink-dark: shade($light-pink, 5%);
 $wan-white-gray: shade($light-gray, 1%);
- // SoundCloud Colors
+
+// SoundCloud Colors
 $sc-orange: #f50;
 $sc-focus: shade($sc-orange, 3%);
 $sc-pink: mix($light-pink, $sc-orange, 48%);
 $sc-pink--dark: shade($sc-pink, 5%);
 $sc-pink--disabled: tint($sc-pink, 30%);
 
-// Opacity
-$disabled: .12;
 
-  // Dark Colors
-$primary: .87;
-$secondary: .54;
-$hint: .38;
-
-  // Light Colors
-$l-primary: 1;
-$l-secondary: .7;
-$l-hint: .3;
-
-// Text Opacity
+// Text Colors
 $black-primary: rgba($black, $primary);
 $black-secondary: rgba($black, $secondary);
 $black-hint: rgba($black, $hint);
@@ -55,17 +57,36 @@ $white-secondary: rgba($white, $l-secondary);
 $white-hint: rgba($white, $l-hint);
 $white-disabled: rgba($white, $disabled);
 
+
+// Link Colors
+$link: $white-secondary;
+$link--hover: $white-primary;
+$link--visited: mix($light-pink, $cyan, 80%); 
+
+$link__accent: $light-pink;
+$link__accent--hover: shade($link--accent, 5%);
+
+$link__sc: mix($light-pink, $sc-orange, 48%);
+$link__sc--hover: shade($link__sc, 5%);
+
+$link__mail: mix($light-pink, $cyan, 30%);
+$link__mail--hover: shade($link__mail, 5%);
+
+
 // Transition
 $trans-duration: .2s;
 $trans-func: ease-in-out;
 $trans-default: $trans-duration $trans-func;
 
+
 // Bar Height
 $bar-height: 5rem;
+
 
 // Audio Player Config
 $player-height: 6rem;
 $player-icon-shadow: 0 -.1rem .2rem $white-hint;
+
 
 // Menu
 $n-text-color: $black-secondary;
@@ -74,6 +95,7 @@ $n-stack-level: $stack-level + 10;
 $n-main-color: $white;
 $n-focus: shade($n-main-color, 3%);
 $n-accent: inset 0 -.2rem 0 $light-pink;
+
 
 // Search Modal Config
 $m-stack-level: $n-stack-level + 10;
@@ -85,6 +107,7 @@ $m-overlay-bg: linear-gradient(
   tint($light-pink, 25%) 100%
 );
 
+
 // Side Menu Config
 $oc-width: 30rem;
 $oc-hover: $light-pink;
@@ -94,11 +117,13 @@ $oc-border: solid .1rem $white-disabled;
 $oc-stack-level: $n-stack-level + 10;
 $oc-transition: .5s ease;
 
+
 // Breakpoints
 $small: 0;
 $medium: 640px;
 $large: 1024px;
 $xlarge: 1200px;
+
 
 // Susy
 $susy: (
@@ -110,7 +135,7 @@ $susy: (
     output: overlay
   )
 );
-  // Susy Breakpoints
+
 $susy-media: (
   'small': $small,
   'medium': em($medium),

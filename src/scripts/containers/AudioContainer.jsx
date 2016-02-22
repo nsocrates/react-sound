@@ -28,7 +28,7 @@ class AudioContainer extends React.Component {
       }
     } = this.props
     const rest = omit(this.props, ['streamActions', 'trackEntity', 'userEntity', 'stream'])
-    const args = { trackId, userEntity, trackEntity }
+    const args = { userEntity, mediaEntity: trackEntity, id: trackId }
     const trackData = trackFactory(args)
     const src = constructStreamUrl(trackId)
     const audioStream = ref => this._audioStream = ref

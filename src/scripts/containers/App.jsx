@@ -29,7 +29,7 @@ class App extends React.Component {
         <SearchModalContainer />
         <SideMenuContainer />
         <HeaderContainer />
-        <NavContainer />
+        <NavContainer location={ this.props.location } />
         { this.props.children }
         <AudioContainer />
       </div>

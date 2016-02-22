@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import Loader from 'components/Loader'
-import { loadCachedUser } from 'actions/user'
+import { loadUser } from 'actions/user'
 import { splitLines } from 'utils/Utils'
 
 import { connect } from 'react-redux'
@@ -13,7 +13,7 @@ class UserDescriptionContainer extends React.Component {
   updateComponent() {
     const { dispatch, params } = this.props
 
-    return dispatch(loadCachedUser(params.id))
+    return dispatch(loadUser(params.id))
   }
 
   render() {
@@ -40,10 +40,13 @@ class UserDescriptionContainer extends React.Component {
     }
 
     const paragraphs = splitLines(user.description).map((item, index) => {
-      const reAtSound = /(@\S.*)/i
+      const reAtSound = /\s(@\S+\S)/i
+      const reAtMail = /(\S+@\S+\.\S+)/i
+      const text = item[0]
+      const link = item[1]
 
-      if (item[1]) {
-        const hasProtocol = /http/.test(item[1])
+      if (link) {
+        const hasProtocol = /http/.test(link)
 
         return (
           <p
@@ -51,28 +54,66 @@ class UserDescriptionContainer extends React.Component {
             key={`description--text--link__${params.id}_${index}`}
           >
             <span className="user__description--span">
-              { item[0] }
+              { text }
             </span>
             <a
               className="user__description--link"
               href={ hasProtocol ? item[1] : `http://${item[1]}` }
             >
-              { item[1] }
+              { link }
             </a>
           </p>
         )
       }
 
-      if (reAtSound.test(item[0])) {
-        const scUser = item[0].split('@')[1]
+      if (reAtSound.test(text)) {
+        const scUser = text.split('@')[1]
         return (
           <p
             className="user__description--paragraph"
-            key={`description--soundcloud__${item[0]}_${index}`}
+            key={`description--soundcloud__${text}_${index}`}
           >
             <a
               className="user__description--link user__description--atSoundCloud"
               href={ `https://soundcloud.com/${scUser}` }
+            >
+              { text }
+            </a>
+          </p>
+        )
+      }
+
+      if (reAtMail.test(text)) {
+        const mail = text.match(reAtMail)[0]
+
+        if (text.length > mail.length) {
+          const splitted = text.split(mail)
+
+          return (
+            <p
+              className="user__description--paragraph"
+              key={`description--email__${mail}_${index}`}
+            >
+              <span className="user__description--span">{ splitted[0] }</span>
+              <a
+                className="user__description--link user__description--mailto"
+                href={ `mailto:${mail}` }
+              >
+                { mail }
+              </a>
+              <span>{ splitted[1] }</span>
+            </p>
+          )
+        }
+
+        return (
+          <p
+            className="user__description--paragraph"
+            key={`description--email__${item[0]}_${index}`}
+          >
+            <a
+              className="user__description--link user__description--mailto"
+              href={ `mailto:${item[0]}` }
             >
               { item[0] }
             </a>

@@ -1,6 +1,18 @@
+.avatar {
+  border-radius: 50%;
+}
+
 .user__container {
   @extend %main;
   @extend %main__container;
+
+  &--menu {
+    margin-bottom: gutter(8);
+
+    @include susy-media(medium) {
+      margin-bottom: gutter();
+    }
+  }
 }
 
 .user__splash {
@@ -45,7 +57,6 @@
   }
 
   &--avatar {
-    border-radius: 50%;
     display: block;
     margin: 0 auto;
     overflow: hidden;
@@ -53,7 +64,6 @@
 
     @include susy-media(medium) {
       @include span(full);
-      height: auto;
       max-width: 27rem;
       min-width: 22.5rem;
     }
@@ -63,7 +73,7 @@
     }
   }
 
-  &--social-media {
+  &--icon {
     display: inline-block;
     text-shadow: 0 0 .1rem $white-hint;
   }
@@ -93,15 +103,14 @@
   @include span(full);
 
   @include susy-media(medium) {
-    float: right;
+    float: none;
+    overflow: hidden;
     padding-left: gutter();
-    width: span(7);
+    width: auto;
   }
 
   @include susy-media(large) {
-    float: left;
     padding-left: 0;
-    width: span(6);
   }
 }
 
@@ -168,7 +177,7 @@
   }
 }
 
-.user__action {
+.user__action-bar {
   @include span(full);
   border-radius: 3rem;
   margin-bottom: gutter();
@@ -209,12 +218,26 @@
   }
 }
 
-.user__social-media {
+@for $i from 1 through 7 {
+  &--item-#{$i} {
+    width: (100 / $i) * 1%;
+  }
+}
+
+.web-icon__list {
   font-size: 2.4rem;
 
   &--item {
     display: inline-block;
-    width: (100 / 4) * 1%;
+    width: 25%;
+  }
+}
+
+.web-icon__link {
+  color: $link;
+
+  &:hover {
+    color: $link--hover;
   }
 }
 
@@ -251,18 +274,36 @@
 
   &--link {
     border-bottom: .1rem dotted $black-disabled;
-    color: $light-pink;
+    color: $link__accent;
 
-    &:hover {
-      border-color: $pink-dark;
+    &:active,
+    &:hover,
+    &:focus {
+      border-color: $link__accent--hover;
+    }
+
+    &:visited {
+      color: $link--visited;
     }
   }
 
   &--atSoundCloud {
-    color: $sc-pink;
+    color: $link__sc;
 
-    &:hover {
-      border-color: $sc-pink--dark;
+    &:active,
+    &:hover,
+    &:focus {
+      border-color: $link__sc--hover;
+    }
+  }
+
+  &--mailto {
+    color: $link__mail;
+
+    &:active,
+    &:hover,
+    &:focus {
+      border-color: $link__mail--hover;
     }
   }
 

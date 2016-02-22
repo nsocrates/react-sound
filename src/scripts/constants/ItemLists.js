@@ -14,8 +14,14 @@ export const IMG_FORMAT = {
 }
 
 export const IMG_FALLBACK = {
-  LARGE: 'https://dl.dropboxusercontent.com/s/4zmdgw0dlhgbz1v/c4b052d27baae25c4f0f0670e489131f.jpg?dl=0',
-  SMALL: 'https://dl.dropboxusercontent.com/s/184tk01gvcdcfdc/c4b052d27baae25c4f0f0670e489131f--small.jpg?dl=0',
-  ERROR_LARGE: 'https://dl.dropboxusercontent.com/s/xyklfgivd6ocm5z/harleymk-d4ry00x.png?dl=0',
-  ERROR_SMALL: 'https://dl.dropboxusercontent.com/s/batae9h5nx94ehn/harleymk-d4ry00x--small.png?dl=0'
+  AVATAR: {
+    LARGE: 'https://dl.dropboxusercontent.com/s/4zmdgw0dlhgbz1v/c4b052d27baae25c4f0f0670e489131f.jpg?dl=0',
+    SMALL: 'https://dl.dropboxusercontent.com/s/184tk01gvcdcfdc/c4b052d27baae25c4f0f0670e489131f--small.jpg?dl=0'
+  },
+  PLACEHOLDER: {
+    XLARGE: 'http://placehold.it/500x500',
+    LARGE: 'http://placehold.it/300x300',
+    MEDIUM: 'http://placehold.it/100x100',
+    BADGE: 'http://placehold.it/60x60'
+  }
 }

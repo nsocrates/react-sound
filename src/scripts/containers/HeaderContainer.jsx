@@ -35,12 +35,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-function mapStateToProps(state) {
-  const { navbar } = state.app.ui
-
-  return {
-    navbar
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer)
+export default connect(() => ({}), mapDispatchToProps)(HeaderContainer)

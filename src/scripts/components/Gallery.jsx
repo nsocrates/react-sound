@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { IMG_FALLBACK, IMG_FORMAT } from 'constants/ItemLists'
+import { IMG_FALLBACK } from 'constants/ItemLists'
 
 export default class Gallery extends React.Component {
 
@@ -13,15 +13,15 @@ export default class Gallery extends React.Component {
   }
 
   handleClick_artwork(e) {
-    const { actions, streamTrackId, audioIsPlaying, trackData: { track }} = this.props
+    const { actions, streamTrackId, audioIsPlaying, trackData: { media }} = this.props
     const audio = document.getElementById('audio')
     e.preventDefault()
 
-    if (track.id === streamTrackId) {
+    if (media.id === streamTrackId) {
       return audioIsPlaying ? audio.pause() : audio.play()
     }
 
-    return actions.requestStream(track.id)
+    return actions.requestStream(media.id)
   }
 
   handleClick_user(e) {
@@ -36,25 +36,25 @@ export default class Gallery extends React.Component {
 
   handleClick_track(e) {
     e.preventDefault()
-    const { actions, trackData: { track }} = this.props
+    const { actions, trackData: { media }} = this.props
 
-    console.log('track_id:', track.id)
+    console.log('track_id:', media.id)
   }
 
   handleError_img(e) {
     const { currentTarget } = e
-    currentTarget.src = IMG_FALLBACK.ERROR_LARGE
+    currentTarget.src = IMG_FALLBACK.PLACEHOLDER_LARGE
 
     return currentTarget
   }
 
   render() {
-    const { trackData: { user, track, artwork }} = this.props
+    const { trackData: { user, media, artwork }} = this.props
 
     return (
       <article className="gallery">
         <a
-          className="fa gallery__artwork"
+          className="fa artwork gallery__artwork"
           href=""
           onClick={ this.handleClick_artwork }
         >
@@ -71,7 +71,7 @@ export default class Gallery extends React.Component {
               href="#"
               onClick={ this.handleClick_track }
             >
-              { track.name }
+              { media.name }
             </a>
           </h6>
           <h6 className="gallery__content--byline">

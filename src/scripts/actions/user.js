@@ -22,6 +22,72 @@ function fetchUser(id, endpoint = `/users/${id}?`, schema = Schemas.USER) {
   }
 }
 
+function fetchUserFavorites(id, endpoint, schema) {
+  return {
+    id,
+    [CALL_API]: {
+      types: [
+        ActionTypes.FAVORITE_REQUEST,
+        ActionTypes.FAVORITE_SUCCESS,
+        ActionTypes.FAVORITE_FAILURE
+      ],
+      endpoint,
+      schema
+    }
+  }
+}
+
+function fetchUserPlaylists(id, endpoint, schema) {
+  return {
+    id,
+    [CALL_API]: {
+      types: [
+        ActionTypes.PLAYLIST_REQUEST,
+        ActionTypes.PLAYLIST_SUCCESS,
+        ActionTypes.PLAYLIST_FAILURE
+      ],
+      endpoint,
+      schema
+    }
+  }
+}
+
+export function loadUserFavorites(id, next = false) {
+  return (dispatch, getState) => {
+    const schema = Schemas.TRACK_ARRAY
+    const { favoritesByUser } = getState().app.partition
+    const {
+      ids = [],
+      next_href = `/users/${id}/favorites?`
+    } = favoritesByUser[id] || {}
+    const endpoint = next_href ? next_href : `/users/${id}/favorites?`
+
+    if (ids.length && !next) {
+      return null
+    }
+
+    return dispatch(fetchUserFavorites(id, endpoint, schema))
+  }
+}
+
+export function loadUserPlaylists(id, next = false) {
+  return (dispatch, getState) => {
+    const schema = Schemas.PLAYLIST_ARRAY
+    const { playlistsByUser } = getState().app.partition
+    const {
+      ids = [],
+      next_href = `/users/${id}/playlists?`
+    } = playlistsByUser[id] || {}
+    const endpoint = next_href ? next_href : `/users/${id}/playlists?`
+
+    if (ids.length && !next) {
+      return null
+    }
+
+    return dispatch(fetchUserPlaylists(id, endpoint, schema))
+  }
+}
+
 export function loadUserTracks(id, next = false) {
   return (dispatch, getState) => {
     const schema = Schemas.TRACK_ARRAY
@@ -60,16 +126,12 @@ export function loadUser(id) {
       profile: {
         endpoint: `/users/${id}/web-profiles?`,
         schema: Schemas.USER
-      },
-      playlists: {
-        endpoint: `/users/${id}/playlists?`,
-        schema: Schemas.PLAYLIST_ARRAY
       }
     }
     const { base, profile } = action
 
-    if (user && user.hasOwnProperty('online')) {
-      return null
+    if (user && user.hasOwnProperty('web_profiles')) {
+      return dispatch(loadCachedUser(id))
     }
 
     return dispatch(

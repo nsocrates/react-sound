@@ -1,5 +1,5 @@
 import { API_ROOT, API_DATA, CLIENT_ID } from 'constants/Api'
-import { IMG_FORMAT } from 'constants/ItemLists'
+import { IMG_FORMAT, IMG_FALLBACK } from 'constants/ItemLists'
 
 // Constructs url from endpoint.
 export function constructUrl(endpoint) {
@@ -24,9 +24,9 @@ export function extractNumber(string) {
   return number
 }
 
-// Extracts useful track data:
+// Extracts useful media data:
 export const trackFactory = obj => {
-  const { trackId, userEntity, trackEntity } = obj
+  const { id, userEntity, mediaEntity } = obj
 
   function parseTags(list) {
     const regex = /"[^"]*"|[^\s"]+/g
@@ -34,55 +34,62 @@ export const trackFactory = obj => {
                .map(item => item.replace(/"/g, ''))
   }
 
-  function dateFormater(date) {
+  function dtFormater(date) {
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
                         'July', 'Aug','Sept', 'Oct', 'Nov', 'Dec']
     const dt = new Date(date)
     return `${monthNames[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`
   }
 
-  function getArtwork(format) {
-    const track = trackEntity[trackId]
-    const artwork = track.artwork_url || null
+  function getCover(url) {
+    const cover = url || ''
 
-    if (artwork) {
-      switch (format) {
-        case IMG_FORMAT.XLARGE:
-          return artwork.replace(/large/, IMG_FORMAT.XLARGE)
-        case IMG_FORMAT.LARGE:
-          return artwork.replace(/large/, IMG_FORMAT.LARGE)
-        case IMG_FORMAT.BADGE:
-          return artwork.replace(/large/, IMG_FORMAT.BADGE)
-        default:
-          return artwork
-      }
+    return {
+      xLarge: cover.replace(/large/, IMG_FORMAT.XLARGE) || IMG_FALLBACK.PLACEHOLDER.XLARGE,
+      large: cover.replace(/large/, IMG_FORMAT.LARGE) || IMG_FALLBACK.PLACEHOLDER.LARGE,
+      medium: cover || IMG_FALLBACK.PLACEHOLDER.MEDIUM,
+      badge: cover.replace(/large/, IMG_FORMAT.BADGE) || IMG_FALLBACK.PLACEHOLDER.BADGE
     }
   }
 
-  if (trackId) {
-    const track = trackEntity[trackId]
-    const userId = track.user_id
-    const title = track.title.split(' - ')
-
-    return {
+  if (id) {
+    const entity = mediaEntity[id]
+    const userId = entity.user_id
+    const title = entity.title.split(' - ')
+    const data = {
       user: {
         id: userId,
         name: userEntity[userId].username
       },
-      track: {
-        id: trackId,
-        name: title[1] || title[0]
+      media: {
+        id,
+        name: title[1] || title[0],
+        kind: entity.kind
       },
-      artwork: {
-        xLarge: getArtwork(IMG_FORMAT.XLARGE),
-        large: getArtwork(IMG_FORMAT.LARGE),
-        medium: track.artwork_url || null,
-        badge: getArtwork(IMG_FORMAT.BADGE)
-      },
-      download: track.downloadable ? `${track.download_url}?client_id=${CLIENT_ID}` : null,
-      tags: track.tag_list ? parseTags(track.tag_list) : null,
-      createdAt: dateFormater(track.created_at)
+      artwork: getCover(entity.artwork_url),
+      download: entity.downloadable ? `${entity.download_url}?client_id=${CLIENT_ID}` : null,
+      tags: entity.tag_list ? parseTags(entity.tag_list) : null,
+      createdAt: dtFormater(entity.created_at),
+      genre: entity.genre
     }
+
+    let rest
+    if (entity.kind === 'track') {
+      const { favoritings_count: favorites, likes_count: likes } = entity
+      const count = favorites > likes ? favorites : likes
+      rest = {
+        stats: {
+          plays: entity.playback_count,
+          favorites: count
+        }
+      }
+    } else if (entity.kind === 'playlist') {
+      rest = {
+        trackList: entity.tracks
+      }
+    }
+
+    return Object.assign({}, data, rest)
   }
 }
 
@@ -153,7 +160,7 @@ export function splitLines(string) {
                                      .filter(n => !!n))
                     .filter(item => item.length > 0)
 
-  // Sets url to array[1]
+  // Sets url to array[1] for consistency
   arr.forEach(item => {
     const another = item
 

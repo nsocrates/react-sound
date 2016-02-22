@@ -123,7 +123,6 @@
     border-radius: 1rem 1rem 0 0;
     box-shadow: 0 -.2rem .3rem $black-hint;
     height: 0;
-    overflow: hidden;
     transition: height ease .2s;
     width: 100%;
   }
@@ -135,6 +134,7 @@
     cursor: pointer;
     height: 0;
     margin: 0 auto;
+    overflow: hidden;
     transition: height ease .2s;
     width: 20%;
   }
@@ -150,7 +150,6 @@
 
   &--expand {
     height: 15rem;
-    overflow: visible;
 
     > .player__volume--range {
       height: 13.5rem;

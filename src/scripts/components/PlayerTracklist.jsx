@@ -8,7 +8,7 @@ export default class PlayerTracklist extends React.Component {
     const { tracklist, userEntity, trackEntity, trackId, audio: { isPlaying }} = this.props
 
     const renderTracklist = tracklist.ids.map((id, index) => {
-      const obj = { userEntity, trackEntity, trackId: id }
+      const obj = { id, userEntity, mediaEntity: trackEntity }
       const isCurrentTrack = trackId === id
       const trackData = trackFactory(obj)
 
@@ -76,7 +76,7 @@ export default class PlayerTracklist extends React.Component {
             </section>
 
             <section className="tracklist__data">
-              <p className="tracklist__data--title">{ trackData.track.name }</p>
+              <p className="tracklist__data--title">{ trackData.media.name }</p>
               <p className="tracklist__data--user">{ trackData.user.name }</p>
             </section>
 

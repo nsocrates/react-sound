@@ -4,13 +4,33 @@
   line-height: $bar-height;
 
   &--profile {
-    border-radius: .5rem;
+    @extend %main__container;
+    background-color: transparent;
     color: $n-text-color;
-    margin-bottom: gutter(8);
+    margin-bottom: -$bar-height;
     overflow: hidden;
+    padding-top: gutter(8);
 
     @include susy-media(medium) {
-      margin-bottom: gutter();
+      padding-top: gutter();
+    }
+  }
+
+  &--sticky {
+    @include fixed(top $bar-height right left);
+    animation: $oc-transition slide;
+    margin: auto;
+    overflow: visible;
+    padding: 0 1.5rem;
+    z-index: $stack-level;
+
+    .menu__inner--profile {
+      border-radius: 0 0 .5rem .5rem;
+      box-shadow: 0 .1rem .3rem rgba($black, .28);
+    }
+
+    .menu__text {
+      display: none;
     }
   }
 }
@@ -37,6 +57,8 @@
   }
 
   &--profile {
+    background-color: $n-main-color;
+    border-radius: .5rem;
     font-size: 2.4rem;
     width: 100%;
   }
@@ -85,4 +107,14 @@
     font-size: 1.6rem;
     vertical-align: top;
   }
+}
+
+.menu__sibling {
+  margin-top: $bar-height;
+}
+
+@keyframes slide {
+  0% { transform: translate3d(0, -100%, 0); }
+
+  100% { transform: translate3d(0, 0, 0); }
 }

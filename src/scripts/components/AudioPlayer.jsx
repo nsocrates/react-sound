@@ -224,12 +224,6 @@ export default class AudioPlayer extends React.Component {
     }
     // Sets artwork for current track:
     const imgUrl = trackData.artwork.badge
-    const artworkStyle = {
-      backgroundImage: `url(${imgUrl})`,
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center center',
-      backgroundSize: 'cover'
-    }
 
     // Set position percentage
     const barPosition = `${position / duration * 1e2}%`
@@ -268,7 +262,6 @@ export default class AudioPlayer extends React.Component {
           <PlayerArtwork
             className="player__artwork"
             src={ imgUrl }
-            style={ artworkStyle }
           />
 
           <PlayerButton
@@ -279,7 +272,7 @@ export default class AudioPlayer extends React.Component {
           />
 
           <PlayerDetails
-            songName={ trackData.track.name }
+            songName={ trackData.media.name }
             userName={ trackData.user.name }
           />
 

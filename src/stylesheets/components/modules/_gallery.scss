@@ -1,3 +1,23 @@
+.artwork {
+  background: repeating-linear-gradient(
+    -45deg,
+    shade($wan-white-gray, 15%),
+    shade($wan-white-gray, 15%) 1.5rem,
+    shade($wan-white-gray, 25%) 1.5rem,
+    shade($wan-white-gray, 25%) 3rem
+  );
+
+  &--badge {
+    background: repeating-linear-gradient(
+      -45deg,
+      shade($wan-white-gray, 15%),
+      shade($wan-white-gray, 15%) 1rem,
+      shade($wan-white-gray, 25%) 1rem,
+      shade($wan-white-gray, 25%) 2rem
+    );
+  }
+}
+
 .gallery {
   @include gallery(6);
   animation: $trans-duration linear forwards scale-in;
@@ -20,7 +40,7 @@
 .gallery__artwork {
   @extend %reset-white-space;
   @include relative;
-  background-color: $shark;
+  background-color: $wan-white-gray;
   display: block;
   padding-bottom: 100%;
   width: 100%;
@@ -34,7 +54,7 @@
   // Overlay
   &::before {
     @include absolute;
-    background-color: rgba($black, $l-secondary);
+    background-color: $black-secondary;
     content: '';
     height: 100%;
     transition: opacity .1s ease-out;
