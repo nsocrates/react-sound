@@ -12,7 +12,7 @@
     padding-top: gutter(8);
 
     @include susy-media(medium) {
-      padding-top: gutter();
+      padding-top: 1.5rem;
     }
   }
 

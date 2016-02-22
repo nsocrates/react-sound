@@ -13,6 +13,10 @@
   &:hover {
     color: $black-primary;
   }
+
+  &:active {
+    color: $light-pink;
+  }
 }
 
 .modal__overlay {

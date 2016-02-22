@@ -4,8 +4,9 @@
 
 .tag {
   float: left;
-  margin-bottom: gutter();
-  margin-right: gutter();
+  margin: 0;
+  margin-bottom: .2rem;
+  margin-right: .2rem;
 }
 
 .tag__item {
@@ -22,8 +23,8 @@
   padding: 0 1rem 0 2.3rem;
   transition: color $trans-duration;
 
-  @include susy-media(medium) {
-    max-width: 20rem;
+  @include susy-media(large) {
+    max-width: 8rem;
   }
 
   &::before {

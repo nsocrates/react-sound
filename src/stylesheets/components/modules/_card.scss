@@ -1,6 +1,11 @@
 .card {
   @include span(full);
   background-color: transparent;
+
+  @include susy-media(large) {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 
 .card__item {
@@ -10,18 +15,39 @@
   margin-bottom: gutter(8);
   overflow: hidden;
 
-  @include susy-media(medium) {
-    margin-bottom: gutter();
-  }
-
   @include susy-media(large) {
-    @include gallery(6);
+    float: none;
+    margin-bottom: gutter();
+    margin-right: gutter();
     padding: 1rem;
+    width: span(6);
+
+    &:nth-child(even) {
+      margin-right: 0;
+    }
   }
 
   @include susy-media(xlarge) {
-    @include gallery(4);
+    margin-right: gutter();
+    width: span(3);
+
+    &:nth-child(even) {
+      margin-right: gutter();
+    }
+
+    &:nth-child(4n+4) {
+      margin-right: 0;
+    }
   }
+
+  // @include susy-media(large) {
+  //   @include gallery(6);
+  //   padding: 1rem;
+  // }
+
+  // @include susy-media(xlarge) {
+  //   @include gallery(4);
+  // }
 }
 
 .card__cover {
@@ -36,14 +62,19 @@
     @include span(4);
     height: auto;
     margin-bottom: 0;
-    max-height: 20rem;
-    max-width: 20rem;
+    max-height: 24rem;
+    max-width: 24rem;
   }
 
   @include susy-media(large) {
     @include span(6 wider);
     max-height: none;
     max-width: none;
+  }
+
+  @include susy-media(xlarge) {
+    @include span(full);
+    margin-bottom: gutter();
   }
 
   &--img {
@@ -77,6 +108,18 @@
       }
     }
   }
+
+  &:active {
+    .card__cover--filter {
+      background-color: rgba($white, .6);
+      border-color: rgba($black, .75);
+
+      &::after {
+        color: rgba($black, .75);
+        text-shadow: 0 0 1px $black-disabled;
+      }
+    }
+  }
 }
 
 .card__cover--filter {
@@ -98,12 +141,13 @@
 
   &::after {
     @include absolute(top left);
-    color: rgba($white, .9);
+    color: rgba($white, .85);
     content: '\25B6';
     font-size: 10rem;
     height: 100%;
     padding: 50% 0;
     text-align: center;
+    text-shadow: 0 0 .1rem rgba($white, .4);
     width: 100%;
 
     @include susy-media(medium) {
@@ -125,7 +169,16 @@
 
   @include susy-media(medium) {
     overflow: hidden;
+    padding: 1rem;
     width: auto;
+  }
+
+  @include susy-media(large) {
+    padding: 0;
+  }
+
+  @include susy-media(xlarge) {
+    width: 100%;
   }
 
   &--title,
@@ -140,5 +193,14 @@
   &--date {
     color: $black-hint;
     margin-bottom: 1rem;
+  }
+
+  &--tag {
+    font-size: 1.4rem;
+    background-color: rgba($light-gray, $secondary);
+    border-radius: 2rem;
+    color: $black-hint;
+    float: right;
+    padding: .5rem;
   }
 }
