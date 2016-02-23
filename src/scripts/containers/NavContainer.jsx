@@ -32,13 +32,12 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  const { requested, ui: { sideMenu, searchModal, navbar }} = state.app
+  const { sideMenu, searchModal, navbar } = state.app.ui
 
   return {
     navbar,
     searchModal,
-    sideMenu,
-    requested
+    sideMenu
   }
 }
 

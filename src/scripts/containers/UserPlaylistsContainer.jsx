@@ -98,7 +98,6 @@ class UserPlaylistsContainer extends React.Component {
               byline={ mediaData.user.name }
               bylinePath={ `#user/${mediaData.user.id}` }
               date={ `Created ${mediaData.createdAt}` }
-              dispatch={ dispatch }
               imgUrl={ mediaData.artwork.large }
               key={ `user_card__${index}_${item}` }
               onCoverClick={ _handleCoverClick }

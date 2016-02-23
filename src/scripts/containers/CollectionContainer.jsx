@@ -25,27 +25,23 @@ class CollectionContainer extends React.Component {
     return this.updateCollection()
   }
 
-  componentDidUpdate() {
-    const { requested, location } = this.props
-
-    if (location.query.q !== requested.query) {
-      return this.updateCollection()
+  componentWillReceiveProps(nextProps) {
+    const { location } = nextProps
+    if (this.props.location.query !== location.query) {
+      return this.updateCollection(location.pathname, location.query.q)
     }
   }
 
-  updateCollection() {
+  updateCollection(path, q, force) {
     const { location, actions } = this.props
-    const { pathname, query } = location
+    const pathname = path || location.pathname
+    const query = q || location.query.q
 
-    actions.loadCollection(pathname, query.q)
+    actions.loadCollection(pathname, query, force)
   }
 
   handleWaypointEnter() {
-    const { actions, requested: { isFetching, type, query }} = this.props
-
-    if (!isFetching) {
-      return type === 'GENRE' ? actions.loadGenre(query) : actions.loadSearch(query)
-    }
+    return this.updateCollection(null, null, true)
   }
 
   render() {
@@ -53,35 +49,40 @@ class CollectionContainer extends React.Component {
       actions,
       audioIsPlaying,
       streamTrackId,
-      tracksByGenre,
-      searchesByInput,
       userEntity,
       trackEntity,
-      shouldPlay,
-      requested: {
-        isFetching,
-        query,
-        hasMore
-      }
+      shouldPlay
     } = this.props
 
-    const collection = tracksByGenre[query] || searchesByInput[query]
+    const getCollection = () => {
+      const { tracksByGenre, searchesByInput, location } = this.props
+
+      if (location.pathname === '#genre') {
+        return tracksByGenre[location.query.q]
+      } else if (location.pathname === '#search') {
+        return searchesByInput[location.query.q]
+      }
+    }
+
+    const collection = getCollection()
 
     if (!collection) {
-      return null
+      return <Loader className="loader--bottom" />
     }
+
+    const { isFetching, next_href } = collection
 
     // Render Gallery
     const renderGallery = () => {
-      const trackIds = collection.ids
-      const gallery = trackIds.map((item, index) => {
+      const ids = collection.ids
+      const gallery = ids.map((item, index) => {
         const args = {
-          id: collection.ids[index],
+          id: item,
           userEntity,
           mediaEntity: trackEntity
         }
         const trackData = trackFactory(args)
-        const trackId = collection.ids[index]
+        const trackId = item
         return (
           <Gallery
             actions={ actions }
@@ -96,7 +97,7 @@ class CollectionContainer extends React.Component {
     }
 
     const shouldRenderWaypoint = () => {
-      if (hasMore) {
+      if (next_href) {
         return (
           <Waypoint
             className="waypoint waypoint--bottom"
@@ -114,7 +115,7 @@ class CollectionContainer extends React.Component {
         <div className="collection__container">
           { renderGallery() }
           { isFetching ? <Loader className="loader--bottom"/> : shouldRenderWaypoint() }
-          { !hasMore && !isFetching ? <End className="end--bottom" /> : null }
+          { !next_href && !isFetching ? <End className="end--bottom" /> : null }
         </div>
       </Main>
     )
@@ -127,7 +128,6 @@ CollectionContainer.propTypes = {
   ),
   audioIsPlaying: React.PropTypes.bool,
   location: React.PropTypes.object,
-  requested: React.PropTypes.object,
   searchesByInput: React.PropTypes.objectOf(
     React.PropTypes.shape({
       ids: React.PropTypes.arrayOf(
@@ -167,12 +167,11 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   const {
-    app: { entities, requested, partition, media }
+    app: { entities, partition, media }
   } = state
 
   return {
     audioIsPlaying: media.player.audio.isPlaying,
-    requested,
     searchesByInput: partition.searchesByInput,
     shouldPlay: media.stream.shouldPlay,
     streamTrackId: media.stream.trackId,

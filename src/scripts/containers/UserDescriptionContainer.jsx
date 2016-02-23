@@ -18,15 +18,14 @@ class UserDescriptionContainer extends React.Component {
 
   render() {
     const {
-      requested,
       userEntity,
       params
     } = this.props
 
     const user = userEntity[params.id]
 
-    if (requested.isFetching || !user.description) {
-      if (!user.description && user.description !== undefined) {
+    if (!user.description) {
+      if (user.description !== undefined) {
         return (
           <section className="user__description">
             <p className="user__description--none">
@@ -40,7 +39,7 @@ class UserDescriptionContainer extends React.Component {
     }
 
     const paragraphs = splitLines(user.description).map((item, index) => {
-      const reAtSound = /\s(@\S+\S)/i
+      const reAtSound = /\s@(\S+\S)/i
       const reAtMail = /(\S+@\S+\.\S+)/i
       const text = item[0]
       const link = item[1]
@@ -66,8 +65,33 @@ class UserDescriptionContainer extends React.Component {
         )
       }
 
+      // Checks for SoundCloud link
       if (reAtSound.test(text)) {
-        const scUser = text.split('@')[1]
+        const atSound = text.match(reAtSound)
+        const scUser = atSound[1]
+
+        // If SC link is between text
+        if (text.length > atSound[0].length) {
+          const textSplit = text.split(atSound[0])
+
+          return (
+            <p
+              className="user__description--paragraph"
+              key={`description--soundcloud__${text}_${index}`}
+            >
+              { textSplit[0] }
+              <a
+                className="user__description--link user__description--atSoundCloud"
+                href={ `https://soundcloud.com/${scUser}` }
+              >
+                { atSound[0] }
+              </a>
+              { textSplit[1] }
+            </p>
+          )
+        }
+
+        // Return single line SC link
         return (
           <p
             className="user__description--paragraph"
@@ -83,29 +107,32 @@ class UserDescriptionContainer extends React.Component {
         )
       }
 
+      // Checks for mailto link
       if (reAtMail.test(text)) {
         const mail = text.match(reAtMail)[0]
 
+        // If mailto link is between text
         if (text.length > mail.length) {
-          const splitted = text.split(mail)
+          const textSplit = text.split(mail)
 
           return (
             <p
               className="user__description--paragraph"
               key={`description--email__${mail}_${index}`}
             >
-              <span className="user__description--span">{ splitted[0] }</span>
+              { textSplit[0] }
               <a
                 className="user__description--link user__description--mailto"
                 href={ `mailto:${mail}` }
               >
                 { mail }
               </a>
-              <span>{ splitted[1] }</span>
+              { textSplit[1] }
             </p>
           )
         }
 
+        // Return single line mailto link
         return (
           <p
             className="user__description--paragraph"
@@ -121,6 +148,7 @@ class UserDescriptionContainer extends React.Component {
         )
       }
 
+      // Return regular paragraph
       return (
         <p
           className="user__description--paragraph"
@@ -131,6 +159,7 @@ class UserDescriptionContainer extends React.Component {
       )
     })
 
+    // Render
     return (
       <section className="user__description">
         <div className="user__description--inner">
@@ -150,13 +179,11 @@ UserDescriptionContainer.propTypes = {
 
 function mapStateToProps(state) {
   const {
-    requested,
     entities: { users },
     partition: { tracksByUser }
   } = state.app
 
   return {
-    requested,
     tracksByUser,
     userEntity: users
   }

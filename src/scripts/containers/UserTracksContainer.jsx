@@ -4,7 +4,7 @@ import End from 'components/End'
 import Loader from 'components/Loader'
 import Tag from 'components/Tag'
 import Waypoint from 'components/Waypoint'
-import { loadUserTracks } from 'actions/user'
+import { loadUserTracks, loadUserFavorites } from 'actions/user'
 import { requestStream } from 'actions/stream'
 import { trackFactory } from 'utils/Utils'
 
@@ -21,32 +21,50 @@ class UserTracksContainer extends React.Component {
     return this.updateComponent()
   }
 
-  updateComponent(next) {
-    const { dispatch, params } = this.props
+  componentWillReceiveProps(nextProps) {
+    if (this.props.route !== nextProps.route) {
+      return this.updateComponent(nextProps.route.path)
+    }
+  }
 
-    return dispatch(loadUserTracks(params.id, next))
+  updateComponent(path, next) {
+    const { dispatch, params, route } = this.props
+    const pathName = path || route.path
+
+    if (pathName === 'tracks') {
+      return dispatch(loadUserTracks(params.id, next))
+    } else if (pathName === 'favorites') {
+      return dispatch(loadUserFavorites(params.id, next))
+    }
+
+    return null
   }
 
   handleWaypointEnter() {
-    const { tracksByUser, params } = this.props
-    const tracks = tracksByUser[params.id]
-
-    if (!tracks.isFetching) {
-      return this.updateComponent(true)
-    }
+    return this.updateComponent(null, true)
   }
 
   render() {
     const {
       userEntity,
       trackEntity,
-      tracksByUser,
       dispatch,
-      params
+      params,
+      route
     } = this.props
 
+    const getPartition = () => {
+      const { tracksByUser, favoritesByUser } = this.props
+
+      if (route.path === 'tracks') {
+        return tracksByUser[params.id]
+      } else if (route.path === 'favorites') {
+        return favoritesByUser[params.id]
+      }
+    }
+
     const user = userEntity[params.id]
-    const tracks = tracksByUser[params.id]
+    const tracks = getPartition()
 
     if (!user || !tracks) {
       return <Loader className="loader--bottom" />
@@ -97,7 +115,6 @@ class UserTracksContainer extends React.Component {
               byline={ mediaData.user.name }
               bylinePath={ `#user/${mediaData.user.id}` }
               date={ `Created ${mediaData.createdAt}` }
-              dispatch={ dispatch }
               imgUrl={ mediaData.artwork.large }
               key={ `user_card__${index}_${item}` }
               onCoverClick={ _handleCoverClick }
@@ -137,6 +154,7 @@ UserTracksContainer.propTypes = {
   dispatch: PropTypes.func,
   favoritesByUser: PropTypes.object,
   isPlaying: PropTypes.bool,
+  location: PropTypes.object,
   params: PropTypes.object,
   route: PropTypes.object,
   streamTrackId: PropTypes.number,

@@ -57,7 +57,8 @@ SideMenuContainer.propTypes = {
   actions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
-  isVisible: React.PropTypes.bool.isRequired
+  isVisible: React.PropTypes.bool.isRequired,
+  location: React.PropTypes.object.isRequired
 }
 
 function mapDispatchToProps(dispatch) {
@@ -67,11 +68,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  const { requested, ui: { sideMenu: { isVisible }}} = state.app
+  const { isVisible } = state.app.ui.sideMenu
 
   return {
-    isVisible,
-    requested
+    isVisible
   }
 }
 

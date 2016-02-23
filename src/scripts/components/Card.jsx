@@ -3,7 +3,7 @@ import LinkItem from 'components/LinkItem'
 
 export default function Card(props) {
   const { children, imgUrl, href, title, byline, onCoverClick, date,
-        titlePath, bylinePath, onTitleClick, dispatch } = props
+        titlePath, bylinePath, onTitleClick } = props
   return (
     <article className="card__item">
 
@@ -33,10 +33,7 @@ export default function Card(props) {
         </h5>
 
         <h6 className="card__content--byline">
-          <LinkItem
-            dispatch={ dispatch }
-            to={ bylinePath }
-          >
+          <LinkItem to={ bylinePath }>
             { byline }
           </LinkItem>
         </h6>
@@ -56,7 +53,6 @@ Card.propTypes = {
   bylinePath: PropTypes.string,
   children: PropTypes.node,
   date: PropTypes.string,
-  dispatch: PropTypes.func.isRequired,
   href: PropTypes.string,
   imgUrl: PropTypes.string,
   onCoverClick: PropTypes.func,

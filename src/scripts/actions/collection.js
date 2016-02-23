@@ -1,10 +1,10 @@
 import { loadGenre } from 'actions/genre'
 import { loadSearch } from 'actions/search'
 
-export function loadCollection(path, query) {
+export function loadCollection(path, query, force = false) {
   if (path === '#genre') {
-    return loadGenre(query, false)
+    return loadGenre(query, force)
   } else if (path === '#search') {
-    return loadSearch(query, false)
+    return loadSearch(query, force)
   }
 }

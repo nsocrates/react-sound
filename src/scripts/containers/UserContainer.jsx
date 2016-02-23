@@ -12,7 +12,6 @@ import { connect } from 'react-redux'
 import { IMG_FORMAT, IMG_FALLBACK } from 'constants/ItemLists'
 import { loadUser } from 'actions/user'
 import { triggerStickyMenu } from 'actions/ui'
-import { push } from 'react-router-redux'
 import { kFormatter } from 'utils/Utils'
 
 
@@ -20,7 +19,6 @@ class UserContainer extends React.Component {
 
   constructor(props) {
     super(props)
-    this.handlePushToTracks = this.handlePushToTracks.bind(this)
     this.handleError_img = this.handleError_img.bind(this)
     this.handleWaypointEvent = this.handleWaypointEvent.bind(this)
   }
@@ -58,19 +56,9 @@ class UserContainer extends React.Component {
     return currentTarget
   }
 
-  handlePushToTracks(e) {
-    e.preventDefault()
-
-    const { dispatch, params } = this.props
-    const path = `#user/${params.id}/tracks`
-
-    dispatch(push({ pathname: path }))
-  }
-
   render() {
     const {
       userEntity,
-      dispatch,
       params,
       shouldPlay,
       menu,
@@ -137,12 +125,6 @@ class UserContainer extends React.Component {
                                 || !currPath && item.text === 'Bio'
         })
 
-        const _handleClick = e => {
-          e.preventDefault()
-
-          dispatch(push({ pathname: item.path }))
-        }
-
         return (
           <li
             className="menu__item menu__item--profile"
@@ -150,7 +132,6 @@ class UserContainer extends React.Component {
           >
             <LinkItem
               className={ isActive }
-              onClick={ _handleClick }
               to={ item.path }
             >
               <i className={`menu__icon fa ${item.icon}`} />
@@ -259,7 +240,6 @@ class UserContainer extends React.Component {
                     <td className="user__stats--td">
                       <LinkItem
                         className="user__link user__link--stats"
-                        onClick={ this.handlePushToTracks }
                         to={ `#user/${params.id}/tracks` }
                       >
                         <h6 className="user__stats--title">{"Tracks"}</h6>

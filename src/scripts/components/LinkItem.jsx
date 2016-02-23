@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { push } from 'react-router-redux'
 
-export default class LinkItem extends React.Component {
+class LinkItem extends React.Component {
   constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -37,7 +38,7 @@ export default class LinkItem extends React.Component {
 LinkItem.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  dispatch: PropTypes.func,
+  dispatch: PropTypes.func.isRequired,
   onClick: PropTypes.func,
   to: PropTypes.string
 }
@@ -47,3 +48,5 @@ LinkItem.defaultProps = {
   className: null,
   to: '#'
 }
+
+export default connect()(LinkItem)

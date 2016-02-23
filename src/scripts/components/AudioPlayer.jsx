@@ -272,7 +272,9 @@ export default class AudioPlayer extends React.Component {
           />
 
           <PlayerDetails
-            songName={ trackData.media.name }
+            trackId={ trackData.media.id }
+            trackName={ trackData.media.name }
+            userId={ trackData.user.id }
             userName={ trackData.user.name }
           />
 

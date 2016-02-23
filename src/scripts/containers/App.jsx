@@ -27,7 +27,7 @@ class App extends React.Component {
     return (
       <div className="app__container">
         <SearchModalContainer />
-        <SideMenuContainer />
+        <SideMenuContainer location={ this.props.location }/>
         <HeaderContainer />
         <NavContainer location={ this.props.location } />
         { this.props.children }

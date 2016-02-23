@@ -39,21 +39,11 @@
       margin-right: 0;
     }
   }
-
-  // @include susy-media(large) {
-  //   @include gallery(6);
-  //   padding: 1rem;
-  // }
-
-  // @include susy-media(xlarge) {
-  //   @include gallery(4);
-  // }
 }
 
 .card__cover {
   float: left;
   height: 12.5rem;
-  margin-bottom: gutter();
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -61,7 +51,6 @@
   @include susy-media(medium) {
     @include span(4);
     height: auto;
-    margin-bottom: 0;
     max-height: 24rem;
     max-width: 24rem;
   }
@@ -74,7 +63,6 @@
 
   @include susy-media(xlarge) {
     @include span(full);
-    margin-bottom: gutter();
   }
 
   &--img {
@@ -108,18 +96,6 @@
       }
     }
   }
-
-  &:active {
-    .card__cover--filter {
-      background-color: rgba($white, .6);
-      border-color: rgba($black, .75);
-
-      &::after {
-        color: rgba($black, .75);
-        text-shadow: 0 0 1px $black-disabled;
-      }
-    }
-  }
 }
 
 .card__cover--filter {
@@ -127,6 +103,7 @@
   background-color: rgba($black, .25);
   border: .5rem solid rgba($white, .9);
   border-radius: 50%;
+  box-shadow: 0 0 .1rem rgba($black, .25);
   height: 10rem;
   margin: auto;
   opacity: 1;
@@ -165,19 +142,23 @@
 }
 
 .card__content {
-  padding: 0 1rem;
+  float: left;
+  padding: 1rem;
+  width: 100%;
 
   @include susy-media(medium) {
+    float: none;
     overflow: hidden;
-    padding: 1rem;
     width: auto;
   }
 
   @include susy-media(large) {
-    padding: 0;
+    padding: 0 0 0 1rem;
   }
 
   @include susy-media(xlarge) {
+    float: left;
+    padding: 1rem 0 0;
     width: 100%;
   }
 
