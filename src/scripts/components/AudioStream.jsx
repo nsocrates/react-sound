@@ -69,8 +69,12 @@ export default class AudioStream extends React.Component {
   }
 
   handleEnded() {
-    const { streamActions } = this.props
-    streamActions.endStream()
+    const { streamActions, tracklist, trackId } = this.props
+    const listIds = tracklist.ids
+    const trackPosition = tracklist.ids.indexOf(trackId)
+    const next = listIds[trackPosition + 1]
+
+    return next ? streamActions.requestStream(next) : streamActions.endStream()
   }
 
   handleError() {
@@ -112,7 +116,8 @@ AudioStream.propTypes = {
   streamActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
-  trackId: React.PropTypes.number
+  trackId: React.PropTypes.number,
+  tracklist: React.PropTypes.object
 }
 
 AudioStream.defaultProps = {

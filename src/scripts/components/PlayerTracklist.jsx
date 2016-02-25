@@ -86,7 +86,7 @@ export default class PlayerTracklist extends React.Component {
 
     return (
       <ul className="tracklist__wrapper">
-        { renderTracklist.reverse() }
+      { renderTracklist }
       </ul>
     )
   }

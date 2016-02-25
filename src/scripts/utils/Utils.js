@@ -28,9 +28,13 @@ export function extractNumber(string) {
 export const trackFactory = obj => {
   const { id, userEntity, mediaEntity } = obj
 
-  function parseTags(list) {
+  function parseGenre(genres) {
+    return genres.split(' , ')
+  }
+
+  function parseTags(tags) {
     const regex = /"[^"]*"|[^\s"]+/g
-    return list.match(regex)
+    return tags.match(regex)
                .map(item => item.replace(/"/g, ''))
   }
 
@@ -63,14 +67,15 @@ export const trackFactory = obj => {
       },
       media: {
         id,
-        name: title[1] || title[0],
-        kind: entity.kind
+        name: title[1] || title[0]
       },
       artwork: getCover(entity.artwork_url),
-      download: entity.downloadable ? `${entity.download_url}?client_id=${CLIENT_ID}` : null,
-      tags: entity.tag_list ? parseTags(entity.tag_list) : null,
       createdAt: dtFormater(entity.created_at),
-      genre: entity.genre
+      description: entity.description || null,
+      download: entity.downloadable ? `${entity.download_url}?client_id=${CLIENT_ID}` : null,
+      genre: parseGenre(entity.genre),
+      kind: entity.kind,
+      tags: entity.tag_list ? parseTags(entity.tag_list, /"[^"]*"|[^\s"]+/g) : null
     }
 
     let rest
@@ -85,7 +90,7 @@ export const trackFactory = obj => {
       }
     } else if (entity.kind === 'playlist') {
       rest = {
-        trackList: entity.tracks
+        tracklist: entity.tracks
       }
     }
 

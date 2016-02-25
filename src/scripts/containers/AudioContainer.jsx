@@ -20,7 +20,8 @@ class AudioContainer extends React.Component {
       playerActions,
       streamActions,
       player: {
-        audio
+        audio,
+        tracklist
       },
       stream: {
         trackId,
@@ -55,6 +56,7 @@ class AudioContainer extends React.Component {
               src={ src }
               streamActions={ streamActions }
               trackId={ trackId }
+              tracklist={ tracklist }
             />
             <TracklistContainer />
             <AudioPlayer

@@ -1,5 +1,6 @@
 import merge from 'lodash/merge'
 import union from 'lodash/union'
+import flatten from 'lodash/flatten'
 import * as ActionTypes from 'constants/ActionTypes'
 
 const initialState = {
@@ -30,7 +31,8 @@ export default function stream(state = initialState, action) {
     isSeeking,
     position,
     duration,
-    trackId
+    trackId,
+    kind
   } = action
 
   switch (action.type) {
@@ -83,6 +85,15 @@ export default function stream(state = initialState, action) {
         volume: { isMuted }
       })
     case ActionTypes.TRACK_PUSH:
+
+      if (kind === 'playlist') {
+        return Object.assign({}, state, {
+          tracklist: {
+            ids: flatten(trackId)
+          }
+        })
+      }
+
       return merge({}, state, {
         tracklist: {
           ids: union(state.tracklist.ids, [trackId])

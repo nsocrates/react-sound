@@ -52,9 +52,7 @@ class UserDescriptionContainer extends React.Component {
             className="user__description--paragraph"
             key={`description--text--link__${params.id}_${index}`}
           >
-            <span className="user__description--span">
-              { text }
-            </span>
+            { text }
             <a
               className="user__description--link"
               href={ hasProtocol ? item[1] : `http://${item[1]}` }
