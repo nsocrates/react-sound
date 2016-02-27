@@ -27,7 +27,6 @@ export default class Nav extends React.Component {
   render() {
     const {
       uiActions,
-      routeActions,
       genreList,
       searchModal,
       navbar,
@@ -48,17 +47,11 @@ export default class Nav extends React.Component {
         'menu__link--active': location.query.q === item
       })
 
-      const _handleClick = e => {
-        e.preventDefault()
-
-        const locationDescriptor = {
-          pathname: '#genre',
-          query: {
-            q: item
-          }
+      const locationDescriptor = {
+        pathname: '#genre',
+        query: {
+          q: item
         }
-
-        routeActions.push(locationDescriptor)
       }
 
       return (
@@ -68,7 +61,7 @@ export default class Nav extends React.Component {
         >
           <LinkItem
             className={ active ? active : null }
-            onClick={ _handleClick }
+            location={ locationDescriptor }
             to="#genre"
           >
             { item }
@@ -130,9 +123,6 @@ Nav.propTypes = {
   navbar: React.PropTypes.shape({
     isSticky: React.PropTypes.bool.isRequired
   }),
-  routeActions: React.PropTypes.objectOf(
-    React.PropTypes.func.isRequired
-  ),
   searchModal: React.PropTypes.shape({
     isOpen: React.PropTypes.bool
   }),

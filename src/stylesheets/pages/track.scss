@@ -1,0 +1,18 @@
+.track {
+  @extend %clearfix;
+  background: $white;
+  border-radius: .5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+}
+
+.track__cover {
+  float: left;
+  height: 10rem;
+  margin-right: gutter();
+  width: 10rem;
+}
+
+.track__data {
+  overflow: hidden;
+}

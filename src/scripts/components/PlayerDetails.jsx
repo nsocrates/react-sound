@@ -29,7 +29,10 @@ export default function PlayerDetails(props) {
 }
 
 PlayerDetails.propTypes = {
-  trackId: React.PropTypes.number,
+  trackId: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]),
   trackName: React.PropTypes.string,
   userId: React.PropTypes.number,
   userName: React.PropTypes.string

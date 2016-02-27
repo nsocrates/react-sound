@@ -12,12 +12,12 @@ class LinkItem extends React.Component {
   handleClick(e) {
     e.preventDefault()
 
-    const { dispatch, to } = this.props
-    const location = {
+    const { dispatch, to, location } = this.props
+    const locationDescriptor = location || {
       pathname: to
     }
 
-    return dispatch(push(location))
+    return dispatch(push(locationDescriptor))
   }
 
   render() {
@@ -39,6 +39,7 @@ LinkItem.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
+  location: PropTypes.object,
   onClick: PropTypes.func,
   to: PropTypes.string
 }

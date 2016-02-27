@@ -1,0 +1,80 @@
+.artwork {
+  background: repeating-linear-gradient(
+    -45deg,
+    shade($wan-white-gray, 15%),
+    shade($wan-white-gray, 15%) 1.5rem,
+    shade($wan-white-gray, 25%) 1.5rem,
+    shade($wan-white-gray, 25%) 3rem
+  );
+
+  &--badge {
+    background: repeating-linear-gradient(
+      -45deg,
+      shade($wan-white-gray, 15%),
+      shade($wan-white-gray, 15%) 1rem,
+      shade($wan-white-gray, 25%) 1rem,
+      shade($wan-white-gray, 25%) 2rem
+    );
+  }
+
+  &:hover {
+    .artwork__filter {
+      opacity: 1;
+    }
+  }
+}
+
+.artwork__wrapper {
+  position: relative;
+}
+
+.artwork__img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.artwork__filter {
+  @include absolute(top right bottom left);
+  background-color: rgba($black, .25);
+  border: .5rem solid rgba($white, .9);
+  border-radius: 50%;
+  box-shadow: 0 0 .1rem rgba($black, .25);
+  height: 15vmax;
+  margin: auto;
+  opacity: 1;
+  transition: opacity, background-color $trans-default;
+  width: 15vmax;
+
+  @include susy-media(medium) {
+    height: 50%;
+    opacity: 0;
+    width: 50%;
+  }
+
+  &::after {
+    @include absolute(top left);
+    color: rgba($white, .85);
+    content: '\25B6';
+    font-size: 15vmax;
+    height: 100%;
+    line-height: 0;
+    padding: 50% 0;
+    text-align: center;
+    text-shadow: 0 0 .1rem rgba($white, .4);
+    width: 100%;
+
+    @include susy-media(medium) {
+      font-size: 15vmin;
+    }
+  }
+
+  &:hover {
+    background-color: $black-hint;
+
+    &::after {
+      color: rgba($white, .95);
+    }
+  }
+}

@@ -1,0 +1,58 @@
+.comment-wrapper {
+  background-color: $white;
+  border-radius: .5rem;
+  padding: 1.5rem;
+}
+
+.comment {
+  @extend %clearfix;
+  background-color: rgba($light-gray, $secondary);
+  border-radius: .5rem;
+  margin-bottom: gutter();
+  padding: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.comment__avatar {
+  float: left;
+  height: 5rem;
+  margin-right: gutter();
+  position: relative;
+  width: 5rem;
+}
+
+.comment__content {
+  overflow: hidden;
+}
+
+.comment__body {
+  margin-bottom: 0;
+}
+
+.comment__group {
+  float: left;
+}
+
+.comment__at,
+.comment__by {
+  color: $black-secondary;
+}
+
+.comment__at {
+  float: right;
+}
+
+.comment__by {
+  font-weight: 700;
+
+  &:hover {
+    color: $black-primary;
+  }
+}
+
+.comment__timestamp {
+  color: $black-hint;
+}

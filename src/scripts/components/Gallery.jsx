@@ -8,8 +8,6 @@ export default class Gallery extends React.Component {
     super(props)
     this.handleClick_artwork = this.handleClick_artwork.bind(this)
     this.handleError_img = this.handleError_img.bind(this)
-    this.handleClick_user = this.handleClick_user.bind(this)
-    this.handleClick_track = this.handleClick_track.bind(this)
   }
 
   handleClick_artwork(e) {
@@ -22,23 +20,6 @@ export default class Gallery extends React.Component {
     }
 
     return actions.requestStream(media.id)
-  }
-
-  handleClick_user(e) {
-    e.preventDefault()
-    const { actions, trackData: { user }} = this.props
-    const location = {
-      pathname: `#user/${user.id}`
-    }
-
-    actions.push(location)
-  }
-
-  handleClick_track(e) {
-    e.preventDefault()
-    const { actions, trackData: { media }} = this.props
-
-    console.log('track_id:', media.id)
   }
 
   handleError_img(e) {
@@ -66,18 +47,16 @@ export default class Gallery extends React.Component {
         </a>
         <div className="gallery__content">
           <h6 className="gallery__content--title" >
-            <a
+            <Link
               className="gallery__content--link"
-              href="#"
-              onClick={ this.handleClick_track }
+              to={`#track/${media.id}`}
             >
               { media.name }
-            </a>
+            </Link>
           </h6>
           <h6 className="gallery__content--byline">
             <Link
               className="gallery__content--link"
-              onClick={ this.handleClick_user }
               to={`#user/${user.id}`}
             >
               { user.name }

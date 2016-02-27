@@ -248,8 +248,8 @@ export default class AudioPlayer extends React.Component {
 
       return <i className={ volumeLevel } />
     }
-    const currentTime = timeFactory(position).getFormated()
-    const endTime = timeFactory(duration - position).getFormated()
+    const currentTime = timeFactory(position).getFormatted()
+    const endTime = timeFactory(duration - position).getFormatted()
 
     const volumeRef = ref => this._volume = ref
     const progressRef = ref => this._progress = ref

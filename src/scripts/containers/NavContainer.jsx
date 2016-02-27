@@ -4,7 +4,6 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { GENRES } from 'constants/ItemLists'
-import { push } from 'react-router-redux'
 
 class NavContainer extends React.Component {
   render() {
@@ -26,8 +25,7 @@ NavContainer.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    uiActions: bindActionCreators(uiActionCreators, dispatch),
-    routeActions: bindActionCreators({ push }, dispatch)
+    uiActions: bindActionCreators(uiActionCreators, dispatch)
   }
 }
 

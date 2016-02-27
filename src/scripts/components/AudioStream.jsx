@@ -116,7 +116,10 @@ AudioStream.propTypes = {
   streamActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired
   ),
-  trackId: React.PropTypes.number,
+  trackId: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]),
   tracklist: React.PropTypes.object
 }
 

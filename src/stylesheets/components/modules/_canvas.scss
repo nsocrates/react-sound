@@ -1,0 +1,16 @@
+.canvas-container {
+  @extend %full__container;
+  background-color: $shark;
+  text-align: center;
+
+  @include susy-media(medium) {
+    text-align: left;
+  }
+}
+
+.canvas {
+  @include absolute(left);
+  height: 100%;
+  opacity: $secondary;
+  width: 100%;
+}

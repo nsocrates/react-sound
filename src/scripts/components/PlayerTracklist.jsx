@@ -98,7 +98,10 @@ PlayerTracklist.propTypes = {
   ),
   audio: PropTypes.object,
   trackEntity: PropTypes.object,
-  trackId: PropTypes.number,
+  trackId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   tracklist: PropTypes.object,
   userEntity: PropTypes.object
 }

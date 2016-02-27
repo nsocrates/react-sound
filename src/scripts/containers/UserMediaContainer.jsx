@@ -119,6 +119,7 @@ class UserMediaContainer extends React.Component {
                 return (
                   <Tag
                     key={`tag__${idx}_${tag}`}
+                    modifier="card"
                     text={ tag }
                   />
                 )
@@ -158,6 +159,7 @@ class UserMediaContainer extends React.Component {
             key={ `user_card__${index}_${item}` }
             onCoverClick={ _handleCoverClick }
             title={ mediaData.media.name }
+            titlePath={ `#track/${mediaData.media.id}` }
           >
             <ul className="tags">
               { _renderTags() }

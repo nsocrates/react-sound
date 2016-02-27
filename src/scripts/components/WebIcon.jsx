@@ -5,7 +5,7 @@ export default function WebIcon(props) {
 
   return (
     <li className={ itemClassName }>
-      <a className={ linkClassName } href={ href }>
+      <a className={ linkClassName } href={ href } target="_blank">
         <i className={ iconClassName } />
       </a>
     </li>

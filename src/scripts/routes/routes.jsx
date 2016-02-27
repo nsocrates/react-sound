@@ -5,6 +5,7 @@ import React from 'react'
 import UserContainer from 'containers/UserContainer'
 import UserDescriptionContainer from 'containers/UserDescriptionContainer'
 import UserMediaContainer from 'containers/UserMediaContainer'
+import TrackContainer from 'containers/TrackContainer'
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
 const routes = (
@@ -13,6 +14,7 @@ const routes = (
       <IndexRoute component={ End } />
       <Route component={ CollectionContainer } path="#genre" />
       <Route component={ CollectionContainer } path="#search" />
+      <Route component={ TrackContainer } path="#track/:id" />
       <Route component={ UserContainer } path="#user/:id">
         <IndexRoute component={ UserDescriptionContainer }/>
         <Route component={ UserMediaContainer } path="tracks" />

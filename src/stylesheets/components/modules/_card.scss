@@ -89,55 +89,6 @@
 
   @include susy-media(medium) {
     padding-bottom: 100%;
-
-    &:hover {
-      .card__cover--filter {
-        opacity: 1;
-      }
-    }
-  }
-}
-
-.card__cover--filter {
-  @include absolute(top right bottom left);
-  background-color: rgba($black, .25);
-  border: .5rem solid rgba($white, .9);
-  border-radius: 50%;
-  box-shadow: 0 0 .1rem rgba($black, .25);
-  height: 10rem;
-  margin: auto;
-  opacity: 1;
-  transition: opacity, background-color $trans-default;
-  width: 10rem;
-
-  @include susy-media(medium) {
-    height: 50%;
-    opacity: 0;
-    width: 50%;
-  }
-
-  &::after {
-    @include absolute(top left);
-    color: rgba($white, .85);
-    content: '\25B6';
-    font-size: 10rem;
-    height: 100%;
-    padding: 50% 0;
-    text-align: center;
-    text-shadow: 0 0 .1rem rgba($white, .4);
-    width: 100%;
-
-    @include susy-media(medium) {
-      font-size: 15vmin;
-    }
-  }
-
-  &:hover {
-    background-color: $black-hint;
-
-    &::after {
-      color: rgba($white, .95);
-    }
   }
 }
 
@@ -177,11 +128,11 @@
   }
 
   &--tag {
-    font-size: 1.4rem;
     background-color: rgba($light-gray, $secondary);
     border-radius: 2rem;
     color: $black-hint;
     float: right;
+    font-size: 1.4rem;
     padding: .5rem;
   }
 }

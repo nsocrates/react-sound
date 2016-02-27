@@ -5,16 +5,41 @@ export default class Canvas extends React.Component {
     this.drawCanvas()
   }
 
-  drawCanvas() {
-    const { _canvas } = this
+  drawGradient(args) {
+    const { ctx, _canvas, gradientColors } = args
     const { width, height } = _canvas
-    const ctx = _canvas.getContext('2d')
-    const gradient = ctx.createLinearGradient(0, 0, height, 0)
-    gradient.addColorStop(0,'rgba(38, 39, 40, 0.5)')
-    gradient.addColorStop(1,'rgba(255, 255, 255, 0.5)')
+    const gradient = ctx.createLinearGradient(0, width, height, 0)
+
+    gradientColors.forEach(gradientColor => {
+      const { offset, color } = gradientColor
+      gradient.addColorStop(offset, color)
+    })
 
     ctx.fillStyle = gradient
     return ctx.fillRect(0, 0, width, height)
+  }
+
+  drawImage(args) {
+    const { ctx, _canvas, imgSrc } = args
+    const image = new Image()
+    image.src = imgSrc
+
+    image.onload = () => ctx.drawImage(image, 0, 0, _canvas.width, _canvas.height)
+  }
+
+  drawCanvas() {
+    const { _canvas, props: { gradientColors, imgSrc }} = this
+    const ctx = _canvas.getContext('2d')
+
+    if (gradientColors) {
+      const args = { ctx, _canvas, gradientColors }
+      this.drawGradient(args)
+    }
+
+    if (imgSrc) {
+      const args = { ctx, _canvas, imgSrc }
+      this.drawImage(args)
+    }
   }
 
   render() {
@@ -34,12 +59,16 @@ export default class Canvas extends React.Component {
 
 Canvas.propTypes = {
   className: PropTypes.string,
+  gradientColors: PropTypes.array,
   height: PropTypes.string,
+  imgSrc: PropTypes.string,
   width: PropTypes.string
 }
 
 Canvas.defaultProps = {
   className: 'canvas',
+  gradientColors: null,
   height: '100%',
+  imgSrc: '',
   width: '100%'
 }

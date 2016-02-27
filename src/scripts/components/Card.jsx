@@ -3,13 +3,13 @@ import LinkItem from 'components/LinkItem'
 
 export default function Card(props) {
   const { children, imgUrl, href, title, byline, onCoverClick, date,
-        titlePath, bylinePath, onTitleClick } = props
+        titlePath, bylinePath } = props
   return (
     <article className="card__item">
 
       <div className="card__cover">
         <a
-          className="fa card__cover--link artwork"
+          className="card__cover--link artwork"
           href={ href }
           onClick={ onCoverClick }
         >
@@ -17,19 +17,16 @@ export default function Card(props) {
             className="card__cover--img"
             src={ imgUrl }
           />
-          <aside className="card__cover--filter" />
+          <aside className="artwork__filter" />
         </a>
       </div>
 
       <div className="card__content">
 
         <h5 className="card__content--title">
-          <a
-            href={ titlePath }
-            onClick={ onTitleClick }
-          >
+          <LinkItem to={ titlePath } >
             { title }
-          </a>
+          </LinkItem>
         </h5>
 
         <h6 className="card__content--byline">
@@ -56,7 +53,6 @@ Card.propTypes = {
   href: PropTypes.string,
   imgUrl: PropTypes.string,
   onCoverClick: PropTypes.func,
-  onTitleClick: PropTypes.func,
   title: PropTypes.string,
   titlePath: PropTypes.string
 }
@@ -70,6 +66,5 @@ Card.defaultProps = {
   title: null,
   titlePath: '#',
   bylinePath: '#',
-  onCoverClick() {},
-  onTitleClick() {}
+  onCoverClick() {}
 }

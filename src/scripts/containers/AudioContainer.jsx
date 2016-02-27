@@ -95,7 +95,10 @@ AudioContainer.propTypes = {
   ),
   stream: React.PropTypes.shape({
     canPlay: React.PropTypes.bool,
-    trackId: React.PropTypes.number
+    trackId: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ])
   }),
   streamActions: React.PropTypes.objectOf(
     React.PropTypes.func.isRequired

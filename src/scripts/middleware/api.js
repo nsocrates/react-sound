@@ -26,6 +26,20 @@ const entityFactory = json => {
       const entity = { entities: { users: { [id]: { web_profiles: collection }}}}
 
       return entity
+    },
+    getTrackComments(id) {
+      this.getTrackComments = null
+      const { collection } = json
+      const entity = { entities: { tracks: { [id]: { comments: collection }}}}
+
+      return entity
+    },
+    getSubResource(args) {
+      const { entity, id, resource } = args
+      this.getSubResource = null
+      const { collection } = json
+
+      return { entities: { [entity]: { [id]: { [resource]: collection }}}}
     }
   }
 }
@@ -47,9 +61,25 @@ function callApi(endpoint, schema) {
       const { next_href } = entity
 
       if (/web-profiles/.test(endpoint)) {
-        const profile = entity.getWebProfiles(extractNumber(endpoint))
+        const args = {
+          entity: 'users',
+          id: extractNumber(endpoint),
+          resource: 'web_profiles'
+        }
+        const webProfiles = entity.getSubResource(args)
 
-        return merge({}, profile)
+        return merge({}, webProfiles)
+      }
+
+      if (/comments/.test(endpoint)) {
+        const args = {
+          entity: 'tracks',
+          id: extractNumber(endpoint),
+          resource: 'comments'
+        }
+        const trackComments = entity.getSubResource(args)
+
+        return merge({}, trackComments)
       }
 
       return Object.assign({},

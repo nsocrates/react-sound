@@ -84,6 +84,11 @@ class UserContainer extends React.Component {
       website
     } = user
 
+    const gradientColors = [
+      { offset: 0, color: '#1D2B64' },
+      { offset: 1, color: '#F8CDDA' }
+    ]
+
     const avatarUrl = avatar_url
                         ? avatar_url.replace(/large/, IMG_FORMAT.LARGE)
                         : IMG_FALLBACK.AVATAR.LARGE
@@ -91,12 +96,14 @@ class UserContainer extends React.Component {
     const renderLocation = () => {
       if (city || country) {
         return (
-          <h5 className="user__details--location">
+          <h5 className="profile__text--byline">
             <i className="user__icon user__icon--map-marker fa fa-map-marker" />
             { city && country ? `${city}, ${country}` : country || city }
           </h5>
         )
       }
+
+      return <hr className="invis" />
     }
 
     const renderMenuItems = () => {
@@ -186,22 +193,24 @@ class UserContainer extends React.Component {
       >
 
         {/*-- Banner --*/}
-        <div className="user__splash">
+        <div className="canvas-container">
 
-          <div className="user__canvas">
-            <Canvas className="user__canvas--inner" />
-          </div>
+          <Canvas
+            className="canvas canvas--user"
+            gradientColors={ gradientColors }
+          />
 
           {/*-- Profile --*/}
-          <div className="user__profile">
+          <div className="profile">
 
-            <section className="user__avatar">
+            <section className="profile__section profile__section--cover">
               <a
-                className="user__link user__link--avatar avatar"
+                className="profile__cover avatar"
                 href={ website || permalink_url }
+                target="_blank"
               >
                 <img
-                  className="user__avatar--img"
+                  className="avatar__img"
                   onError={ this.handleError_img }
                   src={ avatarUrl }
                 />
@@ -209,13 +218,13 @@ class UserContainer extends React.Component {
             </section>
 
             {/*-- User Info --*/}
-            <section className="user__info">
+            <section className="profile__section profile__section--data">
 
-              <article className="user__details">
-                <h1 className="user__details--fullname">
+              <article className="profile__textarea">
+                <h2 className="profile__text--headline">
                   { full_name || username }
-                </h1>
-                <h4 className="user__details--username">
+                </h2>
+                <h4 className="profile__text--lead">
                   { username }
                 </h4>
                 { renderLocation() }
@@ -257,7 +266,11 @@ class UserContainer extends React.Component {
               { renderWebIcons() }
             </ul>{/*-- !User Social Media --*/}
 
-            <a className="user__action-bar user__action-bar--soundcloud" href={ permalink_url }>
+            <a
+              className="user__action-bar user__action-bar--soundcloud"
+              href={ permalink_url }
+              target="_blank"
+            >
               <img className="user__soundcloud--img" src="https://developers.soundcloud.com/assets/logo_white-af5006050dd9cba09b0c48be04feac57.png" />
             </a>
 

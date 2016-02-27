@@ -3,58 +3,103 @@
 }
 
 .tag {
-  float: left;
-  margin: 0;
-  margin-bottom: .2rem;
-  margin-right: .2rem;
+  display: inline-block;
+  margin-bottom: gutter();
+  margin-right: gutter();
+  border-color: inherit;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &--card {
+    margin-bottom: .5rem;
+    margin-right: .5rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 }
 
 .tag__item {
-  @extend %ellipsis;
   @include relative;
-  background-color: rgba($light-gray, $secondary);
-  border-radius: .5rem;
-  color: $black-secondary;
+  border-color: transparent;
+  border-radius: 0 .5rem .5rem 0;
+  border-style: solid;
+  border-width: 1px 1px 1px 0;
   display: inline-block;
-  font-size: 1.2rem;
-  height: 2.6rem;
-  line-height: 2.6rem;
-  max-width: 50rem;
-  padding: 0 1rem 0 2.3rem;
+  line-height: 1;
+  margin-left: 1.1em;
+  padding: .5833em 1.5em;
   transition: color $trans-duration;
-
-  @include susy-media(large) {
-    max-width: 8rem;
-  }
+  z-index: 1;
 
   &::before {
-    @include absolute(top left);
-    background-color: $white-primary;
-    border-bottom: 1.4rem solid transparent;
-    border-right: 1.5rem solid rgba($light-gray, $secondary);
-    border-top: 1.4rem solid transparent;
+    @include absolute(top 50% right 100%);
+    background-color: inherit;
+    border-left: 1px solid transparent;
+    border-top: 1px solid transparent;
     content: '';
     display: block;
+    height: 1.56em;
+    transform: translateY(-50%) translateX(50%) rotate(-45deg);
+    width: 1.56em;
+    z-index: -1;
   }
 
   &::after {
-    @include absolute(top 50% left 1rem);
-    background-color: $white-primary;
+    @include absolute(top 50% left -.25em);
+    background-color: $white;
     border-radius: 1rem;
     box-shadow: 0 -.1rem .1rem $black-hint;
     content: '';
     display: block;
-    height: .6rem;
-    margin-top: -.2rem;
-    width: .6rem;
+    height: .5em;
+    margin-top: -.25em;
+    width: .5em;
+    z-index: 0;
   }
 
-  &:hover {
-    background-color: rgba($light-gray, $primary);
-    color: $black-primary;
+  &--card {
+    background-color: mix($light-gray, $white, ($secondary * 100) * 1%);
+    color: $black-secondary;
+    font-size: 1.2rem;
+
+    &:hover {
+      background-color: mix($light-gray, $white, ($primary * 100) * 1%);
+      color: $black-primary;
+    }
+  }
+
+  &--profile {
+    background-color: $tc__overlay--white;
+    border-color: $white;
+    border-style: solid;
+    border-width: 1px 1px 1px 0;
+    color: $white-secondary;
+    font-size: 1.4rem;
 
     &::before {
-      border-right-color: rgba($light-gray, $primary);
+      border-left: 1px solid $white;
+      border-top: 1px solid $white;
+    }
+
+    &:hover {
+      background-color: shade($tc__overlay--white, 10%);
+      color: $white-primary;
+    }
+  }
+}
+
+.tag__text {
+  @extend %ellipsis;
+
+  &--card {
+    max-width: 50rem;
+
+    @include susy-media(large) {
+      max-width: 8rem;
     }
   }
 }

@@ -1,0 +1,28 @@
+.avatar {
+  background: repeating-linear-gradient(
+    -45deg,
+    shade($wan-white-gray, 15%),
+    shade($wan-white-gray, 15%) 1.5rem,
+    shade($wan-white-gray, 25%) 1.5rem,
+    shade($wan-white-gray, 25%) 3rem
+  );
+  border-radius: 50%;
+  overflow: hidden;
+
+  &--badge {
+    background: repeating-linear-gradient(
+      -45deg,
+      shade($wan-white-gray, 15%),
+      shade($wan-white-gray, 15%) 1rem,
+      shade($wan-white-gray, 25%) 1rem,
+      shade($wan-white-gray, 25%) 2rem
+    );
+  }
+}
+
+.avatar__img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
