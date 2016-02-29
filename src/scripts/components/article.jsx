@@ -2,18 +2,23 @@ import React, { PropTypes } from 'react'
 import { splitLines } from 'utils/Utils'
 
 export default function Article(props) {
-  const { article, wrapperClassName = '', missing = 'Nothing to display.' } = props
+  const {
+    article,
+    wrapperClassName = '',
+    missing = 'Nothing to display.',
+    missingClassName = 'article__none'
+  } = props
 
   if (!article) {
     return (
-      <p className="article__paragraph--none">
+      <p className={ missingClassName }>
         { missing }
       </p>
     )
   }
 
   const paragraphs = splitLines(article).map((item, index) => {
-    const reAtSound = /@(\S+\S)/i
+    const reAtSound = /@([\w\-]+\w)/i
     const reAtMail = /(\S+@\S+\.\S+)/i
     const text = item[0]
     const link = item[1]
@@ -28,7 +33,7 @@ export default function Article(props) {
         >
           { text }
           <a
-            className="article__link"
+            className="link link--has-visit-state"
             href={ hasProtocol ? item[1] : `http://${item[1]}` }
           >
             { link }
@@ -51,12 +56,12 @@ export default function Article(props) {
             className="article__paragraph"
             key={`article--soundcloud__${index}`}
           >
-            { textSplit[0] }
+            { `${textSplit[0]}@` }
             <a
-              className="article__link article__link--soundcloud"
+              className="link link--has-visit-state"
               href={ `https://soundcloud.com/${scUser}` }
             >
-              { atSound[0] }
+              { scUser }
             </a>
             { textSplit[1] }
           </p>
@@ -69,11 +74,12 @@ export default function Article(props) {
           className="article__paragraph"
           key={`article--soundcloud__${index}`}
         >
+          {"@"}
           <a
-            className="article__link article__link--soundcloud"
+            className="link link--has-visit-state"
             href={ `https://soundcloud.com/${scUser}` }
           >
-            { text }
+            { scUser }
           </a>
         </p>
       )
@@ -94,7 +100,7 @@ export default function Article(props) {
           >
             { textSplit[0] }
             <a
-              className="article__link article__link--mailto"
+              className="link link--has-visit-state"
               href={ `mailto:${mail}` }
             >
               { mail }
@@ -111,7 +117,7 @@ export default function Article(props) {
           key={`article--mail__${index}`}
         >
           <a
-            className="article__link article__link--mailto"
+            className="link link--has-visit-state"
             href={ `mailto:${item[0]}` }
           >
             { item[0] }
@@ -141,5 +147,6 @@ export default function Article(props) {
 Article.propTypes = {
   article: PropTypes.string,
   missing: PropTypes.string,
+  missingClassName: PropTypes.string,
   wrapperClassName: PropTypes.string
 }

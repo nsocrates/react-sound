@@ -16,3 +16,16 @@
 .track__data {
   overflow: hidden;
 }
+
+.waveform {
+  @include absolute(left right);
+  background-color: $black;
+  height: 100%;
+  opacity: .1;
+}
+
+.waveform__img {
+  display: block;
+  height: 100%;
+  width: 100%;
+}

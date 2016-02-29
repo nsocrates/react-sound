@@ -5,6 +5,7 @@
 import * as ActionTypes from 'constants/ActionTypes'
 import { CALL_API } from 'constants/Api'
 import { Schemas } from 'constants/Schemas'
+import { loadCached } from 'actions/collection'
 
 // Fetches a collection of tracks for a particular genre:
 function fetchGenre(genre, next_href) {
@@ -22,14 +23,6 @@ function fetchGenre(genre, next_href) {
   }
 }
 
-function loadCached(genre, next_href) {
-  return {
-    genre,
-    next_href: !!next_href,
-    type: ActionTypes.GENRE_CACHED
-  }
-}
-
 export function loadGenre(genre, next = true) {
   return (dispatch, getState) => {
     const decoded = decodeURIComponent(genre.replace(/\+/g, '%20'))
@@ -41,7 +34,12 @@ export function loadGenre(genre, next = true) {
     } = tracksByGenre[decoded] || {}
 
     if (offset > 0 && !next) {
-      return dispatch(loadCached(decoded, next_href))
+      const args = {
+        genre: decoded,
+        type: ActionTypes.GENRE_SUCCESS,
+        next_href
+      }
+      return dispatch(loadCached(args))
     }
 
     return dispatch(fetchGenre(decoded, next_href))

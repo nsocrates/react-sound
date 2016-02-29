@@ -134,9 +134,8 @@ export function loadUser(id) {
       return dispatch(loadCachedUser(id))
     }
 
-    return dispatch(
-      fetchUser(id, base.endpoint, base.schema)
-    ).then(() => (
+    return dispatch(fetchUser(id, base.endpoint, base.schema))
+      .then(() => (
         dispatch(fetchUser(id, profile.endpoint, profile.schema))
       )
     )

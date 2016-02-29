@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import { IMG_FALLBACK } from 'constants/ItemLists'
 import LinkItem from 'components/LinkItem'
+import CommentBody from 'components/CommentBody'
 
 export default function Comment(props) {
   const { by, at, timestamp, avatar, body, userId } = props
@@ -26,11 +27,10 @@ export default function Comment(props) {
       </LinkItem>
 
       <div className="comment__content">
-        <p className="comment__body">{ body }</p>
-
+        <CommentBody body={ body } />
         <small className="comment__group">
           <LinkItem
-            className="comment__by"
+            className="link link--comment link--unvisited comment__by"
             to={`#user/${userId}`}
           >
             { by }

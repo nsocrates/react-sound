@@ -1,6 +1,7 @@
 import * as ActionTypes from 'constants/ActionTypes'
 import { CALL_API } from 'constants/Api'
 import { Schemas } from 'constants/Schemas'
+import { loadCached } from 'actions/collection'
 
 function fetchSearch(input, next_href) {
   return {
@@ -17,13 +18,13 @@ function fetchSearch(input, next_href) {
   }
 }
 
-function loadCached(input, next_href) {
-  return {
-    input,
-    next_href: !!next_href,
-    type: ActionTypes.SEARCH_CACHED
-  }
-}
+// function loadCached(input, next_href) {
+//   return {
+//     input,
+//     next_href: !!next_href,
+//     type: ActionTypes.SEARCH_CACHED
+//   }
+// }
 
 export function loadSearch(input, next = true) {
   return (dispatch, getState) => {
@@ -38,7 +39,12 @@ export function loadSearch(input, next = true) {
     } = getState().app.partition.searchesByInput[decoded] || {}
 
     if (offset > 0 && !next) {
-      return dispatch(loadCached(decoded, next_href))
+      const args = {
+        input,
+        next_href,
+        type: ActionTypes.SEARCH_SUCCESS
+      }
+      return dispatch(loadCached(args))
     }
 
     return dispatch(fetchSearch(decoded, next_href))

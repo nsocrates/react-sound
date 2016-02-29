@@ -6,13 +6,15 @@ import Loader from 'components/Loader'
 import Main from 'components/Main'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
-import { IMG_FORMAT, IMG_FALLBACK } from 'constants/ItemLists'
-import { loadTrackComments, loadTrack } from 'actions/track'
-import { timeFactory, trackFactory, getCover, kFormatter, dtFormatter } from 'utils/Utils'
+import { IMG_FALLBACK } from 'constants/ItemLists'
+import { loadTrack, loadTrackComments } from 'actions/track'
+import { timeFactory, trackFactory, getCover, kFormatter, dtFormatter, markNumber } from 'utils/Utils'
 import { requestStream } from 'actions/stream'
 import Tag from 'components/Tag'
 import Comment from 'components/Comment'
 import Article from 'components/Article'
+import Pagination from 'components/Pagination'
+import PaginationItem from 'components/PaginationItem'
 
 class TrackContainer extends React.Component {
 
@@ -28,9 +30,7 @@ class TrackContainer extends React.Component {
 
   updateComponent() {
     const { dispatch, params } = this.props
-
-    dispatch(loadTrack(params.id))
-    dispatch(loadTrackComments(params.id))
+    return dispatch(loadTrack(params.id))
   }
 
   handleClick_stream(e) {
@@ -50,24 +50,25 @@ class TrackContainer extends React.Component {
   render() {
     const {
       userEntity,
-      trackEntity,
       params,
       shouldPlay,
-      routes
+      trackObject,
+      routes,
+      dispatch,
+      commentsByTrack
     } = this.props
 
-    if (!trackEntity[params.id] || !trackEntity[params.id].comments) {
+    if (!trackObject) {
       return <Loader className="loader--top" />
     }
 
-    const track = trackEntity[params.id]
     const trackFactoryArgs = {
       userEntity,
-      mediaEntity: trackEntity,
-      id: params.id
+      mediaObject: trackObject
     }
     const mediaData = trackFactory(trackFactoryArgs)
-    const userAvatar = getCover(userEntity[track.user_id].avatar_url)
+    const userAvatar = getCover(userEntity[trackObject.user_id].avatar_url)
+    const trackComments = commentsByTrack[params.id]
 
     const renderHashTags = () => (
       mediaData.genre.map((genre, index) => {
@@ -107,10 +108,24 @@ class TrackContainer extends React.Component {
     )
 
     const renderComments = () => {
-      const { comments } = track
+      if (!trackComments) {
+        return <Loader className="loader--bottom" />
+      }
 
-      return comments.map((comment, index) => {
-        const avatar = getCover(comment.user.avatar_url)
+      if (!trackComments.ids.length) {
+        return (
+        <p className="article__paragraph--none">
+          { "NO COMMENTS TO DISPLAY." }
+        </p>
+        )
+      }
+
+      return trackComments.ids.map((id, index) => {
+        const { comments } = trackObject
+        const comment = comments[id]
+        const user = userEntity[comment.user]
+
+        const avatar = getCover(user.avatar_url)
         const createdAt = dtFormatter(comment.created_at)
         const timestamp = timeFactory(comment.timestamp / 1000).getFormatted()
 
@@ -119,13 +134,102 @@ class TrackContainer extends React.Component {
             at={ createdAt }
             avatar={ avatar.badge }
             body={ comment.body }
-            by={ comment.user.username }
+            by={ user.username }
             key={`track_comment__${comment.id}_${index}`}
             timestamp={ timestamp }
-            userId={ comment.user.id }
+            userId={ user.id }
           />
         )
       })
+    }
+
+    const shouldRenderPagination = () => {
+      if (mediaData.stats.comments > 24 && trackComments && !!trackComments.ids.length) {
+        const pages = Math.ceil(mediaData.stats.comments / 24)
+        const re = /(&offset=)(\d*)/i
+        const nextOffset = parseInt(re.exec(trackComments.next_href)[2], 10)
+        const hasPrev = nextOffset - 48 >= 0
+                      ? trackComments.next_href.replace(re, `$1${nextOffset - 48}`)
+                      : null
+        // const offsets = []
+        // for (let i = 1; i <= pages; i++) {
+        //   offsets.push(i * 24)
+        // }
+// 'https://api.soundcloud.com/tracks/176405526/comments?client_id=178cca51f2fb0a81487dc7aafafb4787&limit=24&linked_partitioning=1&offset=24'
+        const handleToNext = e => {
+          e.preventDefault()
+
+          return dispatch(loadTrackComments(params.id))
+        }
+
+        const handleToPrev = e => {
+          e.preventDefault()
+
+          return dispatch(loadTrackComments(params.id, hasPrev))
+        }
+
+        const _renderPaginationItems = () => {
+          const offsets = []
+          for (let i = 0; i <= pages; i++) {
+            offsets.push(i * 24)
+          }
+console.log(offsets)
+          return offsets.map((offset, index) => {
+            const endpoint = trackComments.next_href.replace(re, `$1${offset}`)
+            const isCurrent = offset === nextOffset - 24
+
+            const _handleClick = e => {
+              e.preventDefault()
+              return dispatch(loadTrackComments(params.id, endpoint))
+            }
+
+            if (index < 9) {
+              return (
+                <PaginationItem
+                  index={ index + 1 }
+                  isCurrent={ isCurrent }
+                  key={`pagination__${offset}_${index + 1}`}
+                  onClick={ _handleClick }
+                />
+              )
+            }
+
+            if (index === 9) {
+              return (
+                <PaginationItem
+                  index={ index + 1 }
+                  isCurrent={ isCurrent }
+                  isEllipsis
+                  key={`pagination__${offset}_${index}`}
+                  onClick={ _handleClick }
+                />
+              )
+            }
+
+            if (index === offsets.length - 1) {
+              return (
+                <PaginationItem
+                  index={ index + 1 }
+                  isCurrent={ isCurrent }
+                  key={`pagination__${offset}_${index}`}
+                  onClick={ _handleClick }
+                />
+              )
+            }
+          })
+        }
+
+        return (
+          <Pagination
+            next={ !!trackComments.next_href }
+            onNext={ handleToNext }
+            onPrev={ handleToPrev }
+            prev={ hasPrev }
+          >
+            { _renderPaginationItems() }
+          </Pagination>
+        )
+      }
     }
 
     const gradientColors = [
@@ -144,8 +248,11 @@ class TrackContainer extends React.Component {
           <Canvas
             className="canvas canvas--track"
             gradientColors={ gradientColors }
-            // imgSrc={ track.waveform_url }
           />
+
+          <div className="waveform">
+            <img className="waveform__img" src={ trackObject.waveform_url} />
+          </div>
 
           {/*-- Profile --*/}
           <div className="profile">
@@ -205,31 +312,47 @@ class TrackContainer extends React.Component {
           </div>{/*-- !Profile --*/}
         </div>{/*-- !Banner --*/}
 
+        {/*-- Content --*/}
         <div className="user__container">
 
+          {/*-- Track Description --*/}
           <section className="track">
-{/*            <a className="track__cover avatar" href="#">
+            <LinkItem className="track__cover avatar" to={`#user/${mediaData.user.id}`}>
               <img className="avatar__img" src={ userAvatar.default } />
-            </a>*/}
+            </LinkItem>
             <div className="track__data">
               <Article
-                article={ track.description }
-                missing="Track does not have a description."
+                article={ trackObject.description }
+                missing="TRACK DOES NOT HAVE A DESCRIPTION."
+                missingClassName="article__none article__none--track"
                 wrapperClassName="track__article"
               />
             </div>
-          </section>
+          </section>{/*-- !Track Description --*/}
 
+          {/*-- Comments --*/}
           <section className="comment-wrapper">
+            <div className="comment__head">
+              <h6>
+                <i className="fa fa-comment-o"/>
+                {` ${markNumber(mediaData.stats.comments)} COMMENTS`}
+              </h6>
+            </div>
             { renderComments() }
-          </section>
-        </div>
+
+            {/*-- Pagination --*/}
+            { shouldRenderPagination() }
+
+          </section>{/*-- !Comments --*/}
+
+        </div>{/*-- !Content --*/}
       </Main>
     )
   }
 }
 
 TrackContainer.propTypes = {
+  commentsByTrack: PropTypes.object,
   dispatch: PropTypes.func,
   isPlaying: PropTypes.bool,
   menu: PropTypes.object,
@@ -237,15 +360,15 @@ TrackContainer.propTypes = {
   routes: PropTypes.array,
   shouldPlay: PropTypes.bool,
   streamTrackId: PropTypes.number,
-  trackEntity: PropTypes.object,
-  tracksByUser: PropTypes.object,
+  trackObject: PropTypes.object,
   userEntity: PropTypes.object
 }
 
 function mapStateToProps(state) {
   const {
+    router: { location: { pathname }},
     app: {
-      partition: { tracksByUser },
+      partition: { commentsByTrack },
       entities: { users, tracks },
       media: {
         stream: { trackId, shouldPlay },
@@ -262,10 +385,10 @@ function mapStateToProps(state) {
     location,
     menu,
     shouldPlay,
-    tracksByUser,
+    commentsByTrack,
     userEntity: users,
-    trackEntity: tracks,
-    streamTrackId: trackId
+    streamTrackId: trackId,
+    trackObject: tracks[pathname.split('/')[1]]
   }
 }
 

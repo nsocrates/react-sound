@@ -6,43 +6,26 @@ import 'isomorphic-fetch'
 import { CALL_API } from 'constants/Api'
 import { constructUrl, extractNumber } from 'utils/Utils'
 import { normalize } from 'normalizr'
-import merge from 'lodash/merge'
 
-const entityFactory = json => {
-  const isStreamable = item => item.streamable
+const entityFactory = json => ({
+  next_href: json.next_href || null,
+  isStreamable(item) {
+    return item.streamable
+  },
+  getCollection() {
+    this.getCollection = null
+    return json.collection || json
+  },
+  getSubResource(args) {
+    this.getSubResource = null
+    const { entity, id, resource } = args
+    const { collection } = json
 
-  return {
-    next_href: json.next_href || null,
-
-    // Accesses collection property; if it exists, filters streamable
-    getCollection() {
-      this.getCollection = null
-
-      return json.collection ? json.collection.filter(isStreamable) : json
-    },
-    getWebProfiles(id) {
-      this.getWebProfiles = null
-      const { collection } = json
-      const entity = { entities: { users: { [id]: { web_profiles: collection }}}}
-
-      return entity
-    },
-    getTrackComments(id) {
-      this.getTrackComments = null
-      const { collection } = json
-      const entity = { entities: { tracks: { [id]: { comments: collection }}}}
-
-      return entity
-    },
-    getSubResource(args) {
-      const { entity, id, resource } = args
-      this.getSubResource = null
-      const { collection } = json
-
-      return { entities: { [entity]: { [id]: { [resource]: collection }}}}
+    return {
+      entities: { [entity]: { [id]: { [resource]: collection }}}
     }
   }
-}
+})
 
 // Fetches an API response and normalizes the result JSON according to schema.
 function callApi(endpoint, schema) {
@@ -59,31 +42,28 @@ function callApi(endpoint, schema) {
     .then(json => {
       const entity = entityFactory(json)
       const { next_href } = entity
+      let collection = entity.getCollection()
 
       if (/web-profiles/.test(endpoint)) {
+        const separated = endpoint.replace('?','')
+                                  .replace('-','_')
+                                  .split('/')
         const args = {
-          entity: 'users',
+          entity: separated[1],
           id: extractNumber(endpoint),
-          resource: 'web_profiles'
+          resource: separated[3]
         }
-        const webProfiles = entity.getSubResource(args)
+        const subResource = entity.getSubResource(args)
 
-        return merge({}, webProfiles)
+        return Object.assign({}, subResource)
       }
 
-      if (/comments/.test(endpoint)) {
-        const args = {
-          entity: 'tracks',
-          id: extractNumber(endpoint),
-          resource: 'comments'
-        }
-        const trackComments = entity.getSubResource(args)
-
-        return merge({}, trackComments)
+      if (/genres|playlists|favorites|tags|\?q=/.test(endpoint)) {
+        collection = collection.filter(entity.isStreamable)
       }
 
       return Object.assign({},
-        normalize(entity.getCollection(), schema),
+        normalize(collection, schema),
         { next_href })
     })
 }

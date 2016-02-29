@@ -34,6 +34,7 @@ $dark-gray: #1b1c1d;
 $light-gray: #ebeae8;
 $light-pink: #f7379f;
 $cyan: #00fff2;
+$blue-violet: #a418eb;
 $pink-disabled: tint($light-pink, 30%);
 $pink-dark: shade($light-pink, 5%);
 $wan-white-gray: shade($light-gray, 1%);
@@ -61,9 +62,9 @@ $white-disabled: rgba($white, $disabled);
 
 
 // Link Colors
-$link: $white-secondary;
-$link--hover: $white-primary;
-$link--visited: mix($light-pink, $cyan, 80%); 
+$link: $light-pink;
+$link--hover: shade($link, 10%);
+$link--visited: $blue-violet;
 
 $link__accent: $light-pink;
 $link__accent--hover: shade($link--accent, 5%);

@@ -14,6 +14,7 @@ const routes = (
       <IndexRoute component={ End } />
       <Route component={ CollectionContainer } path="#genre" />
       <Route component={ CollectionContainer } path="#search" />
+      <Route component={ CollectionContainer } path="#tag" />
       <Route component={ TrackContainer } path="#track/:id" />
       <Route component={ UserContainer } path="#user/:id">
         <IndexRoute component={ UserDescriptionContainer }/>

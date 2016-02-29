@@ -1,0 +1,28 @@
+.link {
+  border-bottom: .08em dotted $black-disabled;
+  color: $link;
+  padding-bottom: .08em;
+
+  &:hover,
+  &:active,
+  &:focus {
+    border-color: $link--hover;
+  }
+
+  // Comment
+  &--comment {
+    color: $black-primary;
+
+    &:hover,
+    &:active,
+    &:focus {
+      border-color: $black-primary;
+    }
+  }
+
+  &--has-visit-state {
+    &:visited {
+      color: $link--visited;
+    }
+  }
+}

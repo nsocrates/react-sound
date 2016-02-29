@@ -44,7 +44,7 @@ export function getCover(url) {
 
 // Extracts useful media data:
 export const trackFactory = obj => {
-  const { id, userEntity, mediaEntity } = obj
+  const { userEntity, mediaObject } = obj
 
   function parseGenre(genres) {
     return genres.split(' , ')
@@ -56,45 +56,47 @@ export const trackFactory = obj => {
                .map(item => item.replace(/"/g, ''))
   }
 
-  if (id) {
-    const entity = mediaEntity[id]
-    const userId = entity.user_id
-    const title = entity.title.split(' - ')
+  if (mediaObject) {
+    // const entity = mediaEntity[id]
+    const userId = mediaObject.user_id
+    const title = mediaObject.title.split(' - ')
     const data = {
       user: {
         id: userId,
         name: userEntity[userId].username
       },
       media: {
-        id,
+        id: mediaObject.id,
         name: title[1] || title[0]
       },
-      artwork: getCover(entity.artwork_url),
-      createdAt: dtFormatter(entity.created_at),
-      description: entity.description || null,
-      download: entity.downloadable ? `${entity.download_url}?client_id=${CLIENT_ID}` : null,
-      genre: entity.genre ? parseGenre(entity.genre) : [],
-      kind: entity.kind,
-      tags: entity.tag_list ? parseTags(entity.tag_list, /"[^"]*"|[^\s"]+/g) : []
+      artwork: getCover(mediaObject.artwork_url),
+      createdAt: dtFormatter(mediaObject.created_at),
+      description: mediaObject.description || null,
+      download: mediaObject.downloadable
+                ? `${mediaObject.download_url}?client_id=${CLIENT_ID}`
+                : null,
+      genre: mediaObject.genre ? parseGenre(mediaObject.genre) : [],
+      kind: mediaObject.kind,
+      tags: mediaObject.tag_list ? parseTags(mediaObject.tag_list, /"[^"]*"|[^\s"]+/g) : []
     }
 
     let rest
-    if (entity.kind === 'track') {
+    if (mediaObject.kind === 'track') {
       const {
         favoritings_count: favorites = 0,
         likes_count: likes = 0
-      } = entity
+      } = mediaObject
       const count = favorites > likes ? favorites : likes
       rest = {
         stats: {
-          plays: entity.playback_count,
+          plays: mediaObject.playback_count,
           favorites: count,
-          comments: entity.comment_count
+          comments: mediaObject.comment_count
         }
       }
-    } else if (entity.kind === 'playlist') {
+    } else if (mediaObject.kind === 'playlist') {
       rest = {
-        tracklist: entity.tracks
+        tracklist: mediaObject.tracks
       }
     }
 
@@ -158,6 +160,11 @@ export function kFormatter(number) {
   return number > 999 ? `${Number((number / 1000).toFixed(1))}k` : number
 }
 
+// Adds comma for numbers of more than 3 digits
+export function markNumber(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
+
 // Splits paragraphs into array; separates link from paragraph
 export function splitLines(string) {
   /**
@@ -165,7 +172,7 @@ export function splitLines(string) {
    * http://stackoverflow.com/questions/6927719/url-regex-does-not-work-in-javascript
    */
   const reUrl = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/i
-  const arr = string.replace(/\r/g, '')
+  const arr = string.replace(/<.+?>|&.*?;|\r/g, '')
                     .split(/\n/)
                     .map(item => item.trim()
                                      .split(reUrl)
@@ -176,7 +183,7 @@ export function splitLines(string) {
   arr.forEach(item => {
     const another = item
 
-    if (reUrl.test(another.toString()) && !another[1]) {
+    if (reUrl.test(another.toString()) && !reUrl.test(another[1])) {
       another[1] = another[0]
       another[0] = null
 
@@ -185,4 +192,8 @@ export function splitLines(string) {
   })
 
   return arr
+}
+
+export function calculatePages(total, offset) {
+  return Math.ceil(total / offset)
 }

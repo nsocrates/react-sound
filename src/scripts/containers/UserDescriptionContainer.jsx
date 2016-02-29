@@ -22,7 +22,7 @@ class UserDescriptionContainer extends React.Component {
       params
     } = this.props
 
-    if (!userEntity[params.id] || !userEntity[params.id].description) {
+    if (!userEntity[params.id] || userEntity[params.id].description === undefined) {
       return <Loader className="loader--bottom" />
     }
 

@@ -110,6 +110,22 @@ const partition = combineReducers({
       ActionTypes.SEARCH_SUCCESS,
       ActionTypes.SEARCH_FAILURE
     ]
+  }),
+  tracksByTag: partitionate({
+    mapActionToKey: action => action.tag,
+    types: [
+      ActionTypes.TAG_REQUEST,
+      ActionTypes.TAG_SUCCESS,
+      ActionTypes.TAG_FAILURE
+    ]
+  }),
+  commentsByTrack: partitionate({
+    mapActionToKey: action => action.id,
+    types: [
+      ActionTypes.TRACK_COMMENTS_REQUEST,
+      ActionTypes.TRACK_COMMENTS_SUCCESS,
+      ActionTypes.TRACK_COMMENTS_FAILURE
+    ]
   })
 })
 

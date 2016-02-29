@@ -8,7 +8,7 @@ export default class PlayerTracklist extends React.Component {
     const { tracklist, userEntity, trackEntity, trackId, audio: { isPlaying }} = this.props
 
     const renderTracklist = tracklist.ids.map((id, index) => {
-      const obj = { id, userEntity, mediaEntity: trackEntity }
+      const obj = { userEntity, mediaObject: trackEntity[id] }
       const isCurrentTrack = trackId === id
       const trackData = trackFactory(obj)
 

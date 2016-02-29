@@ -55,12 +55,17 @@ class CollectionContainer extends React.Component {
     } = this.props
 
     const getCollection = () => {
-      const { tracksByGenre, searchesByInput, location } = this.props
+      const { tracksByGenre, searchesByInput, tracksByTag, location } = this.props
 
-      if (location.pathname === '#genre') {
-        return tracksByGenre[location.query.q]
-      } else if (location.pathname === '#search') {
-        return searchesByInput[location.query.q]
+      switch (location.pathname) {
+        case '#genre':
+          return tracksByGenre[location.query.q]
+        case '#search':
+          return searchesByInput[location.query.q]
+        case '#tag':
+          return tracksByTag[location.query.q]
+        default:
+          return null
       }
     }
 
@@ -77,9 +82,8 @@ class CollectionContainer extends React.Component {
       const ids = collection.ids
       const gallery = ids.map((item, index) => {
         const args = {
-          id: item,
           userEntity,
-          mediaEntity: trackEntity
+          mediaObject: trackEntity[item]
         }
         const trackData = trackFactory(args)
         const trackId = item
@@ -147,6 +151,7 @@ CollectionContainer.propTypes = {
       )
     })
   ),
+  tracksByTag: React.PropTypes.object,
   userEntity: React.PropTypes.objectOf(
     React.PropTypes.object
   )
@@ -177,6 +182,7 @@ function mapStateToProps(state) {
     streamTrackId: media.stream.trackId,
     trackEntity: entities.tracks,
     tracksByGenre: partition.tracksByGenre,
+    tracksByTag: partition.tracksByTag,
     userEntity: entities.users
   }
 }

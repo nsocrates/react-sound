@@ -18,50 +18,20 @@
   }
 }
 
-.article__link {
-  border-bottom: .1rem dotted $black-disabled;
-  color: $link__accent;
-
-  &:active,
-  &:hover,
-  &:focus {
-    border-color: $link__accent--hover;
-  }
-
-  &:visited {
-    color: $link--visited;
-  }
-
-  &--soundcloud {
-    color: $link__sc;
-
-    &:active,
-    &:hover,
-    &:focus {
-      border-color: $link__sc--hover;
-    }
-  }
-
-  &--mailto {
-    color: $link__mail;
-
-    &:active,
-    &:hover,
-    &:focus {
-      border-color: $link__mail--hover;
-    }
-  }
-}
-
 .article__paragraph {
   &:last-child {
     margin-bottom: 0;
   }
+}
 
-  &--none {
-    color: $black-hint;
-    line-height: 3;
-    margin: 0;
-    text-align: center;
+.article__none {
+  color: $black-hint;
+  line-height: 3;
+  margin: 0;
+  text-align: center;
+
+  &--track {
+    line-height: 10rem;
+    text-align: left;
   }
 }

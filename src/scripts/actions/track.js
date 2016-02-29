@@ -5,38 +5,54 @@
 import * as ActionTypes from 'constants/ActionTypes'
 import { CALL_API } from 'constants/Api'
 import { Schemas } from 'constants/Schemas'
+import { loadCached } from 'actions/collection'
 
 // Fetches a single track:
-function fetchTrack(id, endpoint, actionTypes) {
-  const types = actionTypes || [
-    ActionTypes.TRACK_REQUEST,
-    ActionTypes.TRACK_SUCCESS,
-    ActionTypes.TRACK_FAILURE
-  ]
+function fetchTrack(id, endpoint, types, schema) {
   return {
     id,
     [CALL_API]: {
       types,
       endpoint,
-      schema: Schemas.TRACK
+      schema
     }
   }
 }
 
-export function loadTrackComments(id) {
+function fetchTrackComments(id, next_href) {
+  return {
+    id,
+    [CALL_API]: {
+      types: [
+        ActionTypes.TRACK_COMMENTS_REQUEST,
+        ActionTypes.TRACK_COMMENTS_SUCCESS,
+        ActionTypes.TRACK_COMMENTS_FAILURE
+      ],
+      endpoint: next_href,
+      schema: Schemas.COMMENT_ARRAY
+    }
+  }
+}
+
+export function loadTrackComments(id, endpoint, next = true) {
   return (dispatch, getState) => {
-    const track = getState().app.entities.tracks[id]
-    const endpoint = `/tracks/${id}/comments?`
-    const actionTypes = [
-      ActionTypes.TRACK_COMMENTS_REQUEST,
-      ActionTypes.TRACK_COMMENTS_SUCCESS,
-      ActionTypes.TRACK_COMMENTS_FAILURE
-    ]
-    if (track) {
-      console.log('track comments are cached')
+    const { commentsByTrack } = getState().app.partition
+    const {
+      next_href = `/tracks/${id}/comments?`,
+      offset = 0
+    } = commentsByTrack[id] || {}
+    const url = endpoint || next_href
+
+    if (offset > 0 && !next) {
+      const args = {
+        id,
+        type: ActionTypes.TRACK_COMMENTS_SUCCESS,
+        next_href
+      }
+      return dispatch(loadCached(args))
     }
 
-    return dispatch(fetchTrack(id, endpoint, actionTypes))
+    return dispatch(fetchTrackComments(id, url))
   }
 }
 
@@ -44,11 +60,45 @@ export function loadTrackComments(id) {
 export function loadTrack(id) {
   return (dispatch, getState) => {
     const track = getState().app.entities.tracks[id]
-    const endpoint = `/tracks/${id}?`
-    if (track) {
-      return null
+    const { ids = null } = getState().app.partition.commentsByTrack[id] || {}
+    const action = {
+      base: {
+        endpoint: `/tracks/${id}?`,
+        schema: Schemas.TRACK,
+        types: [
+          ActionTypes.TRACK_REQUEST,
+          ActionTypes.TRACK_SUCCESS,
+          ActionTypes.TRACK_FAILURE
+        ]
+      },
+      comments: {
+        endpoint: `/tracks/${id}/comments?`,
+        schema: Schemas.COMMENT_ARRAY,
+        types: [
+          ActionTypes.TRACK_COMMENTS_REQUEST,
+          ActionTypes.TRACK_COMMENTS_SUCCESS,
+          ActionTypes.TRACK_COMMENTS_FAILURE
+        ]
+      }
+    }
+    const { base, comments } = action
+
+    if (track && !ids) {
+      dispatch(fetchTrack(id, comments.endpoint, comments.types, comments.schema))
     }
 
-    return dispatch(fetchTrack(id, endpoint))
+    if (track && ids) {
+      const args = {
+        id,
+        type: ActionTypes.TRACK_SUCCESS
+      }
+      return dispatch(loadCached(args))
+    }
+
+    return dispatch(fetchTrack(id, base.endpoint, base.types, base.schema))
+      .then(() => (
+        dispatch(fetchTrack(id, comments.endpoint, comments.types, comments.schema))
+      )
+    )
   }
 }

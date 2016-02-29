@@ -123,6 +123,9 @@ Nav.propTypes = {
   navbar: React.PropTypes.shape({
     isSticky: React.PropTypes.bool.isRequired
   }),
+  routeActions: React.PropTypes.objectOf(
+    React.PropTypes.func.isRequired
+  ),
   searchModal: React.PropTypes.shape({
     isOpen: React.PropTypes.bool
   }),

@@ -60,42 +60,41 @@ class UserMediaContainer extends React.Component {
 
     const getEntity = () => {
       const { tracksByUser, favoritesByUser, playlistsByUser } = this.props
-      let mediaObject = {
+      let media = {
         entity: null,
         partition: null
       }
 
       switch (route.path) {
-
         case 'tracks':
-          mediaObject = {
-            entity: trackEntity,
+          media = {
+            mediaEntity: trackEntity,
             partition: tracksByUser[params.id]
           }
-          return mediaObject
+          return media
 
         case 'favorites':
-          mediaObject = {
-            entity: trackEntity,
+          media = {
+            mediaEntity: trackEntity,
             partition: favoritesByUser[params.id]
           }
-          return mediaObject
+          return media
 
         case 'playlists':
-          mediaObject = {
-            entity: playlistEntity,
+          media = {
+            mediaEntity: playlistEntity,
             partition: playlistsByUser[params.id]
           }
-          return mediaObject
+          return media
 
         default:
-          return mediaObject
+          return media
       }
     }
 
     // const user = userEntity[params.id]
     const media = getEntity()
-    const { entity, partition } = media
+    const { mediaEntity, partition } = media
 
     if (/*!user || */!partition) {
       return <Loader className="loader--bottom" />
@@ -107,8 +106,7 @@ class UserMediaContainer extends React.Component {
       return ids.map((item, index) => {
         const obj = {
           userEntity,
-          mediaEntity: entity,
-          id: item
+          mediaObject: mediaEntity[item]
         }
         const mediaData = trackFactory(obj)
 

@@ -1,4 +1,5 @@
 .comment-wrapper {
+  @extend %clearfix;
   background-color: $white;
   border-radius: .5rem;
   padding: 1.5rem;
@@ -14,6 +15,12 @@
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+.comment__head {
+  box-shadow: 0 .2rem .2rem -.2rem $black-hint;
+  margin-bottom: 1.5rem;
+  padding-bottom: .08em;
 }
 
 .comment__avatar {
@@ -37,7 +44,7 @@
 }
 
 .comment__at,
-.comment__by {
+.comment__timestamp {
   color: $black-secondary;
 }
 
@@ -47,12 +54,8 @@
 
 .comment__by {
   font-weight: 700;
-
-  &:hover {
-    color: $black-primary;
-  }
 }
 
-.comment__timestamp {
-  color: $black-hint;
+.comment__soundcloud {
+  color: $link--sc;
 }

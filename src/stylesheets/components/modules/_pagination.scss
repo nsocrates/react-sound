@@ -1,0 +1,104 @@
+.pagination-wrapper {
+  margin-left: -.5rem;
+  margin-right: -.5rem;
+  margin-top: gutter() * 3;
+}
+
+.pagination {
+  border: .1rem solid $black-secondary;
+  border-radius: .5rem;
+  display: table;
+  margin: 0 auto;
+  table-layout: fixed;
+  text-align: center;
+  width: 60%;
+
+  @include susy-media(medium) {
+    border: 0;
+    border-spacing: .5rem 0;
+    width: 100%;
+  }
+}
+
+.pagination__pages {
+  border-left: .1rem solid $black-secondary;
+  border-right: .1rem solid $black-secondary;
+  display: table;
+  table-layout: fixed;
+  text-align: center;
+  width: 100%;
+
+  @include susy-media(medium) {
+    border: 0;
+    margin: 0 auto;
+    width: 80%;
+  }
+}
+
+.pagination__item {
+  color: $black-primary;
+  display: table-cell;
+  line-height: 3.5rem;
+  margin-right: gutter();
+  vertical-align: middle;
+  width: 1%;
+
+  @include susy-media(medium) {
+    border: .1rem solid $black-secondary;
+    border-radius: .5rem;
+  }
+
+  &--stateful {
+    transition: background-color, $trans-default;
+
+    &:hover {
+      background-color: shade($white, 10%);
+    }
+  }
+
+  &--disabled {
+    background-color: $light-gray;
+    cursor: default;
+    opacity: .4;
+  }
+
+  &--rest {
+    background-color: transparent;
+    border: 0;
+    cursor: default;
+    font-size: 125%;
+    font-weight: 700;
+
+    &::after {
+      content: '\2026';
+    }
+  }
+
+  &--pointer {
+    width: (100 / 3) * 1%;
+
+    @include susy-media(medium) {
+      width: 7rem;
+    }
+  }
+}
+
+.pagination__page {
+  display: none;
+
+  @include susy-media(medium) {
+    display: table-cell;
+  }
+
+  &--current {
+    background-color: $light-pink;
+    color: $white;
+    cursor: default;
+    display: table-cell;
+  }
+}
+
+.pagination__link {
+  cursor: inherit;
+  display: block;
+}
