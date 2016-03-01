@@ -58,7 +58,7 @@ function callApi(endpoint, schema) {
         return Object.assign({}, subResource)
       }
 
-      if (/genres|playlists|favorites|tags|\?q=/.test(endpoint)) {
+      if (/genres|\d\/playlists|favorites|tags|\?q=/.test(endpoint)) {
         collection = collection.filter(entity.isStreamable)
       }
 

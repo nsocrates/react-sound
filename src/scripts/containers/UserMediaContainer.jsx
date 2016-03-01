@@ -92,11 +92,10 @@ class UserMediaContainer extends React.Component {
       }
     }
 
-    // const user = userEntity[params.id]
     const media = getEntity()
     const { mediaEntity, partition } = media
 
-    if (/*!user || */!partition) {
+    if (!partition) {
       return <Loader className="loader--bottom" />
     }
 
@@ -148,6 +147,10 @@ class UserMediaContainer extends React.Component {
           return dispatch(requestStream(mediaData.media.id))
         }
 
+        const mediaPath = route.path === 'playlists'
+                            ? `#playlist/${mediaData.media.id}`
+                            : `#track/${mediaData.media.id}`
+
         return (
           <Card
             byline={ mediaData.user.name }
@@ -157,7 +160,7 @@ class UserMediaContainer extends React.Component {
             key={ `user_card__${index}_${item}` }
             onCoverClick={ _handleCoverClick }
             title={ mediaData.media.name }
-            titlePath={ `#track/${mediaData.media.id}` }
+            titlePath={ mediaPath }
           >
             <ul className="tags">
               { _renderTags() }
