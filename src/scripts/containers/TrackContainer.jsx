@@ -200,7 +200,6 @@ class TrackContainer extends React.Component {
             }
 
             if (page < 11 && currentPage < 6 || page > lastPage - 10 && currentPage > lastPage - 5) {
-              console.log(page, lastPage - 10, currentPage, lastPage)
               return (
                 <PaginationItem
                   ellipsis={[lastPage - 9, 10]}

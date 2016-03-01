@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import LinkItem from 'components/LinkItem'
 import { IMG_FALLBACK } from 'constants/ItemLists'
 
 export default class Gallery extends React.Component {
@@ -47,20 +47,20 @@ export default class Gallery extends React.Component {
         </a>
         <div className="gallery__content">
           <h6 className="gallery__content--title" >
-            <Link
+            <LinkItem
               className="gallery__content--link"
               to={`#track/${media.id}`}
             >
               { media.name }
-            </Link>
+            </LinkItem>
           </h6>
           <h6 className="gallery__content--byline">
-            <Link
+            <LinkItem
               className="gallery__content--link"
               to={`#user/${user.id}`}
             >
               { user.name }
-            </Link>
+            </LinkItem>
           </h6>
         </div>
       </article>
