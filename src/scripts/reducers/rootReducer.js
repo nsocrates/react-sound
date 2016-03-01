@@ -5,8 +5,10 @@ import player from './player'
 import ui from './ui'
 import stream from './stream'
 import { combineReducers } from 'redux'
+import comments from './comments'
 
 const rootReducer = combineReducers({
+  comments,
   entities,
   errorMessage,
   partition,

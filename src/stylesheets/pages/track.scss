@@ -9,12 +9,15 @@
 .track__cover {
   float: left;
   height: 10rem;
-  margin-right: gutter();
   width: 10rem;
 }
 
 .track__data {
   overflow: hidden;
+}
+
+.track__article {
+  margin: 0 gutter();
 }
 
 .waveform {

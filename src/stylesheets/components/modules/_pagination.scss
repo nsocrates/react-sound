@@ -42,6 +42,7 @@
   margin-right: gutter();
   vertical-align: middle;
   width: 1%;
+  cursor: pointer;
 
   @include susy-media(medium) {
     border: .1rem solid $black-secondary;
@@ -99,6 +100,8 @@
 }
 
 .pagination__link {
+  width: 100%;
+  text-align: center;
   cursor: inherit;
   display: block;
 }

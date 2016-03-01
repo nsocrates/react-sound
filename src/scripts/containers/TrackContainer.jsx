@@ -8,7 +8,7 @@ import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { IMG_FALLBACK } from 'constants/ItemLists'
 import { loadTrack, loadTrackComments } from 'actions/track'
-import { timeFactory, trackFactory, getCover, kFormatter, dtFormatter, markNumber } from 'utils/Utils'
+import { timeFactory, trackFactory, getCover, kFormatter, dtFormatter, markNumber, constructUrl } from 'utils/Utils'
 import { requestStream } from 'actions/stream'
 import Tag from 'components/Tag'
 import Comment from 'components/Comment'
@@ -108,19 +108,21 @@ class TrackContainer extends React.Component {
     )
 
     const renderComments = () => {
-      if (!trackComments) {
+      const { comments: { result }} = this.props
+
+      if (!trackComments || trackComments.isFetching) {
         return <Loader className="loader--bottom" />
       }
 
-      if (!trackComments.ids.length) {
+      if (!trackComments.ids.length || !result.length) {
         return (
-        <p className="article__paragraph--none">
+        <p className="article__none">
           { "NO COMMENTS TO DISPLAY." }
         </p>
         )
       }
 
-      return trackComments.ids.map((id, index) => {
+      return result.map((id, index) => {
         const { comments } = trackObject
         const comment = comments[id]
         const user = userEntity[comment.user]
@@ -145,27 +147,27 @@ class TrackContainer extends React.Component {
 
     const shouldRenderPagination = () => {
       if (mediaData.stats.comments > 24 && trackComments && !!trackComments.ids.length) {
+        const { offset } = commentsByTrack[params.id]
+        const endpoint = `/tracks/${params.id}/comments?`
+        const url = trackComments.next_href || `${constructUrl(endpoint)}&offset=0`
         const pages = Math.ceil(mediaData.stats.comments / 24)
         const re = /(&offset=)(\d*)/i
-        const nextOffset = parseInt(re.exec(trackComments.next_href)[2], 10)
-        const hasPrev = nextOffset - 48 >= 0
-                      ? trackComments.next_href.replace(re, `$1${nextOffset - 48}`)
+        const nextOffset = parseInt(re.exec(url)[2], 10) || pages * 24
+        const prevOffset = nextOffset - 48
+        const prevHref = nextOffset - 48 >= 0
+                      ? url.replace(re, `$1${prevOffset}`)
                       : null
-        // const offsets = []
-        // for (let i = 1; i <= pages; i++) {
-        //   offsets.push(i * 24)
-        // }
-// 'https://api.soundcloud.com/tracks/176405526/comments?client_id=178cca51f2fb0a81487dc7aafafb4787&limit=24&linked_partitioning=1&offset=24'
+
         const handleToNext = e => {
           e.preventDefault()
 
-          return dispatch(loadTrackComments(params.id))
+          return dispatch(loadTrackComments(params.id, nextOffset))
         }
 
         const handleToPrev = e => {
           e.preventDefault()
 
-          return dispatch(loadTrackComments(params.id, hasPrev))
+          return dispatch(loadTrackComments(params.id, prevOffset, prevHref))
         }
 
         const _renderPaginationItems = () => {
@@ -173,49 +175,55 @@ class TrackContainer extends React.Component {
           for (let i = 0; i <= pages; i++) {
             offsets.push(i * 24)
           }
-console.log(offsets)
-          return offsets.map((offset, index) => {
-            const endpoint = trackComments.next_href.replace(re, `$1${offset}`)
-            const isCurrent = offset === nextOffset - 24
+
+          return offsets.map((value, index) => {
+            const endpoint = url.replace(re, `$1${value}`)
+            const isCurrent = value === offset
+            const page = index + 1
+            const currentPage = offset / 24 + 1
+            const lastPage = offsets.length
 
             const _handleClick = e => {
               e.preventDefault()
-              return dispatch(loadTrackComments(params.id, endpoint))
+              return dispatch(loadTrackComments(params.id, value, endpoint))
             }
 
-            if (index < 9) {
+            if (page === 1 || page === lastPage) {
               return (
                 <PaginationItem
-                  index={ index + 1 }
+                  page={ page }
                   isCurrent={ isCurrent }
-                  key={`pagination__${offset}_${index + 1}`}
+                  key={`pagination__${value}_${page}`}
                   onClick={ _handleClick }
                 />
               )
             }
 
-            if (index === 9) {
+            if (page < 11 && currentPage < 6 || page > lastPage - 10 && currentPage > lastPage - 5) {
+              console.log(page, lastPage - 10, currentPage, lastPage)
               return (
                 <PaginationItem
-                  index={ index + 1 }
+                  ellipsis={[lastPage - 9, 10]}
+                  page={ page }
                   isCurrent={ isCurrent }
-                  isEllipsis
-                  key={`pagination__${offset}_${index}`}
+                  key={`pagination__${value}_${page}`}
                   onClick={ _handleClick }
                 />
               )
             }
 
-            if (index === offsets.length - 1) {
+            if (currentPage < page + 5 && currentPage > page - 5) {
               return (
                 <PaginationItem
-                  index={ index + 1 }
+                  ellipsis={[currentPage - 4, currentPage + 4]}
+                  page={ page }
                   isCurrent={ isCurrent }
-                  key={`pagination__${offset}_${index}`}
+                  key={`pagination__${value}_${page}`}
                   onClick={ _handleClick }
                 />
               )
             }
+
           })
         }
 
@@ -224,7 +232,7 @@ console.log(offsets)
             next={ !!trackComments.next_href }
             onNext={ handleToNext }
             onPrev={ handleToPrev }
-            prev={ hasPrev }
+            prev={ !!prevHref }
           >
             { _renderPaginationItems() }
           </Pagination>
@@ -352,6 +360,7 @@ console.log(offsets)
 }
 
 TrackContainer.propTypes = {
+  comments: PropTypes.object,
   commentsByTrack: PropTypes.object,
   dispatch: PropTypes.func,
   isPlaying: PropTypes.bool,
@@ -368,6 +377,7 @@ function mapStateToProps(state) {
   const {
     router: { location: { pathname }},
     app: {
+      comments,
       partition: { commentsByTrack },
       entities: { users, tracks },
       media: {
@@ -381,6 +391,7 @@ function mapStateToProps(state) {
   } = state
 
   return {
+    comments,
     isPlaying,
     location,
     menu,

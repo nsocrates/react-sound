@@ -19,9 +19,10 @@ function fetchTrack(id, endpoint, types, schema) {
   }
 }
 
-function fetchTrackComments(id, next_href) {
+function fetchTrackComments(id, offset, next_href) {
   return {
     id,
+    offset,
     [CALL_API]: {
       types: [
         ActionTypes.TRACK_COMMENTS_REQUEST,
@@ -34,7 +35,7 @@ function fetchTrackComments(id, next_href) {
   }
 }
 
-export function loadTrackComments(id, endpoint, next = true) {
+export function loadTrackComments(id, offst, endpoint, next = true) {
   return (dispatch, getState) => {
     const { commentsByTrack } = getState().app.partition
     const {
@@ -42,6 +43,7 @@ export function loadTrackComments(id, endpoint, next = true) {
       offset = 0
     } = commentsByTrack[id] || {}
     const url = endpoint || next_href
+    const hasOffset = offst || null
 
     if (offset > 0 && !next) {
       const args = {
@@ -52,7 +54,7 @@ export function loadTrackComments(id, endpoint, next = true) {
       return dispatch(loadCached(args))
     }
 
-    return dispatch(fetchTrackComments(id, url))
+    return dispatch(fetchTrackComments(id, offst, url))
   }
 }
 

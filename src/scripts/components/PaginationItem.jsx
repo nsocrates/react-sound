@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react'
 import classNames from 'classnames'
 
-export default function PaginationItem({ index, isEllipsis, isCurrent, onClick }) {
-  if (isEllipsis) {
+export default function PaginationItem({ page, ellipsis = [], isCurrent, onClick }) {
+  if (page === ellipsis[0] || page === ellipsis[1]) {
     return (
       <li className="pagination__item pagination__item--rest pagination__page" />
     )
@@ -15,16 +15,16 @@ export default function PaginationItem({ index, isEllipsis, isCurrent, onClick }
 
   return (
     <li className={ current }>
-      <a className="pagination__link" href="#" onClick={ onClick }>
-        { index }
-      </a>
+      <button className="pagination__link" href="#" onClick={ onClick }>
+        { page }
+      </button>
     </li>
   )
 }
 
 PaginationItem.propTypes = {
-  index: PropTypes.number,
+  page: PropTypes.number,
   isCurrent: PropTypes.bool,
-  isEllipis: PropTypes.bool,
+  ellipsis: PropTypes.array,
   onClick: PropTypes.func
 }
