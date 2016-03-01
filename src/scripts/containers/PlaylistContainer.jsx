@@ -6,6 +6,8 @@ import Main from 'components/Main'
 import Loader from 'components/Loader'
 import Canvas from 'components/Canvas'
 import LinkItem from 'components/LinkItem'
+import Article from 'components/Article'
+import Tag from 'components/Tag'
 import { connect } from 'react-redux'
 import { loadPlaylist } from 'actions/playlist'
 import { timeFactory, trackFactory, getCover, kFormatter, dtFormatter, markNumber, constructUrl } from 'utils/Utils'
@@ -44,6 +46,16 @@ class PlaylistContainer extends React.Component {
     }
     const mediaData = trackFactory(trackFactoryArgs)
     const userAvatar = getCover(userEntity[playlistObject.user_id].avatar_url)
+
+    const renderTags = () => (
+      mediaData.tags.map((tag, idx) => (
+        <Tag
+          key={`tag__${idx}_${tag}`}
+          modifier="profile"
+          text={ tag }
+        />
+      ))
+    )
 
     return (
       <Main
@@ -93,9 +105,32 @@ class PlaylistContainer extends React.Component {
                 </h4>
               </article>
               <hr className="invis" />
-            </section>
-          </div>
-        </div>
+
+              <ul className="tags">
+                { renderTags() }
+              </ul>
+            </section>{/*-- !Track Info --*/}
+          </div>{/*-- !Profile --*/}
+        </div>{/*-- !Banner --*/}
+
+        {/*-- Content --*/}
+        <div className="user__container">
+
+          {/*-- Track Description --*/}
+          <section className="track">
+            <LinkItem className="track__cover avatar" to={`#user/${mediaData.user.id}`}>
+              <img className="avatar__img" src={ userAvatar.default } />
+            </LinkItem>
+            <div className="track__data">
+              <Article
+                article={ playlistObject.description }
+                missing="TRACK DOES NOT HAVE A DESCRIPTION."
+                missingClassName="article__none article__none--track"
+                wrapperClassName="track__article"
+              />
+            </div>
+          </section>{/*-- !Track Description --*/}
+        </div>{/*-- !Content --*/}
       </Main>
     )
   }

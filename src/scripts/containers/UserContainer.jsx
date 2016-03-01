@@ -10,7 +10,7 @@ import Waypoint from 'components/Waypoint'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { IMG_FORMAT, IMG_FALLBACK } from 'constants/ItemLists'
-import { loadUser } from 'actions/user'
+import { loadUser, resolveUser } from 'actions/user'
 import { triggerStickyMenu } from 'actions/ui'
 import { kFormatter } from 'utils/Utils'
 
@@ -33,8 +33,8 @@ class UserContainer extends React.Component {
 
   updateComponent() {
     const { dispatch, params } = this.props
-
-    return dispatch(loadUser(params.id))
+    return /^\d+$/.test(params.id) ? dispatch(loadUser(params.id)) : dispatch(resolveUser(params.id))
+    // return dispatch(loadUser(params.id))
   }
 
   dispatchStickyMenu(shouldStick) {

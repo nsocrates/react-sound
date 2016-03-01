@@ -10,7 +10,7 @@ export default function CommentBody({ body }) {
 
     return (
       <p className="comment__body">
-        <LinkItem className="link link--unvisited" to="/">{ atSound[0] }</LinkItem>
+        <LinkItem className="link link--unvisited" to={`#user/${atSound[1]}`}>{ atSound[0] }</LinkItem>
         { textSplit[1] }
       </p>
     )

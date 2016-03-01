@@ -5,6 +5,7 @@
 import * as ActionTypes from 'constants/ActionTypes'
 import { CALL_API } from 'constants/Api'
 import { Schemas } from 'constants/Schemas'
+import { push } from 'react-router-redux'
 
 // Fetches a single user:
 function fetchUser(id, endpoint = `/users/${id}?`, schema = Schemas.USER) {
@@ -19,6 +20,33 @@ function fetchUser(id, endpoint = `/users/${id}?`, schema = Schemas.USER) {
       endpoint,
       schema
     }
+  }
+}
+
+function fetchResolveUser(id) {
+  return {
+    id,
+    [CALL_API]: {
+      types: [
+        ActionTypes.USER_REQUEST,
+        ActionTypes.USER_SUCCESS,
+        ActionTypes.USER_FAILURE
+      ],
+      endpoint:`/resolve?url=http://soundcloud.com/${id}&`,
+      schema: Schemas.USER
+    }
+  }
+}
+
+export function resolveUser(username) {
+  return (dispatch, getState) => {
+    const endpoint = `/resolve?url=http://soundcloud.com/${username}&`
+
+    dispatch(fetchUser(username, endpoint))
+      .then(res => {
+        const id = res.response.result
+        return dispatch(push({pathname: `#user/${id}`}))
+      })
   }
 }
 
@@ -137,7 +165,6 @@ export function loadUser(id) {
     return dispatch(fetchUser(id, base.endpoint, base.schema))
       .then(() => (
         dispatch(fetchUser(id, profile.endpoint, profile.schema))
-      )
-    )
+      ))
   }
 }
