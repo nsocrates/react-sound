@@ -177,7 +177,7 @@ class TrackContainer extends React.Component {
           }
 
           return offsets.map((value, index) => {
-            const endpoint = url.replace(re, `$1${value}`)
+            const href = url.replace(re, `$1${value}`)
             const isCurrent = value === offset
             const page = index + 1
             const currentPage = offset / 24 + 1
@@ -185,7 +185,7 @@ class TrackContainer extends React.Component {
 
             const _handleClick = e => {
               e.preventDefault()
-              return dispatch(loadTrackComments(params.id, value, endpoint))
+              return dispatch(loadTrackComments(params.id, value, href))
             }
 
             if (page === 1 || page === lastPage) {

@@ -34,7 +34,6 @@ class UserContainer extends React.Component {
   updateComponent() {
     const { dispatch, params } = this.props
     return /^\d+$/.test(params.id) ? dispatch(loadUser(params.id)) : dispatch(resolveUser(params.id))
-    // return dispatch(loadUser(params.id))
   }
 
   dispatchStickyMenu(shouldStick) {
