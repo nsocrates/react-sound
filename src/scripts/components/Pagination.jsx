@@ -34,3 +34,11 @@ export default function Pagination({ next, prev, onNext, onPrev, children }) {
     </div>
   )
 }
+
+Pagination.propTypes = {
+  next: PropTypes.bool,
+  prev: PropTypes.bool,
+  onNext: PropTypes.func,
+  onPrev: PropTypes.func,
+  children: PropTypes.node
+}

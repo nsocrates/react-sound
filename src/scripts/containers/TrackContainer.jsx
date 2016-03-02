@@ -4,7 +4,6 @@ import Canvas from 'components/Canvas'
 import LinkItem from 'components/LinkItem'
 import Loader from 'components/Loader'
 import Main from 'components/Main'
-import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { IMG_FALLBACK } from 'constants/ItemLists'
 import { loadTrack, loadTrackComments } from 'actions/track'
@@ -53,7 +52,6 @@ class TrackContainer extends React.Component {
       params,
       shouldPlay,
       trackObject,
-      routes,
       dispatch,
       commentsByTrack
     } = this.props
@@ -89,7 +87,7 @@ class TrackContainer extends React.Component {
               location={ location }
               to={"#genre"}
             >
-              <i className="stats__icon fa fa-hashtag"/>
+              <i className="stats__icon fa fa-hashtag" />
               { mediaData.genre }
             </LinkItem>
           </li>
@@ -199,10 +197,22 @@ class TrackContainer extends React.Component {
               )
             }
 
-            if (page < 11 && currentPage < 6 || page > lastPage - 10 && currentPage > lastPage - 5) {
+            if (page < 11 && currentPage < 6) {
               return (
                 <PaginationItem
-                  ellipsis={[lastPage - 9, 10]}
+                  ellipsis={[10]}
+                  page={ page }
+                  isCurrent={ isCurrent }
+                  key={`pagination__${value}_${page}`}
+                  onClick={ _handleClick }
+                />
+              )
+            }
+
+            if (page > lastPage - 10 && currentPage > lastPage - 5) {
+              return (
+                <PaginationItem
+                  ellipsis={[lastPage - 9]}
                   page={ page }
                   isCurrent={ isCurrent }
                   key={`pagination__${value}_${page}`}
@@ -223,6 +233,7 @@ class TrackContainer extends React.Component {
               )
             }
 
+            return null
           })
         }
 
@@ -237,6 +248,8 @@ class TrackContainer extends React.Component {
           </Pagination>
         )
       }
+
+      return null
     }
 
     const gradientColors = [
@@ -296,15 +309,15 @@ class TrackContainer extends React.Component {
               <ul className="stats">
                 <li className="stats__item">{ mediaData.createdAt }</li>
                 <li className="stats__item">
-                  <i className="stats__icon fa fa-heart"/>
+                  <i className="stats__icon fa fa-heart" />
                   { kFormatter(mediaData.stats.favorites) }
                 </li>
                 <li className="stats__item">
-                  <i className="stats__icon fa fa-play"/>
+                  <i className="stats__icon fa fa-play" />
                   { kFormatter(mediaData.stats.plays) }
                 </li>
                 <li className="stats__item">
-                  <i className="stats__icon fa fa-comments"/>
+                  <i className="stats__icon fa fa-comments" />
                   { kFormatter(mediaData.stats.comments) }
                 </li>
                 { renderHashTags() }
@@ -341,7 +354,7 @@ class TrackContainer extends React.Component {
           <section className="comment-wrapper">
             <div className="comment__head">
               <h6>
-                <i className="fa fa-comment-o"/>
+                <i className="fa fa-comment-o" />
                 {` ${markNumber(mediaData.stats.comments)} COMMENTS`}
               </h6>
             </div>

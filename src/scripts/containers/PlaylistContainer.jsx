@@ -62,7 +62,7 @@ class PlaylistContainer extends React.Component {
         className="main__track"
         shouldPush={ shouldPlay }
       >
-        {/*-- Banner --*/}
+        {/* -- Banner -- */}
         <div className="canvas-container">
 
           <Canvas
@@ -74,7 +74,7 @@ class PlaylistContainer extends React.Component {
             <img className="waveform__img" src={ playlistObject.waveform_url} />
           </div>
 
-          {/*-- Profile --*/}
+          {/* -- Profile -- */}
           <div className="profile">
 
             <section className="profile__section profile__section--cover">
@@ -92,7 +92,7 @@ class PlaylistContainer extends React.Component {
               </a>
             </section>
 
-            {/*-- Track Info --*/}
+            {/* -- Track Info -- */}
             <section className="profile__section profile__section--data">
               <article className="profile__textarea">
                 <h2 className="profile__text--headline">
@@ -109,14 +109,14 @@ class PlaylistContainer extends React.Component {
               <ul className="tags">
                 { renderTags() }
               </ul>
-            </section>{/*-- !Track Info --*/}
-          </div>{/*-- !Profile --*/}
-        </div>{/*-- !Banner --*/}
+            </section>{/* -- !Track Info -- */}
+          </div>{/* -- !Profile -- */}
+        </div>{/* -- !Banner -- */}
 
-        {/*-- Content --*/}
+        {/* -- Content -- */}
         <div className="user__container">
 
-          {/*-- Track Description --*/}
+          {/* -- Track Description -- */}
           <section className="track">
             <LinkItem className="track__cover avatar" to={`#user/${mediaData.user.id}`}>
               <img className="avatar__img" src={ userAvatar.default } />
@@ -129,8 +129,18 @@ class PlaylistContainer extends React.Component {
                 wrapperClassName="track__article"
               />
             </div>
-          </section>{/*-- !Track Description --*/}
-        </div>{/*-- !Content --*/}
+          </section>{/* -- !Track Description -- */}
+
+          <section className="comment-wrapper">
+            <div className="comment__head">
+              <h6>
+                <i className="fa fa-list" />
+                {" 20 TRACKS"}
+              </h6>
+            </div>
+          </section>
+
+        </div>{/* -- !Content -- */}
       </Main>
     )
   }
