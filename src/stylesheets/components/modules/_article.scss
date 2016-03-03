@@ -1,9 +1,17 @@
 .article {
+  @extend %clearfix;
   background-color: $white;
   border-radius: .5rem;
-  font-size: 1.8rem;
-  line-height: 1.55;
   padding: 1.5rem;
+
+  &--lg {
+    font-size: 1.8rem;
+    line-height: 1.55;
+  }
+
+  &--push {
+    margin-bottom: 1.5rem;
+  }
 }
 
 .article-wrap {
@@ -15,6 +23,22 @@
     padding-bottom: 3rem;
     padding-top: 3rem;
     width: em($medium);
+  }
+
+  &--fill {
+    overflow: hidden;
+    width: auto;
+  }
+}
+
+.article__avatar {
+  float: left;
+  height: 10rem;
+  margin-right: gutter();
+  width: 10rem;
+
+  @include susy-media(medium) {
+    margin-top: 3rem;
   }
 }
 

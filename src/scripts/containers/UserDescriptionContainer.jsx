@@ -28,7 +28,7 @@ class UserDescriptionContainer extends React.Component {
 
     const user = userEntity[params.id]
     return (
-      <section className="article">
+      <section className="article article--lg">
         <Article
           article={ user.description }
           missing={ "USER DOES NOT HAVE A DESCRIPTION." }

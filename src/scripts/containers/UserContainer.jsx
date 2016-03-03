@@ -6,13 +6,14 @@ import Loader from 'components/Loader'
 import Main from 'components/Main'
 import WebIcon from 'components/WebIcon'
 import Menu from 'components/Menu'
+import ProfileCover from 'components/ProfileCover'
 import Waypoint from 'components/Waypoint'
 import classNames from 'classnames'
+import StatsTable from 'components/StatsTable'
 import { connect } from 'react-redux'
 import { IMG_FORMAT, IMG_FALLBACK } from 'constants/ItemLists'
 import { loadUser, resolveUser } from 'actions/user'
 import { triggerStickyMenu } from 'actions/ui'
-import { kFormatter } from 'utils/Utils'
 
 
 class UserContainer extends React.Component {
@@ -33,7 +34,10 @@ class UserContainer extends React.Component {
 
   updateComponent() {
     const { dispatch, params } = this.props
-    return /^\d+$/.test(params.id) ? dispatch(loadUser(params.id)) : dispatch(resolveUser(params.id))
+
+    return /^\d+$/.test(params.id)
+      ? dispatch(loadUser(params.id))
+      : dispatch(resolveUser(params.id))
   }
 
   dispatchStickyMenu(shouldStick) {
@@ -88,21 +92,34 @@ class UserContainer extends React.Component {
       { offset: 1, color: '#F8CDDA' }
     ]
 
+    const statsData = [
+      {
+        title: 'Followers',
+        value: followers_count,
+        pathname: `#user/${params.id}/followers`
+      },
+      {
+        title: 'Following',
+        value: followings_count,
+        pathname: `#user/${params.id}/following`
+      },
+      {
+        title: 'Tracks',
+        value: track_count,
+        pathname: `#user/${params.id}/tracks`
+      }
+    ]
+
     const avatarUrl = avatar_url
                         ? avatar_url.replace(/large/, IMG_FORMAT.LARGE)
                         : IMG_FALLBACK.AVATAR.LARGE
 
-    const renderLocation = () => {
+    const getUserLocation = () => {
       if (city || country) {
-        return (
-          <h5 className="profile__text--byline">
-            <i className="user__icon user__icon--map-marker fa fa-map-marker" />
-            { city && country ? `${city}, ${country}` : country || city }
-          </h5>
-        )
+        return city && country ? `${city}, ${country}` : country || city
       }
 
-      return <hr className="invis" />
+      return 'Somewhere'
     }
 
     const renderMenuItems = () => {
@@ -186,10 +203,7 @@ class UserContainer extends React.Component {
     }
 
     return (
-      <Main
-        className="main__user"
-        shouldPush={ shouldPlay }
-      >
+      <Main shouldPush={ shouldPlay }>
 
         {/*-- Banner --*/}
         <div className="canvas-container">
@@ -202,75 +216,46 @@ class UserContainer extends React.Component {
           {/*-- Profile --*/}
           <div className="profile">
 
-            <section className="profile__section profile__section--cover">
-              <a
-                className="profile__cover avatar"
-                href={ website || permalink_url }
-                target="_blank"
-              >
-                <img
-                  className="avatar__img"
-                  onError={ this.handleError_img }
-                  src={ avatarUrl }
-                />
-              </a>
-            </section>
+            <ProfileCover
+              anchorClassName="profile__cover avatar"
+              href={ website || permalink_url }
+              imgClassName="avatar__img"
+              src={ avatarUrl }
+            />
 
             {/*-- User Info --*/}
-            <section className="profile__section profile__section--data">
+            <section className="profile__section profile__section--details">
 
-              <article className="profile__textarea">
-                <h2 className="profile__text--headline">
+              <article className="profile__info">
+                <h2 className="profile__info--primary">
                   { full_name || username }
                 </h2>
-                <h4 className="profile__text--lead">
+                <h4 className="profile__info--secondary">
                   { username }
                 </h4>
-                { renderLocation() }
+                <h5 className="profile__info--tertiary">
+                  <i className="profile__info--icon fa fa-map-marker" />
+                  { getUserLocation() }
+                </h5>
               </article>
+
               <hr className="invis" />
 
-              <table className="user__stats">
-                <tbody>
-                  <tr>
-                    <td className="user__stats--td">
-                      <a className="user__link user__link--stats" href="#">
-                        <h6 className="user__stats--title">{"Followers"}</h6>
-                        <h3 className="user__stats--value">{ kFormatter(followers_count) }</h3>
-                      </a>
-                    </td>
-                    <td className="user__stats--td">
-                      <a className="user__link user__link--stats" href="#">
-                        <h6 className="user__stats--title">{"Following"}</h6>
-                        <h3 className="user__stats--value">{ kFormatter(followings_count) }</h3>
-                      </a>
-                    </td>
-                    <td className="user__stats--td">
-                      <LinkItem
-                        className="user__link user__link--stats"
-                        to={ `#user/${params.id}/tracks` }
-                      >
-                        <h6 className="user__stats--title">{"Tracks"}</h6>
-                        <h3 className="user__stats--value">{ kFormatter(track_count) }</h3>
-                      </LinkItem>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <StatsTable tableData={ statsData } />
 
             </section>{/*-- !User Info --*/}
 
             {/*-- User Social Media --*/}
-            <ul className="user__action-bar user__action-bar--social-media web-icon__list">
+            <ul className="actionbar actionbar--shark web-icon__list">
               { renderWebIcons() }
             </ul>{/*-- !User Social Media --*/}
 
             <a
-              className="user__action-bar user__action-bar--soundcloud"
+              className="actionbar actionbar--soundcloud"
               href={ permalink_url }
               target="_blank"
             >
-              <img className="user__soundcloud--img" src="https://developers.soundcloud.com/assets/logo_white-af5006050dd9cba09b0c48be04feac57.png" />
+              <img className="actionbar__soundcloud" src="https://developers.soundcloud.com/assets/logo_white-af5006050dd9cba09b0c48be04feac57.png" />
             </a>
 
           </div>{/*-- !Profile --*/}
@@ -286,7 +271,7 @@ class UserContainer extends React.Component {
         </Menu>{/*-- !Menu --*/}
 
         {/*-- Page Container --*/}
-        <div className="menu__sibling user__container">
+        <div className="menu__sibling main__container main__container--main">
           <Waypoint
             className="waypoint"
             onEnter={ this.handleWaypointEvent }

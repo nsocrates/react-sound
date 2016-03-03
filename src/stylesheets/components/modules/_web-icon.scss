@@ -1,0 +1,16 @@
+.web-icon__list {
+  font-size: 2.4rem;
+
+  &--item {
+    display: inline-block;
+    width: 25%;
+  }
+}
+
+.web-icon__link {
+  color: $white-secondary;
+
+  &:hover {
+    color: $white-primary;
+  }
+}

@@ -57,7 +57,6 @@ export const trackFactory = obj => {
   }
 
   if (mediaObject) {
-    // const entity = mediaEntity[id]
     const userId = mediaObject.user_id
     const title = mediaObject.title.split(' - ')
     const data = {

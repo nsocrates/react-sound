@@ -1,17 +1,20 @@
 import React, { PropTypes } from 'react'
 
-import Canvas from 'components/Canvas'
+import StatsList from 'components/StatsList'
 import LinkItem from 'components/LinkItem'
 import Loader from 'components/Loader'
 import Main from 'components/Main'
+import ProfileCover from 'components/ProfileCover'
 import { connect } from 'react-redux'
 import { IMG_FALLBACK } from 'constants/ItemLists'
 import { loadTrack, loadTrackComments } from 'actions/track'
-import { timeFactory, trackFactory, getCover, kFormatter, dtFormatter, markNumber, constructUrl } from 'utils/Utils'
+import { timeFactory, trackFactory, getCover, dtFormatter, markNumber, constructUrl } from 'utils/Utils'
 import { requestStream } from 'actions/stream'
-import Tag from 'components/Tag'
+import CanvasBanner from 'components/CanvasBanner'
+import Taglist from 'components/Taglist'
 import Comment from 'components/Comment'
 import Article from 'components/Article'
+import Body from 'components/Body'
 import Pagination from 'components/Pagination'
 import PaginationItem from 'components/PaginationItem'
 
@@ -67,43 +70,21 @@ class TrackContainer extends React.Component {
     const mediaData = trackFactory(trackFactoryArgs)
     const userAvatar = getCover(userEntity[trackObject.user_id].avatar_url)
     const trackComments = commentsByTrack[params.id]
-
-    const renderHashTags = () => (
-      mediaData.genre.map((genre, index) => {
-        const location = {
-          pathname: '#genre',
-          query: {
-            q: genre
-          }
-        }
-
-        return (
-          <li
-            className="stats__item"
-            key={`hashtag__${index}_${genre}`}
-          >
-            <LinkItem
-              className="stats__link stats__link--hashtag"
-              location={ location }
-              to={"#genre"}
-            >
-              <i className="stats__icon fa fa-hashtag" />
-              { mediaData.genre }
-            </LinkItem>
-          </li>
-        )
-      })
-    )
-
-    const renderTags = () => (
-      mediaData.tags.map((tag, idx) => (
-        <Tag
-          key={`tag__${idx}_${tag}`}
-          modifier="profile"
-          text={ tag }
-        />
-      ))
-    )
+    const statsListItems = [
+      { text: mediaData.createdAt },
+      {
+        icon: 'fa fa-heart',
+        value: mediaData.stats.favorites
+      },
+      {
+        icon: 'fa fa-play',
+        value: mediaData.stats.plays
+      },
+      {
+        icon: 'fa fa-comments',
+        value: mediaData.stats.comments
+      }
+    ]
 
     const renderComments = () => {
       const { comments: { result }} = this.props
@@ -258,47 +239,35 @@ class TrackContainer extends React.Component {
     ]
 
     return (
-      <Main
-        className="main__track"
-        shouldPush={ shouldPlay }
-      >
-        {/*-- Banner --*/}
-        <div className="canvas-container">
-
-          <Canvas
-            className="canvas canvas--track"
-            gradientColors={ gradientColors }
-          />
-
+      <Main shouldPush={ shouldPlay }>
+        {/* -- Banner -- */}
+        <CanvasBanner
+          canvasClassName="canvas--track"
+          gradientColors={ gradientColors }
+        >
           <div className="waveform">
             <img className="waveform__img" src={ trackObject.waveform_url} />
           </div>
 
-          {/*-- Profile --*/}
+          {/* -- Profile -- */}
           <div className="profile">
 
-            <section className="profile__section profile__section--cover">
-              <a
-                className="profile__cover artwork artwork__wrapper"
-                href="#"
-                onClick={ this.handleClick_stream }
-              >
-                <img
-                  className="artwork__img"
-                  onError={ this.handleError_img }
-                  src={ mediaData.artwork.large }
-                />
-                <aside className="artwork__filter" />
-              </a>
-            </section>
+            <ProfileCover
+              anchorClassName="profile__cover artwork artwork__wrapper"
+              imgClassName="artwork__img"
+              onClick={ this.handleClick_stream }
+              src={ mediaData.artwork.large }
+            >
+              <aside className="artwork__filter" />
+            </ProfileCover>
 
-            {/*-- Track Info --*/}
-            <section className="profile__section profile__section--data">
-              <article className="profile__textarea">
-                <h2 className="profile__text--headline">
+            {/* -- Track Info -- */}
+            <section className="profile__section profile__section--details">
+              <article className="profile__info">
+                <h2 className="profile__info--primary">
                   { mediaData.media.name }
                 </h2>
-                <h4 className="profile__text--lead">
+                <h4 className="profile__info--secondary">
                   <LinkItem to={`#user/${mediaData.user.id}`}>
                     { mediaData.user.name }
                   </LinkItem>
@@ -306,66 +275,49 @@ class TrackContainer extends React.Component {
               </article>
               <hr className="invis" />
 
-              <ul className="stats">
-                <li className="stats__item">{ mediaData.createdAt }</li>
-                <li className="stats__item">
-                  <i className="stats__icon fa fa-heart" />
-                  { kFormatter(mediaData.stats.favorites) }
-                </li>
-                <li className="stats__item">
-                  <i className="stats__icon fa fa-play" />
-                  { kFormatter(mediaData.stats.plays) }
-                </li>
-                <li className="stats__item">
-                  <i className="stats__icon fa fa-comments" />
-                  { kFormatter(mediaData.stats.comments) }
-                </li>
-                { renderHashTags() }
-              </ul>
+              <StatsList
+                listItems={ statsListItems }
+                hashTags={ mediaData.genre }
+                pathname="#genre"
+              />
+
               <hr className="invis" />
 
-              <ul className="tags">
-                { renderTags() }
-              </ul>
+              <Taglist modifier="profile" tags={ mediaData.tags } />
+
             </section>
 
-          </div>{/*-- !Profile --*/}
-        </div>{/*-- !Banner --*/}
+          </div>{/* -- !Profile -- */}
+        </CanvasBanner>{/* -- !Banner -- */}
 
-        {/*-- Content --*/}
-        <div className="user__container">
+        {/* -- Content -- */}
+        <div className="main__container main__container--main">
 
-          {/*-- Track Description --*/}
-          <section className="track">
-            <LinkItem className="track__cover avatar" to={`#user/${mediaData.user.id}`}>
+          {/* -- Track Description -- */}
+          <section className="article article--push">
+            <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
               <img className="avatar__img" src={ userAvatar.default } />
             </LinkItem>
-            <div className="track__data">
-              <Article
-                article={ trackObject.description }
-                missing="TRACK DOES NOT HAVE A DESCRIPTION."
-                missingClassName="article__none article__none--track"
-                wrapperClassName="track__article"
-              />
-            </div>
-          </section>{/*-- !Track Description --*/}
+            <Article
+              article={ trackObject.description }
+              missing="TRACK DOES NOT HAVE A DESCRIPTION."
+              missingClassName="article__none article__none--track"
+              wrapperClassName="article-wrap article-wrap--fill"
+            />
+          </section>{/* -- !Track Description -- */}
 
-          {/*-- Comments --*/}
-          <section className="comment-wrapper">
-            <div className="comment__head">
-              <h6>
-                <i className="fa fa-comment-o" />
-                {` ${markNumber(mediaData.stats.comments)} COMMENTS`}
-              </h6>
-            </div>
+          {/* -- Comments -- */}
+          <Body
+            headIconClassName="fa fa-comment-o"
+            headText={ `${markNumber(mediaData.stats.comments)} COMMENTS` }
+          >
+
             { renderComments() }
-
-            {/*-- Pagination --*/}
             { shouldRenderPagination() }
 
-          </section>{/*-- !Comments --*/}
+          </Body>{/* -- !Comments -- */}
 
-        </div>{/*-- !Content --*/}
+        </div>{/* -- !Content -- */}
       </Main>
     )
   }

@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react'
 
-import Header from 'components/Header'
-import Waypoint from 'components/Waypoint'
 import Main from 'components/Main'
 import Loader from 'components/Loader'
-import Canvas from 'components/Canvas'
 import LinkItem from 'components/LinkItem'
 import Article from 'components/Article'
-import Tag from 'components/Tag'
+import Taglist from 'components/Taglist'
+import Body from 'components/Body'
+import CanvasBanner from 'components/CanvasBanner'
+import ProfileCover from 'components/ProfileCover'
 import { connect } from 'react-redux'
 import { loadPlaylist } from 'actions/playlist'
 import { timeFactory, trackFactory, getCover, kFormatter, dtFormatter, markNumber, constructUrl } from 'utils/Utils'
@@ -24,7 +24,6 @@ class PlaylistContainer extends React.Component {
   }
 
   render() {
-
     const {
       shouldPlay,
       userEntity,
@@ -47,58 +46,32 @@ class PlaylistContainer extends React.Component {
     const mediaData = trackFactory(trackFactoryArgs)
     const userAvatar = getCover(userEntity[playlistObject.user_id].avatar_url)
 
-    const renderTags = () => (
-      mediaData.tags.map((tag, idx) => (
-        <Tag
-          key={`tag__${idx}_${tag}`}
-          modifier="profile"
-          text={ tag }
-        />
-      ))
-    )
-
     return (
-      <Main
-        className="main__track"
-        shouldPush={ shouldPlay }
-      >
+      <Main shouldPush={ shouldPlay }>
         {/* -- Banner -- */}
-        <div className="canvas-container">
-
-          <Canvas
-            className="canvas canvas--track"
-            gradientColors={ gradientColors }
-          />
-
-          <div className="waveform">
-            <img className="waveform__img" src={ playlistObject.waveform_url} />
-          </div>
+        <CanvasBanner
+          canvasClassName="canvas--track"
+          gradientColors={ gradientColors }
+        >
 
           {/* -- Profile -- */}
           <div className="profile">
 
-            <section className="profile__section profile__section--cover">
-              <a
-                className="profile__cover artwork artwork__wrapper"
-                href="#"
-                // onClick={ this.handleClick_stream }
-              >
-                <img
-                  className="artwork__img"
-                  // onError={ this.handleError_img }
-                  src={ mediaData.artwork.large }
-                />
-                <aside className="artwork__filter" />
-              </a>
-            </section>
+            <ProfileCover
+              anchorClassName="profile__cover artwork artwork__wrapper"
+              imgClassName="artwork__img"
+              src={ mediaData.artwork.large }
+            >
+              <aside className="artwork__filter" />
+            </ProfileCover>
 
             {/* -- Track Info -- */}
-            <section className="profile__section profile__section--data">
-              <article className="profile__textarea">
-                <h2 className="profile__text--headline">
+            <section className="profile__section profile__section--details">
+              <article className="profile__info">
+                <h2 className="profile__info--primary">
                   { mediaData.media.name }
                 </h2>
-                <h4 className="profile__text--lead">
+                <h4 className="profile__info--secondary">
                   <LinkItem to={`#user/${mediaData.user.id}`}>
                     { mediaData.user.name }
                   </LinkItem>
@@ -106,39 +79,32 @@ class PlaylistContainer extends React.Component {
               </article>
               <hr className="invis" />
 
-              <ul className="tags">
-                { renderTags() }
-              </ul>
+              <Taglist modifier="profile" tags={ mediaData.tags } />
+
             </section>{/* -- !Track Info -- */}
           </div>{/* -- !Profile -- */}
-        </div>{/* -- !Banner -- */}
+        </CanvasBanner>{/* -- !Banner -- */}
 
         {/* -- Content -- */}
-        <div className="user__container">
+        <div className="main__container main__container--main">
 
           {/* -- Track Description -- */}
-          <section className="track">
-            <LinkItem className="track__cover avatar" to={`#user/${mediaData.user.id}`}>
+          <section className="article article--push">
+            <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
               <img className="avatar__img" src={ userAvatar.default } />
             </LinkItem>
-            <div className="track__data">
-              <Article
-                article={ playlistObject.description }
-                missing="TRACK DOES NOT HAVE A DESCRIPTION."
-                missingClassName="article__none article__none--track"
-                wrapperClassName="track__article"
-              />
-            </div>
+            <Article
+              article={ playlistObject.description }
+              missing="TRACK DOES NOT HAVE A DESCRIPTION."
+              missingClassName="article__none article__none--track"
+              wrapperClassName="article-wrap article-wrap--fill"
+            />
           </section>{/* -- !Track Description -- */}
 
-          <section className="comment-wrapper">
-            <div className="comment__head">
-              <h6>
-                <i className="fa fa-list" />
-                {" 20 TRACKS"}
-              </h6>
-            </div>
-          </section>
+          <Body
+            headIconClassName="fa fa-list"
+            headText="20 TRACKS"
+          />
 
         </div>{/* -- !Content -- */}
       </Main>

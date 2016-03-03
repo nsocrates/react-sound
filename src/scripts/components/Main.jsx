@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 
-export default function Main({ children = null, className = null, shouldPush = false }) {
-  const push = classNames(`main ${className}`, {
+export default function Main({ children = null, className = 'main', shouldPush = false }) {
+  const push = classNames(className, {
     'main--push': shouldPush
   })
 
@@ -18,7 +18,8 @@ export default function Main({ children = null, className = null, shouldPush = f
 
 Main.propTypes = {
   children: React.PropTypes.node,
-  className: React.PropTypes.string
+  className: React.PropTypes.string,
+  shouldPush: React.PropTypes.bool
 }
 
 export default Main

@@ -30,6 +30,8 @@ class CollectionContainer extends React.Component {
     if (this.props.location.query !== location.query) {
       return this.updateCollection(location.pathname, location.query.q)
     }
+
+    return null
   }
 
   updateCollection(path, q, force) {
@@ -109,16 +111,18 @@ class CollectionContainer extends React.Component {
           />
         )
       }
+
+      return null
     }
 
     return (
       <Main
-        className="main__collection"
+        className="main main__collection"
         shouldPush={ shouldPlay }
       >
-        <div className="collection__container">
+        <div className="main__container">
           { renderGallery() }
-          { isFetching ? <Loader className="loader--bottom"/> : shouldRenderWaypoint() }
+          { isFetching ? <Loader className="loader--bottom" /> : shouldRenderWaypoint() }
           { !next_href && !isFetching ? <End className="end--bottom" /> : null }
         </div>
       </Main>

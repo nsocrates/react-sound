@@ -13,4 +13,8 @@
 
 .main__container {
   @extend %main__container;
+
+  &--main {
+    @extend %main;
+  }
 }

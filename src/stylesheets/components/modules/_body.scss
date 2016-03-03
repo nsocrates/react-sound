@@ -1,0 +1,12 @@
+.body {
+  @extend %clearfix;
+  background-color: $white;
+  border-radius: .5rem;
+  padding: 1.5rem;
+}
+
+.body__head {
+  box-shadow: 0 .2rem .2rem -.2rem $black-hint;
+  margin-bottom: 1.5rem;
+  padding-bottom: .08em;
+}

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import Card from 'components/Card'
 import End from 'components/End'
 import Loader from 'components/Loader'
-import Tag from 'components/Tag'
+import Taglist from 'components/Taglist'
 import Waypoint from 'components/Waypoint'
 import { loadUserTracks, loadUserFavorites, loadUserPlaylists } from 'actions/user'
 import { requestStream } from 'actions/stream'
@@ -109,22 +109,6 @@ class UserMediaContainer extends React.Component {
         }
         const mediaData = trackFactory(obj)
 
-        const _renderTags = () => {
-          if (mediaData.tags) {
-            return mediaData.tags.map((tag, idx) => {
-              if (idx < 5) {
-                return (
-                  <Tag
-                    key={`tag__${idx}_${tag}`}
-                    modifier="card"
-                    text={ tag }
-                  />
-                )
-              }
-            })
-          }
-        }
-
         const _isPlaylist = () => {
           dispatch(requestStream(mediaData.tracklist[0]))
           dispatch(pushTrack(mediaData.tracklist, mediaData.kind))
@@ -162,9 +146,7 @@ class UserMediaContainer extends React.Component {
             title={ mediaData.media.name }
             titlePath={ mediaPath }
           >
-            <ul className="tags">
-              { _renderTags() }
-            </ul>
+            <Taglist tags={ mediaData.tags } />
           </Card>
         )
       })
