@@ -9,16 +9,22 @@ export default class Tracklist extends React.Component {
     const { ids, userEntity, trackEntity, trackId, isPlaying, modifier } = this.props
 
     const renderTracklist = ids.map((id, index) => {
-      const obj = { userEntity, mediaObject: trackEntity[id] }
+      const mediaObject = trackEntity[id]
+      const obj = {
+        mediaObject,
+        userObject: userEntity[trackEntity[id].user_id]
+      }
       const isCurrentTrack = trackId === id
+      const isSet = modifier === 'set'
+      const isPlayer = modifier === 'player'
       const trackData = trackFactory(obj)
 
-      const shouldRenderDownload = () => {
+      const _shouldRenderDownload = () => {
         if (trackData.download) {
           return (
-            <button className={`tracklist__btn--${modifier}`}>
+            <button className={`tracklist--${modifier}__btn`}>
               <a href={ trackData.download }>
-                <i className={`tracklist__icon--${modifier} fa fa-download`} />
+                <i className={`tracklist--${modifier}__icon fa fa-download`} />
               </a>
             </button>
           )
@@ -28,6 +34,9 @@ export default class Tracklist extends React.Component {
       }
 
       const _handlePlayPause = e => {
+        if (!mediaObject.streamable) {
+          return window.open(mediaObject.permalink_url)
+        }
         e.preventDefault()
         const { dispatch } = this.props
         const audio = document.getElementById('audio')
@@ -39,16 +48,24 @@ export default class Tracklist extends React.Component {
         return dispatch(requestStream(id))
       }
 
-      const isPauseOrPlay = classNames(`tracklist__icon--${modifier} fa`, {
+      const isSoundCloud = classNames(`tracklist--${modifier}__btn`, {
+        'tracklist__btn--sc': !mediaObject.streamable
+      })
+      const isPauseOrPlay = classNames(`tracklist--${modifier}__icon fa`, {
         'fa-play': !isCurrentTrack || !isPlaying,
-        'fa-pause': isPlaying && isCurrentTrack
+        'fa-pause': isPlaying && isCurrentTrack,
+        'tracklist__icon--sc fa-soundcloud': !mediaObject.streamable
       })
-      const isActive = classNames(`tracklist__track--${modifier}`, {
-        'tracklist__active--player': isCurrentTrack && modifier === 'player'
+      const isEven = classNames(`tracklist--${modifier}__track`, {
+        'tracklist--set__track--even': index % 2 === 0 && isSet
       })
-      const shouldFilter = classNames(`tracklist__artwork tracklist__artwork--${modifier}`, {
-        'tracklist__filter tracklist__filter--set fa': isCurrentTrack && modifier === 'set',
-        'tracklist__filter tracklist__filter--player fa': isCurrentTrack && modifier === 'player'
+      const isActive = classNames(isEven, {
+        'tracklist--player__active': isCurrentTrack && isPlayer,
+        'tracklist--set__active': isCurrentTrack && isSet
+      })
+      const shouldFilter = classNames(`tracklist--${modifier}__artwork`, {
+        'tracklist--set__filter fa': isCurrentTrack && isSet,
+        'tracklist--player__filter fa': isCurrentTrack && isPlayer
       })
       return (
         <li
@@ -62,25 +79,29 @@ export default class Tracklist extends React.Component {
             />
           </aside>
 
-            <section className={`tracklist__icons tracklist__icons--${modifier}`}>
+            <section className={`tracklist--${modifier}__icons`}>
 
-              { shouldRenderDownload() }
+              { _shouldRenderDownload() }
 
               <button
-                className={`tracklist__btn--${modifier}`}
+                className={ isSoundCloud }
                 onClick={ _handlePlayPause }
               >
                 <i className={ isPauseOrPlay } />
               </button>
 
-              <button className={`tracklist__btn--${modifier} tracklist__btn--heart`}>
-                <i className={`tracklist__icon--${modifier} tracklist__icon--heart fa fa-heart-o`} />
+              <button className={`tracklist--${modifier}__btn tracklist__btn--heart`}>
+                <i className={`
+                  tracklist--${modifier}__icon
+                  tracklist__icon--heart fa fa-heart-o
+                  `}
+                />
               </button>
 
             </section>
 
             <section className="tracklist__data">
-              <p className={`tracklist__title tracklist__title--${modifier}`}>
+              <p className={`tracklist--${modifier}__title`}>
                 <LinkItem
                   className="tracklist__link"
                   to={`#track/${trackData.media.id}`}
@@ -88,7 +109,7 @@ export default class Tracklist extends React.Component {
                   { trackData.media.name }
                 </LinkItem>
               </p>
-              <p className={`tracklist__user tracklist__user--${modifier}`}>
+              <p className={`tracklist--${modifier}__user`}>
                 <LinkItem
                   className="tracklist__link"
                   to={`#user/${trackData.user.id}`}
@@ -103,7 +124,7 @@ export default class Tracklist extends React.Component {
     })
 
     return (
-      <ul className={`tracklist__wrapper--${modifier}`}>
+      <ul className={`tracklist--${modifier}__wrapper`}>
         { renderTracklist }
       </ul>
     )

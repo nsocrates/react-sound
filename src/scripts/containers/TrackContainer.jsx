@@ -64,7 +64,7 @@ class TrackContainer extends React.Component {
     }
 
     const trackFactoryArgs = {
-      userEntity,
+      userObject: userEntity[trackObject.user_id],
       mediaObject: trackObject
     }
     const mediaData = trackFactory(trackFactoryArgs)

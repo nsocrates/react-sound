@@ -104,7 +104,7 @@ class UserMediaContainer extends React.Component {
 
       return ids.map((item, index) => {
         const obj = {
-          userEntity,
+          userObject: userEntity[mediaEntity[item].user_id],
           mediaObject: mediaEntity[item]
         }
         const mediaData = trackFactory(obj)

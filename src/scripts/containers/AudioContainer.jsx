@@ -15,7 +15,7 @@ class AudioContainer extends React.Component {
 
   render() {
     const {
-      userEntity,
+      userObject,
       trackObject,
       playerActions,
       streamActions,
@@ -28,8 +28,11 @@ class AudioContainer extends React.Component {
         shouldPlay
       }
     } = this.props
-    const rest = omit(this.props, ['streamActions', 'trackObject', 'userEntity', 'stream'])
-    const args = { userEntity, mediaObject: trackObject }
+    const rest = omit(this.props, ['streamActions', 'trackObject', 'userObject', 'stream'])
+    const args = {
+      userObject,
+      mediaObject: trackObject
+    }
     const trackData = trackFactory(args)
     const src = constructStreamUrl(trackId)
     const audioStream = ref => this._audioStream = ref
@@ -104,9 +107,7 @@ AudioContainer.propTypes = {
     React.PropTypes.func.isRequired
   ),
   trackObject: React.PropTypes.object,
-  userEntity: React.PropTypes.objectOf(
-    React.PropTypes.object.isRequired
-  )
+  userObject: React.PropTypes.object
 }
 
 function mapDispatchToProps(dispatch) {
@@ -118,13 +119,13 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  const { media: { stream, player }, entities: { tracks, users }} = state.app
-
+  const { media: { stream, player }, entities: { tracks, users } } = state.app
   return {
     player,
     stream,
     userEntity: users,
-    trackObject: tracks[stream.trackId]
+    trackObject: tracks[stream.trackId],
+    userObject: stream.trackId ? users[tracks[stream.trackId].user_id] : {}
   }
 }
 

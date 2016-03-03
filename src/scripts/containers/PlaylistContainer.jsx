@@ -11,7 +11,7 @@ import ProfileCover from 'components/ProfileCover'
 import Tracklist from 'components/Tracklist'
 import { connect } from 'react-redux'
 import { loadPlaylist } from 'actions/playlist'
-import { timeFactory, trackFactory, getCover, kFormatter, dtFormatter, markNumber } from 'utils/Utils'
+import { extractStreamable, timeFactory, trackFactory, getCover, kFormatter, dtFormatter, markNumber } from 'utils/Utils'
 
 class PlaylistContainer extends React.Component {
 
@@ -45,11 +45,12 @@ class PlaylistContainer extends React.Component {
     ]
 
     const trackFactoryArgs = {
-      userEntity,
+      userObject: userEntity[playlistObject.user_id],
       mediaObject: playlistObject
     }
     const mediaData = trackFactory(trackFactoryArgs)
     const userAvatar = getCover(userEntity[playlistObject.user_id].avatar_url)
+    const streamable = extractStreamable(trackEntity, playlistObject.tracks)
 
     return (
       <Main shouldPush={ shouldPlay }>
@@ -108,7 +109,12 @@ class PlaylistContainer extends React.Component {
 
           <Body
             headIconClassName="fa fa-list"
-            headText={`${markNumber(mediaData.tracklist.count)} TRACKS`}
+            headText={ `${markNumber(mediaData.tracklist.count)} TRACKS` }
+            others={
+              <small className="body__text--secondary">
+                {` (${streamable.length} streamable)`}
+              </small>
+            }
           >
             <Tracklist
               dispatch={ dispatch }

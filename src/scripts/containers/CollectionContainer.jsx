@@ -84,7 +84,7 @@ class CollectionContainer extends React.Component {
       const ids = collection.ids
       const gallery = ids.map((item, index) => {
         const args = {
-          userEntity,
+          userObject: userEntity[trackEntity[item].user_id],
           mediaObject: trackEntity[item]
         }
         const trackData = trackFactory(args)

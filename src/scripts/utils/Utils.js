@@ -17,6 +17,13 @@ export function constructStreamUrl(trackId) {
   return trackId ? url : null
 }
 
+// Returns an array of streamable tracks from a list of ids
+export function extractStreamable(trackEntity, ids) {
+  return ids.filter(id => (
+    trackEntity[id].streamable
+  ))
+}
+
 // Extracts number from string:
 export function extractNumber(string) {
   const number = string.match(/\d/g).join('')
@@ -24,13 +31,15 @@ export function extractNumber(string) {
   return number
 }
 
-export function dtFormatter(date) {
+// Formats timestamp to "month day, year"
+export function dtFormatter(timestamp) {
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
                       'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
-  const dt = new Date(date)
+  const dt = new Date(timestamp)
   return `${monthNames[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`
 }
 
+// Returns urls for various image sizes
 export function getCover(url) {
   const cover = url || ''
 
@@ -44,9 +53,9 @@ export function getCover(url) {
 
 // Extracts useful media data:
 export const trackFactory = obj => {
-  const { userEntity, mediaObject } = obj
+  const { userObject, mediaObject } = obj
 
-  if (!mediaObject || !userEntity) {
+  if (!mediaObject || !userObject) {
     return null
   }
 
@@ -60,12 +69,11 @@ export const trackFactory = obj => {
                .map(item => item.replace(/"/g, ''))
   }
 
-  const userId = mediaObject.user_id
   const title = mediaObject.title.split(' - ')
   const data = {
     user: {
-      id: userId,
-      name: userEntity[userId].username
+      id: userObject.id,
+      name: userObject.username
     },
     media: {
       id: mediaObject.id,
