@@ -296,7 +296,7 @@ class TrackContainer extends React.Component {
           {/* -- Track Description -- */}
           <section className="article article--push">
             <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
-              <img className="avatar__img" src={ userAvatar.default } />
+              <img className=" article__avatar--img avatar__img" src={ userAvatar.default } />
             </LinkItem>
             <Article
               article={ trackObject.description }
@@ -332,7 +332,10 @@ TrackContainer.propTypes = {
   params: PropTypes.object,
   routes: PropTypes.array,
   shouldPlay: PropTypes.bool,
-  streamTrackId: PropTypes.number,
+  streamTrackId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   trackObject: PropTypes.object,
   userEntity: PropTypes.object
 }

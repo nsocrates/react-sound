@@ -8,9 +8,10 @@ import Taglist from 'components/Taglist'
 import Body from 'components/Body'
 import CanvasBanner from 'components/CanvasBanner'
 import ProfileCover from 'components/ProfileCover'
+import Tracklist from 'components/Tracklist'
 import { connect } from 'react-redux'
 import { loadPlaylist } from 'actions/playlist'
-import { timeFactory, trackFactory, getCover, kFormatter, dtFormatter, markNumber, constructUrl } from 'utils/Utils'
+import { timeFactory, trackFactory, getCover, kFormatter, dtFormatter, markNumber } from 'utils/Utils'
 
 class PlaylistContainer extends React.Component {
 
@@ -25,6 +26,10 @@ class PlaylistContainer extends React.Component {
 
   render() {
     const {
+      dispatch,
+      isPlaying,
+      trackEntity,
+      trackId,
       shouldPlay,
       userEntity,
       playlistObject
@@ -91,11 +96,11 @@ class PlaylistContainer extends React.Component {
           {/* -- Track Description -- */}
           <section className="article article--push">
             <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
-              <img className="avatar__img" src={ userAvatar.default } />
+              <img className="article__avatar--img avatar__img" src={ userAvatar.default } />
             </LinkItem>
             <Article
               article={ playlistObject.description }
-              missing="TRACK DOES NOT HAVE A DESCRIPTION."
+              missing="PLAYLIST DOES NOT HAVE A DESCRIPTION."
               missingClassName="article__none article__none--track"
               wrapperClassName="article-wrap article-wrap--fill"
             />
@@ -103,8 +108,18 @@ class PlaylistContainer extends React.Component {
 
           <Body
             headIconClassName="fa fa-list"
-            headText="20 TRACKS"
-          />
+            headText={`${markNumber(mediaData.tracklist.count)} TRACKS`}
+          >
+            <Tracklist
+              dispatch={ dispatch }
+              isPlaying={ isPlaying }
+              trackEntity={ trackEntity }
+              trackId={ trackId }
+              ids={ mediaData.tracklist.ids }
+              userEntity={ userEntity }
+              modifier="set"
+            />
+          </Body>
 
         </div>{/* -- !Content -- */}
       </Main>
@@ -120,11 +135,11 @@ PlaylistContainer.propTypes = {
 
 function mapStateToProps(state) {
   const {
-    router: { location: { pathname }},
+    router: { location: { pathname } },
     app: {
       comments,
       partition: { commentsByTrack },
-      entities: { users, playlists },
+      entities: { users, playlists, tracks },
       media: {
         stream: { trackId, shouldPlay },
         player: {
@@ -142,8 +157,9 @@ function mapStateToProps(state) {
     menu,
     shouldPlay,
     commentsByTrack,
+    trackId,
+    trackEntity: tracks,
     userEntity: users,
-    streamTrackId: trackId,
     playlistObject: playlists[pathname.split('/')[1]]
   }
 }

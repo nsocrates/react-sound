@@ -46,6 +46,10 @@ export function getCover(url) {
 export const trackFactory = obj => {
   const { userEntity, mediaObject } = obj
 
+  if (!mediaObject || !userEntity) {
+    return null
+  }
+
   function parseGenre(genres) {
     return genres.split(' , ')
   }
@@ -56,51 +60,52 @@ export const trackFactory = obj => {
                .map(item => item.replace(/"/g, ''))
   }
 
-  if (mediaObject) {
-    const userId = mediaObject.user_id
-    const title = mediaObject.title.split(' - ')
-    const data = {
-      user: {
-        id: userId,
-        name: userEntity[userId].username
-      },
-      media: {
-        id: mediaObject.id,
-        name: title[1] || title[0]
-      },
-      artwork: getCover(mediaObject.artwork_url),
-      createdAt: dtFormatter(mediaObject.created_at),
-      description: mediaObject.description || null,
-      download: mediaObject.downloadable
-                ? `${mediaObject.download_url}?client_id=${CLIENT_ID}`
-                : null,
-      genre: mediaObject.genre ? parseGenre(mediaObject.genre) : [],
-      kind: mediaObject.kind,
-      tags: mediaObject.tag_list ? parseTags(mediaObject.tag_list, /"[^"]*"|[^\s"]+/g) : []
-    }
-
-    let rest
-    if (mediaObject.kind === 'track') {
-      const {
-        favoritings_count: favorites = 0,
-        likes_count: likes = 0
-      } = mediaObject
-      const count = favorites > likes ? favorites : likes
-      rest = {
-        stats: {
-          plays: mediaObject.playback_count,
-          favorites: count,
-          comments: mediaObject.comment_count
-        }
-      }
-    } else if (mediaObject.kind === 'playlist') {
-      rest = {
-        tracklist: mediaObject.tracks
-      }
-    }
-
-    return Object.assign({}, data, rest)
+  const userId = mediaObject.user_id
+  const title = mediaObject.title.split(' - ')
+  const data = {
+    user: {
+      id: userId,
+      name: userEntity[userId].username
+    },
+    media: {
+      id: mediaObject.id,
+      name: title[1] || title[0]
+    },
+    artwork: getCover(mediaObject.artwork_url),
+    createdAt: dtFormatter(mediaObject.created_at),
+    description: mediaObject.description || null,
+    download: mediaObject.downloadable
+              ? `${mediaObject.download_url}?client_id=${CLIENT_ID}`
+              : null,
+    genre: mediaObject.genre ? parseGenre(mediaObject.genre) : [],
+    kind: mediaObject.kind,
+    tags: mediaObject.tag_list ? parseTags(mediaObject.tag_list, /"[^"]*"|[^\s"]+/g) : []
   }
+
+  let rest
+  if (mediaObject.kind === 'track') {
+    const {
+      favoritings_count: favorites = 0,
+      likes_count: likes = 0
+    } = mediaObject
+    const count = favorites > likes ? favorites : likes
+    rest = {
+      stats: {
+        plays: mediaObject.playback_count,
+        favorites: count,
+        comments: mediaObject.comment_count
+      }
+    }
+  } else if (mediaObject.kind === 'playlist') {
+    rest = {
+      tracklist: {
+        count: mediaObject.track_count,
+        ids: mediaObject.tracks
+      }
+    }
+  }
+
+  return Object.assign({}, data, rest)
 }
 
 // Formats seconds into readable time:
@@ -185,9 +190,9 @@ export function splitLines(string) {
     if (reUrl.test(another.toString()) && !reUrl.test(another[1])) {
       another[1] = another[0]
       another[0] = null
-
-      return another
     }
+
+    return another
   })
 
   return arr

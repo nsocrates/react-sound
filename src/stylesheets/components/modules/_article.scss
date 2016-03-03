@@ -35,10 +35,16 @@
   float: left;
   height: 10rem;
   margin-right: gutter();
+  position: relative;
   width: 10rem;
 
   @include susy-media(medium) {
-    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  &--img {
+    @include absolute;
   }
 }
 

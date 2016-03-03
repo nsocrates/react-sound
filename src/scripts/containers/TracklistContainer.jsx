@@ -1,13 +1,11 @@
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import PlayerTracklist from 'components/PlayerTracklist'
-import { requestStream } from 'actions/stream'
+import Tracklist from 'components/Tracklist'
 
 class TracklistContainer extends React.Component {
   render() {
-    const { ui } = this.props
+    const { ui, ids, userEntity, trackEntity, trackId, isPlaying, dispatch } = this.props
     const shouldRenderTracklist = () => {
       if (ui.tracklist.isOpen) {
         return (
@@ -16,9 +14,16 @@ class TracklistContainer extends React.Component {
             component="aside"
             transitionEnterTimeout={ 500 }
             transitionLeaveTimeout={ 500 }
-            transitionName="tracklist__wrapper"
+            transitionName="tracklist__player"
           >
-            <PlayerTracklist { ...this.props } />
+            <Tracklist
+              dispatch={ dispatch }
+              ids={ ids }
+              isPlaying={ isPlaying }
+              trackEntity={ trackEntity }
+              trackId={ trackId }
+              userEntity={ userEntity }
+            />
           </ReactCSSTransitionGroup>
         )
       }
@@ -29,7 +34,7 @@ class TracklistContainer extends React.Component {
           component="aside"
           transitionEnterTimeout={ 500 }
           transitionLeaveTimeout={ 500 }
-          transitionName="tracklist__wrapper"
+          transitionName="tracklist__player"
         />
       )
     }
@@ -39,16 +44,16 @@ class TracklistContainer extends React.Component {
 }
 
 TracklistContainer.propTypes = {
-  tracklist: React.PropTypes.shape({
-    ids: React.PropTypes.array
-  }),
-  ui: React.PropTypes.object
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators({ requestStream }, dispatch)
-  }
+  dispatch: React.PropTypes.func.isRequired,
+  ids: React.PropTypes.array,
+  isPlaying: React.PropTypes.bool,
+  trackEntity: React.PropTypes.object,
+  trackId: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]),
+  ui: React.PropTypes.object,
+  userEntity: React.PropTypes.object
 }
 
 function mapStateToProps(state) {
@@ -57,7 +62,12 @@ function mapStateToProps(state) {
     entities: { tracks, users },
     media: {
       stream: { trackId },
-      player: { tracklist, audio }
+      player: {
+        audio: {
+          isPlaying
+        },
+        tracklist: { ids }
+      }
     }
   } = state.app
 
@@ -65,10 +75,10 @@ function mapStateToProps(state) {
     userEntity: users,
     trackEntity: tracks,
     ui,
-    audio,
-    tracklist,
+    isPlaying,
+    ids,
     trackId
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TracklistContainer)
+export default connect(mapStateToProps)(TracklistContainer)
