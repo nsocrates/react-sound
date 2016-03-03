@@ -43,7 +43,6 @@ export function loadTrackComments(id, offst, endpoint, next = true) {
       offset = 0
     } = commentsByTrack[id] || {}
     const url = endpoint || next_href
-    const hasOffset = offst || null
 
     if (offset > 0 && !next) {
       const args = {

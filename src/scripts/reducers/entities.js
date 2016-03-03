@@ -13,8 +13,12 @@ const initialState = {
 
 export default function entities(state = initialState, action) {
   if (action.response && action.response.entities && action.response.entities.comments) {
-    const trackEntity = merge({}, state.tracks[action.id], { comments: action.response.entities.comments })
-    return merge({}, state, { tracks: { [action.id]: trackEntity }}, { users: action.response.entities.users })
+    const trackEntity = merge({}, state.tracks[action.id], {
+      comments: action.response.entities.comments
+    })
+    return merge({}, state, {
+      tracks: { [action.id]: trackEntity } },
+      { users: action.response.entities.users })
   }
 
   if (action.response && action.response.entities) {

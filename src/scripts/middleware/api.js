@@ -22,7 +22,7 @@ const entityFactory = json => ({
     const { collection } = json
 
     return {
-      entities: { [entity]: { [id]: { [resource]: collection }}}
+      entities: { [entity]: { [id]: { [resource]: collection } } }
     }
   }
 })
@@ -45,8 +45,8 @@ function callApi(endpoint, schema) {
       let collection = entity.getCollection()
 
       if (/web-profiles/.test(endpoint)) {
-        const separated = endpoint.replace('?','')
-                                  .replace('-','_')
+        const separated = endpoint.replace('?', '')
+                                  .replace('-', '_')
                                   .split('/')
         const args = {
           entity: separated[1],
@@ -89,7 +89,7 @@ export default store => next => action => {
     throw new Error('Specify one of the exported Schemas.')
   }
   if (!Array.isArray(types) || types.length !== 3) {
-    throw new Error ('Expected an array of three action types.')
+    throw new Error('Expected an array of three action types.')
   }
   if (!types.every(type => typeof type === 'string')) {
     throw new Error('Expected action types to be strings.')

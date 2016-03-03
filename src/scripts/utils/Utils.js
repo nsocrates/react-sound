@@ -26,7 +26,7 @@ export function extractNumber(string) {
 
 export function dtFormatter(date) {
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
-                      'July', 'Aug','Sept', 'Oct', 'Nov', 'Dec']
+                      'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
   const dt = new Date(date)
   return `${monthNames[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`
 }
@@ -37,7 +37,7 @@ export function getCover(url) {
   return {
     xLarge: cover.replace(/large/, IMG_FORMAT.XLARGE) || IMG_FALLBACK.PLACEHOLDER.XLARGE,
     large: cover.replace(/large/, IMG_FORMAT.LARGE) || IMG_FALLBACK.PLACEHOLDER.LARGE,
-    'default': cover || IMG_FALLBACK.PLACEHOLDER.MEDIUM,
+    default: cover || IMG_FALLBACK.PLACEHOLDER.MEDIUM,
     badge: cover.replace(/large/, IMG_FORMAT.BADGE) || IMG_FALLBACK.PLACEHOLDER.BADGE
   }
 }

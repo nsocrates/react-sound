@@ -23,29 +23,14 @@ function fetchUser(id, endpoint = `/users/${id}?`, schema = Schemas.USER) {
   }
 }
 
-function fetchResolveUser(id) {
-  return {
-    id,
-    [CALL_API]: {
-      types: [
-        ActionTypes.USER_REQUEST,
-        ActionTypes.USER_SUCCESS,
-        ActionTypes.USER_FAILURE
-      ],
-      endpoint:`/resolve?url=http://soundcloud.com/${id}&`,
-      schema: Schemas.USER
-    }
-  }
-}
-
 export function resolveUser(username) {
-  return (dispatch, getState) => {
+  return dispatch => {
     const endpoint = `/resolve?url=http://soundcloud.com/${username}&`
 
     dispatch(fetchUser(username, endpoint))
       .then(res => {
         const id = res.response.result
-        return dispatch(push({pathname: `#user/${id}`}))
+        return dispatch(push({ pathname: `#user/${id}` }))
       })
   }
 }
@@ -88,7 +73,7 @@ export function loadUserFavorites(id, next = false) {
       ids = [],
       next_href = `/users/${id}/favorites?`
     } = favoritesByUser[id] || {}
-    const endpoint = next_href ? next_href : `/users/${id}/favorites?`
+    const endpoint = next_href || `/users/${id}/favorites?`
 
     if (ids.length && !next) {
       return null
@@ -106,7 +91,7 @@ export function loadUserPlaylists(id, next = false) {
       ids = [],
       next_href = `/users/${id}/playlists?`
     } = playlistsByUser[id] || {}
-    const endpoint = next_href ? next_href : `/users/${id}/playlists?`
+    const endpoint = next_href || `/users/${id}/playlists?`
 
     if (ids.length && !next) {
       return null
@@ -124,7 +109,7 @@ export function loadUserTracks(id, next = false) {
       ids,
       next_href = `/users/${id}/tracks?`
     } = tracksByUser[id] || {}
-    const endpoint = next_href ? next_href : `/users/${id}/tracks?`
+    const endpoint = next_href || `/users/${id}/tracks?`
 
     if (ids.length && !next) {
       return null
