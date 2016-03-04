@@ -60,7 +60,7 @@ export default class Nav extends React.Component {
           key={ `menu--nav__${index}_${item}` }
         >
           <LinkItem
-            className={ active ? active : null }
+            className={ active || null }
             location={ locationDescriptor }
             to="#genre"
           >

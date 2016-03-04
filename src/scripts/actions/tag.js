@@ -17,15 +17,7 @@ function fetchTag(tag, next_href) {
   }
 }
 
-function loadCached(input, next_href) {
-  return {
-    input,
-    next_href: !!next_href,
-    type: ActionTypes.TAG_CACHED
-  }
-}
-
-export function loadTag(tag, next = true) {
+export function loadTag(tag, next = false) {
   return (dispatch, getState) => {
     if (!tag) {
       return null
@@ -33,12 +25,12 @@ export function loadTag(tag, next = true) {
     const decoded = decodeURIComponent(tag.replace(/\+/g, '%20'))
     const encoded = encodeURIComponent(decoded).replace(/%20/g, '+')
     const {
-      next_href = `/tracks/?tags=${encoded}&`,
-      offset = 0
+      ids = [],
+      next_href = `/tracks/?tags=${encoded}&`
     } = getState().app.partition.tracksByTag[decoded] || {}
 
-    if (offset > 0 && !next) {
-      return dispatch(loadCached(decoded, next_href))
+    if (ids.length && !next) {
+      return null
     }
 
     return dispatch(fetchTag(decoded, next_href))

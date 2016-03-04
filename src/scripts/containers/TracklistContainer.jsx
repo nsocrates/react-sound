@@ -48,10 +48,7 @@ TracklistContainer.propTypes = {
   ids: React.PropTypes.array,
   isPlaying: React.PropTypes.bool,
   trackEntity: React.PropTypes.object,
-  trackId: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
-  ]),
+  trackId: React.PropTypes.number,
   ui: React.PropTypes.object,
   userEntity: React.PropTypes.object
 }

@@ -3,7 +3,7 @@ import * as ActionTypes from 'constants/ActionTypes'
 export function requestStream(trackId) {
   return {
     type: ActionTypes.STREAM_REQUEST,
-    trackId
+    trackId: Number(trackId)
   }
 }
 

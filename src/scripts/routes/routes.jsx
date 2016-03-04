@@ -9,8 +9,10 @@ import TrackContainer from 'containers/TrackContainer'
 import PlaylistContainer from 'containers/PlaylistContainer'
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
+const updateWindow = () => window.scrollTo(0, 0)
+
 const routes = (
-  <Router history={ browserHistory }>
+  <Router onUpdate={ updateWindow } history={ browserHistory }>
     <Route component={ App } path="/">
       <IndexRoute component={ End } />
       <Route component={ CollectionContainer } path="#genre" />
@@ -19,7 +21,7 @@ const routes = (
       <Route component={ TrackContainer } path="#track/:id" />
       <Route component={ PlaylistContainer } path="#playlist/:id" />
       <Route component={ UserContainer } path="#user/:id">
-        <IndexRoute component={ UserDescriptionContainer }/>
+        <IndexRoute component={ UserDescriptionContainer } />
         <Route component={ UserMediaContainer } path="tracks" />
         <Route component={ UserMediaContainer } path="favorites" />
         <Route component={ UserMediaContainer } path="playlists" />

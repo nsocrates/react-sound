@@ -23,19 +23,7 @@ function fetchUser(id, endpoint = `/users/${id}?`, schema = Schemas.USER) {
   }
 }
 
-export function resolveUser(username) {
-  return dispatch => {
-    const endpoint = `/resolve?url=http://soundcloud.com/${username}&`
-
-    dispatch(fetchUser(username, endpoint))
-      .then(res => {
-        const id = res.response.result
-        return dispatch(push({ pathname: `#user/${id}` }))
-      })
-  }
-}
-
-function fetchUserFavorites(id, endpoint, schema) {
+function fetchUserFavorites(id, next_href) {
   return {
     id,
     [CALL_API]: {
@@ -44,13 +32,13 @@ function fetchUserFavorites(id, endpoint, schema) {
         ActionTypes.FAVORITE_SUCCESS,
         ActionTypes.FAVORITE_FAILURE
       ],
-      endpoint,
-      schema
+      endpoint: next_href,
+      schema: Schemas.TRACK_ARRAY
     }
   }
 }
 
-function fetchUserPlaylists(id, endpoint, schema) {
+function fetchUserPlaylists(id, next_href) {
   return {
     id,
     [CALL_API]: {
@@ -59,56 +47,49 @@ function fetchUserPlaylists(id, endpoint, schema) {
         ActionTypes.PLAYLIST_SUCCESS,
         ActionTypes.PLAYLIST_FAILURE
       ],
-      endpoint,
-      schema
+      endpoint: next_href,
+      schema: Schemas.PLAYLIST_ARRAY
     }
   }
 }
 
 export function loadUserFavorites(id, next = false) {
   return (dispatch, getState) => {
-    const schema = Schemas.TRACK_ARRAY
-    const { favoritesByUser } = getState().app.partition
     const {
       ids = [],
       next_href = `/users/${id}/favorites?`
-    } = favoritesByUser[id] || {}
-    const endpoint = next_href || `/users/${id}/favorites?`
+    } = getState().app.partition.favoritesByUser[id] || {}
 
     if (ids.length && !next) {
       return null
     }
 
-    return dispatch(fetchUserFavorites(id, endpoint, schema))
+    return dispatch(fetchUserFavorites(id, next_href))
   }
 }
 
 export function loadUserPlaylists(id, next = false) {
   return (dispatch, getState) => {
-    const schema = Schemas.PLAYLIST_ARRAY
-    const { playlistsByUser } = getState().app.partition
     const {
       ids = [],
       next_href = `/users/${id}/playlists?`
-    } = playlistsByUser[id] || {}
-    const endpoint = next_href || `/users/${id}/playlists?`
+    } = getState().app.partition.playlistsByUser[id] || {}
 
     if (ids.length && !next) {
       return null
     }
 
-    return dispatch(fetchUserPlaylists(id, endpoint, schema))
+    return dispatch(fetchUserPlaylists(id, next_href))
   }
 }
 
 export function loadUserTracks(id, next = false) {
   return (dispatch, getState) => {
     const schema = Schemas.TRACK_ARRAY
-    const { tracksByUser } = getState().app.partition
     const {
       ids,
       next_href = `/users/${id}/tracks?`
-    } = tracksByUser[id] || {}
+    } = getState().app.partition.tracksByUser[id] || {}
     const endpoint = next_href || `/users/${id}/tracks?`
 
     if (ids.length && !next) {
@@ -119,13 +100,6 @@ export function loadUserTracks(id, next = false) {
   }
 }
 
-export function loadCachedUser(id, next_href = null) {
-  return {
-    id,
-    next_href: !!next_href,
-    type: ActionTypes.USER_CACHED
-  }
-}
 
 // Fetches a single user from SoundCloud API unless it is cached:
 export function loadUser(id) {
@@ -144,12 +118,24 @@ export function loadUser(id) {
     const { base, profile } = action
 
     if (user && user.hasOwnProperty('web_profiles')) {
-      return dispatch(loadCachedUser(id))
+      return null
     }
 
     return dispatch(fetchUser(id, base.endpoint, base.schema))
       .then(() => (
         dispatch(fetchUser(id, profile.endpoint, profile.schema))
       ))
+  }
+}
+
+export function resolveUser(username) {
+  return dispatch => {
+    const endpoint = `/resolve?url=http://soundcloud.com/${username}&`
+
+    dispatch(fetchUser(username, endpoint))
+      .then(res => {
+        const id = res.response.result
+        return dispatch(push({ pathname: `#user/${id}` }))
+      })
   }
 }

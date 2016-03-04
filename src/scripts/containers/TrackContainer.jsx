@@ -32,6 +32,7 @@ class TrackContainer extends React.Component {
 
   updateComponent() {
     const { dispatch, params } = this.props
+
     return dispatch(loadTrack(params.id))
   }
 
@@ -87,7 +88,7 @@ class TrackContainer extends React.Component {
     const renderComments = () => {
       const { pagination } = this.props
 
-      if (!trackComments || trackComments.isFetching || pagination.id != params.id) {
+      if (!trackComments || trackComments.isFetching || pagination.id !== trackObject.id) {
         return <Loader className="loader--bottom" />
       }
 
@@ -321,18 +322,14 @@ class TrackContainer extends React.Component {
 }
 
 TrackContainer.propTypes = {
-  pagination: PropTypes.object,
   commentsByTrack: PropTypes.object,
   dispatch: PropTypes.func,
   isPlaying: PropTypes.bool,
   menu: PropTypes.object,
+  pagination: PropTypes.object,
   params: PropTypes.object,
-  routes: PropTypes.array,
   shouldPlay: PropTypes.bool,
-  streamTrackId: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  streamTrackId: PropTypes.number,
   trackObject: PropTypes.object,
   userEntity: PropTypes.object
 }

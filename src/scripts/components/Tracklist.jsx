@@ -138,13 +138,10 @@ Tracklist.defaultProps = {
 
 Tracklist.propTypes = {
   dispatch: PropTypes.func,
+  ids: PropTypes.array,
   isPlaying: PropTypes.bool,
   modifier: PropTypes.string,
   trackEntity: PropTypes.object,
-  trackId: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  ids: PropTypes.array,
+  trackId: React.PropTypes.number,
   userEntity: PropTypes.object
 }

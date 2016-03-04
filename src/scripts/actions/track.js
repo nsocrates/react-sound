@@ -57,8 +57,8 @@ export function loadTrackComments(id, offset, endpoint, next = true) {
     }
 
     return dispatch(fetchTrackComments(id, offset, url))
-      .then(onFulfilled => (
-        dispatch(paginateCollection(id, onFulfilled.response.result))
+      .then(res => (
+        dispatch(paginateCollection(id, res.response.result))
       ))
   }
 }
@@ -74,7 +74,7 @@ export function loadTrack(id) {
         id,
         type: ActionTypes.TRACK_SUCCESS
       }
-      console.log('cached')
+
       return dispatch(loadCached(args))
     }
 
@@ -82,8 +82,8 @@ export function loadTrack(id) {
       .then(() => (
         dispatch(fetchTrackComments(id))
       )
-      .then(onFulfilled => (
-        dispatch(paginateCollection(id, onFulfilled.response.result)))
+      .then(res => (
+        dispatch(paginateCollection(id, res.response.result)))
       )
     )
   }

@@ -22,18 +22,9 @@ export function loadCollection(path, query, force = false) {
   }
 }
 
-export function loadCached(args) {
-  return Object.assign({}, args, {
-    response: {
-      result: [],
-      next_href: args.next_href || null
-    }
-  })
-}
-
 export function paginateCollection(id, collection) {
   return {
-    id,
+    id: Number(id),
     collection,
     type: ActionTypes.PAGINATE
   }

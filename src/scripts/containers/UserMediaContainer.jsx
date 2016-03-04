@@ -26,6 +26,8 @@ class UserMediaContainer extends React.Component {
     if (this.props.route !== nextProps.route) {
       return this.updateComponent(nextProps.route.path)
     }
+
+    return null
   }
 
   updateComponent(path, next) {
@@ -92,16 +94,17 @@ class UserMediaContainer extends React.Component {
       }
     }
 
-    const media = getEntity()
-    const { mediaEntity, partition } = media
+    const {
+      mediaEntity = {},
+      partition = {}
+    } = getEntity()
 
-    if (!partition) {
+    if (!Object.keys(partition).length || !Object.keys(mediaEntity).length) {
       return <Loader className="loader--bottom" />
     }
 
     const renderCards = () => {
       const { ids } = partition
-
       return ids.map((item, index) => {
         const obj = {
           userObject: userEntity[mediaEntity[item].user_id],
@@ -146,28 +149,33 @@ class UserMediaContainer extends React.Component {
             title={ mediaData.media.name }
             titlePath={ mediaPath }
           >
-            <Taglist tags={ mediaData.tags } />
+            <Taglist max={ 5 } tags={ mediaData.tags } />
           </Card>
         )
       })
     }
 
     const shouldRenderWaypoint = () => {
-      if (partition.next_href) {
-        return (
-          <Waypoint
-            className="waypoint waypoint--bottom"
-            onEnter={ this.handleWaypointEnter }
-          />
-        )
+      if (partition.isFetching) {
+        return <Loader className="loader--bottom" />
       }
+
+      if (!partition.next_href) {
+        return <End className="end--bottom" />
+      }
+
+      return (
+        <Waypoint
+          className="waypoint waypoint--bottom"
+          onEnter={ this.handleWaypointEnter }
+        />
+      )
     }
 
     return (
       <section className="card">
         { renderCards() }
-        { partition.isFetching ? <Loader className="loader--bottom"/> : shouldRenderWaypoint() }
-        { !partition.next_href && !partition.isFetching ? <End className="end--bottom" /> : null }
+        { shouldRenderWaypoint() }
       </section>
     )
   }

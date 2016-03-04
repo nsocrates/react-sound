@@ -58,7 +58,7 @@ function partitionate({ types, mapActionToKey }) {
       case failureType: {
         const key = mapActionToKey(action)
         if (typeof key !== 'string') {
-          throw new Error('Expected key to be a string.')
+          throw new Error(`Expected key (${key}) to be a string.`)
         }
         return merge({}, state, {
           [key]: updatePartition(state[key], action)

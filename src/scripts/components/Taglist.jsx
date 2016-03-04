@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react'
 import LinkItem from 'components/LinkItem'
 
 export default function Taglist(props) {
-  const { tags, modifier = 'card' } = props
+  const { tags, max = Infinity, modifier = 'card' } = props
 
   if (!tags.length) {
     return <noscript />
   }
 
-  const tagItems = tags.map((tag, index) => {
+  const tagItems = tags.slice(0, max).map((tag, index) => {
     const location = {
       pathname: '#tag',
       query: {
@@ -42,6 +42,7 @@ export default function Taglist(props) {
 }
 
 Taglist.propTypes = {
+  max: PropTypes.number,
   modifier: PropTypes.string,
   tags: PropTypes.array.isRequired
 }

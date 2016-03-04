@@ -55,7 +55,7 @@ class PlaylistContainer extends React.Component {
       userEntity
     } = this.props
 
-    if (!playlistObject || pagination.id != playlistObject.id) {
+    if (!playlistObject) {
       return <Loader className="loader--top" />
     }
 
@@ -86,8 +86,26 @@ class PlaylistContainer extends React.Component {
       }
     ]
 
+    const shouldRenderTracklist = () => {
+      if (pagination.id === playlistObject.id && pagination.result.length) {
+        return (
+          <Tracklist
+            dispatch={ dispatch }
+            isPlaying={ isPlaying }
+            trackEntity={ trackEntity }
+            trackId={ trackId }
+            ids={ pagination.result }
+            userEntity={ userEntity }
+            modifier="set"
+          />
+        )
+      }
+
+      return <Loader className="loader--bottom" />
+    }
+
     const shouldRenderWaypoint = () => {
-      if (pagination.isLoading || !pagination.result.length) {
+      if (pagination.isLoading) {
         return <Loader className="loader--bottom" />
       }
 
@@ -95,7 +113,12 @@ class PlaylistContainer extends React.Component {
         return <End className="end--bottom" />
       }
 
-      return <Waypoint onEnter={ this.handleEnter } />
+      return (
+        <Waypoint
+          className="waypoint waypoint--bottom"
+          onEnter={ this.handleEnter }
+        />
+      )
     }
 
     return (
@@ -170,18 +193,8 @@ class PlaylistContainer extends React.Component {
               </small>
             }
           >
-            { pagination.result.length
-              ? <Tracklist
-                dispatch={ dispatch }
-                isPlaying={ isPlaying }
-                trackEntity={ trackEntity }
-                trackId={ trackId }
-                ids={ pagination.result }
-                userEntity={ userEntity }
-                modifier="set"
-              />
-              : <Loader className="loader--bottom" /> }
 
+            { shouldRenderTracklist() }
             { shouldRenderWaypoint() }
 
           </Body>

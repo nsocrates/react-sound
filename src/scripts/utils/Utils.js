@@ -12,7 +12,7 @@ export function constructUrl(endpoint) {
 
 // Constructs stream url from track id.
 export function constructStreamUrl(trackId) {
-  const url = `${API_ROOT}/tracks/${trackId}/stream/?client_id=${CLIENT_ID}`
+  const url = `${API_ROOT}/tracks/${trackId}/stream/?${CLIENT_ID}`
 
   return trackId ? url : null
 }
