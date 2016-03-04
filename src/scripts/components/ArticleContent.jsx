@@ -1,15 +1,15 @@
 import React, { PropTypes } from 'react'
 import { splitLines } from 'utils/Utils'
 
-export default function Article(props) {
+export default function ArticleContent(props) {
   const {
-    article,
+    content,
     wrapperClassName = '',
     missing = 'Nothing to display.',
     missingClassName = 'article__none'
   } = props
 
-  if (!article) {
+  if (!content) {
     return (
       <p className={ missingClassName }>
         { missing }
@@ -17,7 +17,7 @@ export default function Article(props) {
     )
   }
 
-  const paragraphs = splitLines(article).map((item, index) => {
+  const paragraphs = splitLines(content).map((item, index) => {
     const reAtSound = /@([\w\-]+\w)/i
     const reAtMail = /(\S+@\S+\.\S+)/i
     const text = item[0]
@@ -29,7 +29,7 @@ export default function Article(props) {
       return (
         <p
           className="article__paragraph"
-          key={`article--text--link_${index}`}
+          key={`content--link_${index}`}
         >
           { text }
           <a
@@ -53,7 +53,7 @@ export default function Article(props) {
         return (
           <p
             className="article__paragraph"
-            key={`article--mail__${index}`}
+            key={`content--mail__${index}`}
           >
             { textSplit[0] }
             <a
@@ -71,7 +71,7 @@ export default function Article(props) {
       return (
         <p
           className="article__paragraph"
-          key={`article--mail__${index}`}
+          key={`content--mail__${index}`}
         >
           <a
             className="link link--has-visit-state"
@@ -95,7 +95,7 @@ export default function Article(props) {
         return (
           <p
             className="article__paragraph"
-            key={`article--soundcloud__${index}`}
+            key={`content--soundcloud__${index}`}
           >
             { `${textSplit[0]}@` }
             <a
@@ -113,7 +113,7 @@ export default function Article(props) {
       return (
         <p
           className="article__paragraph"
-          key={`article--soundcloud__${index}`}
+          key={`content--soundcloud__${index}`}
         >
           {"@"}
           <a
@@ -130,7 +130,7 @@ export default function Article(props) {
     return (
       <p
         className="article__paragraph"
-        key={`article--text__${index}`}
+        key={`content--text__${index}`}
       >
         { item[0] }
       </p>
@@ -144,8 +144,8 @@ export default function Article(props) {
   )
 }
 
-Article.propTypes = {
-  article: PropTypes.string,
+ArticleContent.propTypes = {
+  content: PropTypes.string,
   missing: PropTypes.string,
   missingClassName: PropTypes.string,
   wrapperClassName: PropTypes.string

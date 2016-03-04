@@ -13,7 +13,7 @@ import { requestStream } from 'actions/stream'
 import CanvasBanner from 'components/CanvasBanner'
 import Taglist from 'components/Taglist'
 import Comment from 'components/Comment'
-import Article from 'components/Article'
+import ArticleContent from 'components/ArticleContent'
 import Body from 'components/Body'
 import Pagination from 'components/Pagination'
 import PaginationItem from 'components/PaginationItem'
@@ -297,8 +297,8 @@ class TrackContainer extends React.Component {
             <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
               <img className=" article__avatar--img avatar__img" src={ userAvatar.default } />
             </LinkItem>
-            <Article
-              article={ trackObject.description }
+            <ArticleContent
+              content={ trackObject.description }
               missing="TRACK DOES NOT HAVE A DESCRIPTION."
               missingClassName="article__none article__none--track"
               wrapperClassName="article-wrap article-wrap--fill"

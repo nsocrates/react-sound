@@ -166,40 +166,42 @@ class UserContainer extends React.Component {
     }
 
     const renderWebIcons = () => {
-      if (user.web_profiles) {
-        const { web_profiles } = user
-        return web_profiles.map((item, index) => {
-          const { service, url, id } = item
-          let icon
-
-          switch (service) {
-            case 'facebook':
-              icon = 'fa-facebook-square'
-              break
-            case 'instagram':
-              icon = 'fa-instagram'
-              break
-            case 'youtube':
-              icon = 'fa-youtube-square'
-              break
-            case 'twitter':
-              icon = 'fa-twitter-square'
-              break
-            default:
-              return null
-          }
-
-          return (
-            <WebIcon
-              href={ url }
-              iconClassName={ `fa ${icon}` }
-              itemClassName="web-icon__list--item"
-              key={`web_profile__${index}_${id}`}
-              linkClassName="web-icon__link"
-            />
-          )
-        })
+      if (!user.web_profiles) {
+        return null
       }
+
+      const { web_profiles } = user
+      return web_profiles.map((item, index) => {
+        const { service, url, id } = item
+        let icon
+
+        switch (service) {
+          case 'facebook':
+            icon = 'fa-facebook-square'
+            break
+          case 'instagram':
+            icon = 'fa-instagram'
+            break
+          case 'youtube':
+            icon = 'fa-youtube-square'
+            break
+          case 'twitter':
+            icon = 'fa-twitter-square'
+            break
+          default:
+            return null
+        }
+
+        return (
+          <WebIcon
+            href={ url }
+            iconClassName={ `fa ${icon}` }
+            itemClassName="web-icon__list--item"
+            key={`web_profile__${index}_${id}`}
+            linkClassName="web-icon__link"
+          />
+        )
+      })
     }
 
     return (

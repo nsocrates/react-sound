@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import Loader from 'components/Loader'
-import Article from 'components/Article'
+import ArticleContent from 'components/ArticleContent'
 import { loadUser } from 'actions/user'
 
 import { connect } from 'react-redux'
@@ -29,8 +29,8 @@ class UserDescriptionContainer extends React.Component {
     const user = userEntity[params.id]
     return (
       <section className="article article--lg">
-        <Article
-          article={ user.description }
+        <ArticleContent
+          content={ user.description }
           missing={ "USER DOES NOT HAVE A DESCRIPTION." }
           wrapperClassName={ "article-wrap" }
         />

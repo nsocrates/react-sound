@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 import Main from 'components/Main'
 import Loader from 'components/Loader'
 import LinkItem from 'components/LinkItem'
-import Article from 'components/Article'
+import ArticleContent from 'components/ArticleContent'
 import Taglist from 'components/Taglist'
 import Body from 'components/Body'
 import StatsList from 'components/StatsList'
@@ -173,8 +173,8 @@ class PlaylistContainer extends React.Component {
             <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
               <img className="article__avatar--img avatar__img" src={ userAvatar.default } />
             </LinkItem>
-            <Article
-              article={ playlistObject.description }
+            <ArticleContent
+              content={ playlistObject.description }
               missing="PLAYLIST DOES NOT HAVE A DESCRIPTION."
               missingClassName="article__none article__none--track"
               wrapperClassName="article-wrap article-wrap--fill"
