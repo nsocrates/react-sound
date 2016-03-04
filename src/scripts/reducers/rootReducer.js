@@ -1,16 +1,16 @@
 import entities from './entities'
 import errorMessage from './errorMessage'
+import pagination from './pagination'
 import partition from './partition'
 import player from './player'
-import ui from './ui'
 import stream from './stream'
+import ui from './ui'
 import { combineReducers } from 'redux'
-import comments from './comments'
 
 const rootReducer = combineReducers({
-  comments,
   entities,
   errorMessage,
+  pagination,
   partition,
   ui,
   media: combineReducers({

@@ -62,12 +62,6 @@
 
 .tracklist__btn--sc {
   color: $sc-orange;
-
-  &:hover {
-    .tracklist__icon--sc {
-      color: $shark;
-    }
-  }
 }
 
 .tracklist__player {
@@ -241,7 +235,7 @@
   }
 
   &:hover {
-    color: $black-primary;
+    color: $black;
   }
 }
 

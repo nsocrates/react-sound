@@ -1,6 +1,13 @@
+import * as ActionTypes from 'constants/ActionTypes'
 import { loadGenre } from 'actions/genre'
 import { loadSearch } from 'actions/search'
 import { loadTag } from 'actions/tag'
+
+export function loadPagination() {
+  return {
+    type: ActionTypes.LOAD_PAGINATION
+  }
+}
 
 export function loadCollection(path, query, force = false) {
   switch (path) {
@@ -22,4 +29,12 @@ export function loadCached(args) {
       next_href: args.next_href || null
     }
   })
+}
+
+export function paginateCollection(id, collection) {
+  return {
+    id,
+    collection,
+    type: ActionTypes.PAGINATE
+  }
 }

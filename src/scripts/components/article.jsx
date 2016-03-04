@@ -42,6 +42,47 @@ export default function Article(props) {
       )
     }
 
+    // Checks for mailto link
+    if (reAtMail.test(text)) {
+      const mail = text.match(reAtMail)[0]
+
+      // If mailto link is between text
+      if (text.length > mail.length) {
+        const textSplit = text.split(mail)
+
+        return (
+          <p
+            className="article__paragraph"
+            key={`article--mail__${index}`}
+          >
+            { textSplit[0] }
+            <a
+              className="link link--has-visit-state"
+              href={ `mailto:${mail}` }
+            >
+              { mail }
+            </a>
+            { textSplit[1] }
+          </p>
+        )
+      }
+
+      // Return single line mailto link
+      return (
+        <p
+          className="article__paragraph"
+          key={`article--mail__${index}`}
+        >
+          <a
+            className="link link--has-visit-state"
+            href={ `mailto:${item[0]}` }
+          >
+            { item[0] }
+          </a>
+        </p>
+      )
+    }
+
     // Checks for SoundCloud link
     if (reAtSound.test(text)) {
       const atSound = text.match(reAtSound)
@@ -80,47 +121,6 @@ export default function Article(props) {
             href={ `https://soundcloud.com/${scUser}` }
           >
             { scUser }
-          </a>
-        </p>
-      )
-    }
-
-    // Checks for mailto link
-    if (reAtMail.test(text)) {
-      const mail = text.match(reAtMail)[0]
-
-      // If mailto link is between text
-      if (text.length > mail.length) {
-        const textSplit = text.split(mail)
-
-        return (
-          <p
-            className="article__paragraph"
-            key={`article--mail__${index}`}
-          >
-            { textSplit[0] }
-            <a
-              className="link link--has-visit-state"
-              href={ `mailto:${mail}` }
-            >
-              { mail }
-            </a>
-            { textSplit[1] }
-          </p>
-        )
-      }
-
-      // Return single line mailto link
-      return (
-        <p
-          className="article__paragraph"
-          key={`article--mail__${index}`}
-        >
-          <a
-            className="link link--has-visit-state"
-            href={ `mailto:${item[0]}` }
-          >
-            { item[0] }
           </a>
         </p>
       )

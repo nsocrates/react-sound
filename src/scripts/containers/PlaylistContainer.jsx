@@ -6,14 +6,23 @@ import LinkItem from 'components/LinkItem'
 import Article from 'components/Article'
 import Taglist from 'components/Taglist'
 import Body from 'components/Body'
+import StatsList from 'components/StatsList'
 import CanvasBanner from 'components/CanvasBanner'
 import ProfileCover from 'components/ProfileCover'
+import End from 'components/End'
 import Tracklist from 'components/Tracklist'
+import Waypoint from 'components/Waypoint'
+import { paginateCollection, loadPagination } from 'actions/collection'
 import { connect } from 'react-redux'
 import { loadPlaylist } from 'actions/playlist'
-import { extractStreamable, timeFactory, trackFactory, getCover, kFormatter, dtFormatter, markNumber } from 'utils/Utils'
+import { extractStreamable, timeFactory, trackFactory, getCover, markNumber, extractNumber } from 'utils/Utils'
 
 class PlaylistContainer extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.handleEnter = this.handleEnter.bind(this)
+  }
 
   componentDidMount() {
     return this.updateComponent()
@@ -24,18 +33,29 @@ class PlaylistContainer extends React.Component {
     return dispatch(loadPlaylist(params.id))
   }
 
+  handleEnter() {
+    const { dispatch, playlistObject, pagination } = this.props
+    const ids = playlistObject.tracks.slice(0, pagination.result.length + 15)
+
+    dispatch(loadPagination())
+    setTimeout(() => {
+      dispatch(paginateCollection(playlistObject.id, ids))
+    }, 200)
+  }
+
   render() {
     const {
       dispatch,
       isPlaying,
+      pagination,
+      playlistObject,
+      shouldPlay,
       trackEntity,
       trackId,
-      shouldPlay,
-      userEntity,
-      playlistObject
+      userEntity
     } = this.props
 
-    if (!playlistObject) {
+    if (!playlistObject || pagination.id != playlistObject.id) {
       return <Loader className="loader--top" />
     }
 
@@ -51,6 +71,32 @@ class PlaylistContainer extends React.Component {
     const mediaData = trackFactory(trackFactoryArgs)
     const userAvatar = getCover(userEntity[playlistObject.user_id].avatar_url)
     const streamable = extractStreamable(trackEntity, playlistObject.tracks)
+
+    const statsListItems = [
+      { text: mediaData.createdAt },
+      {
+        icon: 'fa fa-clock-o',
+        value: timeFactory(playlistObject.duration / 1000).getFormatted()
+      }, {
+        icon: 'fa fa-caret-square-o-right',
+        value: mediaData.tracklist.count
+      }, {
+        icon: 'fa fa-tag',
+        value: 'Playlist'
+      }
+    ]
+
+    const shouldRenderWaypoint = () => {
+      if (pagination.isLoading || !pagination.result.length) {
+        return <Loader className="loader--bottom" />
+      }
+
+      if (pagination.result.length === playlistObject.tracks.length) {
+        return <End className="end--bottom" />
+      }
+
+      return <Waypoint onEnter={ this.handleEnter } />
+    }
 
     return (
       <Main shouldPush={ shouldPlay }>
@@ -85,6 +131,14 @@ class PlaylistContainer extends React.Component {
               </article>
               <hr className="invis" />
 
+              <StatsList
+                listItems={ statsListItems }
+                hashTags={ mediaData.genre }
+                pathname="#genre"
+              />
+
+              <hr className="invis" />
+
               <Taglist modifier="profile" tags={ mediaData.tags } />
 
             </section>{/* -- !Track Info -- */}
@@ -116,15 +170,20 @@ class PlaylistContainer extends React.Component {
               </small>
             }
           >
-            <Tracklist
-              dispatch={ dispatch }
-              isPlaying={ isPlaying }
-              trackEntity={ trackEntity }
-              trackId={ trackId }
-              ids={ mediaData.tracklist.ids }
-              userEntity={ userEntity }
-              modifier="set"
-            />
+            { pagination.result.length
+              ? <Tracklist
+                dispatch={ dispatch }
+                isPlaying={ isPlaying }
+                trackEntity={ trackEntity }
+                trackId={ trackId }
+                ids={ pagination.result }
+                userEntity={ userEntity }
+                modifier="set"
+              />
+              : <Loader className="loader--bottom" /> }
+
+            { shouldRenderWaypoint() }
+
           </Body>
 
         </div>{/* -- !Content -- */}
@@ -143,7 +202,7 @@ function mapStateToProps(state) {
   const {
     router: { location: { pathname } },
     app: {
-      comments,
+      pagination,
       partition: { commentsByTrack },
       entities: { users, playlists, tracks },
       media: {
@@ -157,7 +216,7 @@ function mapStateToProps(state) {
   } = state
 
   return {
-    comments,
+    pagination,
     isPlaying,
     location,
     menu,
@@ -166,7 +225,7 @@ function mapStateToProps(state) {
     trackId,
     trackEntity: tracks,
     userEntity: users,
-    playlistObject: playlists[pathname.split('/')[1]]
+    playlistObject: playlists[extractNumber(pathname)]
   }
 }
 

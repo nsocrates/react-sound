@@ -60,3 +60,6 @@ export const SEARCH_CACHED = 'SEARCH_CACHED'
 
 export const NAVBAR_STICK = 'NAVBAR_STICK'
 export const MENU_STICK = 'MENU_STICK'
+
+export const LOAD_PAGINATION = 'LOAD_PAGINATION'
+export const PAGINATE = 'PAGINATE'

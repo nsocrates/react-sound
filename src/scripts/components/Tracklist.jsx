@@ -60,8 +60,7 @@ export default class Tracklist extends React.Component {
         'tracklist--set__track--even': index % 2 === 0 && isSet
       })
       const isActive = classNames(isEven, {
-        'tracklist--player__active': isCurrentTrack && isPlayer,
-        'tracklist--set__active': isCurrentTrack && isSet
+        'tracklist--player__active': isCurrentTrack && isPlayer
       })
       const shouldFilter = classNames(`tracklist--${modifier}__artwork`, {
         'tracklist--set__filter fa': isCurrentTrack && isSet,
@@ -133,6 +132,7 @@ export default class Tracklist extends React.Component {
 
 Tracklist.defaultProps = {
   dispatch() {},
+  ids: [],
   modifier: 'player'
 }
 

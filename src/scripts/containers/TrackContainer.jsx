@@ -75,25 +75,23 @@ class TrackContainer extends React.Component {
       {
         icon: 'fa fa-heart',
         value: mediaData.stats.favorites
-      },
-      {
+      }, {
         icon: 'fa fa-play',
         value: mediaData.stats.plays
-      },
-      {
+      }, {
         icon: 'fa fa-comments',
         value: mediaData.stats.comments
       }
     ]
 
     const renderComments = () => {
-      const { comments: { result }} = this.props
+      const { pagination } = this.props
 
-      if (!trackComments || trackComments.isFetching) {
+      if (!trackComments || trackComments.isFetching || pagination.id != params.id) {
         return <Loader className="loader--bottom" />
       }
 
-      if (!trackComments.ids.length || !result.length) {
+      if (!trackComments.ids.length || !pagination.result.length) {
         return (
         <p className="article__none">
           { "NO COMMENTS TO DISPLAY." }
@@ -101,9 +99,8 @@ class TrackContainer extends React.Component {
         )
       }
 
-      return result.map((id, index) => {
-        const { comments } = trackObject
-        const comment = comments[id]
+      return pagination.result.map((id, index) => {
+        const { comments: { [id]: comment } } = trackObject
         const user = userEntity[comment.user]
 
         const avatar = getCover(user.avatar_url)
@@ -324,7 +321,7 @@ class TrackContainer extends React.Component {
 }
 
 TrackContainer.propTypes = {
-  comments: PropTypes.object,
+  pagination: PropTypes.object,
   commentsByTrack: PropTypes.object,
   dispatch: PropTypes.func,
   isPlaying: PropTypes.bool,
@@ -342,9 +339,9 @@ TrackContainer.propTypes = {
 
 function mapStateToProps(state) {
   const {
-    router: { location: { pathname }},
+    router: { location: { pathname } },
     app: {
-      comments,
+      pagination,
       partition: { commentsByTrack },
       entities: { users, tracks },
       media: {
@@ -358,7 +355,7 @@ function mapStateToProps(state) {
   } = state
 
   return {
-    comments,
+    pagination,
     isPlaying,
     location,
     menu,
