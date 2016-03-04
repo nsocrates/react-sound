@@ -60,8 +60,8 @@ class PlaylistContainer extends React.Component {
     }
 
     const gradientColors = [
-      { offset: 0, color: '#C9FFBF' },
-      { offset: 1, color: '#FFAFBD' }
+      { offset: 0, color: '#70e1f5' },
+      { offset: 1, color: '#ffd194' }
     ]
 
     const trackFactoryArgs = {
@@ -79,10 +79,7 @@ class PlaylistContainer extends React.Component {
         value: timeFactory(playlistObject.duration / 1000).getFormatted()
       }, {
         icon: 'fa fa-caret-square-o-right',
-        value: mediaData.tracklist.count
-      }, {
-        icon: 'fa fa-tag',
-        value: 'Playlist'
+        value: `${mediaData.tracklist.count} tracks`
       }
     ]
 

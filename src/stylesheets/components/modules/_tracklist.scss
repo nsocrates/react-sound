@@ -36,10 +36,6 @@
   width: 100%;
 }
 
-.tracklist__data {
-  overflow: hidden;
-}
-
 .tracklist__link {
   display: inline-block;
 }
@@ -127,6 +123,10 @@
   }
 }
 
+.tracklist--player__data {
+  overflow: hidden;
+}
+
 .tracklist--player__title,
 .tracklist--player__user {
   @extend %ellipsis;
@@ -170,36 +170,41 @@
   border-radius: .5rem;
   display: block;
   margin-bottom: gutter();
-  padding: 1rem;
+  overflow: hidden;
 
   &:last-child {
     margin-bottom: 0;
   }
 
   &--even {
-    background-color: rgba($shark, .1);
+    background-color: rgba(mix($light-gray, $shark, 95%), $secondary);
   }
 }
 
 .tracklist--set__artwork {
   @extend %tracklist__artwork;
-  height: 5rem;
-  width: 5rem;
+  height: 7rem;
+  width: 7rem;
 }
 
 .tracklist--set__filter {
   @extend %tracklist__filter;
 
   &::before {
-    height: 5rem;
-    width: 5rem;
+    height: 7rem;
+    width: 7rem;
   }
 
   &::after {
     font-size: 3rem;
-    line-height: 5rem;
+    line-height: 7rem;
     width: 3rem;
   }
+}
+
+.tracklist--set__data {
+  overflow: hidden;
+  padding: 1rem 0;
 }
 
 .tracklist--set__title,
@@ -221,10 +226,11 @@
 .tracklist--set__icons {
   @extend %tracklist__icons;
   min-width: 13rem;
+  padding: 1rem 1rem 1rem 0;
 }
 
 .tracklist--set__icon {
-  font-size: 2rem;
+  font-size: 2.1rem;
   line-height: 5rem;
   padding: 0 1rem;
 }

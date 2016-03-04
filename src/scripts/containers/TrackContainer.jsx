@@ -114,7 +114,8 @@ class TrackContainer extends React.Component {
             avatar={ avatar.badge }
             body={ comment.body }
             by={ user.username }
-            key={`track_comment__${comment.id}_${index}`}
+            index={ index }
+            key={`track__comment--${comment.id}_${index}`}
             timestamp={ timestamp }
             userId={ user.id }
           />

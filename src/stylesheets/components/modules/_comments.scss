@@ -8,6 +8,10 @@
   &:last-child {
     margin-bottom: 0;
   }
+
+  &--even {
+    background-color: rgba(mix($light-pink, $light-gray, 35%), .2);
+  }
 }
 
 .comment__avatar {

@@ -2,9 +2,14 @@ import React, { PropTypes } from 'react'
 import { IMG_FALLBACK } from 'constants/ItemLists'
 import LinkItem from 'components/LinkItem'
 import CommentBody from 'components/CommentBody'
+import classNames from 'classnames'
 
 export default function Comment(props) {
-  const { by, at, timestamp, avatar, body, userId } = props
+  const { by, at, timestamp, avatar, body, userId, index } = props
+
+  const isEven = classNames('comment', {
+    'comment--even': index % 2 === 0
+  })
 
   const handleImgError = e => {
     const { currentTarget } = e
@@ -14,7 +19,7 @@ export default function Comment(props) {
   }
 
   return (
-    <div className="comment">
+    <div className={ isEven }>
       <LinkItem
         className="comment__avatar avatar avatar--badge"
         to={`#user/${userId}`}
@@ -49,6 +54,7 @@ Comment.propTypes = {
   avatar: PropTypes.string,
   body: PropTypes.string,
   by: PropTypes.string,
+  index: PropTypes.number,
   onImgError: PropTypes.func,
   timestamp: PropTypes.oneOfType([
     PropTypes.string,

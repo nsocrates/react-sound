@@ -99,7 +99,7 @@ export default class Tracklist extends React.Component {
 
             </section>
 
-            <section className="tracklist__data">
+            <section className={`tracklist--${modifier}__data`}>
               <p className={`tracklist--${modifier}__title`}>
                 <LinkItem
                   className="tracklist__link"
