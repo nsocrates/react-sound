@@ -1,9 +1,12 @@
 .web-icon__list {
+  @extend %justified;
+  overflow: hidden;
+  border-spacing: em(15px) 0;
   font-size: 2.4rem;
 
   &--item {
-    display: inline-block;
-    width: 25%;
+    @extend %justified__item;
+    width: 1%;
   }
 }
 
