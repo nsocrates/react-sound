@@ -1,0 +1,35 @@
+.btn {
+  border: em(1px) solid transparent;
+  border-radius: em(4px);
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &--hint {
+    background-color: tint($light-gray, 35%);
+    border-color: tint($shark, 75%);
+    color: $black-secondary;
+    font-size: 1.4rem;
+    padding: em(8px) em(31px);
+    transition: color $trans-duration;
+
+    &:hover,
+    &:focus {
+      background-color: tint($light-gray, 10%);
+      border-color: tint($shark, 50%);
+      color: $black-primary;
+    }
+  }
+
+  &--disabled {
+    box-shadow: none;
+    opacity: .65;
+    pointer-events: none;
+  }
+}

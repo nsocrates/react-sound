@@ -24,3 +24,17 @@ ul, ol {
   margin: 0;
   padding: 0;
 }
+
+button {
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+form {
+  margin: 0;
+  padding: 0;
+}

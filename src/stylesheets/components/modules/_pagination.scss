@@ -6,7 +6,7 @@
 
 .pagination {
   border: .1rem solid $black-secondary;
-  border-radius: .5rem;
+  border-radius: .4rem;
   display: table;
   margin: 0 auto;
   table-layout: fixed;
@@ -42,11 +42,9 @@
   margin-right: gutter();
   vertical-align: middle;
   width: 1%;
-  cursor: pointer;
 
   @include susy-media(medium) {
-    border: .1rem solid $black-secondary;
-    border-radius: .5rem;
+    border-color: $black-secondary;
   }
 
   &--stateful {
@@ -57,25 +55,19 @@
     }
   }
 
-  &--disabled {
-    background-color: $light-gray;
-    cursor: default;
-    opacity: .4;
-  }
-
-  &--rest {
+  &--ellipsis {
     background-color: transparent;
     border: 0;
-    cursor: default;
     font-size: 125%;
     font-weight: 700;
+    pointer-events: none;
 
     &::after {
       content: '\2026';
     }
   }
 
-  &--pointer {
+  &--caret {
     width: (100 / 3) * 1%;
 
     @include susy-media(medium) {
@@ -84,7 +76,7 @@
   }
 }
 
-.pagination__page {
+.pagination__index {
   display: none;
 
   @include susy-media(medium) {
@@ -94,14 +86,11 @@
   &--current {
     background-color: $light-pink;
     color: $white;
-    cursor: default;
     display: table-cell;
-  }
-}
+    pointer-events: none;
 
-.pagination__link {
-  width: 100%;
-  text-align: center;
-  cursor: inherit;
-  display: block;
+    @include susy-media(small-only) {
+      border-radius: 0;
+    }
+  }
 }

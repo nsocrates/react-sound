@@ -2,7 +2,9 @@
   @extend %clearfix;
   background-color: $white;
   border-radius: .5rem;
+  overflow: hidden;
   padding: 1.5rem;
+  text-align: center;
 
   &--lg {
     font-size: 1.8rem;
@@ -15,12 +17,12 @@
 }
 
 .article-wrap {
+  text-align: left;
   width: 100%;
 
   @include susy-media(medium) {
-    margin: 0 auto;
+    margin: 0 auto 3rem;
     max-width: 90%;
-    padding-bottom: 3rem;
     padding-top: 3rem;
     width: em($medium);
   }
@@ -36,6 +38,7 @@
   height: 10rem;
   margin-right: gutter();
   position: relative;
+  text-align: left;
   width: 10rem;
 
   @include susy-media(medium) {

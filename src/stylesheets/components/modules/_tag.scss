@@ -3,10 +3,10 @@
 }
 
 .tag {
+  border-color: inherit;
   display: inline-block;
   margin-bottom: gutter();
   margin-right: gutter();
-  border-color: inherit;
 
   &:last-child {
     margin-right: 0;
@@ -25,9 +25,9 @@
 .tag__item {
   @include relative;
   border-color: transparent;
-  border-radius: 0 .5rem .5rem 0;
+  border-radius: 0 em(4px) em(4px) 0;
   border-style: solid;
-  border-width: 1px 1px 1px 0;
+  border-width: em(1px) em(1px) em(1px) 0;
   display: inline-block;
   line-height: 1;
   margin-left: 1.1em;
@@ -38,8 +38,8 @@
   &::before {
     @include absolute(top 50% right 100%);
     background-color: inherit;
-    border-left: 1px solid transparent;
-    border-top: 1px solid transparent;
+    border-left: em(1px) solid transparent;
+    border-top: em(1px) solid transparent;
     content: '';
     display: block;
     height: 1.56em;
@@ -51,8 +51,8 @@
   &::after {
     @include absolute(top 50% left -.25em);
     background-color: $white;
-    border-radius: 1rem;
-    box-shadow: 0 -.1rem .1rem $black-hint;
+    border-radius: em(10px);
+    box-shadow: 0 -em(1px) em(1px) $black-hint;
     content: '';
     display: block;
     height: .5em;
@@ -61,33 +61,48 @@
     z-index: 0;
   }
 
+  &--card,
+  &--card::before {
+    border-color: tint($shark, 85%);
+  }
+
   &--card {
-    background-color: mix($light-gray, $white, ($secondary * 100) * 1%);
+    background-color: tint($light-gray, 35%);
     color: $black-secondary;
     font-size: 1.2rem;
 
+    &:hover,
+    &:hover::before {
+      border-color: tint($shark, 65%);
+    }
+
     &:hover {
-      background-color: mix($light-gray, $white, ($primary * 100) * 1%);
+      background-color: tint($light-gray, 10%);
       color: $black-primary;
     }
   }
 
+  &--profile,
+  &--profile::before {
+    border-color: $white-secondary;
+  }
+
   &--profile {
     background-color: $tc__overlay--white;
-    border-color: $white;
+    border-color: $white-secondary;
     border-style: solid;
-    border-width: 1px 1px 1px 0;
+    border-width: em(1px) em(1px) em(1px) 0;
     color: $white-secondary;
     font-size: 1.4rem;
 
-    &::before {
-      border-left: 1px solid $white;
-      border-top: 1px solid $white;
+    &:hover,
+    &:hover::before {
+      border-color: $white;
     }
 
     &:hover {
       background-color: shade($tc__overlay--white, 10%);
-      color: $white-primary;
+      color: $white;
     }
   }
 }
@@ -96,10 +111,10 @@
   @extend %ellipsis;
 
   &--card {
-    max-width: 50rem;
+    max-width: em(500px);
 
     @include susy-media(large) {
-      max-width: 8rem;
+      max-width: em(80px);
     }
   }
 }

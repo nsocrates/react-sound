@@ -140,11 +140,11 @@ $susy: (
 );
 
 $susy-media: (
-  'small': $small,
-  'medium': em($medium),
-  'large': em($large),
-  'xlarge': em($xlarge),
-  'small-only': max-width (em($medium - 1px)),
-  'medium-only': em($medium) (em($large - 1px)),
-  'large-only': em($large) (em($xlarge - 1px))
+  small: $small,
+  medium: em($medium),
+  large: em($large),
+  xlarge: em($xlarge),
+  small-only: max-width (em($medium - 1px)),
+  medium-only: em($medium) (em($large - 1px)),
+  large-only: em($large) (em($xlarge - 1px))
 );
