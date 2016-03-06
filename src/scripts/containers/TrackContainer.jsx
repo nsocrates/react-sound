@@ -5,6 +5,7 @@ import LinkItem from 'components/LinkItem'
 import Loader from 'components/Loader'
 import Main from 'components/Main'
 import ProfileCover from 'components/ProfileCover'
+import CollapseView from 'components/CollapseView'
 import { connect } from 'react-redux'
 import { IMG_FALLBACK } from 'constants/ItemLists'
 import { loadTrack, loadTrackComments } from 'actions/track'
@@ -237,6 +238,8 @@ class TrackContainer extends React.Component {
       { offset: 1, color: '#FFAFBD' }
     ]
 
+    const articleContent = ref => this._articleContent = ref
+
     return (
       <Main shouldPush={ shouldPlay }>
         {/* -- Banner -- */}
@@ -293,17 +296,23 @@ class TrackContainer extends React.Component {
         <div className="main__container main__container--main">
 
           {/* -- Track Description -- */}
-          <section className="article article--push">
+          <CollapseView
+            className="article article--push"
+            initHeight={ 200 }
+            target={ this._articleContent }
+          >
             <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
               <img className=" article__avatar--img avatar__img" src={ userAvatar.default } />
             </LinkItem>
             <ArticleContent
+              ref={ articleContent }
               content={ trackObject.description }
+              initHeight="200px"
               missing="TRACK DOES NOT HAVE A DESCRIPTION."
               missingClassName="article__none article__none--track"
               wrapperClassName="article-wrap article-wrap--fill"
             />
-          </section>{/* -- !Track Description -- */}
+          </CollapseView>{/* -- !Track Description -- */}
 
           {/* -- Comments -- */}
           <Body

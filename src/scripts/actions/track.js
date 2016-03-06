@@ -5,7 +5,7 @@
 import * as ActionTypes from 'constants/ActionTypes'
 import { CALL_API } from 'constants/Api'
 import { Schemas } from 'constants/Schemas'
-import { loadCached, paginateCollection } from 'actions/collection'
+import { paginateCollection } from 'actions/collection'
 
 // Fetches a single track:
 function fetchTrack(id) {
@@ -48,12 +48,7 @@ export function loadTrackComments(id, offset, endpoint, next = true) {
     const url = endpoint || next_href
 
     if (!next) {
-      const args = {
-        id,
-        type: ActionTypes.TRACK_COMMENTS_SUCCESS,
-        next_href
-      }
-      return dispatch(loadCached(args))
+      return null
     }
 
     return dispatch(fetchTrackComments(id, offset, url))
@@ -67,15 +62,10 @@ export function loadTrackComments(id, offset, endpoint, next = true) {
 export function loadTrack(id) {
   return (dispatch, getState) => {
     const track = getState().app.entities.tracks[id]
-    const { ids = null } = getState().app.partition.commentsByTrack[id] || {}
+    const { ids = [] } = getState().app.partition.commentsByTrack[id] || {}
 
-    if (track && ids) {
-      const args = {
-        id,
-        type: ActionTypes.TRACK_SUCCESS
-      }
-
-      return dispatch(loadCached(args))
+    if (track && ids.length) {
+      return null
     }
 
     return dispatch(fetchTrack(id))

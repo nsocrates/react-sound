@@ -1,147 +1,153 @@
 import React, { PropTypes } from 'react'
 import { splitLines } from 'utils/Utils'
 
-export default function ArticleContent(props) {
-  const {
-    content,
-    wrapperClassName = '',
-    missing = 'Nothing to display.',
-    missingClassName = 'article__none'
-  } = props
+export default class ArticleContent extends React.Component {
+  render() {
+    const ref = c => this._ref = c
+    const {
+      content,
+      wrapperClassName = '',
+      missing = 'Nothing to display.',
+      missingClassName = 'article__none'
+    } = this.props
 
-  if (!content) {
-    return (
-      <p className={ missingClassName }>
-        { missing }
-      </p>
-    )
-  }
-
-  const paragraphs = splitLines(content).map((item, index) => {
-    const reAtSound = /@([\w\-]+\w)/i
-    const reAtMail = /(\S+@\S+\.\S+)/i
-    const text = item[0]
-    const link = item[1]
-
-    if (link) {
-      const hasProtocol = /http/.test(link)
-
+    if (!content) {
       return (
-        <p
-          className="article__paragraph"
-          key={`content--link_${index}`}
-        >
-          { text }
-          <a
-            className="link link--has-visit-state"
-            href={ hasProtocol ? item[1] : `http://${item[1]}` }
-          >
-            { link }
-          </a>
+        <p className={ missingClassName }>
+          { missing }
         </p>
       )
     }
 
-    // Checks for mailto link
-    if (reAtMail.test(text)) {
-      const mail = text.match(reAtMail)[0]
+    const paragraphs = splitLines(content).map((item, index) => {
+      const reAtSound = /@([\w\-]+\w)/i
+      const reAtMail = /(\S+@\S+\.\S+)/i
+      const text = item[0]
+      const link = item[1]
 
-      // If mailto link is between text
-      if (text.length > mail.length) {
-        const textSplit = text.split(mail)
+      if (link) {
+        const hasProtocol = /http/.test(link)
 
+        return (
+          <p
+            className="article__paragraph"
+            key={`content--link_${index}`}
+          >
+            { text }
+            <a
+              className="link link--has-visit-state"
+              href={ hasProtocol ? item[1] : `http://${item[1]}` }
+            >
+              { link }
+            </a>
+          </p>
+        )
+      }
+
+      // Checks for mailto link
+      if (reAtMail.test(text)) {
+        const mail = text.match(reAtMail)[0]
+
+        // If mailto link is between text
+        if (text.length > mail.length) {
+          const textSplit = text.split(mail)
+
+          return (
+            <p
+              className="article__paragraph"
+              key={`content--mail__${index}`}
+            >
+              { textSplit[0] }
+              <a
+                className="link link--has-visit-state"
+                href={ `mailto:${mail}` }
+              >
+                { mail }
+              </a>
+              { textSplit[1] }
+            </p>
+          )
+        }
+
+        // Return single line mailto link
         return (
           <p
             className="article__paragraph"
             key={`content--mail__${index}`}
           >
-            { textSplit[0] }
             <a
               className="link link--has-visit-state"
-              href={ `mailto:${mail}` }
+              href={ `mailto:${item[0]}` }
             >
-              { mail }
+              { item[0] }
             </a>
-            { textSplit[1] }
           </p>
         )
       }
 
-      // Return single line mailto link
-      return (
-        <p
-          className="article__paragraph"
-          key={`content--mail__${index}`}
-        >
-          <a
-            className="link link--has-visit-state"
-            href={ `mailto:${item[0]}` }
-          >
-            { item[0] }
-          </a>
-        </p>
-      )
-    }
+      // Checks for SoundCloud link
+      if (reAtSound.test(text)) {
+        const atSound = text.match(reAtSound)
+        const scUser = atSound[1]
 
-    // Checks for SoundCloud link
-    if (reAtSound.test(text)) {
-      const atSound = text.match(reAtSound)
-      const scUser = atSound[1]
+        // If SC link is between text
+        if (atSound.index > 0) {
+          const textSplit = text.split(atSound[0])
 
-      // If SC link is between text
-      if (atSound.index > 0) {
-        const textSplit = text.split(atSound[0])
+          return (
+            <p
+              className="article__paragraph"
+              key={`content--soundcloud__${index}`}
+            >
+              { `${textSplit[0]}@` }
+              <a
+                className="link link--has-visit-state"
+                href={ `https://soundcloud.com/${scUser}` }
+              >
+                { scUser }
+              </a>
+              { textSplit[1] }
+            </p>
+          )
+        }
 
+        // Return single line SC link
         return (
           <p
             className="article__paragraph"
             key={`content--soundcloud__${index}`}
           >
-            { `${textSplit[0]}@` }
+            {"@"}
             <a
               className="link link--has-visit-state"
               href={ `https://soundcloud.com/${scUser}` }
             >
               { scUser }
             </a>
-            { textSplit[1] }
           </p>
         )
       }
 
-      // Return single line SC link
+      // Return regular paragraph
       return (
         <p
           className="article__paragraph"
-          key={`content--soundcloud__${index}`}
+          key={`content--text__${index}`}
         >
-          {"@"}
-          <a
-            className="link link--has-visit-state"
-            href={ `https://soundcloud.com/${scUser}` }
-          >
-            { scUser }
-          </a>
+          { item[0] }
         </p>
       )
-    }
+    })
 
-    // Return regular paragraph
     return (
-      <p
-        className="article__paragraph"
-        key={`content--text__${index}`}
+      <div
+        ref={ ref }
+        className={ wrapperClassName }
       >
-        { item[0] }
-      </p>
+        { paragraphs }
+      </div>
     )
-  })
-
-  return (
-    <div className={ wrapperClassName }>
-      { paragraphs }
-    </div>
-  )
+  }
 }
 
 ArticleContent.propTypes = {

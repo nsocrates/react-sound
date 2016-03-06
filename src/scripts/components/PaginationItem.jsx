@@ -4,20 +4,18 @@ import classNames from 'classnames'
 export default function PaginationItem({ page, ellipsis = [], isCurrent, onClick }) {
   if (page === ellipsis[0] || page === ellipsis[1]) {
     return (
-      <li className="pagination__item pagination__item--rest pagination__page" />
+      <li className="btn pagination__item pagination__item--ellipsis pagination__index" />
     )
   }
 
-  const current = classNames('pagination__item pagination__page', {
-    'pagination__page--current': isCurrent,
+  const current = classNames('btn pagination__item pagination__index', {
+    'pagination__index--current': isCurrent,
     'pagination__item--stateful': !isCurrent
   })
 
   return (
-    <li className={ current }>
-      <button className="pagination__link" href="#" onClick={ onClick }>
-        { page }
-      </button>
+    <li className={ current } onClick={ onClick }>
+      { page }
     </li>
   )
 }

@@ -4,6 +4,7 @@ import Main from 'components/Main'
 import Loader from 'components/Loader'
 import LinkItem from 'components/LinkItem'
 import ArticleContent from 'components/ArticleContent'
+import CollapseView from 'components/CollapseView'
 import Taglist from 'components/Taglist'
 import Body from 'components/Body'
 import StatsList from 'components/StatsList'
@@ -82,6 +83,8 @@ class PlaylistContainer extends React.Component {
         value: `${mediaData.tracklist.count} tracks`
       }
     ]
+
+    const articleContent = ref => this._articleContent = ref
 
     const shouldRenderTracklist = () => {
       if (pagination.id === playlistObject.id && pagination.result.length) {
@@ -169,17 +172,22 @@ class PlaylistContainer extends React.Component {
         <div className="main__container main__container--main">
 
           {/* -- Track Description -- */}
-          <section className="article article--push">
+          <CollapseView
+            className="article article--push"
+            initHeight={ 200 }
+            target={ this._articleContent }
+          >
             <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
               <img className="article__avatar--img avatar__img" src={ userAvatar.default } />
             </LinkItem>
             <ArticleContent
+              ref={ articleContent }
               content={ playlistObject.description }
               missing="PLAYLIST DOES NOT HAVE A DESCRIPTION."
               missingClassName="article__none article__none--track"
               wrapperClassName="article-wrap article-wrap--fill"
             />
-          </section>{/* -- !Track Description -- */}
+          </CollapseView>{/* -- !Track Description -- */}
 
           <Body
             headIconClassName="fa fa-list"
