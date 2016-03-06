@@ -248,17 +248,15 @@ class UserContainer extends React.Component {
             </section>{/*-- !User Info --*/}
 
             {/*-- User Social Media --*/}
-            <ul className="actionbar actionbar--shark web-icon__list">
+            <ul className="interact-bar interact-bar--shark web-icon__list">
               { renderWebIcons() }
             </ul>{/*-- !User Social Media --*/}
 
             <a
-              className="actionbar actionbar--soundcloud"
+              className="interact-bar btn--sc"
               href={ permalink_url }
               target="_blank"
-            >
-              <img className="actionbar__soundcloud" src="https://developers.soundcloud.com/assets/logo_white-af5006050dd9cba09b0c48be04feac57.png" />
-            </a>
+            />
 
           </div>{/*-- !Profile --*/}
         </div>{/*-- !Banner --*/}

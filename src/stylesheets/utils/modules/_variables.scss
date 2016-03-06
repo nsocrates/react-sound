@@ -41,7 +41,7 @@ $wan-white-gray: shade($light-gray, 1%);
 
 // SoundCloud Colors
 $sc-orange: #f50;
-$sc-focus: shade($sc-orange, 3%);
+$sc-active: shade($sc-orange, 3%);
 $sc-pink: mix($light-pink, $sc-orange, 48%);
 $sc-pink--dark: shade($sc-pink, 5%);
 $sc-pink--disabled: tint($sc-pink, 30%);

@@ -19,8 +19,7 @@
     padding: em(8px) em(31px);
     transition: color $trans-duration;
 
-    &:hover,
-    &:focus {
+    &:hover {
       background-color: tint($light-gray, 10%);
       border-color: tint($shark, 50%);
       color: $black-primary;
@@ -31,5 +30,22 @@
     box-shadow: none;
     opacity: .65;
     pointer-events: none;
+  }
+
+  &--sc {
+    background-color: $sc-orange;
+    background-image: url('https://developers.soundcloud.com/assets/logo_white-af5006050dd9cba09b0c48be04feac57.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: em(115px);
+
+    &:hover,
+    &:active {
+      background-color: $sc-active;
+    }
+
+    &:focus {
+      background-color: $sc-pink--dark;
+    }
   }
 }

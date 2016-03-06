@@ -1,4 +1,4 @@
-.actionbar {
+.interact-bar {
   @include span(full);
   border-radius: 3rem;
   height: 5rem;
@@ -16,16 +16,6 @@
 
   &:last-child {
     margin-bottom: 0;
-  }
-
-  &--shark {
-    background-color: rgba($shark, .3);
-  }
-
-  &--soundcloud {
-    background-color: $sc-orange;
-    overflow: hidden;
-    position: relative;
 
     @include susy-media(medium) {
       margin-right: span(7) + gutter();
@@ -34,15 +24,9 @@
     @include susy-media(large) {
       margin-right: 0;
     }
-
-    &:hover {
-      background-color: $sc-focus;
-    }
   }
-}
 
-.actionbar__soundcloud {
-  @include absolute(top right bottom left);
-  margin: auto;
-  width: 12rem;
+  &--shark {
+    background-color: rgba($shark, .3);
+  }
 }
