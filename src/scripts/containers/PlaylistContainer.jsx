@@ -1,22 +1,22 @@
 import React, { PropTypes } from 'react'
 
-import Main from 'components/Main'
-import Loader from 'components/Loader'
-import LinkItem from 'components/LinkItem'
 import ArticleContent from 'components/ArticleContent'
-import CollapseView from 'components/CollapseView'
-import Taglist from 'components/Taglist'
 import Body from 'components/Body'
-import StatsList from 'components/StatsList'
-import CanvasBanner from 'components/CanvasBanner'
-import ProfileCover from 'components/ProfileCover'
+import CanvasBlur from 'components/CanvasBlur'
+import CollapseView from 'components/CollapseView'
 import End from 'components/End'
+import LinkItem from 'components/LinkItem'
+import Loader from 'components/Loader'
+import Main from 'components/Main'
+import ProfileCover from 'components/ProfileCover'
+import StatsList from 'components/StatsList'
+import Taglist from 'components/Taglist'
 import Tracklist from 'components/Tracklist'
 import Waypoint from 'components/Waypoint'
-import { paginateCollection, loadPagination } from 'actions/collection'
 import { connect } from 'react-redux'
-import { loadPlaylist } from 'actions/playlist'
 import { extractStreamable, timeFactory, trackFactory, getCover, markNumber, extractNumber } from 'utils/Utils'
+import { loadPlaylist } from 'actions/playlist'
+import { paginateCollection, loadPagination } from 'actions/collection'
 
 class PlaylistContainer extends React.Component {
 
@@ -60,11 +60,6 @@ class PlaylistContainer extends React.Component {
       return <Loader className="loader--top" />
     }
 
-    const gradientColors = [
-      { offset: 0, color: '#70e1f5' },
-      { offset: 1, color: '#ffd194' }
-    ]
-
     const trackFactoryArgs = {
       userObject: userEntity[playlistObject.user_id],
       mediaObject: playlistObject
@@ -79,7 +74,7 @@ class PlaylistContainer extends React.Component {
         icon: 'fa fa-clock-o',
         value: timeFactory(playlistObject.duration / 1000).getFormatted()
       }, {
-        icon: 'fa fa-caret-square-o-right',
+        icon: 'fa fa-list',
         value: `${mediaData.tracklist.count} tracks`
       }
     ]
@@ -124,11 +119,8 @@ class PlaylistContainer extends React.Component {
     return (
       <Main shouldPush={ shouldPlay }>
         {/* -- Banner -- */}
-        <CanvasBanner
-          canvasClassName="canvas--track"
-          gradientColors={ gradientColors }
-        >
-
+        <div className="canvas-container">
+          <CanvasBlur src={ mediaData.artwork.large } />
           {/* -- Profile -- */}
           <div className="profile">
 
@@ -166,7 +158,7 @@ class PlaylistContainer extends React.Component {
 
             </section>{/* -- !Track Info -- */}
           </div>{/* -- !Profile -- */}
-        </CanvasBanner>{/* -- !Banner -- */}
+        </div>{/* -- !Banner -- */}
 
         {/* -- Content -- */}
         <div className="main__container main__container--main">
@@ -211,9 +203,18 @@ class PlaylistContainer extends React.Component {
 }
 
 PlaylistContainer.propTypes = {
-  actions: React.PropTypes.objectOf(
-    React.PropTypes.func.isRequired
-  )
+  commentsByTrack: PropTypes.object,
+  dispatch: PropTypes.func,
+  isPlaying: PropTypes.bool,
+  location: PropTypes.object,
+  menu: PropTypes.object,
+  pagination: PropTypes.object,
+  params: PropTypes.object,
+  playlistObject: PropTypes.object,
+  shouldPlay: PropTypes.bool,
+  trackEntity: PropTypes.object,
+  trackId: PropTypes.number,
+  userEntity: PropTypes.object
 }
 
 function mapStateToProps(state) {

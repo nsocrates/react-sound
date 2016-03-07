@@ -47,7 +47,8 @@ $sc-pink--dark: shade($sc-pink, 5%);
 $sc-pink--disabled: tint($sc-pink, 30%);
 
 // Track Canvas Colors
-$tc__overlay--white: #a19e93;
+$bombay: #adb0b7;
+$london-hue: mix($light-pink, $bombay, 10%);
 
 // Text Colors
 $black-primary: rgba($black, $primary);

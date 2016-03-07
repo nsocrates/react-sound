@@ -14,7 +14,11 @@ export default class CollapseView extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    return this.state.hasInit ? null : this.init(newProps)
+    if (newProps.target._ref) {
+      return this.state.hasInit ? null : this.init(newProps)
+    }
+
+    return null
   }
 
   init(newProps) {

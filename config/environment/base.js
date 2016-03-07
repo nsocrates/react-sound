@@ -40,12 +40,13 @@ const baseConfig = {
       components: `${srcPath}/scripts/components/`,
       constants: `${srcPath}/scripts/constants/`,
       containers: `${srcPath}/scripts/containers/`,
+      images: `${srcPath}/images`,
       middleware: `${srcPath}/scripts/middleware/`,
       reducers: `${srcPath}/scripts/reducers/`,
       routes: `${srcPath}/scripts/routes/`,
       store: `${srcPath}/scripts/store/`,
-      utils: `${srcPath}/scripts/utils`,
-      stylesheets: `${srcPath}/stylesheets/main.scss`
+      stylesheets: `${srcPath}/stylesheets/main.scss`,
+      utils: `${srcPath}/scripts/utils`
     }
   },
   module: {

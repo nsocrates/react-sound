@@ -11,7 +11,7 @@ import { IMG_FALLBACK } from 'constants/ItemLists'
 import { loadTrack, loadTrackComments } from 'actions/track'
 import { timeFactory, trackFactory, getCover, dtFormatter, markNumber, constructUrl } from 'utils/Utils'
 import { requestStream } from 'actions/stream'
-import CanvasBanner from 'components/CanvasBanner'
+import CanvasGradient from 'components/CanvasGradient'
 import Taglist from 'components/Taglist'
 import Comment from 'components/Comment'
 import ArticleContent from 'components/ArticleContent'
@@ -234,8 +234,8 @@ class TrackContainer extends React.Component {
     }
 
     const gradientColors = [
-      { offset: 0, color: '#C9FFBF' },
-      { offset: 1, color: '#FFAFBD' }
+      { offset: 0, color: '#e55d87' },
+      { offset: 1, color: '#5fc3e4' }
     ]
 
     const articleContent = ref => this._articleContent = ref
@@ -243,12 +243,10 @@ class TrackContainer extends React.Component {
     return (
       <Main shouldPush={ shouldPlay }>
         {/* -- Banner -- */}
-        <CanvasBanner
-          canvasClassName="canvas--track"
-          gradientColors={ gradientColors }
-        >
+        <div className="canvas-container">
+          <CanvasGradient colors={ gradientColors } />
           <div className="waveform">
-            <img className="waveform__img" src={ trackObject.waveform_url} />
+            <img className="waveform__img" src={ trackObject.waveform_url } />
           </div>
 
           {/* -- Profile -- */}
@@ -285,12 +283,12 @@ class TrackContainer extends React.Component {
 
               <hr className="invis" />
 
-              <Taglist modifier="profile" tags={ mediaData.tags } />
+              <Taglist modifier="profile" tags={ mediaData.tags } max={ 10 } />
 
             </section>
 
           </div>{/* -- !Profile -- */}
-        </CanvasBanner>{/* -- !Banner -- */}
+        </div>{/* -- !Banner -- */}
 
         {/* -- Content -- */}
         <div className="main__container main__container--main">

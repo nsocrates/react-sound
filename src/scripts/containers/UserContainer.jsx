@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 
-import Canvas from 'components/Canvas'
+import CanvasGradient from 'components/CanvasGradient'
 import LinkItem from 'components/LinkItem'
 import Loader from 'components/Loader'
 import Main from 'components/Main'
@@ -210,9 +210,9 @@ class UserContainer extends React.Component {
         {/*-- Banner --*/}
         <div className="canvas-container">
 
-          <Canvas
+          <CanvasGradient
             className="canvas canvas--user"
-            gradientColors={ gradientColors }
+            colors={ gradientColors }
           />
 
           {/*-- Profile --*/}

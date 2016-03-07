@@ -101,7 +101,7 @@
     }
 
     &:hover {
-      background-color: shade($tc__overlay--white, 10%);
+      background-color: $london-hue;
       color: $white;
     }
   }
