@@ -1,14 +1,13 @@
-import classNames from 'classnames'
 import React from 'react'
-import { timeFactory, coordinatesFactory } from 'utils/Utils'
-
+import classNames from 'classnames'
 import PlayerArtwork from './PlayerArtwork'
+import PlayerButton from './PlayerButton'
 import PlayerDetails from './PlayerDetails'
 import PlayerProgressBar from './PlayerProgressBar'
 import PlayerTimer from './PlayerTimer'
 import PlayerVolume from './PlayerVolume'
 import PlayerVolumeControl from './PlayerVolumeControl'
-import PlayerButton from './PlayerButton'
+import { timeFactory, coordinatesFactory } from 'utils/Utils'
 
 export default class AudioPlayer extends React.Component {
 
@@ -27,12 +26,12 @@ export default class AudioPlayer extends React.Component {
   }
 
   handlePlayPause() {
-    const { player: { audio }, audioRef: { _audio }} = this.props
+    const { player: { audio }, audioRef: { _audio } } = this.props
     return audio.isPlaying ? _audio.pause() : _audio.play()
   }
 
   handleMute() {
-    const { player: { volume }, audioRef: { _audio }} = this.props
+    const { player: { volume }, audioRef: { _audio } } = this.props
 
     _audio.muted = !volume.isMuted
   }
@@ -279,6 +278,7 @@ export default class AudioPlayer extends React.Component {
           />
 
           <ul className="player__timer">
+
             <PlayerTimer componentClassName="timer__item timer__item--current">
               <small>
                { currentTime }

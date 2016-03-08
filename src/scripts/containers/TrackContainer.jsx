@@ -1,23 +1,23 @@
 import React, { PropTypes } from 'react'
 
-import StatsList from 'components/StatsList'
+import ArticleContent from 'components/ArticleContent'
+import Body from 'components/Body'
+import CanvasGradient from 'components/CanvasGradient'
+import CollapseView from 'components/CollapseView'
+import Comment from 'components/Comment'
 import LinkItem from 'components/LinkItem'
 import Loader from 'components/Loader'
 import Main from 'components/Main'
+import Pagination from 'components/Pagination'
+import PaginationItem from 'components/PaginationItem'
 import ProfileCover from 'components/ProfileCover'
-import CollapseView from 'components/CollapseView'
+import StatsList from 'components/StatsList'
+import Taglist from 'components/Taglist'
 import { connect } from 'react-redux'
 import { IMG_FALLBACK } from 'constants/ItemLists'
 import { loadTrack, loadTrackComments } from 'actions/track'
-import { timeFactory, trackFactory, getCover, dtFormatter, markNumber, constructUrl } from 'utils/Utils'
 import { requestStream } from 'actions/stream'
-import CanvasGradient from 'components/CanvasGradient'
-import Taglist from 'components/Taglist'
-import Comment from 'components/Comment'
-import ArticleContent from 'components/ArticleContent'
-import Body from 'components/Body'
-import Pagination from 'components/Pagination'
-import PaginationItem from 'components/PaginationItem'
+import { timeFactory, trackFactory, getCover, dtFormatter, markNumber, constructUrl } from 'utils/Utils'
 
 class TrackContainer extends React.Component {
 
@@ -73,8 +73,9 @@ class TrackContainer extends React.Component {
     const userAvatar = getCover(userEntity[trackObject.user_id].avatar_url)
     const trackComments = commentsByTrack[params.id]
     const statsListItems = [
-      { text: mediaData.createdAt },
       {
+        text: mediaData.createdAt
+      }, {
         icon: 'fa fa-heart',
         value: mediaData.stats.favorites
       }, {
@@ -86,6 +87,12 @@ class TrackContainer extends React.Component {
       }
     ]
 
+    const gradientColors = [
+      { offset: 0, color: '#e55d87' },
+      { offset: 1, color: '#5fc3e4' }
+    ]
+
+    const articleContent = ref => this._articleContent = ref
     const renderComments = () => {
       const { pagination } = this.props
 
@@ -128,10 +135,10 @@ class TrackContainer extends React.Component {
       if (mediaData.stats.comments > 24 && trackComments && !!trackComments.ids.length) {
         const { offset } = commentsByTrack[params.id]
         const endpoint = `/tracks/${params.id}/comments?`
-        const url = trackComments.next_href || `${constructUrl(endpoint)}&offset=0`
+        const url = trackComments.next_href || `${constructUrl(endpoint)}&offset=${offset + 24}`
         const pages = Math.ceil(mediaData.stats.comments / 24)
         const re = /(&offset=)(\d*)/i
-        const nextOffset = parseInt(re.exec(url)[2], 10) || pages * 24
+        const nextOffset = parseInt(re.exec(url)[2], 10)
         const prevOffset = nextOffset - 48
         const prevHref = nextOffset - 48 >= 0
                       ? url.replace(re, `$1${prevOffset}`)
@@ -167,6 +174,7 @@ class TrackContainer extends React.Component {
               return dispatch(loadTrackComments(params.id, value, href))
             }
 
+            // Always show first and last index
             if (page === 1 || page === lastPage) {
               return (
                 <PaginationItem
@@ -178,6 +186,7 @@ class TrackContainer extends React.Component {
               )
             }
 
+            // Beginning; Do not show left ellipsis for first 6 pages
             if (page < 11 && currentPage < 6) {
               return (
                 <PaginationItem
@@ -190,6 +199,7 @@ class TrackContainer extends React.Component {
               )
             }
 
+            // Ending; Do now show right ellipsis for last 6 pages
             if (page > lastPage - 10 && currentPage > lastPage - 5) {
               return (
                 <PaginationItem
@@ -202,6 +212,7 @@ class TrackContainer extends React.Component {
               )
             }
 
+            // Center; show +-5 indexes from current page
             if (currentPage < page + 5 && currentPage > page - 5) {
               return (
                 <PaginationItem
@@ -233,23 +244,15 @@ class TrackContainer extends React.Component {
       return null
     }
 
-    const gradientColors = [
-      { offset: 0, color: '#e55d87' },
-      { offset: 1, color: '#5fc3e4' }
-    ]
-
-    const articleContent = ref => this._articleContent = ref
-
     return (
       <Main shouldPush={ shouldPlay }>
-        {/* -- Banner -- */}
+
         <div className="canvas-container">
           <CanvasGradient className="canvas canvas--o_secondary" colors={ gradientColors } />
           <div className="waveform">
             <img className="waveform__img" src={ trackObject.waveform_url } />
           </div>
 
-          {/* -- Profile -- */}
           <div className="profile">
 
             <ProfileCover
@@ -261,7 +264,6 @@ class TrackContainer extends React.Component {
               <aside className="artwork__filter" />
             </ProfileCover>
 
-            {/* -- Track Info -- */}
             <section className="profile__section profile__section--details">
               <article className="profile__info">
                 <h2 className="profile__info--primary">
@@ -282,18 +284,14 @@ class TrackContainer extends React.Component {
               />
 
               <hr className="invis" />
-
               <Taglist modifier="profile" tags={ mediaData.tags } max={ 10 } />
-
             </section>
 
-          </div>{/* -- !Profile -- */}
-        </div>{/* -- !Banner -- */}
+          </div>
+        </div>
 
-        {/* -- Content -- */}
         <div className="main__container main__container--main">
 
-          {/* -- Track Description -- */}
           <CollapseView
             className="article article--push"
             initHeight={ 200 }
@@ -310,9 +308,8 @@ class TrackContainer extends React.Component {
               missingClassName="article__none article__none--track"
               wrapperClassName="article-wrap article-wrap--fill"
             />
-          </CollapseView>{/* -- !Track Description -- */}
+          </CollapseView>
 
-          {/* -- Comments -- */}
           <Body
             headIconClassName="fa fa-comment-o"
             headText={ `${markNumber(mediaData.stats.comments)} COMMENTS` }
@@ -321,9 +318,9 @@ class TrackContainer extends React.Component {
             { renderComments() }
             { shouldRenderPagination() }
 
-          </Body>{/* -- !Comments -- */}
+          </Body>
 
-        </div>{/* -- !Content -- */}
+        </div>
       </Main>
     )
   }

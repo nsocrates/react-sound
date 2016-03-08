@@ -1,12 +1,10 @@
 .pagination-wrapper {
-  margin-left: -.5rem;
-  margin-right: -.5rem;
+  margin-left: em(-5px);
+  margin-right: em(-5px);
   margin-top: gutter() * 3;
 }
 
 .pagination {
-  border: .1rem solid $black-secondary;
-  border-radius: .4rem;
   display: table;
   margin: 0 auto;
   table-layout: fixed;
@@ -15,14 +13,14 @@
 
   @include susy-media(medium) {
     border: 0;
-    border-spacing: .5rem 0;
+    border-spacing: em(5px) 0;
     width: 100%;
   }
 }
 
 .pagination__pages {
-  border-left: .1rem solid $black-secondary;
-  border-right: .1rem solid $black-secondary;
+  border-bottom: em(1px) solid $black-secondary;
+  border-top: em(1px) solid $black-secondary;
   display: table;
   table-layout: fixed;
   text-align: center;
@@ -70,8 +68,22 @@
   &--caret {
     width: (100 / 3) * 1%;
 
+    @include susy-media(small-only) {
+      border-color: $black-secondary;
+
+      &:first-child {
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+      }
+
+      &:last-child {
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+      }
+    }
+
     @include susy-media(medium) {
-      width: 7rem;
+      width: em(70px);
     }
   }
 }

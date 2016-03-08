@@ -15,6 +15,8 @@ class UserMediaContainer extends React.Component {
 
   constructor(props) {
     super(props)
+    const { userEntity, params } = props
+    this.user = userEntity[params.id]
     this.handleWaypointEnter = this.handleWaypointEnter.bind(this)
   }
 
@@ -31,7 +33,12 @@ class UserMediaContainer extends React.Component {
   }
 
   updateComponent(path, next) {
-    const { dispatch, params, route } = this.props
+    const {
+      dispatch,
+      params,
+      route
+    } = this.props
+
     const pathName = path || route.path
 
     switch (pathName) {
@@ -56,12 +63,17 @@ class UserMediaContainer extends React.Component {
       trackEntity,
       playlistEntity,
       dispatch,
-      params,
       route
     } = this.props
 
     const getEntity = () => {
-      const { tracksByUser, favoritesByUser, playlistsByUser } = this.props
+      const {
+        params,
+        tracksByUser,
+        favoritesByUser,
+        playlistsByUser
+      } = this.props
+
       let media = {
         entity: null,
         partition: null
@@ -71,21 +83,27 @@ class UserMediaContainer extends React.Component {
         case 'tracks':
           media = {
             mediaEntity: trackEntity,
-            partition: tracksByUser[params.id]
+            partition: tracksByUser[params.id],
+            hasItems: !!this.user.track_count,
+            none: 'USER DOES NOT HAVE ANY TRACKS'
           }
           return media
 
         case 'favorites':
           media = {
             mediaEntity: trackEntity,
-            partition: favoritesByUser[params.id]
+            partition: favoritesByUser[params.id],
+            hasItems: !!this.user.public_favorites_count,
+            none: 'USER DOES NOT HAVE ANY FAVORITES'
           }
           return media
 
         case 'playlists':
           media = {
             mediaEntity: playlistEntity,
-            partition: playlistsByUser[params.id]
+            partition: playlistsByUser[params.id],
+            hasItems: !!this.user.playlist_count,
+            none: 'USER DOES NOT HAVE ANY PLAYLISTS'
           }
           return media
 
@@ -96,11 +114,17 @@ class UserMediaContainer extends React.Component {
 
     const {
       mediaEntity = {},
-      partition = {}
+      partition = {},
+      hasItems,
+      none
     } = getEntity()
 
-    if (!Object.keys(partition).length || !Object.keys(mediaEntity).length) {
+    if (!Object.keys(partition).length) {
       return <Loader className="loader--bottom" />
+    }
+
+    if (!hasItems) {
+      return <End className="end--bottom" text={ none } />
     }
 
     const renderCards = () => {

@@ -1,15 +1,15 @@
 import React, { PropTypes } from 'react'
 
 import CanvasGradient from 'components/CanvasGradient'
+import classNames from 'classnames'
 import LinkItem from 'components/LinkItem'
 import Loader from 'components/Loader'
 import Main from 'components/Main'
-import WebIcon from 'components/WebIcon'
 import Menu from 'components/Menu'
 import ProfileCover from 'components/ProfileCover'
-import Waypoint from 'components/Waypoint'
-import classNames from 'classnames'
 import StatsTable from 'components/StatsTable'
+import Waypoint from 'components/Waypoint'
+import WebIcon from 'components/WebIcon'
 import { connect } from 'react-redux'
 import { IMG_FORMAT, IMG_FALLBACK } from 'constants/ItemLists'
 import { loadUser, resolveUser } from 'actions/user'
@@ -167,11 +167,11 @@ class UserContainer extends React.Component {
 
     const renderWebIcons = () => {
       if (!user.web_profiles) {
-        return null
+        return <hr className="invis" />
       }
 
       const { web_profiles } = user
-      return web_profiles.map((item, index) => {
+      const webIcons = web_profiles.map((item, index) => {
         const { service, url, id } = item
         let icon
 
@@ -202,6 +202,12 @@ class UserContainer extends React.Component {
           />
         )
       })
+
+      return (
+        <ul className="interact-bar interact-bar--shark web-icon__list">
+          { webIcons }
+        </ul>
+      )
     }
 
     return (
@@ -248,9 +254,8 @@ class UserContainer extends React.Component {
             </section>{/*-- !User Info --*/}
 
             {/*-- User Social Media --*/}
-            <ul className="interact-bar interact-bar--shark web-icon__list">
-              { renderWebIcons() }
-            </ul>{/*-- !User Social Media --*/}
+            { renderWebIcons() }
+            {/*-- !User Social Media --*/}
 
             <a
               className="interact-bar btn--sc"
