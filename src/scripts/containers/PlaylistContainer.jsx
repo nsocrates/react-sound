@@ -120,7 +120,7 @@ class PlaylistContainer extends React.Component {
       <Main shouldPush={ shouldPlay }>
         {/* -- Banner -- */}
         <div className="canvas-container">
-          <CanvasBlur src={ mediaData.artwork.large } />
+          <CanvasBlur src={ mediaData.artwork.large } fallback={ userAvatar.large } />
           {/* -- Profile -- */}
           <div className="profile">
 
@@ -154,7 +154,7 @@ class PlaylistContainer extends React.Component {
 
               <hr className="invis" />
 
-              <Taglist modifier="profile" tags={ mediaData.tags } />
+              <Taglist modifier="profile" tags={ mediaData.tags } max={ 10 } />
 
             </section>{/* -- !Track Info -- */}
           </div>{/* -- !Profile -- */}

@@ -13,4 +13,12 @@
   height: 100%;
   opacity: $secondary;
   width: 100%;
+
+  &--o_primary {
+    opacity: $primary;
+  }
+
+  &--o_secondary {
+    opacity: .65;
+  }
 }

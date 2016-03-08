@@ -244,7 +244,7 @@ class TrackContainer extends React.Component {
       <Main shouldPush={ shouldPlay }>
         {/* -- Banner -- */}
         <div className="canvas-container">
-          <CanvasGradient colors={ gradientColors } />
+          <CanvasGradient className="canvas canvas--o_secondary" colors={ gradientColors } />
           <div className="waveform">
             <img className="waveform__img" src={ trackObject.waveform_url } />
           </div>

@@ -21,7 +21,6 @@ export default class Canvas extends React.Component {
     return this.drawBlur()
   }
 
-
   drawBlur() {
     const {
       _canvas: {
@@ -37,7 +36,13 @@ export default class Canvas extends React.Component {
   }
 
   handleError() {
-    this.img.src = require('images/300x300.jpg')
+    const { fallback } = this.props
+    if (this.img.src === fallback) {
+      this.img.src = require('images/300x300.jpg')
+      return this.drawBlur()
+    }
+
+    this.img.src = fallback
     return this.drawBlur()
   }
 
@@ -59,6 +64,7 @@ export default class Canvas extends React.Component {
 Canvas.propTypes = {
   className: PropTypes.string,
   blurRadius: PropTypes.number,
+  fallback: PropTypes.string,
   src: PropTypes.string.isRequired,
   height: PropTypes.oneOfType([
     PropTypes.string,
