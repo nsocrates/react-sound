@@ -9,7 +9,8 @@
     "start:dist": "babel-node ./server/server.js --env=dist",
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
     "build": "npm run copy & webpack --env=dist",
-    "lint": "eslint ./src/scripts"
+    "lint": "eslint ./src/scripts",
+    "lint:fix": "npm run lint -- --fix"
   },
   "author": "Socrates",
   "license": "ISC",
@@ -50,6 +51,7 @@
     "isomorphic-fetch": "^2.2.0",
     "lodash": "^4.0.0",
     "normalizr": "^2.0.0",
+    "oauthio": "^0.3.3",
     "react": "^0.14.3",
     "react-addons-css-transition-group": "^0.14.6",
     "react-dom": "^0.14.3",
