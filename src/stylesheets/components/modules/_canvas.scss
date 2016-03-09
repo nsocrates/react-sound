@@ -6,6 +6,15 @@
   @include susy-media(medium) {
     text-align: left;
   }
+
+  &--rainbow-grad {
+    background: linear-gradient(
+      135deg,
+      mix($shark, rgba($aquamarine, 1), 15%),
+      mix($shark, rgba($gorse, 1), 15%),
+      mix($shark, rgba($persian-rose, 1), 15%)
+    );
+  }
 }
 
 .canvas {
