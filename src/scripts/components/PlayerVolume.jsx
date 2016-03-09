@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from './Button'
 
 export default class PlayerVolume extends React.Component {
   render() {
@@ -17,12 +16,12 @@ export default class PlayerVolume extends React.Component {
         onMouseEnter={ componentMouseEnter }
         onMouseLeave={ componentMouseLeave }
       >
-        <Button
-          btnClass={ btnClassName }
-          onBtnClick={ btnOnClick }
+        <button
+          className={ btnClassName }
+          onClick={ btnOnClick }
         >
           { volumeIcon }
-        </Button>
+        </button>
           { children }
       </li>
     )

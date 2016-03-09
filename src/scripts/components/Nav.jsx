@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from './Button'
 import classNames from 'classnames'
 import LinkItem from './LinkItem'
 import Overlay from './Overlay'
@@ -13,7 +12,7 @@ export default class Nav extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    const { _search: { _input }, props: { routeActions }} = this
+    const { _search: { _input }, props: { routeActions } } = this
     const location = {
       pathname: '#search',
       query: {
@@ -81,19 +80,19 @@ export default class Nav extends React.Component {
           </ul>
           <ul className="nav__section nav__section--bars">
             <li className="nav__bars">
-              <Button onBtnClick={ uiActions.toggleMenu }>
+              <button onClick={ uiActions.toggleMenu }>
                 <i className="fa fa-bars" />
-              </Button>
+              </button>
             </li>
           </ul>
           <ul className="nav__section nav__section--search">
             <li className="nav__search">
-              <Button
-                btnClass="modal__portal"
-                onBtnClick={ uiActions.toggleModal }
+              <button
+                className="modal__portal"
+                onClick={ uiActions.toggleModal }
               >
                 <i className="fa fa-search" />
-              </Button>
+              </button>
               <Overlay
                 classNames={ shouldExpandOverlay }
                 onOverlayClick={ uiActions.toggleModal }

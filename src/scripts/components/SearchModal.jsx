@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from './Button'
 import SearchForm from './SearchForm'
 import GlobalEvents from 'utils/GlobalEvents'
 
@@ -12,7 +11,7 @@ export default class SearchModal extends React.Component {
   }
 
   componentDidMount() {
-    const { hideBodyOverflow, _mSearch: { _input }} = this
+    const { hideBodyOverflow, _mSearch: { _input } } = this
 
     hideBodyOverflow(true)
     _input.focus()
@@ -36,7 +35,7 @@ export default class SearchModal extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    const { _mSearch: { _input }, props: { actions }} = this
+    const { _mSearch: { _input }, props: { actions } } = this
     const location = {
       pathname: '#search',
       query: {
@@ -61,12 +60,12 @@ export default class SearchModal extends React.Component {
         className="modal__controller"
         onKeyDown={ this.listenForClose }
       >
-        <Button
-          btnClass="modal__btn"
-          onBtnClick={ actions.toggleModal }
+        <button
+          className="modal__btn"
+          onClick={ actions.toggleModal }
         >
           <h3><i className="fa fa-times" /></h3>
-        </Button>
+        </button>
         <SearchForm
           formClassName="modal__form"
           inputClassName="modal__input"

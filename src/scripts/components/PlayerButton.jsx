@@ -1,14 +1,13 @@
 import React from 'react'
-import Button from './Button'
 
 const PlayerButton = ({ btnOnClick, iconClassName, btnClassName, className }) => (
   <li className={ className }>
-    <Button
-      btnClass={ btnClassName }
-      onBtnClick={ btnOnClick }
+    <button
+      className={ btnClassName }
+      onClick={ btnOnClick }
     >
       <i className={ iconClassName } />
-    </Button>
+    </button>
   </li>
 )
 
