@@ -38,7 +38,12 @@ export default class CanvasGradient extends React.Component {
 
 CanvasGradient.propTypes = {
   className: PropTypes.string,
-  colors: PropTypes.array.isRequired,
+  colors: PropTypes.arrayOf(
+    PropTypes.shape({
+      offset: PropTypes.number.isRequired,
+      color: PropTypes.string.isRequired
+    })
+  ).isRequired,
   height: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number

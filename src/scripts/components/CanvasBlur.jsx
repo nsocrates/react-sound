@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import CanvasGradient from 'components/CanvasGradient'
 import StackBlur from 'utils/StackBlur'
 
 export default class Canvas extends React.Component {
@@ -8,7 +9,6 @@ export default class Canvas extends React.Component {
     this.ctx = _canvas.getContext('2d')
 
     this.img.crossOrigin = 'Anonymous'
-    this.img.onerror = () => this.handleError()
     this.img.onload = () => this.drawBlur()
     this.img.src = src
   }
@@ -31,24 +31,33 @@ export default class Canvas extends React.Component {
         blurRadius
       }
     } = this
-    this.ctx.drawImage(this.img, 0, 0, w, h)
-    return StackBlur.canvasRGBA(this._canvas, 0, 0, w, h, blurRadius)
-  }
 
-  handleError() {
-    const { fallback } = this.props
-    if (this.img.src === fallback) {
-      this.img.src = require('images/300x300.jpg')
-      return this.drawBlur()
+    // Handle CORS error
+    try {
+      this.ctx.drawImage(this.img, 0, 0, w, h)
+    } catch (e) {
+      this.hasError = true
+      return this.hasError
     }
 
-    this.img.src = fallback
-    return this.drawBlur()
+    return StackBlur.canvasRGBA(this._canvas, 0, 0, w, h, blurRadius)
   }
 
   render() {
     const canvasRef = ref => this._canvas = ref
     const { className, height, width } = this.props
+
+    if (this.hasError) {
+      return (
+        <CanvasGradient
+          className="canvas canvas--o-secondary"
+          colors={ this.props.fallbackGradient }
+          height={ height }
+          ref={ canvasRef }
+          width={ width }
+        />
+      )
+    }
 
     return (
       <canvas
@@ -64,7 +73,12 @@ export default class Canvas extends React.Component {
 Canvas.propTypes = {
   className: PropTypes.string,
   blurRadius: PropTypes.number,
-  fallback: PropTypes.string,
+  fallbackGradient: PropTypes.arrayOf(
+    PropTypes.shape({
+      offset: PropTypes.number.isRequired,
+      color: PropTypes.string.isRequired
+    })
+  ),
   src: PropTypes.string.isRequired,
   height: PropTypes.oneOfType([
     PropTypes.string,
@@ -80,5 +94,9 @@ Canvas.defaultProps = {
   className: 'canvas',
   blurRadius: 65,
   height: 300,
-  width: 300
+  width: 300,
+  fallbackGradient: [
+    { offset: 0, color: '#B993D6' },
+    { offset: 1, color: '#8CA6DB' }
+  ]
 }

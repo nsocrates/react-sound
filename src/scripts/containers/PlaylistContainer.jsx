@@ -119,8 +119,11 @@ class PlaylistContainer extends React.Component {
     return (
       <Main shouldPush={ shouldPlay }>
         {/* -- Banner -- */}
-        <div className="canvas-container">
-          <CanvasBlur src={ mediaData.artwork.large } fallback={ userAvatar.large } />
+        <div className="canvas-container canvas-container--rainbow-grad">
+          <CanvasBlur
+            className="canvas canvas--o-secondary"
+            src={ mediaData.artwork.large }
+          />
           {/* -- Profile -- */}
           <div className="profile">
 
