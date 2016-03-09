@@ -217,7 +217,7 @@ class UserContainer extends React.Component {
         <div className="canvas-container">
 
           <CanvasGradient
-            className="canvas canvas--o_primary"
+            className="canvas canvas--translucent"
             colors={ gradientColors }
           />
 

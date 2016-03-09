@@ -50,7 +50,7 @@ export default class Canvas extends React.Component {
     if (this.hasError) {
       return (
         <CanvasGradient
-          className="canvas canvas--o-secondary"
+          className={ className }
           colors={ this.props.fallbackGradient }
           height={ height }
           ref={ canvasRef }

@@ -1,6 +1,10 @@
 .waveform {
   @include absolute(left right);
-  background-color: mix($light-pink, $wan-white-gray, 80%);
+  background: linear-gradient(
+    135deg,
+    rgba($aquamarine, $primary),
+    rgba($gorse, $primary)
+  );
   height: 100%;
   opacity: .21;
 }

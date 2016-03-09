@@ -20,14 +20,14 @@
 .canvas {
   @include absolute(left);
   height: 100%;
-  opacity: $secondary;
+  opacity: $primary;
   width: 100%;
 
-  &--o_primary {
-    opacity: $primary;
+  &--translucent {
+    opacity: $secondary;
   }
 
-  &--o_secondary {
+  &--ghost {
     opacity: .65;
   }
 }

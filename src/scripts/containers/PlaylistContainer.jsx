@@ -129,7 +129,7 @@ class PlaylistContainer extends React.Component {
         {/* -- Banner -- */}
         <div className="canvas-container canvas-container--rainbow-grad">
           <CanvasBlur
-            className="canvas canvas--o-secondary"
+            className="canvas canvas--ghost"
             src={ mediaData.artwork.large }
           />
           {/* -- Profile -- */}
