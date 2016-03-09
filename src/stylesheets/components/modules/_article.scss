@@ -17,11 +17,12 @@
 }
 
 .article-wrap {
+  padding-bottom: 3rem;
   text-align: left;
   width: 100%;
 
   @include susy-media(medium) {
-    margin: 0 auto 3rem;
+    margin: 0 auto;
     max-width: 90%;
     padding-top: 3rem;
     width: em($medium);
@@ -30,6 +31,23 @@
   &--fill {
     overflow: hidden;
     width: auto;
+  }
+
+  &--is-collapsed {
+    margin-bottom: gutter();
+    position: relative;
+
+    &::after {
+      @include absolute(bottom left);
+      background: linear-gradient(
+        transparent,
+        $white
+      );
+      content: '';
+      height: 10rem;
+      pointer-events: none;
+      width: 100%;
+    }
   }
 }
 

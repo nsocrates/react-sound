@@ -23,10 +23,11 @@ export default class CollapseView extends React.Component {
 
   init(newProps) {
     const { target } = newProps
-    const { initHeight } = this.props
+    const { initHeight, targetClassName } = this.props
 
     if (target._ref.offsetHeight > initHeight) {
       target._ref.style.maxHeight = `${initHeight}px`
+      target._ref.classList.add(`${targetClassName}--is-collapsed`)
       return this.setState({
         hasInit: true,
         shouldRenderButtons: true,
@@ -38,15 +39,17 @@ export default class CollapseView extends React.Component {
   }
 
   handleCollapse() {
-    const { target, initHeight } = this.props
+    const { initHeight, target, targetClassName } = this.props
     target._ref.style.maxHeight = `${initHeight}px`
+    target._ref.classList.add(`${targetClassName}--is-collapsed`)
 
     this.setState({ isCollapsed: true })
   }
 
   handleUncollapse() {
-    const { target } = this.props
+    const { target, targetClassName } = this.props
     target._ref.style.maxHeight = ''
+    target._ref.classList.remove(`${targetClassName}--is-collapsed`)
 
     this.setState({ isCollapsed: false })
   }
@@ -98,5 +101,6 @@ CollapseView.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   initHeight: PropTypes.number.isRequired,
-  target: PropTypes.instanceOf(React.Component)
+  target: PropTypes.instanceOf(React.Component),
+  targetClassName: PropTypes.string
 }

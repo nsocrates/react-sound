@@ -180,6 +180,7 @@ class PlaylistContainer extends React.Component {
             className="article article--push"
             initHeight={ 200 }
             target={ this._articleContent }
+            targetClassName="article-wrap"
           >
             <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
               <img className="article__avatar--img avatar__img" src={ userAvatar.default } />
