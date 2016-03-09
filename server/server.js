@@ -1,7 +1,5 @@
 // https://github.com/newtriks/generator-react-webpack
 
-/*eslint no-console:0 */
-
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 import config from '../config/config'

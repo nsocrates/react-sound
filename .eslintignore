@@ -1,0 +1,3 @@
+config/*
+server/*
+src/scripts/utils/StackBlur.js
