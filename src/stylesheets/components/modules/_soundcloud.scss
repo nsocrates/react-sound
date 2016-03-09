@@ -1,0 +1,18 @@
+.sc {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+
+  &--connect {
+    content: url('http://connect.soundcloud.com/2/btn-disconnect-m.png');
+
+    @include susy-media(medium) {
+      content: url('http://connect.soundcloud.com/2/btn-connect-sc-m.png');
+    }
+  }
+
+  &--disconnect {
+    content: url('http://connect.soundcloud.com/2/btn-disconnect-m.png');
+  }
+}

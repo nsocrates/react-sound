@@ -1,19 +1,26 @@
 import React from 'react'
 import Header from 'components/Header'
 import Waypoint from 'components/Waypoint'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { triggerSticky } from 'actions/ui'
 
 class HeaderContainer extends React.Component {
-  render() {
-    const { actions } = this.props
+  constructor(props) {
+    super(props)
+    this.handleTriggerSticky = this.handleTriggerSticky.bind(this)
+  }
 
+  handleTriggerSticky() {
+    const { dispatch } = this.props
+    return dispatch(triggerSticky())
+  }
+
+  render() {
     return (
       <Header>
         <Waypoint
-          onEnter={ actions.triggerSticky }
-          onLeave={ actions.triggerSticky }
+          onEnter={ this.handleTriggerSticky }
+          onLeave={ this.handleTriggerSticky }
           triggerFrom="above"
         />
       </Header>
@@ -22,17 +29,7 @@ class HeaderContainer extends React.Component {
 }
 
 HeaderContainer.propTypes = {
-  actions: React.PropTypes.objectOf(
-    React.PropTypes.func.isRequired
-  )
+  dispatch: React.PropTypes.func.isRequired
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators({
-      triggerSticky
-    }, dispatch)
-  }
-}
-
-export default connect(() => ({}), mapDispatchToProps)(HeaderContainer)
+export default connect()(HeaderContainer)

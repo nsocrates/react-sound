@@ -258,10 +258,13 @@ class UserContainer extends React.Component {
             {/*-- !User Social Media --*/}
 
             <a
-              className="interact-bar btn--sc"
+              className="interact-bar interact-bar__link-to-sc"
               href={ permalink_url }
               target="_blank"
-            />
+            >
+              <i className="interact-bar__icon fa fa-soundcloud" />
+              <strong className="interact-bar__text">{" SOUNDCLOUD"}</strong>
+            </a>
 
           </div>{/*-- !Profile --*/}
         </div>{/*-- !Banner --*/}

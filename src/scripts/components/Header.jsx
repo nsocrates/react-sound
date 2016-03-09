@@ -9,21 +9,21 @@ export default class Header extends React.Component {
       <header className="header">
         <div className="header__container">
 
-          <ul className="header__section header__section--main">
+          <ul className="header__section header__section--left">
             <li className="header__item">
-              <i className="header__item--music fa fa-music" />
+              <i className="header__icon fa fa-music" />
             </li>
 
             <li className="header__item">
-              <Link className="header__item--link" to="/">{ "reactSOUND" }</Link>
+              <Link className="header__link" to="/">{ "ReactSound" }</Link>
             </li>
           </ul>
 
-          <ul className="header__section header__section--login">
+          <ul className="header__section header__section--right">
             <li className="header__item">
-              <Link className="header__item--link" to="/">
-                <img className="header__item--img soundcloud--connect" />
-              </Link>
+              <button className="btn">
+                <img className="sc sc--connect" />
+              </button>
             </li>
           </ul>
 

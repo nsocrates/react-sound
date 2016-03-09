@@ -39,19 +39,17 @@ $pink-disabled: tint($light-pink, 30%);
 $pink-dark: shade($light-pink, 5%);
 $wan-white-gray: shade($light-gray, 1%);
 
-// Rainbow
-$aquamarine: #46fcb2;
-$gorse: #fffb28;
-$persian-rose: #f532b2;
-
 // SoundCloud Colors
-$sc-orange: #f50;
+$sc-orange: #fe4e06;
 $sc-active: shade($sc-orange, 3%);
 $sc-pink: mix($light-pink, $sc-orange, 48%);
 $sc-pink--dark: shade($sc-pink, 5%);
 $sc-pink--disabled: tint($sc-pink, 30%);
 
-// Track Canvas Colors
+// Canvas Colors
+$aquamarine: #46fcb2;
+$gorse: #fffb28;
+$persian-rose: #f532b2;
 $bombay: #adb0b7;
 $london-hue: mix($light-pink, $bombay, 10%);
 
@@ -65,7 +63,6 @@ $white-primary: rgba($white, $l-primary);
 $white-secondary: rgba($white, $l-secondary);
 $white-hint: rgba($white, $l-hint);
 $white-disabled: rgba($white, $disabled);
-
 
 // Link Colors
 $link: $light-pink;

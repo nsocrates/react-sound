@@ -13,42 +13,24 @@
   @extend %justified;
   color: $white-primary;
 
-  &--main {
+  &--left {
     float: left;
   }
 
-  &--login {
+  &--right {
     float: right;
   }
 }
 
 .header__item {
   @extend %justified__item;
-
-  &--link {
-    color: $white-primary;
-    display: block;
-  }
-
-  &--img {
-    vertical-align: middle;
-  }
-
-  &--music {
-    margin-right: 1.5rem;
-  }
 }
 
-.soundcloud {
-  &--connect {
-    content: url('http://connect.soundcloud.com/2/btn-connect-m.png');
+.header__link {
+  color: $white-primary;
+  display: block;
+}
 
-    @include susy-media(medium) {
-      content: url('http://connect.soundcloud.com/2/btn-connect-sc-m.png');
-    }
-  }
-
-  &--disconnect {
-    content: url('http://connect.soundcloud.com/2/btn-disconnect-m.png');
-  }
+.header__icon {
+  margin-right: em(10px);
 }
