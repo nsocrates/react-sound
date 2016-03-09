@@ -1,9 +1,17 @@
 import * as ActionTypes from 'constants/ActionTypes'
+import { pushTrack } from 'actions/player'
 
 export function requestStream(trackId) {
   return {
     type: ActionTypes.STREAM_REQUEST,
     trackId: Number(trackId)
+  }
+}
+
+export function loadStreamList(ids) {
+  return dispatch => {
+    dispatch(requestStream(ids[0]))
+    dispatch(pushTrack(ids, 'playlist'))
   }
 }
 

@@ -16,12 +16,14 @@ import Waypoint from 'components/Waypoint'
 import { connect } from 'react-redux'
 import { extractStreamable, timeFactory, trackFactory, getCover, markNumber, extractNumber } from 'utils/Utils'
 import { loadPlaylist } from 'actions/playlist'
+import { loadStreamList } from 'actions/stream'
 import { paginateCollection, loadPagination } from 'actions/collection'
 
 class PlaylistContainer extends React.Component {
 
   constructor(props) {
     super(props)
+    this.handleLoadStreamList = this.handleLoadStreamList.bind(this)
     this.handleEnter = this.handleEnter.bind(this)
   }
 
@@ -32,6 +34,12 @@ class PlaylistContainer extends React.Component {
   updateComponent() {
     const { dispatch, params } = this.props
     return dispatch(loadPlaylist(params.id))
+  }
+
+  handleLoadStreamList(e) {
+    e.preventDefault()
+    const { dispatch, playlistObject } = this.props
+    return dispatch(loadStreamList(playlistObject.tracks))
   }
 
   handleEnter() {
@@ -130,6 +138,7 @@ class PlaylistContainer extends React.Component {
             <ProfileCover
               anchorClassName="profile__cover artwork artwork__wrapper"
               imgClassName="artwork__img"
+              onClick={ this.handleLoadStreamList }
               src={ mediaData.artwork.large }
             >
               <aside className="artwork__filter" />

@@ -5,8 +5,7 @@ import Loader from 'components/Loader'
 import Taglist from 'components/Taglist'
 import Waypoint from 'components/Waypoint'
 import { loadUserTracks, loadUserFavorites, loadUserPlaylists } from 'actions/user'
-import { requestStream } from 'actions/stream'
-import { pushTrack } from 'actions/player'
+import { requestStream, loadStreamList } from 'actions/stream'
 import { trackFactory } from 'utils/Utils'
 
 import { connect } from 'react-redux'
@@ -136,16 +135,11 @@ class UserMediaContainer extends React.Component {
         }
         const mediaData = trackFactory(obj)
 
-        const _isPlaylist = () => {
-          dispatch(requestStream(mediaData.tracklist[0]))
-          dispatch(pushTrack(mediaData.tracklist, mediaData.kind))
-        }
-
         const _handleCoverClick = e => {
           e.preventDefault()
 
           if (route.path === 'playlists') {
-            return _isPlaylist()
+            return dispatch(loadStreamList(mediaData.tracklist.ids))
           }
 
           const { isPlaying, streamTrackId } = this.props
