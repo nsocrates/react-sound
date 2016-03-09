@@ -13,7 +13,7 @@ class SearchModalContainer extends React.Component {
     const shouldRenderModal = () => {
       if (searchModal.isOpen) {
         return (
-          <SearchModal actions={ actions }/>
+          <SearchModal actions={ actions } />
         )
       }
     }

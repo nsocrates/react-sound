@@ -213,7 +213,7 @@ class UserContainer extends React.Component {
     return (
       <Main shouldPush={ shouldPlay }>
 
-        {/*-- Banner --*/}
+        {/* -- Banner --*/}
         <div className="canvas-container">
 
           <CanvasGradient
@@ -221,7 +221,7 @@ class UserContainer extends React.Component {
             colors={ gradientColors }
           />
 
-          {/*-- Profile --*/}
+          {/* -- Profile --*/}
           <div className="profile">
 
             <ProfileCover
@@ -231,7 +231,7 @@ class UserContainer extends React.Component {
               src={ avatarUrl }
             />
 
-            {/*-- User Info --*/}
+            {/* -- User Info --*/}
             <section className="profile__section profile__section--details">
 
               <article className="profile__info">
@@ -251,11 +251,11 @@ class UserContainer extends React.Component {
 
               <StatsTable tableData={ statsData } />
 
-            </section>{/*-- !User Info --*/}
+            </section>{/* -- !User Info --*/}
 
-            {/*-- User Social Media --*/}
+            {/* -- User Social Media --*/}
             { renderWebIcons() }
-            {/*-- !User Social Media --*/}
+            {/* -- !User Social Media --*/}
 
             <a
               className="interact-bar interact-bar__link-to-sc"
@@ -266,19 +266,19 @@ class UserContainer extends React.Component {
               <strong className="interact-bar__text">{" SOUNDCLOUD"}</strong>
             </a>
 
-          </div>{/*-- !Profile --*/}
-        </div>{/*-- !Banner --*/}
+          </div>{/* -- !Profile --*/}
+        </div>{/* -- !Banner --*/}
 
-        {/*-- Menu --*/}
+        {/* -- Menu --*/}
         <Menu
           innerClassName="menu__inner--profile"
           isSticky={ menu.isSticky }
           outerClassName="menu--profile"
         >
           { renderMenuItems() }
-        </Menu>{/*-- !Menu --*/}
+        </Menu>{/* -- !Menu --*/}
 
-        {/*-- Page Container --*/}
+        {/* -- Page Container --*/}
         <div className="menu__sibling main__container main__container--main">
           <Waypoint
             className="waypoint"
@@ -287,7 +287,7 @@ class UserContainer extends React.Component {
             triggerFrom="above"
           />
           { this.props.children }
-        </div>{/*-- !Page Container --*/}
+        </div>{/* -- !Page Container --*/}
       </Main>
     )
   }

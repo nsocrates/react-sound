@@ -11,7 +11,7 @@ export default class Gallery extends React.Component {
   }
 
   handleClick_artwork(e) {
-    const { actions, streamTrackId, audioIsPlaying, trackData: { media }} = this.props
+    const { actions, streamTrackId, audioIsPlaying, trackData: { media } } = this.props
     const audio = document.getElementById('audio')
     e.preventDefault()
 
@@ -30,7 +30,7 @@ export default class Gallery extends React.Component {
   }
 
   render() {
-    const { trackData: { user, media, artwork }} = this.props
+    const { trackData: { user, media, artwork } } = this.props
 
     return (
       <article className="gallery">

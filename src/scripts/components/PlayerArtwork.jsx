@@ -5,7 +5,7 @@ export default function PlayerArtwork({ src }) {
     <li
       className="player__ctrl player__artwork artwork--badge"
     >
-      <img className="player__artwork--img" src={ src }/>
+      <img className="player__artwork--img" src={ src } />
     </li>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Overlay = ({ classNames = '' , onOverlayClick = () => ({}) }) => (
+const Overlay = ({ classNames = '', onOverlayClick = () => ({}) }) => (
   <span
     className={ classNames }
     onClick={ onOverlayClick }

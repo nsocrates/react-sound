@@ -26,14 +26,14 @@ export default class AudioStream extends React.Component {
 
   // Sets audio duration
   handleLoadedMetaData() {
-    const { _audio, props: { playerActions }} = this
+    const { _audio, props: { playerActions } } = this
 
     playerActions.setDuration(_audio.duration)
   }
 
   // Plays audio when enough data has been loaded
   handleCanPlay() {
-    const { _audio, props: { streamActions }} = this
+    const { _audio, props: { streamActions } } = this
     streamActions.streamCanPlay()
 
     _audio.play()
@@ -55,7 +55,7 @@ export default class AudioStream extends React.Component {
 
   // Sets audio current time
   handleTimeUpdate() {
-    const { _audio, props: { playerActions, playerIsSeeking }} = this
+    const { _audio, props: { playerActions, playerIsSeeking } } = this
 
     if (!playerIsSeeking) {
       playerActions.setPosition(_audio.currentTime)
@@ -63,7 +63,7 @@ export default class AudioStream extends React.Component {
   }
 
   handleVolumeChange() {
-    const { _audio: { volume, muted }, props: { playerActions }} = this
+    const { _audio: { volume, muted }, props: { playerActions } } = this
 
     return muted ? playerActions.muteVolume(muted) : playerActions.setVolume(volume)
   }
@@ -78,7 +78,7 @@ export default class AudioStream extends React.Component {
   }
 
   handleError() {
-    const { _audio: { error }, props: { streamActions }} = this
+    const { _audio: { error }, props: { streamActions } } = this
 
     streamActions.streamFailure(error)
   }

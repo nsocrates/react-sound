@@ -11,7 +11,7 @@ import SideMenuContainer from './SideMenuContainer'
 class App extends React.Component {
 
   componentDidMount() {
-    const { dispatch, location: { hash }} = this.props
+    const { dispatch, location: { hash } } = this.props
     const ref = hash.split('?') || null
     const [path, search] = ref
 
@@ -27,7 +27,7 @@ class App extends React.Component {
     return (
       <div className="app__container">
         <SearchModalContainer />
-        <SideMenuContainer location={ this.props.location }/>
+        <SideMenuContainer location={ this.props.location } />
         <HeaderContainer />
         <NavContainer location={ this.props.location } />
         { this.props.children }
