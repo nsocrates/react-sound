@@ -5,7 +5,7 @@
   width: 100%;
 
   &--connect {
-    content: url('http://connect.soundcloud.com/2/btn-disconnect-m.png');
+    content: url('http://connect.soundcloud.com/2/btn-connect-m.png');
 
     @include susy-media(medium) {
       content: url('http://connect.soundcloud.com/2/btn-connect-sc-m.png');
