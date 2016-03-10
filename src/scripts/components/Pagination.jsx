@@ -3,12 +3,12 @@ import classNames from 'classnames'
 
 export default function Pagination({ next, prev, onNext, onPrev, children }) {
   const prevState = classNames('btn pagination__item pagination__item--caret', {
-    'btn--disabled': !prev,
+    'btn--disabled pagination__item--disabled': !prev,
     'pagination__item--stateful': prev
   })
 
   const nextState = classNames('btn pagination__item pagination__item--caret', {
-    'btn--disabled': !next,
+    'btn--disabled pagination__item--disabled': !next,
     'pagination__item--stateful': next
   })
 
@@ -17,6 +17,7 @@ export default function Pagination({ next, prev, onNext, onPrev, children }) {
       <ul className="pagination">
         <li className={ prevState } onClick={ onPrev }>
           <i className="fa fa-caret-left" />
+          <label className="pagination__label pagination__label--prev">{" Prev"}</label>
         </li>
 
         <ul className="pagination__pages">
@@ -24,6 +25,7 @@ export default function Pagination({ next, prev, onNext, onPrev, children }) {
         </ul>
 
         <li className={ nextState } onClick={ onNext }>
+          <label className="pagination__label pagination__label--next">{"Next "}</label>
           <i className="fa fa-caret-right" />
         </li>
       </ul>

@@ -53,6 +53,10 @@
     }
   }
 
+  &--disabled {
+    background-color: shade($white, 2%);
+  }
+
   &--ellipsis {
     background-color: transparent;
     border: 0;
@@ -88,6 +92,22 @@
   }
 }
 
+.pagination__label {
+  pointer-events: none;
+
+  @include susy-media(small-only) {
+    display: none;
+  }
+
+  &--prev {
+    margin-left: em(2px);
+  }
+
+  &--next {
+    margin-right: em(2px);
+  }
+}
+
 .pagination__index {
   display: none;
 
@@ -96,8 +116,7 @@
   }
 
   &--current {
-    background-color: $light-pink;
-    color: $white;
+    background-color: shade($white, 10%);
     display: table-cell;
     pointer-events: none;
 
