@@ -342,7 +342,7 @@ TrackContainer.propTypes = {
 
 function mapStateToProps(state) {
   const {
-    router: { location: { pathname } },
+    router: { locationBeforeTransitions: { pathname } },
     app: {
       pagination,
       partition: { commentsByTrack },
@@ -360,7 +360,6 @@ function mapStateToProps(state) {
   return {
     pagination,
     isPlaying,
-    location,
     menu,
     shouldPlay,
     commentsByTrack,

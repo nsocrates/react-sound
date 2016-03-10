@@ -203,7 +203,6 @@ UserMediaContainer.propTypes = {
   dispatch: PropTypes.func,
   favoritesByUser: PropTypes.object,
   isPlaying: PropTypes.bool,
-  location: PropTypes.object,
   params: PropTypes.object,
   playlistEntity: PropTypes.object,
   playlistsByUser: PropTypes.object,

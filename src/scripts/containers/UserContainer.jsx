@@ -324,7 +324,6 @@ function mapStateToProps(state) {
 
   return {
     isPlaying,
-    location,
     menu,
     shouldPlay,
     tracksByUser,
