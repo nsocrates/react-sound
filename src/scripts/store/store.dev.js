@@ -2,18 +2,18 @@ import api from 'middleware/api'
 import createLogger from 'redux-logger'
 import rootReducer from 'reducers/rootReducer'
 import thunk from 'redux-thunk'
-import { browserHistory } from 'react-router'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
-import { routeReducer, syncHistory } from 'react-router-redux'
-
-const logger = createLogger()
+import { routerReducer, routerMiddleware } from 'react-router-redux'
+import { browserHistory } from 'react-router'
 
 const reducer = combineReducers({
   app: rootReducer,
-  router: routeReducer
+  router: routerReducer
 })
 
-const reduxRouter = syncHistory(browserHistory)
+const logger = createLogger()
+const reduxRouter = routerMiddleware(browserHistory)
+
 const createStoreWithMiddleware = applyMiddleware(
   api,
   thunk,
@@ -23,7 +23,6 @@ const createStoreWithMiddleware = applyMiddleware(
 
 export default function makeStore() {
   const store = createStoreWithMiddleware(reducer)
-  reduxRouter.listenForReplays(store, state => state.router.location)
 
   return store
 }

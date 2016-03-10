@@ -1,20 +1,31 @@
 import App from 'containers/App'
 import CollectionContainer from 'containers/CollectionContainer'
-import End from 'components/End'
+import RoutingContainer from 'containers/RoutingContainer'
+import PlaylistContainer from 'containers/PlaylistContainer'
 import React from 'react'
+import TrackContainer from 'containers/TrackContainer'
 import UserContainer from 'containers/UserContainer'
 import UserDescriptionContainer from 'containers/UserDescriptionContainer'
 import UserMediaContainer from 'containers/UserMediaContainer'
-import TrackContainer from 'containers/TrackContainer'
-import PlaylistContainer from 'containers/PlaylistContainer'
-import { Router, Route, browserHistory, IndexRoute } from 'react-router'
+import makeStore from 'store/store'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
+
+export const store = makeStore()
+
+const history = syncHistoryWithStore(
+  browserHistory,
+  store, {
+    selectLocationState: state => state.router
+  }
+)
 
 const updateWindow = () => window.scrollTo(0, 0)
 
-const routes = (
-  <Router onUpdate={ updateWindow } history={ browserHistory }>
+export const routes = (
+  <Router onUpdate={ updateWindow } history={ history }>
     <Route component={ App } path="/">
-      <IndexRoute component={ End } />
+      <IndexRoute component={ RoutingContainer } />
       <Route component={ CollectionContainer } path="#genre" />
       <Route component={ CollectionContainer } path="#search" />
       <Route component={ CollectionContainer } path="#tag" />
@@ -29,5 +40,3 @@ const routes = (
     </Route>
   </Router>
 )
-
-export default routes

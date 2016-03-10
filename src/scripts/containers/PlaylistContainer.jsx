@@ -219,7 +219,6 @@ PlaylistContainer.propTypes = {
   commentsByTrack: PropTypes.object,
   dispatch: PropTypes.func,
   isPlaying: PropTypes.bool,
-  location: PropTypes.object,
   menu: PropTypes.object,
   pagination: PropTypes.object,
   params: PropTypes.object,
@@ -232,7 +231,9 @@ PlaylistContainer.propTypes = {
 
 function mapStateToProps(state) {
   const {
-    router: { location: { pathname } },
+    router: {
+      locationBeforeTransitions: { pathname }
+    },
     app: {
       pagination,
       partition: { commentsByTrack },
@@ -250,7 +251,6 @@ function mapStateToProps(state) {
   return {
     pagination,
     isPlaying,
-    location,
     menu,
     shouldPlay,
     commentsByTrack,

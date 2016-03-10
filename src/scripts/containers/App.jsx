@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 
 import AudioContainer from './AudioContainer'
 import HeaderContainer from './HeaderContainer'
@@ -10,26 +9,13 @@ import SideMenuContainer from './SideMenuContainer'
 
 class App extends React.Component {
 
-  componentDidMount() {
-    const { dispatch, location: { hash } } = this.props
-    const ref = hash.split('?') || null
-    const [path, search] = ref
-
-    const location = {
-      pathname: path || '/',
-      search: search ? `?${search}` : null
-    }
-
-    return dispatch(push(location))
-  }
-
   render() {
     return (
       <div className="app__container">
         <SearchModalContainer />
-        <SideMenuContainer location={ this.props.location } />
+        <SideMenuContainer location={ this.props.location} />
         <HeaderContainer />
-        <NavContainer location={ this.props.location } />
+        <NavContainer location={ this.props.location} />
         { this.props.children }
         <AudioContainer />
       </div>
