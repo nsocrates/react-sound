@@ -67,53 +67,44 @@ class UserMediaContainer extends React.Component {
 
     const getEntity = () => {
       const {
-        params,
-        tracksByUser,
-        favoritesByUser,
-        playlistsByUser
+        userTracks,
+        userFavorites,
+        userPlaylists
       } = this.props
-
-      let media = {
-        entity: null,
-        partition: null
-      }
 
       switch (route.path) {
         case 'tracks':
-          media = {
+          return {
             mediaEntity: trackEntity,
-            partition: tracksByUser[params.id],
+            partition: userTracks,
             hasItems: !!this.user.track_count,
             none: 'USER DOES NOT HAVE ANY TRACKS'
           }
-          return media
 
         case 'favorites':
-          media = {
+          return {
             mediaEntity: trackEntity,
-            partition: favoritesByUser[params.id],
+            partition: userFavorites,
             hasItems: !!this.user.public_favorites_count,
             none: 'USER DOES NOT HAVE ANY FAVORITES'
           }
-          return media
 
         case 'playlists':
-          media = {
+          return {
             mediaEntity: playlistEntity,
-            partition: playlistsByUser[params.id],
+            partition: userPlaylists,
             hasItems: !!this.user.playlist_count,
             none: 'USER DOES NOT HAVE ANY PLAYLISTS'
           }
-          return media
 
         default:
-          return media
+          return {}
       }
     }
 
     const {
-      mediaEntity = {},
-      partition = {},
+      mediaEntity,
+      partition,
       hasItems,
       none
     } = getEntity()
@@ -200,20 +191,20 @@ class UserMediaContainer extends React.Component {
 }
 
 UserMediaContainer.propTypes = {
-  dispatch: PropTypes.func,
-  favoritesByUser: PropTypes.object,
-  isPlaying: PropTypes.bool,
-  params: PropTypes.object,
-  playlistEntity: PropTypes.object,
-  playlistsByUser: PropTypes.object,
-  route: PropTypes.object,
-  streamTrackId: PropTypes.number,
-  trackEntity: PropTypes.object,
-  tracksByUser: PropTypes.object,
-  userEntity: PropTypes.object
+  dispatch: PropTypes.func.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
+  params: PropTypes.object.isRequired,
+  playlistEntity: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  streamTrackId: PropTypes.number.isRequired,
+  trackEntity: PropTypes.object.isRequired,
+  userEntity: PropTypes.object.isRequired,
+  userFavorites: PropTypes.object.isRequired,
+  userPlaylists: PropTypes.object.isRequired,
+  userTracks: PropTypes.object.isRequired
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   const {
     entities: { users, tracks, playlists },
     partition: { tracksByUser, favoritesByUser, playlistsByUser },
@@ -224,12 +215,13 @@ function mapStateToProps(state) {
       }
     }
   } = state.app
+  const { params: { id } } = ownProps
 
   return {
     isPlaying,
-    tracksByUser,
-    favoritesByUser,
-    playlistsByUser,
+    userTracks: tracksByUser[id] || {},
+    userFavorites: favoritesByUser[id] || {},
+    userPlaylists: playlistsByUser[id] || {},
     streamTrackId: trackId,
     userEntity: users,
     trackEntity: tracks,

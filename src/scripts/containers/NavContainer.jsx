@@ -16,13 +16,6 @@ class NavContainer extends React.Component {
   }
 }
 
-NavContainer.propTypes = {
-  navbar: React.PropTypes.shape({
-    isSticky: React.PropTypes.bool.isRequired
-  }),
-  requested: React.PropTypes.object
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     uiActions: bindActionCreators(uiActionCreators, dispatch)
@@ -30,12 +23,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  const { sideMenu, searchModal, navbar } = state.app.ui
-
+  const { searchModal, navbar } = state.app.ui
   return {
     navbar,
-    searchModal,
-    sideMenu
+    searchModal
   }
 }
 

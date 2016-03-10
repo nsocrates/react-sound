@@ -145,9 +145,7 @@ CollectionContainer.propTypes = {
   ),
   shouldPlay: React.PropTypes.bool,
   streamTrackId: React.PropTypes.number,
-  trackEntity: React.PropTypes.objectOf(
-    React.PropTypes.object
-  ),
+  trackEntity: React.PropTypes.object.isRequired,
   tracksByGenre: React.PropTypes.objectOf(
     React.PropTypes.shape({
       ids: React.PropTypes.arrayOf(
@@ -156,9 +154,7 @@ CollectionContainer.propTypes = {
     })
   ),
   tracksByTag: React.PropTypes.object,
-  userEntity: React.PropTypes.objectOf(
-    React.PropTypes.object
-  )
+  userEntity: React.PropTypes.object.isRequired
 }
 
 function mapDispatchToProps(dispatch) {

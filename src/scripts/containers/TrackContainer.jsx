@@ -58,20 +58,21 @@ class TrackContainer extends React.Component {
       shouldPlay,
       trackObject,
       dispatch,
-      commentsByTrack
+      trackComments
     } = this.props
 
-    if (!trackObject) {
+    if (!Object.keys(trackObject).length) {
       return <Loader className="loader--top" />
     }
 
+    const { [trackObject.user_id]: userObject } = userEntity
     const trackFactoryArgs = {
-      userObject: userEntity[trackObject.user_id],
+      userObject,
       mediaObject: trackObject
     }
+
     const mediaData = trackFactory(trackFactoryArgs)
-    const userAvatar = getCover(userEntity[trackObject.user_id].avatar_url)
-    const trackComments = commentsByTrack[params.id]
+    const userAvatar = getCover(userObject.avatar_url)
     const statsListItems = [
       {
         text: mediaData.createdAt
@@ -93,10 +94,18 @@ class TrackContainer extends React.Component {
     ]
 
     const articleContent = ref => this._articleContent = ref
+
     const renderComments = () => {
       const { pagination } = this.props
 
-      if (!trackComments || trackComments.isFetching || pagination.id !== trackObject.id) {
+      const _isReady = () => {
+        const hasLength = Object.keys(trackComments).length
+        const notFetching = !trackComments.isFetching
+        const isSynced = pagination.id === trackObject.id
+        return !!(hasLength && notFetching && isSynced)
+      }
+
+      if (!_isReady()) {
         return <Loader className="loader--bottom" />
       }
 
@@ -132,8 +141,14 @@ class TrackContainer extends React.Component {
     }
 
     const shouldRenderPagination = () => {
-      if (mediaData.stats.comments > 24 && trackComments && !!trackComments.ids.length) {
-        const { offset } = commentsByTrack[params.id]
+      const _shouldRender = () => {
+        const hasMore = mediaData.stats.comments > 24
+        const hasIds = trackComments.ids && trackComments.ids.length
+        return !!(hasMore && hasIds)
+      }
+
+      if (_shouldRender()) {
+        const { offset } = trackComments
         const endpoint = `/tracks/${params.id}/comments?`
         const url = trackComments.next_href || `${constructUrl(endpoint)}&offset=${offset + 24}`
         const pages = Math.ceil(mediaData.stats.comments / 24)
@@ -328,21 +343,20 @@ class TrackContainer extends React.Component {
 }
 
 TrackContainer.propTypes = {
-  commentsByTrack: PropTypes.object,
-  dispatch: PropTypes.func,
-  isPlaying: PropTypes.bool,
-  menu: PropTypes.object,
-  pagination: PropTypes.object,
-  params: PropTypes.object,
-  shouldPlay: PropTypes.bool,
-  streamTrackId: PropTypes.number,
-  trackObject: PropTypes.object,
-  userEntity: PropTypes.object
+  dispatch: PropTypes.func.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
+  menu: PropTypes.object.isRequired,
+  pagination: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired,
+  shouldPlay: PropTypes.bool.isRequired,
+  streamTrackId: PropTypes.number.isRequired,
+  trackComments: PropTypes.object.isRequired,
+  trackObject: PropTypes.object.isRequired,
+  userEntity: PropTypes.object.isRequired
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   const {
-    router: { locationBeforeTransitions: { pathname } },
     app: {
       pagination,
       partition: { commentsByTrack },
@@ -356,16 +370,17 @@ function mapStateToProps(state) {
       ui: { menu }
     }
   } = state
+  const { id } = ownProps.params
 
   return {
     pagination,
     isPlaying,
     menu,
     shouldPlay,
-    commentsByTrack,
+    trackComments: commentsByTrack[id] || {},
     userEntity: users,
     streamTrackId: trackId,
-    trackObject: tracks[pathname.split('/')[1]]
+    trackObject: tracks[id] || {}
   }
 }
 

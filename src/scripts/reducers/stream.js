@@ -1,9 +1,9 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
 const initialState = {
-  shouldPlay: null,
-  canPlay: null,
-  trackId: null,
+  shouldPlay: false,
+  canPlay: false,
+  trackId: 0,
   error: null
 }
 

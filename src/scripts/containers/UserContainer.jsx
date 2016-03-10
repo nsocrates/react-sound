@@ -15,7 +15,6 @@ import { IMG_FORMAT, IMG_FALLBACK } from 'constants/ItemLists'
 import { loadUser, resolveUser } from 'actions/user'
 import { triggerStickyMenu } from 'actions/ui'
 
-
 class UserContainer extends React.Component {
 
   constructor(props) {
@@ -61,16 +60,14 @@ class UserContainer extends React.Component {
 
   render() {
     const {
-      userEntity,
+      user,
       params,
       shouldPlay,
       menu,
-      routes
+      currPath
     } = this.props
 
-    const user = userEntity[params.id]
-
-    if (!user) {
+    if (!Object.keys(user).length) {
       return <Loader className="loader--top" />
     }
 
@@ -142,10 +139,8 @@ class UserContainer extends React.Component {
       ]
 
       return itemList.map((item, index) => {
-        const currPath = routes[routes.length - 1].path
         const isActive = classNames('menu__link menu__link--profile', {
           'menu__link--active': currPath === item.text.toLowerCase()
-                                || !currPath && item.text === 'Bio'
         })
 
         return (
@@ -295,25 +290,22 @@ class UserContainer extends React.Component {
 
 UserContainer.propTypes = {
   children: PropTypes.node.isRequired,
-  dispatch: PropTypes.func,
-  isPlaying: PropTypes.bool,
-  menu: PropTypes.object,
-  params: PropTypes.object,
-  routes: PropTypes.array,
-  shouldPlay: PropTypes.bool,
-  streamTrackId: PropTypes.number,
-  trackEntity: PropTypes.object,
-  tracksByUser: PropTypes.object,
-  userEntity: PropTypes.object
+  currPath: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
+  menu: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired,
+  routes: PropTypes.array.isRequired,
+  shouldPlay: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   const {
     app: {
-      partition: { tracksByUser },
-      entities: { users, tracks },
+      entities: { users },
       media: {
-        stream: { trackId, shouldPlay },
+        stream: { shouldPlay },
         player: {
           audio: { isPlaying }
         }
@@ -321,15 +313,14 @@ function mapStateToProps(state) {
       ui: { menu }
     }
   } = state
+  const { routes, params: { id } } = ownProps
 
   return {
     isPlaying,
     menu,
     shouldPlay,
-    tracksByUser,
-    userEntity: users,
-    trackEntity: tracks,
-    streamTrackId: trackId
+    user: users[id] || {},
+    currPath: routes[routes.length - 1].path || 'bio'
   }
 }
 

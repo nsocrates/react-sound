@@ -14,7 +14,7 @@ import Taglist from 'components/Taglist'
 import Tracklist from 'components/Tracklist'
 import Waypoint from 'components/Waypoint'
 import { connect } from 'react-redux'
-import { extractStreamable, timeFactory, trackFactory, getCover, markNumber, extractNumber } from 'utils/Utils'
+import { extractStreamable, timeFactory, trackFactory, getCover, markNumber } from 'utils/Utils'
 import { loadPlaylist } from 'actions/playlist'
 import { loadStreamList } from 'actions/stream'
 import { paginateCollection, loadPagination } from 'actions/collection'
@@ -229,11 +229,8 @@ PlaylistContainer.propTypes = {
   userEntity: PropTypes.object
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   const {
-    router: {
-      locationBeforeTransitions: { pathname }
-    },
     app: {
       pagination,
       partition: { commentsByTrack },
@@ -247,6 +244,7 @@ function mapStateToProps(state) {
       ui: { menu }
     }
   } = state
+  const { id } = ownProps.params
 
   return {
     pagination,
@@ -257,7 +255,7 @@ function mapStateToProps(state) {
     trackId,
     trackEntity: tracks,
     userEntity: users,
-    playlistObject: playlists[extractNumber(pathname)]
+    playlistObject: playlists[id]
   }
 }
 
