@@ -1,7 +1,7 @@
 import React from 'react'
 import LinkItem from 'components/LinkItem'
 
-export default function Header({ children = null }) {
+export default function Header({ children = null, onClick = () =>({}) }) {
   return (
     <header className="header">
       <div className="header__container">
@@ -18,7 +18,10 @@ export default function Header({ children = null }) {
 
         <ul className="header__section header__section--right">
           <li className="header__item">
-            <button className="btn">
+            <button
+              className="btn"
+              onClick={ onClick }
+            >
               <img className="sc sc--connect" />
             </button>
           </li>
@@ -31,5 +34,6 @@ export default function Header({ children = null }) {
 }
 
 Header.propTypes = {
-  children: React.PropTypes.node
+  children: React.PropTypes.node,
+  onClick: React.PropTypes.func
 }
