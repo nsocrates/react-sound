@@ -29,6 +29,9 @@
   @include susy-media(medium) {
     border: 0;
     margin: 0 auto;
+  }
+
+  @include susy-media(large) {
     width: 80%;
   }
 }

@@ -177,7 +177,7 @@
   }
 
   &--even {
-    background-color: rgba(mix($light-gray, $shark, 95%), $secondary);
+    background-color: rgba(tint($shark, 80%), $secondary);
   }
 }
 
