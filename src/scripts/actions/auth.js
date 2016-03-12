@@ -1,14 +1,16 @@
 import * as ActionTypes from 'constants/ActionTypes'
-import { CALL_AUTH } from 'constants/Auth'
+import { AUTH } from 'constants/Auth'
+import { Schemas } from 'constants/Schemas'
 
 export default function authorizeUser() {
   return {
-    [CALL_AUTH]: {
+    [AUTH.CALL]: {
       types: [
         ActionTypes.AUTH_REQUEST,
         ActionTypes.AUTH_SUCCESS,
         ActionTypes.AUTH_FAILURE
-      ]
+      ],
+      schema: Schemas.USER
     }
   }
 }

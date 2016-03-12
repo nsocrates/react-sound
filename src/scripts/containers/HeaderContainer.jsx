@@ -6,6 +6,7 @@ import { triggerSticky } from 'actions/ui'
 
 import { OAuth } from 'oauth/oauth'
 import { AUTH } from 'constants/Auth'
+import authorizeUser from 'actions/auth'
 
 class HeaderContainer extends React.Component {
   constructor(props) {
@@ -15,14 +16,8 @@ class HeaderContainer extends React.Component {
   }
 
   handleClick() {
-    OAuth.initialize(AUTH.KEY)
-    OAuth.popup(AUTH.SERVICE)
-         .done(result => (
-            result.get('/me')
-                  .done(response => (
-                    console.log(response)
-                  ))
-          ))
+    const { dispatch } = this.props
+    dispatch(authorizeUser())
   }
 
   handleTriggerSticky() {
