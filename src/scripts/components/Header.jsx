@@ -1,7 +1,16 @@
 import React from 'react'
 import LinkItem from 'components/LinkItem'
+import classNames from 'classnames'
 
-export default function Header({ children = null, onClick = () =>({}) }) {
+export default function Header({
+  children = null,
+  handleAuth = () =>({}),
+  isAuthorized = false
+}) {
+  const scButton = classNames('sc', {
+    'sc--connect': !isAuthorized,
+    'sc--disconnect': isAuthorized
+  })
   return (
     <header className="header">
       <div className="header__container">
@@ -20,9 +29,9 @@ export default function Header({ children = null, onClick = () =>({}) }) {
           <li className="header__item">
             <button
               className="btn"
-              onClick={ onClick }
+              onClick={ handleAuth }
             >
-              <img className="sc sc--connect" />
+              <img className={ scButton } />
             </button>
           </li>
         </ul>
@@ -35,5 +44,6 @@ export default function Header({ children = null, onClick = () =>({}) }) {
 
 Header.propTypes = {
   children: React.PropTypes.node,
-  onClick: React.PropTypes.func
+  isAuthorized: React.PropTypes.bool,
+  handleAuth: React.PropTypes.func
 }

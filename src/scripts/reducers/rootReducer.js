@@ -1,3 +1,4 @@
+import auth from './auth'
 import entities from './entities'
 import errorMessage from './errorMessage'
 import pagination from './pagination'
@@ -8,6 +9,7 @@ import ui from './ui'
 import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
+  auth,
   entities,
   errorMessage,
   pagination,

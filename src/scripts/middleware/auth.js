@@ -3,16 +3,23 @@ import { OAuth } from 'oauth/oauth'
 import { AUTH, CALL_AUTH } from 'constants/Auth'
 import { normalize } from 'normalizr'
 
-function callAuth(schema) {
+function callAuth(endpoint, schema) {
   OAuth.initialize(AUTH.KEY)
 
-  return OAuth.popup(AUTH.SERVICE)
+  if (endpoint === 'disconnect') {
+    return OAuth.clearCache()
+  }
+
+  return OAuth.popup(AUTH.SERVICE, { cache: true })
     .fail(error => new Error(error))
-    .then(result => (
-      result.get('/me')
-        .then(me => (
-          Object.assign({}, normalize(me, schema))
-        ))
+    .then(service => (
+      service.get(endpoint)
+        .then(me => {
+          const request = OAuth.create(AUTH.SERVICE)
+          return Object.assign({},
+            normalize(me, schema),
+            { request })
+        })
     ))
 }
 
@@ -22,8 +29,14 @@ export default store => next => action => {
     return next(action)
   }
 
-  const { schema, types } = callAUTH
+  const { schema, types, endpoint } = callAUTH
 
+  if (endpoint === 'disconnect') {
+    return callAuth(endpoint)
+  }
+  if (typeof endpoint !== 'string') {
+    throw new Error('Specify a string endpoint URL.')
+  }
   if (!schema) {
     throw new Error('Specify one of the exported Schemas.')
   }
@@ -44,7 +57,7 @@ export default store => next => action => {
   const [requestType, successType, failureType] = types
   next(actionWith({ type: requestType }))
 
-  return callAuth(schema).then(
+  return callAuth(endpoint, schema).then(
       response => next(actionWith({
         response,
         type: successType

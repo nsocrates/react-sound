@@ -116,7 +116,7 @@ class UserContainer extends React.Component {
         return city && country ? `${city}, ${country}` : country || city
       }
 
-      return 'Somewhere'
+      return 'Somewhere...'
     }
 
     const renderMenuItems = () => {
@@ -161,7 +161,7 @@ class UserContainer extends React.Component {
     }
 
     const renderWebIcons = () => {
-      if (!user.web_profiles) {
+      if (!user.web_profiles || !user.web_profiles.length) {
         return <hr className="invis" />
       }
 

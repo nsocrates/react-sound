@@ -6,18 +6,22 @@ import { triggerSticky } from 'actions/ui'
 
 import { OAuth } from 'oauth/oauth'
 import { AUTH } from 'constants/Auth'
-import authorizeUser from 'actions/auth'
+import { authConnect, authDisconnect } from 'actions/auth'
 
 class HeaderContainer extends React.Component {
   constructor(props) {
     super(props)
     this.handleTriggerSticky = this.handleTriggerSticky.bind(this)
-    this.handleClick = this.handleClick.bind(this)
+    this.handleAuth = this.handleAuth.bind(this)
   }
 
-  handleClick() {
-    const { dispatch } = this.props
-    dispatch(authorizeUser())
+  handleAuth() {
+    const { dispatch, auth: { request } } = this.props
+    if (request.hasOwnProperty('access_token')) {
+      return dispatch(authDisconnect())
+    }
+
+    return dispatch(authConnect())
   }
 
   handleTriggerSticky() {
@@ -26,8 +30,12 @@ class HeaderContainer extends React.Component {
   }
 
   render() {
+    const { auth: { request } } = this.props
     return (
-      <Header onClick={ this.handleClick }>
+      <Header
+        handleAuth={ this.handleAuth }
+        isAuthorized={ request.hasOwnProperty('access_token') }
+      >
         <Waypoint
           onEnter={ this.handleTriggerSticky }
           onLeave={ this.handleTriggerSticky }
@@ -42,4 +50,16 @@ HeaderContainer.propTypes = {
   dispatch: React.PropTypes.func.isRequired
 }
 
-export default connect()(HeaderContainer)
+function mapStateToProps(state) {
+  const {
+    app: {
+      auth
+    }
+  } = state
+
+  return {
+    auth
+  }
+}
+
+export default connect(mapStateToProps)(HeaderContainer)

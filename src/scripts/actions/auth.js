@@ -1,8 +1,10 @@
 import * as ActionTypes from 'constants/ActionTypes'
 import { AUTH } from 'constants/Auth'
 import { Schemas } from 'constants/Schemas'
+import { loadUser } from 'actions/user'
+import { push } from 'react-router-redux'
 
-export default function authorizeUser() {
+function authorize(endpoint, schema) {
   return {
     [AUTH.CALL]: {
       types: [
@@ -10,7 +12,23 @@ export default function authorizeUser() {
         ActionTypes.AUTH_SUCCESS,
         ActionTypes.AUTH_FAILURE
       ],
-      schema: Schemas.USER
+      endpoint,
+      schema,
     }
   }
+}
+
+export function authConnect() {
+  return dispatch => (
+    dispatch(authorize('/me', Schemas.USER))
+      .then(res => {
+        const id = res.response.result.toString()
+        dispatch(loadUser(id))
+          .then(() => dispatch(push({ pathname: `#user/${id}` })))
+      })
+  )
+}
+
+export function authDisconnect() {
+  return dispatch => dispatch(authorize('disconnect'))
 }
