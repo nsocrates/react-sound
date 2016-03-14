@@ -1,9 +1,9 @@
-import * as uiActionCreators from 'actions/ui'
-import Nav from 'components/Nav'
 import React from 'react'
+import Nav from 'components/Nav'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { GENRES } from 'constants/ItemLists'
+import { toggleSideMenu, toggleModal } from 'actions/toggle'
 
 function NavContainer(props) {
   return (
@@ -16,12 +16,12 @@ function NavContainer(props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    uiActions: bindActionCreators(uiActionCreators, dispatch)
+    uiActions: bindActionCreators({ toggleSideMenu, toggleModal }, dispatch)
   }
 }
 
 function mapStateToProps(state) {
-  const { searchModal, navbar } = state.app.ui
+  const { searchModal, navbar } = state.app.ui.toggles
   return {
     navbar,
     searchModal

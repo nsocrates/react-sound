@@ -4,7 +4,7 @@
 
 import * as ActionTypes from 'constants/ActionTypes'
 import { CALL_API, API_ROOT, CLIENT_ID } from 'constants/Api'
-import { paginateCollection } from 'actions/collection'
+import { setPagination } from 'actions/collection'
 import { Schemas } from 'constants/Schemas'
 
 // Fetches a collection of tracks for a particular playlist:
@@ -28,7 +28,7 @@ export function loadPlaylist(id) {
     dispatch(fetchPlaylist(id))
       .then(() => {
         const collection = getState().app.entities.playlists[id].tracks.slice(0, 15)
-        return dispatch(paginateCollection(id, collection))
+        return dispatch(setPagination(id, collection))
       })
   )
 }

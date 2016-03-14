@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 import { extractStreamable, timeFactory, trackFactory, getCover, markNumber } from 'utils/Utils'
 import { loadPlaylist } from 'actions/playlist'
 import { loadStreamList } from 'actions/stream'
-import { paginateCollection, loadPagination } from 'actions/collection'
+import { delayPagination } from 'actions/collection'
 
 class PlaylistContainer extends React.Component {
 
@@ -46,10 +46,7 @@ class PlaylistContainer extends React.Component {
     const { dispatch, playlistObject, pagination } = this.props
     const ids = playlistObject.tracks.slice(0, pagination.result.length + 15)
 
-    dispatch(loadPagination())
-    setTimeout(() => {
-      dispatch(paginateCollection(playlistObject.id, ids))
-    }, 200)
+    return dispatch(delayPagination(playlistObject.id, ids, 250))
   }
 
   render() {
@@ -219,7 +216,6 @@ PlaylistContainer.propTypes = {
   commentsByTrack: PropTypes.object,
   dispatch: PropTypes.func,
   isPlaying: PropTypes.bool,
-  menu: PropTypes.object,
   pagination: PropTypes.object,
   params: PropTypes.object,
   playlistObject: PropTypes.object,
@@ -240,8 +236,7 @@ function mapStateToProps(state, ownProps) {
         player: {
           audio: { isPlaying }
         }
-      },
-      ui: { menu }
+      }
     }
   } = state
   const { id } = ownProps.params
@@ -249,7 +244,6 @@ function mapStateToProps(state, ownProps) {
   return {
     pagination,
     isPlaying,
-    menu,
     shouldPlay,
     commentsByTrack,
     trackId,

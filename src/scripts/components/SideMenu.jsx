@@ -32,7 +32,7 @@ export default class SideMenu extends React.Component {
         }
 
         actions.push(locationDescriptor)
-        actions.toggleMenu()
+        actions.toggleSideMenu()
       }
 
       return (
@@ -53,7 +53,7 @@ export default class SideMenu extends React.Component {
       >
         <button
           className="side-menu__btn"
-          onClick={ actions.toggleMenu }
+          onClick={ actions.toggleSideMenu }
         >
           <i className="fa fa-times" />
         </button>

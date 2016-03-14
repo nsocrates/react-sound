@@ -4,7 +4,7 @@ import SearchModal from 'components/SearchModal'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { toggleModal } from 'actions/ui'
+import { toggleModal } from 'actions/toggle'
 
 function SearchModalContainer(props) {
   const { actions, searchModal } = props
@@ -51,7 +51,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  const { searchModal } = state.app.ui
+  const { searchModal } = state.app.ui.toggles
 
   return {
     searchModal

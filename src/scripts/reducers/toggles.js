@@ -1,7 +1,7 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
 const initialState = {
-  menu: {
+  profileMenu: {
     isSticky: false
   },
   navbar: {
@@ -18,18 +18,18 @@ const initialState = {
   }
 }
 
-export default function ui(state = initialState, action) {
+export default function toggle(state = initialState, action) {
   const { navbar, sideMenu, searchModal, tracklist } = state
   const { isTrue } = action
 
   switch (action.type) {
-    case ActionTypes.MENU_STICK:
+    case ActionTypes.TOGGLE_PROFILE_MENU:
       return Object.assign({}, state, {
-        menu: {
+        profileMenu: {
           isSticky: isTrue
         }
       })
-    case ActionTypes.NAVBAR_STICK:
+    case ActionTypes.TOGGLE_NAVBAR:
       return Object.assign({}, state, {
         navbar: {
           isSticky: !navbar.isSticky

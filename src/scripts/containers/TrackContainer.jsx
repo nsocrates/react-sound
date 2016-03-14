@@ -345,7 +345,6 @@ class TrackContainer extends React.Component {
 TrackContainer.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
-  menu: PropTypes.object.isRequired,
   pagination: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   shouldPlay: PropTypes.bool.isRequired,
@@ -366,8 +365,7 @@ function mapStateToProps(state, ownProps) {
         player: {
           audio: { isPlaying }
         }
-      },
-      ui: { menu }
+      }
     }
   } = state
   const { id } = ownProps.params
@@ -375,7 +373,6 @@ function mapStateToProps(state, ownProps) {
   return {
     pagination,
     isPlaying,
-    menu,
     shouldPlay,
     trackComments: commentsByTrack[id] || {},
     userEntity: users,

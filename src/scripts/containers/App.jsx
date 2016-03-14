@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import AudioContainer from './AudioContainer'
 import HeaderContainer from './HeaderContainer'
 import NavContainer from './NavContainer'
+import NotificationContainer from './NotificationContainer'
 import SearchModalContainer from './SearchModalContainer'
 import SideMenuContainer from './SideMenuContainer'
 
@@ -16,6 +17,7 @@ function App(props) {
       <NavContainer location={ props.location} />
       { props.children }
       <AudioContainer />
+      <NotificationContainer />
     </div>
   )
 }

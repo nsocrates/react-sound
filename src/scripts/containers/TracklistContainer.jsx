@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Tracklist from 'components/Tracklist'
 
 function TracklistContainer(props) {
-  const { ui, ids, userEntity, trackEntity, trackId, isPlaying, dispatch } = props
+  const { tracklist, ids, userEntity, trackEntity, trackId, isPlaying, dispatch } = props
 
   const open = () => (
     <ReactCSSTransitionGroup
@@ -35,7 +35,7 @@ function TracklistContainer(props) {
       />
   )
 
-  return ui.tracklist.isOpen ? open() : close()
+  return tracklist.isOpen ? open() : close()
 }
 
 TracklistContainer.propTypes = {
@@ -44,13 +44,13 @@ TracklistContainer.propTypes = {
   isPlaying: React.PropTypes.bool,
   trackEntity: React.PropTypes.object,
   trackId: React.PropTypes.number,
-  ui: React.PropTypes.object,
+  tracklist: React.PropTypes.object,
   userEntity: React.PropTypes.object
 }
 
 function mapStateToProps(state) {
   const {
-    ui,
+    ui: { toggles: { tracklist } },
     entities: { tracks, users },
     media: {
       stream: { trackId },
@@ -66,7 +66,7 @@ function mapStateToProps(state) {
   return {
     userEntity: users,
     trackEntity: tracks,
-    ui,
+    tracklist,
     isPlaying,
     ids,
     trackId

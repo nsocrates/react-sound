@@ -13,7 +13,7 @@ import WebIcon from 'components/WebIcon'
 import { connect } from 'react-redux'
 import { IMG_FORMAT, IMG_FALLBACK } from 'constants/ItemLists'
 import { loadUser, resolveUser } from 'actions/user'
-import { triggerStickyMenu } from 'actions/ui'
+import { toggleProfileMenu } from 'actions/toggle'
 
 class UserContainer extends React.Component {
 
@@ -42,7 +42,7 @@ class UserContainer extends React.Component {
   dispatchStickyMenu(shouldStick) {
     const { dispatch } = this.props
 
-    return dispatch(triggerStickyMenu(shouldStick))
+    return dispatch(toggleProfileMenu(shouldStick))
   }
 
   handleWaypointEvent() {
@@ -310,14 +310,14 @@ function mapStateToProps(state, ownProps) {
           audio: { isPlaying }
         }
       },
-      ui: { menu }
+      ui: { toggles: { profileMenu } }
     }
   } = state
   const { routes, params: { id } } = ownProps
 
   return {
     isPlaying,
-    menu,
+    menu: profileMenu,
     shouldPlay,
     user: users[id] || {},
     currPath: routes[routes.length - 1].path || 'bio'

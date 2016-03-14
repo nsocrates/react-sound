@@ -2,6 +2,7 @@ import 'isomorphic-fetch'
 import { OAuth } from 'utils/OAuth'
 import { AUTH } from 'constants/Auth'
 import { normalize } from 'normalizr'
+import { sendNotif, destroyNotif } from 'actions/notification'
 
 const authFactory = () => {
   OAuth.initialize(AUTH.KEY)
@@ -63,23 +64,52 @@ export default store => next => action => {
   }
 
   const auth = authFactory()
+  const { dispatch } = store
 
   if (types.indexOf('AUTH_DISCONNECT') > -1) {
     auth.disconnect()
+    dispatch(sendNotif({
+      kind: 'success',
+      body: 'Successfully disconnected'
+    }))
     return next(actionWith({ type: 'AUTH_DISCONNECT' }))
   }
 
   const [requestType, successType, failureType] = types
+  const notifReq = {
+    id: new Date().getTime() + 1,
+    kind: 'info',
+    duration: 0,
+    body: 'Requesting connection'
+  }
+  const notifSuccess = {
+    id: new Date().getTime() + 2,
+    kind: 'success',
+    body: 'Successfully connected'
+  }
+  const notifError = {
+    id: new Date().getTime() + 3,
+    kind: 'error',
+    body: 'Failed to connect',
+    priority: true
+  }
+  dispatch(sendNotif(notifReq))
   next(actionWith({ type: requestType }))
 
   return auth.connect(endpoint, schema).then(
-    response => next(actionWith({
-      response,
-      type: successType
-    })),
-    error => next(actionWith({
-      type: failureType,
-      error: error.message || 'Cannot request Auth..'
-    }))
+    response => {
+      dispatch(destroyNotif(notifReq.id))
+      dispatch(sendNotif(notifSuccess))
+      return next(actionWith({
+        response,
+        type: successType
+      }))},
+    error => {
+      dispatch(destroyNotif(notifReq.id))
+      dispatch(sendNotif(notifError))
+      return next(actionWith({
+        type: failureType,
+        error: error.message || 'Cannot request Auth..'
+      }))}
   )
 }

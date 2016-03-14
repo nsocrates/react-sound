@@ -124,7 +124,7 @@ export function resolveUser(username) {
 
     dispatch(fetchUser(username, endpoint))
       .then(res => {
-        const id = res.response.result
+        const id = res.response.result.toString()
         dispatch(fetchUser(id, `/users/${id}/web-profiles?`))
           .then(() => (
             dispatch(push({ pathname: `#user/${id}` }))

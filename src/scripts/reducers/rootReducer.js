@@ -1,11 +1,12 @@
 import auth from './auth'
 import entities from './entities'
 import errorMessage from './errorMessage'
+import notifications from './notifications'
 import pagination from './pagination'
 import partition from './partition'
 import player from './player'
 import stream from './stream'
-import ui from './ui'
+import toggles from './toggles'
 import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
@@ -14,7 +15,10 @@ const rootReducer = combineReducers({
   errorMessage,
   pagination,
   partition,
-  ui,
+  ui: combineReducers({
+    notifications,
+    toggles
+  }),
   media: combineReducers({
     player,
     stream

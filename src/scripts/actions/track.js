@@ -5,7 +5,7 @@
 import * as ActionTypes from 'constants/ActionTypes'
 import { CALL_API } from 'constants/Api'
 import { Schemas } from 'constants/Schemas'
-import { paginateCollection } from 'actions/collection'
+import { setPagination } from 'actions/collection'
 
 // Fetches a single track:
 function fetchTrack(id) {
@@ -53,7 +53,7 @@ export function loadTrackComments(id, offset, endpoint, next = true) {
 
     return dispatch(fetchTrackComments(id, offset, url))
       .then(res => (
-        dispatch(paginateCollection(id, res.response.result))
+        dispatch(setPagination(id, res.response.result))
       ))
   }
 }
@@ -73,7 +73,7 @@ export function loadTrack(id) {
         dispatch(fetchTrackComments(id))
       )
       .then(res => (
-        dispatch(paginateCollection(id, res.response.result)))
+        dispatch(setPagination(id, res.response.result)))
       )
     )
   }

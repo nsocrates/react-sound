@@ -2,7 +2,7 @@ import React from 'react'
 import Header from 'components/Header'
 import Waypoint from 'components/Waypoint'
 import { connect } from 'react-redux'
-import { triggerSticky } from 'actions/ui'
+import { toggleNavBar } from 'actions/toggle'
 import { authConnect, authDisconnect } from 'actions/auth'
 
 function HeaderContainer(props) {
@@ -13,7 +13,7 @@ function HeaderContainer(props) {
   )
 
   const handleSticky = () => (
-    dispatch(triggerSticky())
+    dispatch(toggleNavBar())
   )
 
   return (

@@ -1,5 +1,8 @@
 // z-index
 $stack-level: 10;
+$double-stack: $stack-level * 2;
+$triple-stack: $stack-level * 3;
+$quad-stack: $stack-level * 4;
 
 
 // Typography
@@ -53,6 +56,13 @@ $persian-rose: #f532b2;
 $bombay: #adb0b7;
 $london-hue: mix($light-pink, $bombay, 10%);
 
+// Notification Colors
+$info: $shark;
+$success: #2ecc71;
+$alert: mix($sc-orange, $gorse, 75%);
+$error: #a44646;
+$action: shade($white, 2%);
+
 // Text Colors
 $black-primary: rgba($black, $primary);
 $black-secondary: rgba($black, $secondary);
@@ -97,14 +107,14 @@ $player-icon-shadow: 0 -.1rem .2rem $white-hint;
 // Menu
 $n-text-color: $black-secondary;
 $n-text-active: $black-primary;
-$n-stack-level: $stack-level + 10;
+$n-stack-level: $double-stack;
 $n-main-color: $white;
 $n-focus: shade($n-main-color, 3%);
 $n-accent: inset 0 -.2rem 0 $light-pink;
 
 
 // Search Modal Config
-$m-stack-level: $n-stack-level + 10;
+$m-stack-level: $triple-stack;
 $m-transition-short: $trans-default;
 $m-transition-long: .5s $trans-func;
 $m-overlay-bg: linear-gradient(
@@ -120,7 +130,7 @@ $oc-hover: $light-pink;
 $oc-background: $shark;
 $oc-link: $white-secondary;
 $oc-border: solid .1rem $white-disabled;
-$oc-stack-level: $n-stack-level + 10;
+$oc-stack-level: $triple-stack;
 $oc-transition: .5s ease;
 
 

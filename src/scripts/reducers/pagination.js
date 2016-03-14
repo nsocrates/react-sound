@@ -8,11 +8,11 @@ const initialState = {
 
 export default function pagination(state = initialState, action) {
   switch (action.type) {
-    case ActionTypes.LOAD_PAGINATION:
+    case ActionTypes.PAGINATION_LOAD:
       return Object.assign({}, state, {
         isLoading: true
       })
-    case ActionTypes.PAGINATE:
+    case ActionTypes.PAGINATION_SET:
       return Object.assign({}, state, {
         isLoading: false,
         id: action.id,

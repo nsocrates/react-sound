@@ -80,7 +80,7 @@ export default class Nav extends React.Component {
           </ul>
           <ul className="nav__section nav__section--bars">
             <li className="nav__bars">
-              <button onClick={ uiActions.toggleMenu }>
+              <button onClick={ uiActions.toggleSideMenu }>
                 <i className="fa fa-bars" />
               </button>
             </li>

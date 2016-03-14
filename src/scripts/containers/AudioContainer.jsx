@@ -1,15 +1,15 @@
 import * as playerActionCreators from 'actions/player'
 import * as streamActionCreators from 'actions/stream'
-import { toggleTracklist } from 'actions/ui'
 import AudioPlayer from 'components/AudioPlayer'
 import AudioStream from 'components/AudioStream'
-import TracklistContainer from './TracklistContainer'
 import omit from 'lodash/omit'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import TracklistContainer from './TracklistContainer'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { constructStreamUrl, trackFactory } from 'utils/Utils'
+import { toggleTracklist } from 'actions/toggle'
 
 class AudioContainer extends React.Component {
 

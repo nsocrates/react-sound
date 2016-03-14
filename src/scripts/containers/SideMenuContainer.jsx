@@ -1,4 +1,4 @@
-import Menu from 'components/SideMenu'
+import SideMenu from 'components/SideMenu'
 import Overlay from 'components/Overlay'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { GENRES } from 'constants/ItemLists'
 import { push } from 'react-router-redux'
-import { toggleMenu } from 'actions/ui'
+import { toggleSideMenu } from 'actions/toggle'
 
 function SideMenuContainer(props) {
   const { actions, isVisible } = props
@@ -27,10 +27,10 @@ function SideMenuContainer(props) {
       >
         <Overlay
           classNames="side-menu__overlay"
-          onOverlayClick={ actions.toggleMenu}
+          onOverlayClick={ actions.toggleSideMenu}
         />
-        <Menu
-          { ...this.props }
+        <SideMenu
+          { ...props }
           genreList={ GENRES }
         />
       </ReactCSSTransitionGroup>
@@ -60,12 +60,12 @@ SideMenuContainer.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ toggleMenu, push }, dispatch)
+    actions: bindActionCreators({ toggleSideMenu, push }, dispatch)
   }
 }
 
 function mapStateToProps(state) {
-  const { isVisible } = state.app.ui.sideMenu
+  const { isVisible } = state.app.ui.toggles.sideMenu
 
   return {
     isVisible
