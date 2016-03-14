@@ -8,7 +8,7 @@ import { Schemas } from 'constants/Schemas'
 import { push } from 'react-router-redux'
 
 // Fetches a single user:
-function fetchUser(id, endpoint = `/users/${id}?`) {
+function fetchUser(id, endpoint = `/users/${id}?`, schema = Schemas.USER) {
   return {
     id,
     [CALL_API]: {
@@ -18,7 +18,7 @@ function fetchUser(id, endpoint = `/users/${id}?`) {
         ActionTypes.USER_FAILURE
       ],
       endpoint,
-      schema: Schemas.USER
+      schema
     }
   }
 }
