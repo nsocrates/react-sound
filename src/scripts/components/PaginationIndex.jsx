@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react'
 import classNames from 'classnames'
 
-export default function PaginationItem({ page, ellipsis = [], isCurrent, onClick }) {
+export default function PaginationIndex({ page, ellipsis = [], isCurrent, onClick }) {
   if (page === ellipsis[0] || page === ellipsis[1]) {
     return (
-      <li className="btn pagination__item pagination__item--ellipsis pagination__index" />
+      <li className="pagination__item pagination__item--ellipsis pagination__index" />
     )
   }
 
-  const current = classNames('btn pagination__item pagination__index', {
+  const current = classNames('pagination__item pagination__index', {
     'pagination__index--current': isCurrent,
     'pagination__item--stateful': !isCurrent
   })
@@ -20,7 +20,7 @@ export default function PaginationItem({ page, ellipsis = [], isCurrent, onClick
   )
 }
 
-PaginationItem.propTypes = {
+PaginationIndex.propTypes = {
   page: PropTypes.number,
   isCurrent: PropTypes.bool,
   ellipsis: PropTypes.array,

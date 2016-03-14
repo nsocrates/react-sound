@@ -1,27 +1,27 @@
 import React, { PropTypes } from 'react'
 
-export default class CollapseView extends React.Component {
+export default class TurncateView extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      hasInit: false,
+      hasInitialized: false,
       shouldRenderButtons: false,
-      isCollapsed: null
+      isCollapsed: false
     }
-    this.handleCollapse = this.handleCollapse.bind(this)
-    this.handleUncollapse = this.handleUncollapse.bind(this)
+    this.handleTurncate = this.handleTurncate.bind(this)
+    this.handleExpand = this.handleExpand.bind(this)
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.target._ref) {
-      return this.state.hasInit ? null : this.init(newProps)
+      return this.state.hasInitialized ? null : this.initialize(newProps)
     }
 
     return null
   }
 
-  init(newProps) {
+  initialize(newProps) {
     const { target } = newProps
     const { initHeight, targetClassName } = this.props
 
@@ -29,16 +29,16 @@ export default class CollapseView extends React.Component {
       target._ref.style.maxHeight = `${initHeight}px`
       target._ref.classList.add(`${targetClassName}--is-collapsed`)
       return this.setState({
-        hasInit: true,
+        hasInitialized: true,
         shouldRenderButtons: true,
         isCollapsed: true
       })
     }
 
-    return this.setState({ hasInit: true })
+    return this.setState({ hasInitialized: true })
   }
 
-  handleCollapse() {
+  handleTurncate() {
     const { initHeight, target, targetClassName } = this.props
     target._ref.style.maxHeight = `${initHeight}px`
     target._ref.classList.add(`${targetClassName}--is-collapsed`)
@@ -46,7 +46,7 @@ export default class CollapseView extends React.Component {
     this.setState({ isCollapsed: true })
   }
 
-  handleUncollapse() {
+  handleExpand() {
     const { target, targetClassName } = this.props
     target._ref.style.maxHeight = ''
     target._ref.classList.remove(`${targetClassName}--is-collapsed`)
@@ -70,20 +70,22 @@ export default class CollapseView extends React.Component {
       if (state.isCollapsed) {
         return (
           <button
-            className="btn btn--hint"
-            onClick={ this.handleUncollapse }
+            className="btn btn--sm btn--basic"
+            onClick={ this.handleExpand }
           >
-            {"Show More"}
+            {"Show More "}
+            <i className="btn__icon--right fa fa-caret-down" />
           </button>
         )
       }
 
       return (
         <button
-          className="btn btn--hint"
-          onClick={ this.handleCollapse }
+          className="btn btn--sm btn--basic"
+          onClick={ this.handleTurncate }
         >
-          {"Show Less"}
+          {"Show Less "}
+          <i className="btn__icon--right fa fa-caret-up" />
         </button>
       )
     }
@@ -97,7 +99,7 @@ export default class CollapseView extends React.Component {
   }
 }
 
-CollapseView.propTypes = {
+TurncateView.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   initHeight: PropTypes.number.isRequired,

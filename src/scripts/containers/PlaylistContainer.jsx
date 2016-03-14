@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 import ArticleContent from 'components/ArticleContent'
 import Body from 'components/Body'
 import CanvasBlur from 'components/CanvasBlur'
-import CollapseView from 'components/CollapseView'
+import TurncateView from 'components/TurncateView'
 import End from 'components/End'
 import LinkItem from 'components/LinkItem'
 import Loader from 'components/Loader'
@@ -176,7 +176,7 @@ class PlaylistContainer extends React.Component {
         <div className="main__container main__container--main">
 
           {/* -- Track Description -- */}
-          <CollapseView
+          <TurncateView
             className="article article--push"
             initHeight={ 200 }
             target={ this._articleContent }
@@ -192,7 +192,7 @@ class PlaylistContainer extends React.Component {
               missingClassName="article__none article__none--track"
               wrapperClassName="article-wrap article-wrap--fill"
             />
-          </CollapseView>{/* -- !Track Description -- */}
+          </TurncateView>{/* -- !Track Description -- */}
 
           <Body
             headIconClassName="fa fa-list"

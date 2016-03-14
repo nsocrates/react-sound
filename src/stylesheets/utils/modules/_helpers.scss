@@ -20,6 +20,39 @@
   }
 }
 
+// Buttons
+%btn {
+  border-radius: em(4px);
+  box-shadow: inset 0 0 0 .1rem transparent;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  &:active {
+    transform: translateY(.1rem);
+  }
+
+  &--basic {
+    background-color: initial;
+    box-shadow: inset 0 0 0 .1rem tint($shark, 85%);
+    color: $black-secondary;
+
+    transition: color $trans-duration;
+
+    &:hover {
+      background-color: $white;
+      box-shadow: inset 0 0 0 .1rem tint($shark, 65%);
+      color: $black-primary;
+    }
+  }
+
+  &--disabled {
+    opacity: .65;
+    pointer-events: none;
+  }
+}
+
 // Form
 %input-search {
   background-color: transparent;

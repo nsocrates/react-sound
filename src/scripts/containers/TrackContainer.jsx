@@ -3,13 +3,13 @@ import React, { PropTypes } from 'react'
 import ArticleContent from 'components/ArticleContent'
 import Body from 'components/Body'
 import CanvasGradient from 'components/CanvasGradient'
-import CollapseView from 'components/CollapseView'
+import TurncateView from 'components/TurncateView'
 import Comment from 'components/Comment'
 import LinkItem from 'components/LinkItem'
 import Loader from 'components/Loader'
 import Main from 'components/Main'
 import Pagination from 'components/Pagination'
-import PaginationItem from 'components/PaginationItem'
+import PaginationIndex from 'components/PaginationIndex'
 import ProfileCover from 'components/ProfileCover'
 import StatsList from 'components/StatsList'
 import Taglist from 'components/Taglist'
@@ -171,7 +171,7 @@ class TrackContainer extends React.Component {
           return dispatch(loadTrackComments(params.id, prevOffset, prevHref))
         }
 
-        const _renderPaginationItems = () => {
+        const _renderPaginationIndexs = () => {
           const offsets = []
           for (let i = 0; i <= pages; i++) {
             offsets.push(i * 24)
@@ -192,7 +192,7 @@ class TrackContainer extends React.Component {
             // Always show first and last index
             if (page === 1 || page === lastPage) {
               return (
-                <PaginationItem
+                <PaginationIndex
                   page={ page }
                   isCurrent={ isCurrent }
                   key={`pagination__${value}_${page}`}
@@ -204,7 +204,7 @@ class TrackContainer extends React.Component {
             // Beginning; Do not show left ellipsis for first 6 pages
             if (page < 11 && currentPage < 6) {
               return (
-                <PaginationItem
+                <PaginationIndex
                   ellipsis={[10]}
                   page={ page }
                   isCurrent={ isCurrent }
@@ -217,7 +217,7 @@ class TrackContainer extends React.Component {
             // Ending; Do now show right ellipsis for last 6 pages
             if (page > lastPage - 10 && currentPage > lastPage - 5) {
               return (
-                <PaginationItem
+                <PaginationIndex
                   ellipsis={[lastPage - 9]}
                   page={ page }
                   isCurrent={ isCurrent }
@@ -230,7 +230,7 @@ class TrackContainer extends React.Component {
             // Center; show +-5 indexes from current page
             if (currentPage < page + 5 && currentPage > page - 5) {
               return (
-                <PaginationItem
+                <PaginationIndex
                   ellipsis={[currentPage - 4, currentPage + 4]}
                   page={ page }
                   isCurrent={ isCurrent }
@@ -251,7 +251,7 @@ class TrackContainer extends React.Component {
             onPrev={ handleToPrev }
             prev={ !!prevHref }
           >
-            { _renderPaginationItems() }
+            { _renderPaginationIndexs() }
           </Pagination>
         )
       }
@@ -307,7 +307,7 @@ class TrackContainer extends React.Component {
 
         <div className="main__container main__container--main">
 
-          <CollapseView
+          <TurncateView
             className="article article--push"
             initHeight={ 200 }
             target={ this._articleContent }
@@ -324,7 +324,7 @@ class TrackContainer extends React.Component {
               missingClassName="article__none article__none--track"
               wrapperClassName="article-wrap article-wrap--fill"
             />
-          </CollapseView>
+          </TurncateView>
 
           <Body
             headIconClassName="fa fa-comment-o"

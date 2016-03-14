@@ -1,34 +1,33 @@
 .btn {
-  border: em(1px) solid transparent;
-  border-radius: em(4px);
-  cursor: pointer;
+  @extend %btn;
   display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  white-space: nowrap;
 
-  &:active {
-    transform: translateY(1px);
+  &--sm {
+    font-size: 1.2rem;
+    padding: em(4px) em(15px);
   }
 
-  &--hint {
-    background-color: tint($light-gray, 35%);
-    border-color: tint($shark, 75%);
-    color: $black-secondary;
+  &--md {
     font-size: 1.4rem;
     padding: em(8px) em(31px);
-    transition: color $trans-duration;
+  }
 
-    &:hover {
-      background-color: tint($light-gray, 10%);
-      border-color: tint($shark, 50%);
-      color: $black-primary;
-    }
+  &--basic {
+    @extend %btn--basic;
   }
 
   &--disabled {
+    @extend %btn--disabled;
     box-shadow: none;
-    opacity: .65;
-    pointer-events: none;
+  }
+}
+
+.btn__icon {
+  &--left {
+    margin-right: em(2px);
+  }
+
+  &--right {
+    margin-left: em(2px);
   }
 }

@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react'
 import classNames from 'classnames'
 
 export default function Pagination({ next, prev, onNext, onPrev, children }) {
-  const prevState = classNames('btn pagination__item pagination__item--caret', {
-    'btn--disabled pagination__item--disabled': !prev,
+  const prevState = classNames('pagination__item pagination__item--caret', {
+    'pagination__item--disabled': !prev,
     'pagination__item--stateful': prev
   })
 
-  const nextState = classNames('btn pagination__item pagination__item--caret', {
-    'btn--disabled pagination__item--disabled': !next,
+  const nextState = classNames('pagination__item pagination__item--caret', {
+    'pagination__item--disabled': !next,
     'pagination__item--stateful': next
   })
 

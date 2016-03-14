@@ -8,7 +8,7 @@ import { Schemas } from 'constants/Schemas'
 import { push } from 'react-router-redux'
 
 // Fetches a single user:
-function fetchUser(id, endpoint = `/users/${id}?`, schema = Schemas.USER) {
+function fetchUser(id, endpoint = `/users/${id}?`) {
   return {
     id,
     [CALL_API]: {
@@ -18,7 +18,7 @@ function fetchUser(id, endpoint = `/users/${id}?`, schema = Schemas.USER) {
         ActionTypes.USER_FAILURE
       ],
       endpoint,
-      schema
+      schema: Schemas.USER
     }
   }
 }
@@ -105,25 +105,15 @@ export function loadUserTracks(id, next = false) {
 export function loadUser(id) {
   return (dispatch, getState) => {
     const user = getState().app.entities.users[id]
-    const action = {
-      base: {
-        endpoint: `/users/${id}?`,
-        schema: Schemas.USER
-      },
-      profile: {
-        endpoint: `/users/${id}/web-profiles?`,
-        schema: Schemas.USER
-      }
-    }
-    const { base, profile } = action
+    const profile = `/users/${id}/web-profiles?`
 
     if (user && user.hasOwnProperty('web_profiles')) {
       return null
     }
 
-    return dispatch(fetchUser(id, base.endpoint, base.schema))
+    return dispatch(fetchUser(id))
       .then(() => (
-        dispatch(fetchUser(id, profile.endpoint, profile.schema))
+        dispatch(fetchUser(id, profile))
       ))
   }
 }
@@ -135,7 +125,10 @@ export function resolveUser(username) {
     dispatch(fetchUser(username, endpoint))
       .then(res => {
         const id = res.response.result
-        return dispatch(push({ pathname: `#user/${id}` }))
+        dispatch(fetchUser(id, `/users/${id}/web-profiles?`))
+          .then(() => (
+            dispatch(push({ pathname: `#user/${id}` }))
+          ))
       })
   }
 }
