@@ -41,7 +41,6 @@ const baseConfig = {
       constants: `${srcPath}/scripts/constants/`,
       containers: `${srcPath}/scripts/containers/`,
       middleware: `${srcPath}/scripts/middleware/`,
-      oauth: `${srcPath}/scripts/oauth`,
       reducers: `${srcPath}/scripts/reducers/`,
       routes: `${srcPath}/scripts/routes/`,
       store: `${srcPath}/scripts/store/`,

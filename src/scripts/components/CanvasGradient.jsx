@@ -22,7 +22,7 @@ export default class CanvasGradient extends React.Component {
   }
 
   render() {
-    const canvasRef = ref => this._canvas = ref
+    const canvasRef = ref => (this._canvas = ref)
     const { className, height, width } = this.props
 
     return (

@@ -250,8 +250,8 @@ export default class AudioPlayer extends React.Component {
     const currentTime = timeFactory(position).getFormatted()
     const endTime = timeFactory(duration - position).getFormatted()
 
-    const volumeRef = ref => this._volume = ref
-    const progressRef = ref => this._progress = ref
+    const volumeRef = ref => (this._volume = ref)
+    const progressRef = ref => (this._progress = ref)
 
     return (
       <div className="player">

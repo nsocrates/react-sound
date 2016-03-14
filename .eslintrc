@@ -18,8 +18,8 @@
     "node": true
   },
   "rules": {
+    "camelcase": 0,
     "comma-dangle": [2, "never"],
-    "semi": 0,
-    "camelcase": 0
+    "semi": 0
   }
 }

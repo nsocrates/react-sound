@@ -3,50 +3,35 @@ import Header from 'components/Header'
 import Waypoint from 'components/Waypoint'
 import { connect } from 'react-redux'
 import { triggerSticky } from 'actions/ui'
-
-import { OAuth } from 'oauth/oauth'
-import { AUTH } from 'constants/Auth'
 import { authConnect, authDisconnect } from 'actions/auth'
 
-class HeaderContainer extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handleTriggerSticky = this.handleTriggerSticky.bind(this)
-    this.handleAuth = this.handleAuth.bind(this)
-  }
+function HeaderContainer(props) {
+  const { dispatch, auth: { request } } = props
 
-  handleAuth() {
-    const { dispatch, auth: { request } } = this.props
-    if (request.hasOwnProperty('access_token')) {
-      return dispatch(authDisconnect())
-    }
+  const handleAuth = () => (
+    request.hasOwnProperty('access_token') ? dispatch(authDisconnect()) : dispatch(authConnect())
+  )
 
-    return dispatch(authConnect())
-  }
+  const handleSticky = () => (
+    dispatch(triggerSticky())
+  )
 
-  handleTriggerSticky() {
-    const { dispatch } = this.props
-    return dispatch(triggerSticky())
-  }
-
-  render() {
-    const { auth: { request } } = this.props
-    return (
-      <Header
-        handleAuth={ this.handleAuth }
-        isAuthorized={ request.hasOwnProperty('access_token') }
-      >
-        <Waypoint
-          onEnter={ this.handleTriggerSticky }
-          onLeave={ this.handleTriggerSticky }
-          triggerFrom="above"
-        />
-      </Header>
-    )
-  }
+  return (
+    <Header
+      handleAuth={ handleAuth }
+      isAuthorized={ request.hasOwnProperty('access_token') }
+    >
+      <Waypoint
+        onEnter={ handleSticky }
+        onLeave={ handleSticky }
+        triggerFrom="above"
+      />
+    </Header>
+  )
 }
 
 HeaderContainer.propTypes = {
+  auth: React.PropTypes.object.isRequired,
   dispatch: React.PropTypes.func.isRequired
 }
 

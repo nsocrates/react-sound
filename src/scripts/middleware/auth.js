@@ -1,5 +1,5 @@
 import 'isomorphic-fetch'
-import { OAuth } from 'oauth/oauth'
+import { OAuth } from 'utils/OAuth'
 import { AUTH } from 'constants/Auth'
 import { normalize } from 'normalizr'
 
@@ -32,8 +32,12 @@ export default store => next => action => {
     return next(action)
   }
 
-  const { schema, types, endpoint } = callAUTH
+  let { endpoint } = callAUTH
+  const { schema, types } = callAUTH
 
+  if (typeof endpoint === 'function') {
+    endpoint = endpoint(store.getState())
+  }
   if (typeof endpoint !== 'string') {
     throw new Error('Specify a string endpoint URL.')
   }

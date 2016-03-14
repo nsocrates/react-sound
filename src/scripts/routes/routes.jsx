@@ -1,15 +1,16 @@
+import React from 'react'
+import makeStore from 'store/store'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
+
 import App from 'containers/App'
 import CollectionContainer from 'containers/CollectionContainer'
 import RoutingContainer from 'containers/RoutingContainer'
 import PlaylistContainer from 'containers/PlaylistContainer'
-import React from 'react'
 import TrackContainer from 'containers/TrackContainer'
 import UserContainer from 'containers/UserContainer'
 import UserDescriptionContainer from 'containers/UserDescriptionContainer'
 import UserMediaContainer from 'containers/UserMediaContainer'
-import makeStore from 'store/store'
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
 
 export const store = makeStore()
 

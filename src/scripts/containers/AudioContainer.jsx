@@ -35,7 +35,7 @@ class AudioContainer extends React.Component {
     }
     const trackData = trackFactory(args)
     const src = constructStreamUrl(trackId)
-    const audioStream = ref => this._audioStream = ref
+    const audioStream = ref => (this._audioStream = ref)
 
     const ReactCSSTransitionNames = {
       enter: 'enter',

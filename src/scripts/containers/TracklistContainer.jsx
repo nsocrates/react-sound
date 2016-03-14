@@ -3,44 +3,39 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { connect } from 'react-redux'
 import Tracklist from 'components/Tracklist'
 
-class TracklistContainer extends React.Component {
-  render() {
-    const { ui, ids, userEntity, trackEntity, trackId, isPlaying, dispatch } = this.props
-    const shouldRenderTracklist = () => {
-      if (ui.tracklist.isOpen) {
-        return (
-          <ReactCSSTransitionGroup
-            className="tracklist"
-            component="aside"
-            transitionEnterTimeout={ 500 }
-            transitionLeaveTimeout={ 500 }
-            transitionName="tracklist__player"
-          >
-            <Tracklist
-              dispatch={ dispatch }
-              ids={ ids }
-              isPlaying={ isPlaying }
-              trackEntity={ trackEntity }
-              trackId={ trackId }
-              userEntity={ userEntity }
-            />
-          </ReactCSSTransitionGroup>
-        )
-      }
+function TracklistContainer(props) {
+  const { ui, ids, userEntity, trackEntity, trackId, isPlaying, dispatch } = props
 
-      return (
-        <ReactCSSTransitionGroup
-          className="tracklist"
-          component="aside"
-          transitionEnterTimeout={ 500 }
-          transitionLeaveTimeout={ 500 }
-          transitionName="tracklist__player"
-        />
-      )
-    }
+  const open = () => (
+    <ReactCSSTransitionGroup
+      className="tracklist"
+      component="aside"
+      transitionEnterTimeout={ 500 }
+      transitionLeaveTimeout={ 500 }
+      transitionName="tracklist__player"
+    >
+      <Tracklist
+        dispatch={ dispatch }
+        ids={ ids }
+        isPlaying={ isPlaying }
+        trackEntity={ trackEntity }
+        trackId={ trackId }
+        userEntity={ userEntity }
+      />
+    </ReactCSSTransitionGroup>
+  )
 
-    return shouldRenderTracklist()
-  }
+  const close = () => (
+      <ReactCSSTransitionGroup
+        className="tracklist"
+        component="aside"
+        transitionEnterTimeout={ 500 }
+        transitionLeaveTimeout={ 500 }
+        transitionName="tracklist__player"
+      />
+  )
+
+  return ui.tracklist.isOpen ? open() : close()
 }
 
 TracklistContainer.propTypes = {

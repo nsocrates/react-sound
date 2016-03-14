@@ -8,49 +8,46 @@ import { GENRES } from 'constants/ItemLists'
 import { push } from 'react-router-redux'
 import { toggleMenu } from 'actions/ui'
 
-class SideMenuContainer extends React.Component {
+function SideMenuContainer(props) {
+  const { actions, isVisible } = props
+  const ReactCSSTransitionNames = {
+    enter: 'enter',
+    leave: 'leave'
+  }
 
-  render() {
-    const { actions, isVisible } = this.props
-    const ReactCSSTransitionNames = {
-      enter: 'enter',
-      leave: 'leave'
-    }
-
-    const shouldRenderMenuContainer = () => {
-      if (isVisible) {
-        return (
-        <ReactCSSTransitionGroup
-          className = "side-menu"
-          component = "section"
-          transitionEnterTimeout = { 500 }
-          transitionLeaveTimeout = { 500 }
-          transitionName = { ReactCSSTransitionNames }
-        >
-          <Overlay
-            classNames="side-menu__overlay"
-            onOverlayClick={ actions.toggleMenu}
-          />
-          <Menu
-            { ...this.props }
-            genreList={ GENRES }
-          />
-        </ReactCSSTransitionGroup>
-        )
-      }
+  const shouldRenderMenuContainer = () => {
+    if (isVisible) {
       return (
-        <ReactCSSTransitionGroup
-          className = "side-menu"
-          component = "section"
-          transitionEnterTimeout = { 500 }
-          transitionLeaveTimeout = { 500 }
-          transitionName = { ReactCSSTransitionNames }
+      <ReactCSSTransitionGroup
+        className = "side-menu"
+        component = "section"
+        transitionEnterTimeout = { 500 }
+        transitionLeaveTimeout = { 500 }
+        transitionName = { ReactCSSTransitionNames }
+      >
+        <Overlay
+          classNames="side-menu__overlay"
+          onOverlayClick={ actions.toggleMenu}
         />
+        <Menu
+          { ...this.props }
+          genreList={ GENRES }
+        />
+      </ReactCSSTransitionGroup>
       )
     }
-
-    return shouldRenderMenuContainer()
+    return (
+      <ReactCSSTransitionGroup
+        className = "side-menu"
+        component = "section"
+        transitionEnterTimeout = { 500 }
+        transitionLeaveTimeout = { 500 }
+        transitionName = { ReactCSSTransitionNames }
+      />
+    )
   }
+
+  return shouldRenderMenuContainer()
 }
 
 SideMenuContainer.propTypes = {

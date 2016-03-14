@@ -5,15 +5,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { GENRES } from 'constants/ItemLists'
 
-class NavContainer extends React.Component {
-  render() {
-    return (
-      <Nav
-        { ...this.props }
-        genreList={ GENRES }
-      />
-    )
-  }
+function NavContainer(props) {
+  return (
+    <Nav
+      { ...props }
+      genreList={ GENRES }
+    />
+  )
 }
 
 function mapDispatchToProps(dispatch) {

@@ -53,7 +53,7 @@ export default class SearchModal extends React.Component {
 
   render() {
     const { actions } = this.props
-    const mSearch = ref => this._mSearch = ref
+    const mSearch = ref => (this._mSearch = ref)
 
     return (
       <div

@@ -9,7 +9,7 @@ export default class PlayerVolumeControl extends React.Component {
       componentMouseUp,
       componentStyle
     } = this.props
-    const range = ref => this._range = ref
+    const range = ref => (this._range = ref)
 
     return (
       <aside className={ componentClassName }>

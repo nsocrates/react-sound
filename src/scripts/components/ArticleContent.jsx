@@ -3,7 +3,7 @@ import { splitLines } from 'utils/Utils'
 
 export default class ArticleContent extends React.Component {
   render() {
-    const ref = c => this._ref = c
+    const ref = c => (this._ref = c)
     const {
       content,
       wrapperClassName = '',

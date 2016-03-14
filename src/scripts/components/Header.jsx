@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 export default function Header({
   children = null,
-  handleAuth = () =>({}),
+  handleAuth = () => ({}),
   isAuthorized = false
 }) {
   const scButton = classNames('sc', {

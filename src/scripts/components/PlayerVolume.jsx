@@ -1,31 +1,29 @@
 import React from 'react'
 
-export default class PlayerVolume extends React.Component {
-  render() {
-    const {
-      componentMouseEnter,
-      componentMouseLeave,
-      btnClassName,
-      btnOnClick,
-      volumeIcon,
-      children
-    } = this.props
-    return (
-      <li
-        className="player__ctrl player__volume"
-        onMouseEnter={ componentMouseEnter }
-        onMouseLeave={ componentMouseLeave }
+export default function PlayerVolume(props) {
+  const {
+    componentMouseEnter,
+    componentMouseLeave,
+    btnClassName,
+    btnOnClick,
+    volumeIcon,
+    children
+  } = props
+  return (
+    <li
+      className="player__ctrl player__volume"
+      onMouseEnter={ componentMouseEnter }
+      onMouseLeave={ componentMouseLeave }
+    >
+      <button
+        className={ btnClassName }
+        onClick={ btnOnClick }
       >
-        <button
-          className={ btnClassName }
-          onClick={ btnOnClick }
-        >
-          { volumeIcon }
-        </button>
-          { children }
-      </li>
-    )
-  }
+        { volumeIcon }
+      </button>
+        { children }
+    </li>
+  )
 }
 
 PlayerVolume.propTypes = {

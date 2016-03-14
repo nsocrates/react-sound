@@ -3,7 +3,7 @@ import React from 'react'
 export default class SearchForm extends React.Component {
   render() {
     const { formClassName, onFormSubmit, inputClassName, inputId, children } = this.props
-    const input = ref => this._input = ref
+    const input = ref => (this._input = ref)
 
     return (
       <form

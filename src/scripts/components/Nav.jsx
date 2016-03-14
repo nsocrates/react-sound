@@ -38,8 +38,8 @@ export default class Nav extends React.Component {
     const shouldStick = classNames('nav menu', {
       'nav--sticky': navbar.isSticky
     })
-    const refNavbar = ref => this._navbar = ref
-    const search = ref => this._search = ref
+    const refNavbar = ref => (this._navbar = ref)
+    const search = ref => (this._search = ref)
 
     const menuItems = genreList.map((item, index) => {
       const active = classNames('menu__link', {

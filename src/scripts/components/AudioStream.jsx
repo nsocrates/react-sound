@@ -85,7 +85,7 @@ export default class AudioStream extends React.Component {
 
   render() {
     const { src } = this.props
-    const audio = ref => this._audio = ref
+    const audio = ref => (this._audio = ref)
 
     return (
       <audio

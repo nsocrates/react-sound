@@ -2,16 +2,15 @@ import React from 'react'
 import LinkItem from 'components/LinkItem'
 import { IMG_FALLBACK } from 'constants/ItemLists'
 
-export default class Gallery extends React.Component {
+export default function Gallery(props) {
+  const {
+    actions,
+    streamTrackId,
+    audioIsPlaying,
+    trackData: { user, media, artwork }
+  } = props
 
-  constructor(props) {
-    super(props)
-    this.handleClick_artwork = this.handleClick_artwork.bind(this)
-    this.handleError_img = this.handleError_img.bind(this)
-  }
-
-  handleClick_artwork(e) {
-    const { actions, streamTrackId, audioIsPlaying, trackData: { media } } = this.props
+  const handleClick = e => {
     const audio = document.getElementById('audio')
     e.preventDefault()
 
@@ -22,50 +21,46 @@ export default class Gallery extends React.Component {
     return actions.requestStream(media.id)
   }
 
-  handleError_img(e) {
+  const handleError = e => {
     const { currentTarget } = e
     currentTarget.src = IMG_FALLBACK.PLACEHOLDER_LARGE
 
     return currentTarget
   }
 
-  render() {
-    const { trackData: { user, media, artwork } } = this.props
-
-    return (
-      <article className="gallery">
-        <a
-          className="fa artwork gallery__artwork"
-          href=""
-          onClick={ this.handleClick_artwork }
-        >
-          <img
-            className="gallery__artwork--img"
-            onError={ this.handleError_img }
-            src={ artwork.large }
-          />
-        </a>
-        <div className="gallery__content">
-          <h6 className="gallery__content--title" >
-            <LinkItem
-              className="gallery__content--link"
-              to={`#track/${media.id}`}
-            >
-              { media.name }
-            </LinkItem>
-          </h6>
-          <h6 className="gallery__content--byline">
-            <LinkItem
-              className="gallery__content--link"
-              to={`#user/${user.id}`}
-            >
-              { user.name }
-            </LinkItem>
-          </h6>
-        </div>
-      </article>
-    )
-  }
+  return (
+    <article className="gallery">
+      <a
+        className="fa artwork gallery__artwork"
+        href=""
+        onClick={ handleClick }
+      >
+        <img
+          className="gallery__artwork--img"
+          onError={ handleError }
+          src={ artwork.large }
+        />
+      </a>
+      <div className="gallery__content">
+        <h6 className="gallery__content--title" >
+          <LinkItem
+            className="gallery__content--link"
+            to={`#track/${media.id}`}
+          >
+            { media.name }
+          </LinkItem>
+        </h6>
+        <h6 className="gallery__content--byline">
+          <LinkItem
+            className="gallery__content--link"
+            to={`#user/${user.id}`}
+          >
+            { user.name }
+          </LinkItem>
+        </h6>
+      </div>
+    </article>
+  )
 }
 
 Gallery.propTypes = {

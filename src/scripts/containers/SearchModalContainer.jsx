@@ -6,30 +6,30 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { toggleModal } from 'actions/ui'
 
-class SearchModalContainer extends React.Component {
-  render() {
-    const { actions, searchModal } = this.props
+function SearchModalContainer(props) {
+  const { actions, searchModal } = props
 
-    const shouldRenderModal = () => {
-      if (searchModal.isOpen) {
-        return (
-          <SearchModal actions={ actions } />
-        )
-      }
+  const shouldRenderModal = () => {
+    if (searchModal.isOpen) {
+      return (
+        <SearchModal actions={ actions } />
+      )
     }
 
-    return (
-      <ReactCSSTransitionGroup
-        className="modal"
-        component="aside"
-        transitionEnterTimeout={ 500 }
-        transitionLeaveTimeout={ 500 }
-        transitionName="modal"
-      >
-        { shouldRenderModal() }
-      </ReactCSSTransitionGroup>
-    )
+    return <noscript />
   }
+
+  return (
+    <ReactCSSTransitionGroup
+      className="modal"
+      component="aside"
+      transitionEnterTimeout={ 500 }
+      transitionLeaveTimeout={ 500 }
+      transitionName="modal"
+    >
+      { shouldRenderModal() }
+    </ReactCSSTransitionGroup>
+  )
 }
 
 SearchModalContainer.propTypes = {

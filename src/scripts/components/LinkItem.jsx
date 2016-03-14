@@ -3,16 +3,13 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { push } from 'react-router-redux'
 
-class LinkItem extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-  }
+function LinkItem(props) {
+  const { children, className, to, onClick } = props
 
-  handleClick(e) {
+  const handleClick = e => {
     e.preventDefault()
 
-    const { dispatch, to, location } = this.props
+    const { dispatch, location } = props
     const locationDescriptor = location || {
       pathname: to
     }
@@ -20,19 +17,15 @@ class LinkItem extends React.Component {
     return dispatch(push(locationDescriptor))
   }
 
-  render() {
-    const { children, className, to, onClick } = this.props
-
-    return (
-      <Link
-        className={ className }
-        onClick={ onClick || this.handleClick }
-        to={ to }
-      >
-        { children }
-      </Link>
-    )
-  }
+  return (
+    <Link
+      className={ className }
+      onClick={ onClick || handleClick }
+      to={ to }
+    >
+      { children }
+    </Link>
+  )
 }
 
 LinkItem.propTypes = {

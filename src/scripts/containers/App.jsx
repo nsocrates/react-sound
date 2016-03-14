@@ -7,20 +7,17 @@ import NavContainer from './NavContainer'
 import SearchModalContainer from './SearchModalContainer'
 import SideMenuContainer from './SideMenuContainer'
 
-class App extends React.Component {
-
-  render() {
-    return (
-      <div className="app__container">
-        <SearchModalContainer />
-        <SideMenuContainer location={ this.props.location} />
-        <HeaderContainer />
-        <NavContainer location={ this.props.location} />
-        { this.props.children }
-        <AudioContainer />
-      </div>
-    )
-  }
+function App(props) {
+  return (
+    <div className="app">
+      <SearchModalContainer />
+      <SideMenuContainer location={ props.location} />
+      <HeaderContainer />
+      <NavContainer location={ props.location} />
+      { props.children }
+      <AudioContainer />
+    </div>
+  )
 }
 
 App.propTypes = {

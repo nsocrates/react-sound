@@ -36,15 +36,14 @@ export default class Canvas extends React.Component {
     try {
       this.ctx.drawImage(this.img, 0, 0, w, h)
     } catch (e) {
-      this.hasError = true
-      return this.hasError
+      return (this.hasError = true)
     }
 
     return StackBlur.canvasRGBA(this._canvas, 0, 0, w, h, blurRadius)
   }
 
   render() {
-    const canvasRef = ref => this._canvas = ref
+    const canvasRef = ref => (this._canvas = ref)
     const { className, height, width } = this.props
 
     if (this.hasError) {

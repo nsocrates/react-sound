@@ -93,7 +93,7 @@ class TrackContainer extends React.Component {
       { offset: 1, color: '#5fc3e4' }
     ]
 
-    const articleContent = ref => this._articleContent = ref
+    const articleContent = ref => (this._articleContent = ref)
 
     const renderComments = () => {
       const { pagination } = this.props

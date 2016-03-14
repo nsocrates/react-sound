@@ -11,7 +11,7 @@ export default class PlayerProgressBar extends React.Component {
       rangeClassName,
       selectorClassName
     } = this.props
-    const position = ref => this._position = ref
+    const position = ref => (this._position = ref)
 
     return (
       <div

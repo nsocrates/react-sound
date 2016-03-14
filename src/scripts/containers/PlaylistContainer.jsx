@@ -87,7 +87,7 @@ class PlaylistContainer extends React.Component {
       }
     ]
 
-    const articleContent = ref => this._articleContent = ref
+    const articleContent = ref => (this._articleContent = ref)
 
     const shouldRenderTracklist = () => {
       if (pagination.id === playlistObject.id && pagination.result.length) {
