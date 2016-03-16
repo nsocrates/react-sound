@@ -3,3 +3,12 @@ export const AUTH = {
   SERVICE: 'soundcloud',
   CALL: Symbol('Call AUTH')
 }
+
+export const REQ = {
+  CONNECT: 'CONNECT',
+  DISCONNECT: 'DISCONNECT',
+  GET: 'GET',
+  PUT: 'PUT',
+  POST: 'POST',
+  DEL: 'DEL'
+}

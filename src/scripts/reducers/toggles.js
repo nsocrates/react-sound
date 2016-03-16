@@ -1,6 +1,9 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
 const initialState = {
+  dropdown: {
+    isOpen: false
+  },
   profileMenu: {
     isSticky: false
   },
@@ -19,10 +22,16 @@ const initialState = {
 }
 
 export default function toggle(state = initialState, action) {
-  const { navbar, sideMenu, searchModal, tracklist } = state
-  const { isTrue } = action
+  const { dropdown, navbar, sideMenu, searchModal, tracklist } = state
+  const { isTrue, forceClose } = action
 
   switch (action.type) {
+    case ActionTypes.TOGGLE_DROPDOWN:
+      return Object.assign({}, state, {
+        dropdown: {
+          isOpen: !dropdown.isOpen
+        }
+      })
     case ActionTypes.TOGGLE_PROFILE_MENU:
       return Object.assign({}, state, {
         profileMenu: {
@@ -50,7 +59,22 @@ export default function toggle(state = initialState, action) {
     case ActionTypes.TOGGLE_TRACKLIST:
       return Object.assign({}, state, {
         tracklist: {
-          isOpen: !tracklist.isOpen
+          isOpen: forceClose === true ? false : !tracklist.isOpen
+        }
+      })
+    case ActionTypes.TOGGLE_CLOSE_ALL:
+      return Object.assign({}, state, {
+        dropdown: {
+          isOpen: false
+        },
+        sideMenu: {
+          isVisible: false
+        },
+        searchModal: {
+          isOpen: false
+        },
+        tracklist: {
+          isOpen: false
         }
       })
     default:

@@ -113,7 +113,7 @@ class UserMediaContainer extends React.Component {
       return <Loader className="loader--bottom" />
     }
 
-    if (!hasItems) {
+    if (!hasItems && !partition.ids.length) {
       return <End className="end--bottom" text={ none } />
     }
 

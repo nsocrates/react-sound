@@ -49,7 +49,7 @@ class AudioContainer extends React.Component {
             className="music-box"
             component="section"
             transitionEnterTimeout={ 500 }
-            transitionLeaveTimeout={ 500 }
+            transitionLeaveTimeout={ 1000 }
             transitionName={ ReactCSSTransitionNames }
           >
             <AudioStream
@@ -77,7 +77,7 @@ class AudioContainer extends React.Component {
           className="music-box"
           component="section"
           transitionEnterTimeout={ 500 }
-          transitionLeaveTimeout={ 500 }
+          transitionLeaveTimeout={ 1000 }
           transitionName={ ReactCSSTransitionNames }
         />
       )

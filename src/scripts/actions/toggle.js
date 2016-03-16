@@ -12,9 +12,10 @@ export function toggleModal() {
   }
 }
 
-export function toggleTracklist() {
+export function toggleTracklist(forceClose = false) {
   return {
-    type: ActionTypes.TOGGLE_TRACKLIST
+    type: ActionTypes.TOGGLE_TRACKLIST,
+    forceClose
   }
 }
 
@@ -28,5 +29,17 @@ export function toggleProfileMenu(isTrue = false) {
   return {
     type: ActionTypes.TOGGLE_PROFILE_MENU,
     isTrue
+  }
+}
+
+export function toggleDropdown() {
+  return {
+    type: ActionTypes.TOGGLE_DROPDOWN
+  }
+}
+
+export function toggleCloseAll() {
+  return {
+    type: ActionTypes.TOGGLE_CLOSE_ALL
   }
 }

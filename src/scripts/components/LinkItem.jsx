@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { push } from 'react-router-redux'
+import { toggleCloseAll } from 'actions/toggle'
 
 function LinkItem(props) {
   const { children, className, to, onClick } = props
@@ -14,6 +15,7 @@ function LinkItem(props) {
       pathname: to
     }
 
+    dispatch(toggleCloseAll())
     return dispatch(push(locationDescriptor))
   }
 

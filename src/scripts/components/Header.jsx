@@ -1,23 +1,91 @@
 import React from 'react'
 import LinkItem from 'components/LinkItem'
-import classNames from 'classnames'
+import Dropdown from 'components/Dropdown'
+
+import { getCover } from 'utils/Utils'
+import { IMG_FALLBACK } from 'constants/ItemLists'
 
 export default function Header({
+  auth = {},
   children = null,
-  handleAuth = () => ({}),
-  isAuthorized = false
+  handleAuth = () => {},
+  handleDropdown = () => {},
+  dropdown = {},
+  me = {}
 }) {
-  const scButton = classNames('sc', {
-    'sc--connect': !isAuthorized,
-    'sc--disconnect': isAuthorized
-  })
+  const handleImgError = e => {
+    const { currentTarget } = e
+    return (currentTarget.src = IMG_FALLBACK.AVATAR.SMALL)
+  }
+
+  const myAvatar = Object.keys(me).length ? getCover(me.avatar_url) : null
+
+  const shouldRenderButton = () => {
+    if (auth.isAuthorized) {
+      return null
+    }
+    return (
+      <ul className="header__section header__section--right">
+        <li className="header__item">
+          <button
+            className="header__btn"
+            onClick={ handleAuth }
+          >
+            <img className="sc sc--connect" />
+          </button>
+        </li>
+      </ul>
+    )
+  }
+
+  const shouldRenderMe = () => {
+    if (!myAvatar) {
+      return null
+    }
+    const myName = me.first_name || me.username
+    return (
+      <ul className="header__section header__section--right">
+
+        <li className="header__item">
+          <label className="header__item--right header__greeting">
+            {`Hello, ${myName}`}
+          </label>
+        </li>
+
+        <li className="header__item">
+          <LinkItem
+            className="header__item--right header__avatar avatar avatar--badge"
+            to={`#user/${me.id}`}
+          >
+            <img
+              className="avatar__img"
+              onError={ handleImgError }
+              src={ myAvatar.badge }
+            />
+          </LinkItem>
+        </li>
+
+        <li className="header__item">
+          <button
+            className="header__item--right header__btn header__btn--settings"
+            onClick={ handleDropdown }
+          >
+            <i className="header__pair fa fa-cog" />
+            <i className="header__pair fa fa-caret-down" />
+          </button>
+        </li>
+
+      </ul>
+    )
+  }
+
   return (
     <header className="header">
       <div className="header__container">
 
         <ul className="header__section header__section--left">
           <li className="header__item">
-            <i className="header__icon fa fa-music" />
+            <i className="header__item--left fa fa-music" />
           </li>
 
           <li className="header__item">
@@ -25,16 +93,12 @@ export default function Header({
           </li>
         </ul>
 
-        <ul className="header__section header__section--right">
-          <li className="header__item">
-            <button
-              className="btn"
-              onClick={ handleAuth }
-            >
-              <img className={ scButton } />
-            </button>
-          </li>
-        </ul>
+        { shouldRenderMe() }
+        { shouldRenderButton() }
+
+        { auth.isAuthorized
+          ? <Dropdown handleAuth={ handleAuth } isOpen={ dropdown.isOpen } myId={ me.id } />
+          : null }
 
       </div>
       { children }
@@ -43,7 +107,10 @@ export default function Header({
 }
 
 Header.propTypes = {
+  auth: React.PropTypes.object,
   children: React.PropTypes.node,
-  isAuthorized: React.PropTypes.bool,
-  handleAuth: React.PropTypes.func
+  dropdown: React.PropTypes.object,
+  handleAuth: React.PropTypes.func,
+  handleDropdown: React.PropTypes.func,
+  me: React.PropTypes.object
 }

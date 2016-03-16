@@ -18,7 +18,6 @@ export default class AudioStream extends React.Component {
   // Resets audio duration and position
   handleLoadStart() {
     const { playerActions, trackId } = this.props
-
     playerActions.pushTrack(trackId)
     playerActions.setDuration(0)
     playerActions.setPosition(0)
@@ -111,6 +110,7 @@ AudioStream.propTypes = {
     React.PropTypes.func.isRequired
   ),
   playerIsSeeking: React.PropTypes.bool,
+  playerPosition: React.PropTypes.number,
   playerVolume: React.PropTypes.number,
   src: React.PropTypes.string,
   streamActions: React.PropTypes.objectOf(

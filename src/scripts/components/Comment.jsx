@@ -13,9 +13,7 @@ export default function Comment(props) {
 
   const handleImgError = e => {
     const { currentTarget } = e
-    currentTarget.src = IMG_FALLBACK.AVATAR.SMALL
-
-    return currentTarget
+    return (currentTarget.src = IMG_FALLBACK.AVATAR.SMALL)
   }
 
   return (

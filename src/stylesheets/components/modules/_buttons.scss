@@ -16,6 +16,10 @@
     @extend %btn--basic;
   }
 
+  &--gray {
+    @extend %btn--gray;
+  }
+
   &--disabled {
     @extend %btn--disabled;
     box-shadow: none;

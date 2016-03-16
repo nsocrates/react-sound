@@ -2,28 +2,36 @@ import React from 'react'
 import Header from 'components/Header'
 import Waypoint from 'components/Waypoint'
 import { connect } from 'react-redux'
-import { toggleNavBar } from 'actions/toggle'
+import { toggleNavBar, toggleDropdown } from 'actions/toggle'
 import { authConnect, authDisconnect } from 'actions/auth'
 
 function HeaderContainer(props) {
-  const { dispatch, auth: { request } } = props
+  const { dispatch, auth, me, dropdown } = props
 
   const handleAuth = () => (
-    request.hasOwnProperty('access_token') ? dispatch(authDisconnect()) : dispatch(authConnect())
+    auth.result.hasOwnProperty('access_token')
+      ? dispatch(authDisconnect())
+      : dispatch(authConnect())
   )
 
-  const handleSticky = () => (
+  const handleNavBar = () => (
     dispatch(toggleNavBar())
+  )
+  const handleDropdown = () => (
+    dispatch(toggleDropdown())
   )
 
   return (
     <Header
+      auth={ auth }
       handleAuth={ handleAuth }
-      isAuthorized={ request.hasOwnProperty('access_token') }
+      handleDropdown={ handleDropdown }
+      me={ me }
+      dropdown={ dropdown }
     >
       <Waypoint
-        onEnter={ handleSticky }
-        onLeave={ handleSticky }
+        onEnter={ handleNavBar }
+        onLeave={ handleNavBar }
         triggerFrom="above"
       />
     </Header>
@@ -32,18 +40,30 @@ function HeaderContainer(props) {
 
 HeaderContainer.propTypes = {
   auth: React.PropTypes.object.isRequired,
-  dispatch: React.PropTypes.func.isRequired
+  dispatch: React.PropTypes.func.isRequired,
+  dropdown: React.PropTypes.object.isRequired,
+  me: React.PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
   const {
-    app: {
-      auth
+    auth,
+    ui: {
+      toggles: {
+        dropdown
+      }
+    },
+    entities: {
+      users: {
+        [auth.result.id]: me = {}
+      }
     }
-  } = state
+  } = state.app
 
   return {
-    auth
+    auth,
+    dropdown,
+    me
   }
 }
 

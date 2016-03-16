@@ -1,28 +1,67 @@
 import 'isomorphic-fetch'
 import { OAuth } from 'utils/OAuth'
-import { AUTH } from 'constants/Auth'
+import { AUTH, REQ } from 'constants/Auth'
 import { normalize } from 'normalizr'
-import { sendNotif, destroyNotif } from 'actions/notification'
 
 const authFactory = () => {
   OAuth.initialize(AUTH.KEY)
+  const requestObject = OAuth.create(AUTH.SERVICE)
 
   return {
-    connect(endpoint, schema) {
+    connect(...args) {
+      const schema = args.filter(n => !!n)[0]
+
       return OAuth.popup(AUTH.SERVICE, { cache: true })
         .fail(error => new Error(error))
-        .then(service => (
-          service.get(endpoint)
-            .then(me => {
-              const request = OAuth.create(AUTH.SERVICE)
-              return Object.assign({},
-                normalize(me, schema),
-                { request })
-            })
+        .then((response) => (
+          response.me()
+            .then(data => (
+              Object.assign({},
+              normalize(data.raw, schema), {
+                id: data.raw.id,
+                access_token: requestObject.access_token,
+                service: requestObject.provider
+              })
+            ))
         ))
     },
     disconnect() {
       return OAuth.clearCache(AUTH.SERVICE)
+    },
+    get(endpoint, schema) {
+      return OAuth.popup(AUTH.SERVICE, { cache: true })
+        .fail(error => new Error(error))
+        .then(response => (
+          response.get(endpoint)
+            .then(data => (
+              Object.assign({},
+                normalize(data, schema),
+                { requestObject })
+            ))
+        ))
+    },
+    put(endpoint) {
+      return OAuth.popup(AUTH.SERVICE, { cache: true })
+        .fail(error => new Error(error))
+        .then(response => (
+          response.put(endpoint)
+            .fail(error => new Error(error))
+            .then(data => data)
+        ))
+    },
+    call(request, ...theArgs) {
+      switch (request) {
+        case REQ.CONNECT:
+          return this.connect(...theArgs)
+        case REQ.DISCONNECT:
+          return this.disconnect()
+        case REQ.GET:
+          return this.get(...theArgs)
+        case REQ.PUT:
+          return this.put(...theArgs)
+        default:
+          return {}
+      }
     }
   }
 }
@@ -34,26 +73,28 @@ export default store => next => action => {
   }
 
   let { endpoint } = callAUTH
-  const { schema, types } = callAUTH
+  const { schema, types, request } = callAUTH
 
-  if (typeof endpoint === 'function') {
-    endpoint = endpoint(store.getState())
-  }
-  if (typeof endpoint !== 'string') {
-    throw new Error('Specify a string endpoint URL.')
+  if (!request) {
+    throw new Error('Specify a request method')
   }
 
-  if (types.indexOf('AUTH_DISCONNECT') === -1) {
+  if (request === REQ.GET) {
+    if (typeof endpoint === 'function') {
+      endpoint = endpoint(store.getState())
+    }
+    if (typeof endpoint !== 'string') {
+      throw new Error('Specify a string endpoint URL.')
+    }
     if (!schema) {
       throw new Error('Specify one of the exported Schemas.')
     }
     if (!Array.isArray(types) || types.length !== 3) {
       throw new Error('Expected an array of three action types.')
     }
-  }
-
-  if (!types.every(type => typeof type === 'string')) {
-    throw new Error('Expected action types to be strings.')
+    if (!types.every(type => typeof type === 'string')) {
+      throw new Error('Expected action types to be strings.')
+    }
   }
 
   function actionWith(data) {
@@ -64,52 +105,21 @@ export default store => next => action => {
   }
 
   const auth = authFactory()
-  const { dispatch } = store
-
-  if (types.indexOf('AUTH_DISCONNECT') > -1) {
-    auth.disconnect()
-    dispatch(sendNotif({
-      kind: 'success',
-      body: 'Successfully disconnected'
-    }))
-    return next(actionWith({ type: 'AUTH_DISCONNECT' }))
-  }
 
   const [requestType, successType, failureType] = types
-  const notifReq = {
-    id: new Date().getTime() + 1,
-    kind: 'info',
-    duration: 0,
-    body: 'Requesting connection'
-  }
-  const notifSuccess = {
-    id: new Date().getTime() + 2,
-    kind: 'success',
-    body: 'Successfully connected'
-  }
-  const notifError = {
-    id: new Date().getTime() + 3,
-    kind: 'error',
-    body: 'Failed to connect',
-    priority: true
-  }
-  dispatch(sendNotif(notifReq))
+
   next(actionWith({ type: requestType }))
 
-  return auth.connect(endpoint, schema).then(
-    response => {
-      dispatch(destroyNotif(notifReq.id))
-      dispatch(sendNotif(notifSuccess))
-      return next(actionWith({
+  return auth.call(request, endpoint, schema).then(
+    response => (
+      next(actionWith({
         response,
         type: successType
-      }))},
-    error => {
-      dispatch(destroyNotif(notifReq.id))
-      dispatch(sendNotif(notifError))
-      return next(actionWith({
+      }))),
+    error => (
+      next(actionWith({
         type: failureType,
-        error: error.message || 'Cannot request Auth..'
-      }))}
+        error: error.message || 'Something went wrong...'
+      })))
   )
 }

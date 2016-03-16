@@ -24,6 +24,20 @@
 
 .header__item {
   @extend %justified__item;
+  height: $bar-height;
+  position: relative;
+
+  &--left {
+    margin-right: em(10px);
+  }
+
+  &--right {
+    margin-left: em(10px);
+  }
+}
+
+.header__greeting {
+  color: $white-secondary;
 }
 
 .header__link {
@@ -31,6 +45,42 @@
   display: block;
 }
 
-.header__icon {
-  margin-right: em(10px);
+.header__avatar {
+  display: block;
+  height: $bar-height - 1rem;
+  width: $bar-height - 1rem;
+}
+
+.header__btn {
+  @extend %btn;
+  display: block;
+  height: auto;
+  line-height: initial;
+
+  &--settings {
+    background-color: $wan-white-gray;
+    box-shadow: inset 0 0 0 .1rem $black-disabled;
+    color: $black-hint;
+    padding: em(5px) em(6px);
+
+    &:active {
+      background-color: shade($wan-white-gray, 5%);
+      box-shadow: inset 0 0 0 .1rem $black-hint;
+      color: $black-secondary;
+    }
+
+    &:hover,
+    &:focus {
+      box-shadow: inset 0 0 0 .1rem $black-hint;
+      color: $black-secondary;
+    }
+  }
+}
+
+.header__pair {
+  margin-right: em(2px);
+
+  &:last-child {
+    margin-right: 0;
+  }
 }

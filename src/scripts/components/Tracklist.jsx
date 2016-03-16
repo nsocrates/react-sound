@@ -4,6 +4,8 @@ import LinkItem from 'components/LinkItem'
 import { requestStream } from 'actions/stream'
 import { trackFactory } from 'utils/Utils'
 
+import { addToFavorites } from 'actions/auth'
+
 export default function Tracklist(props) {
   const { ids, userEntity, trackEntity, trackId, isPlaying, modifier } = props
 
@@ -37,7 +39,7 @@ export default function Tracklist(props) {
         return window.open(mediaObject.permalink_url)
       }
       e.preventDefault()
-      const { dispatch } = this.props
+      const { dispatch } = props
       const audio = document.getElementById('audio')
 
       if (isCurrentTrack) {
@@ -45,6 +47,12 @@ export default function Tracklist(props) {
       }
 
       return dispatch(requestStream(id))
+    }
+
+    const handleAddToFavorites = e => {
+      e.preventDefault()
+      const { dispatch } = props
+      return dispatch(addToFavorites(id))
     }
 
     const isSoundCloud = classNames(`tracklist--${modifier}__btn`, {
@@ -88,11 +96,12 @@ export default function Tracklist(props) {
               <i className={ isPauseOrPlay } />
             </button>
 
-            <button className={`tracklist--${modifier}__btn tracklist__btn--heart`}>
-              <i className={`
-                tracklist--${modifier}__icon
-                tracklist__icon--heart fa fa-heart-o
-                `}
+            <button
+              className={`tracklist--${modifier}__btn tracklist__btn--heart`}
+              onClick={ handleAddToFavorites }
+            >
+              <i className={`tracklist--${modifier}__icon
+                tracklist__icon--heart fa fa-heart-o`}
               />
             </button>
 

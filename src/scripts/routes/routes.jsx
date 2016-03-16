@@ -5,6 +5,7 @@ import { syncHistoryWithStore } from 'react-router-redux'
 
 import App from 'containers/App'
 import CollectionContainer from 'containers/CollectionContainer'
+import MeContainer from 'containers/MeContainer'
 import RoutingContainer from 'containers/RoutingContainer'
 import PlaylistContainer from 'containers/PlaylistContainer'
 import TrackContainer from 'containers/TrackContainer'
@@ -27,6 +28,7 @@ export const routes = (
   <Router onUpdate={ updateWindow } history={ history }>
     <Route component={ App } path="/">
       <IndexRoute component={ RoutingContainer } />
+      <Route component={ MeContainer } path="#me" />
       <Route component={ CollectionContainer } path="#genre" />
       <Route component={ CollectionContainer } path="#search" />
       <Route component={ CollectionContainer } path="#tag" />

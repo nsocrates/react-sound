@@ -37,3 +37,62 @@ export function sendNotif(notifObj) {
     }
   }
 }
+
+export function sendNotifSuccess(body, duration) {
+  return dispatch => {
+    const payload = {
+      body,
+      duration,
+      kind: 'success',
+      id: new Date().getTime(),
+      priority: false
+    }
+    return dispatch(sendNotif(payload))
+  }
+}
+
+export function sendNotifError(body) {
+  return dispatch => {
+    const payload = {
+      body,
+      kind: 'error',
+      id: new Date().getTime(),
+      priority: true
+    }
+    return dispatch(sendNotif(payload))
+  }
+}
+
+export function sendNotifInfo(body, duration) {
+  return dispatch => {
+    const payload = {
+      body,
+      duration,
+      kind: 'info',
+      id: new Date().getTime(),
+      priority: false
+    }
+    return dispatch(sendNotif(payload))
+  }
+}
+
+export function sendNotifAction(body, duration) {
+  return dispatch => {
+    const payload = {
+      body,
+      duration,
+      kind: 'action',
+      id: new Date().getTime(),
+      priority: false
+    }
+    return dispatch(sendNotif(payload))
+  }
+}
+
+export const notif = {
+  info: sendNotifInfo,
+  action: sendNotifAction,
+  success: sendNotifSuccess,
+  error: sendNotifError,
+  clear: clearNotif
+}
