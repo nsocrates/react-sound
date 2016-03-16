@@ -62,14 +62,13 @@
 
 .tracklist__player {
   &-enter,
+  &-leave-active {
+    transform: translate3d(0, 100%, 0);
+  }
+
   &-enter-active,
   &-leave-active {
     transition: transform $trans-default;
-  }
-
-  &-enter,
-  &-leave-active {
-    transform: translate3d(0, 100%, 0);
   }
 
   &-enter-active {
