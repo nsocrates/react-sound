@@ -15,6 +15,12 @@ export default class AudioStream extends React.Component {
     this.handleVolumeChange = this.handleVolumeChange.bind(this)
   }
 
+  componentDidMount() {
+    const { _audio, props: { volume } } = this
+
+    return (_audio.volume = volume)
+  }
+
   // Resets audio duration and position
   handleLoadStart() {
     const { playerActions, trackId } = this.props
@@ -117,7 +123,8 @@ AudioStream.propTypes = {
     React.PropTypes.func.isRequired
   ),
   trackId: React.PropTypes.number,
-  tracklist: React.PropTypes.object
+  tracklist: React.PropTypes.object,
+  volume: React.PropTypes.number
 }
 
 AudioStream.defaultProps = {

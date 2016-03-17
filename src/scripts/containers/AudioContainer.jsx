@@ -29,6 +29,7 @@ class AudioContainer extends React.Component {
       }
     } = this.props
     const rest = omit(this.props, ['streamActions', 'trackObject', 'userObject', 'stream'])
+
     const args = {
       userObject,
       mediaObject: trackObject
@@ -60,6 +61,7 @@ class AudioContainer extends React.Component {
               streamActions={ streamActions }
               trackId={ trackId }
               tracklist={ tracklist }
+              volume={ rest.player.volume.level }
             />
             <TracklistContainer />
             <AudioPlayer

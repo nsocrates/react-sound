@@ -1,8 +1,8 @@
 // z-index
-$stack-level: 10;
-$double-stack: $stack-level * 2;
-$triple-stack: $stack-level * 3;
-$quad-stack: $stack-level * 4;
+$stack: 10;
+$double-stack: $stack * 2;
+$triple-stack: $stack * 3;
+$quad-stack: $stack * 4;
 
 
 // Typography

@@ -2,6 +2,7 @@ import React from 'react'
 import LinkItem from 'components/LinkItem'
 import Dropdown from 'components/Dropdown'
 
+import classNames from 'classnames'
 import { getCover } from 'utils/Utils'
 import { IMG_FALLBACK } from 'constants/ItemLists'
 
@@ -14,6 +15,12 @@ export default function Header({
   me = {}
 }) {
   const myName = me.first_name || me.username
+  const myAvatar = Object.keys(me).length ? getCover(me.avatar_url) : {}
+
+  const shouldStack = classNames('header__item', {
+    'header__item--stack': dropdown.isOpen
+  })
+
   const handleImgError = e => {
     const { currentTarget } = e
     return (currentTarget.src = IMG_FALLBACK.AVATAR.SMALL)
@@ -32,43 +39,21 @@ export default function Header({
     </ul>
   )
 
-  const renderAuthSection = () => {
-    const myAvatar = Object.keys(me).length ? getCover(me.avatar_url) : null
-    return (
-      <ul className="header__section header__section--right">
+  const renderAuthSection = () => (
+    <ul className="header__section header__section--right">
 
-        <li className="header__item">
-          <label className="header__item--right header__greeting">
-            {`Hello, ${myName}`}
-          </label>
-        </li>
+      <li className={ shouldStack }>
+        <button
+          className="header__item--right header__btn header__btn--settings"
+          onClick={ handleDropdown }
+        >
+          <i className="header__pair fa fa-cog" />
+          <i className="header__pair fa fa-caret-down" />
+        </button>
+      </li>
 
-        <li className="header__item">
-          <LinkItem
-            className="header__item--right header__avatar avatar avatar--badge"
-            to={`#user/${me.id}`}
-          >
-            <img
-              className="avatar__img"
-              onError={ handleImgError }
-              src={ myAvatar.badge }
-            />
-          </LinkItem>
-        </li>
-
-        <li className="header__item">
-          <button
-            className="header__item--right header__btn header__btn--settings"
-            onClick={ handleDropdown }
-          >
-            <i className="header__pair fa fa-cog" />
-            <i className="header__pair fa fa-caret-down" />
-          </button>
-        </li>
-
-      </ul>
-    )
-  }
+    </ul>
+  )
 
   return (
     <header className="header">
@@ -85,12 +70,15 @@ export default function Header({
         </ul>
 
         { auth.isAuthorized ? renderAuthSection() : renderConnectBtn() }
-        { auth.isAuthorized
+        { dropdown.isOpen && auth.isAuthorized
           ? <Dropdown
             handleAuth={ handleAuth }
+            handleDropdown={ handleDropdown }
             isOpen={ dropdown.isOpen }
+            myAvatar={ myAvatar.small }
             myId={ me.id }
             myName={ myName }
+            onImgErr={ handleImgError }
           />
           : null }
 

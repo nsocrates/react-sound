@@ -15,7 +15,7 @@ const initialState = {
   },
   volume: {
     shouldExpand: false,
-    level: 1,
+    level: 0.5,
     isDragging: false,
     isMuted: false
   }

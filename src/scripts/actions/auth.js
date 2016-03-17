@@ -57,17 +57,27 @@ function put(endpoint) {
 
 export function authConnect() {
   return dispatch => (
-    dispatch(connect('connect'))
-      .then((res, err) => (
-        err
-          ? dispatch(notif.error('Failed to connect'))
-          : dispatch(notif.success('Successfully connected'))
-      ))
+    dispatch(connect('connect')).then(
+      res => {
+        const { username } = res.response
+        return dispatch(notif.success(`Connected as "${username}"`))
+      },
+      err => dispatch(notif.error(err.error))
+    )
   )
 }
 
 export function authDisconnect() {
-  return dispatch => dispatch(disconnect())
+  return (dispatch, getState) => {
+    dispatch(disconnect())
+    const { auth } = getState().app
+
+    if (auth.isAuthorized && Object.keys(auth.result).length) {
+      return dispatch(notif.error('Unable to log out'))
+    }
+
+    return dispatch(notif.action('You have logged out'))
+  }
 }
 
 export function getMe() {
@@ -78,11 +88,9 @@ export function addToFavorites(id) {
   return dispatch => {
     const endpoint = `/me/favorites/${id}`
 
-    return dispatch(put(endpoint))
-      .then((res, err) => (
-        err
-          ? dispatch(notif.error('Track could not be added to favorites'))
-          : dispatch(notif.action('Added track to favorites'))
-      ))
+    return dispatch(put(endpoint)).then(
+      () => dispatch(notif.action('Added track to favorites')),
+      err => dispatch(notif.error(err.error))
+    )
   }
 }

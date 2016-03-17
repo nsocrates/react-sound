@@ -22,7 +22,7 @@
     margin: auto;
     overflow: visible;
     padding: 0 1.5rem;
-    z-index: $stack-level;
+    z-index: $stack;
 
     .menu__inner--profile {
       border-radius: 0 0 .5rem .5rem;

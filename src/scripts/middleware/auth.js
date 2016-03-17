@@ -8,17 +8,19 @@ const authFactory = () => {
   const requestObject = OAuth.create(AUTH.SERVICE)
 
   return {
-    connect(...args) {
-      const schema = args.filter(n => !!n)[0]
+    connect(...theArgs) {
+      const schema = theArgs[1]
 
       return OAuth.popup(AUTH.SERVICE, { cache: true })
         .fail(error => new Error(error))
-        .then((response) => (
-          response.me()
-            .then(data => (
+        .then((result) => (
+          result.me()
+            .fail(error => new Error(error))
+            .then(response => (
               Object.assign({},
-              normalize(data.raw, schema), {
-                id: data.raw.id,
+              normalize(response.raw, schema), {
+                id: response.raw.id,
+                username: response.raw.username,
                 access_token: requestObject.access_token,
                 service: requestObject.provider
               })
@@ -31,11 +33,12 @@ const authFactory = () => {
     get(endpoint, schema) {
       return OAuth.popup(AUTH.SERVICE, { cache: true })
         .fail(error => new Error(error))
-        .then(response => (
-          response.get(endpoint)
-            .then(data => (
+        .then(result => (
+          result.get(endpoint)
+            .fail(error => new Error(error))
+            .then(response => (
               Object.assign({},
-                normalize(data, schema),
+                normalize(response, schema),
                 { requestObject })
             ))
         ))
@@ -43,10 +46,10 @@ const authFactory = () => {
     put(endpoint) {
       return OAuth.popup(AUTH.SERVICE, { cache: true })
         .fail(error => new Error(error))
-        .then(response => (
-          response.put(endpoint)
+        .then(result => (
+          result.put(endpoint)
             .fail(error => new Error(error))
-            .then(data => data)
+            .then(response => response)
         ))
     },
     call(request, ...theArgs) {
@@ -60,7 +63,7 @@ const authFactory = () => {
         case REQ.PUT:
           return this.put(...theArgs)
         default:
-          return {}
+          return new Error('Request method does not exist')
       }
     }
   }
@@ -109,6 +112,10 @@ export default store => next => action => {
   const [requestType, successType, failureType] = types
 
   next(actionWith({ type: requestType }))
+
+  if (request === REQ.DISCONNECT) {
+    return auth.disconnect()
+  }
 
   return auth.call(request, endpoint, schema).then(
     response => (

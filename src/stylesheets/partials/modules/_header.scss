@@ -21,7 +21,6 @@
 
   &--right {
     float: right;
-    font-size: 1.4rem;
   }
 }
 
@@ -37,11 +36,9 @@
   &--right {
     margin-left: em(10px);
   }
-}
 
-.header__greeting {
-  @include susy-media(small-only) {
-    display: none;
+  &--stack {
+    z-index: $double-stack;
   }
 }
 
