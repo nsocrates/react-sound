@@ -12,13 +12,16 @@
 .header__section {
   @extend %justified;
   color: $white-primary;
+  font-weight: 300;
 
   &--left {
     float: left;
+    font-size: 1.8rem;
   }
 
   &--right {
     float: right;
+    font-size: 1.4rem;
   }
 }
 
@@ -37,7 +40,9 @@
 }
 
 .header__greeting {
-  color: $white-secondary;
+  @include susy-media(small-only) {
+    display: none;
+  }
 }
 
 .header__link {

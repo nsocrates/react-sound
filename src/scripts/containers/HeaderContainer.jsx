@@ -9,7 +9,7 @@ function HeaderContainer(props) {
   const { dispatch, auth, me, dropdown } = props
 
   const handleAuth = () => (
-    auth.result.hasOwnProperty('access_token')
+    auth.isAuthorized
       ? dispatch(authDisconnect())
       : dispatch(authConnect())
   )

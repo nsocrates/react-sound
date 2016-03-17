@@ -13,36 +13,27 @@ export default function Header({
   dropdown = {},
   me = {}
 }) {
+  const myName = me.first_name || me.username
   const handleImgError = e => {
     const { currentTarget } = e
     return (currentTarget.src = IMG_FALLBACK.AVATAR.SMALL)
   }
 
-  const myAvatar = Object.keys(me).length ? getCover(me.avatar_url) : null
+  const renderConnectBtn = () => (
+    <ul className="header__section header__section--right">
+      <li className="header__item">
+        <button
+          className="header__btn"
+          onClick={ handleAuth }
+        >
+          <img className="sc sc--connect" />
+        </button>
+      </li>
+    </ul>
+  )
 
-  const shouldRenderButton = () => {
-    if (auth.isAuthorized) {
-      return null
-    }
-    return (
-      <ul className="header__section header__section--right">
-        <li className="header__item">
-          <button
-            className="header__btn"
-            onClick={ handleAuth }
-          >
-            <img className="sc sc--connect" />
-          </button>
-        </li>
-      </ul>
-    )
-  }
-
-  const shouldRenderMe = () => {
-    if (!myAvatar) {
-      return null
-    }
-    const myName = me.first_name || me.username
+  const renderAuthSection = () => {
+    const myAvatar = Object.keys(me).length ? getCover(me.avatar_url) : null
     return (
       <ul className="header__section header__section--right">
 
@@ -93,11 +84,14 @@ export default function Header({
           </li>
         </ul>
 
-        { shouldRenderMe() }
-        { shouldRenderButton() }
-
+        { auth.isAuthorized ? renderAuthSection() : renderConnectBtn() }
         { auth.isAuthorized
-          ? <Dropdown handleAuth={ handleAuth } isOpen={ dropdown.isOpen } myId={ me.id } />
+          ? <Dropdown
+            handleAuth={ handleAuth }
+            isOpen={ dropdown.isOpen }
+            myId={ me.id }
+            myName={ myName }
+          />
           : null }
 
       </div>
