@@ -15,8 +15,7 @@ export default function Header({
   me = {}
 }) {
   const myName = me.first_name || me.username
-  const myAvatar = Object.keys(me).length ? getCover(me.avatar_url) : {}
-
+  const myAvatar = Object.keys(me).length ? getCover(me.avatar_url).badge : {}
   const shouldStack = classNames('header__item', {
     'header__item--stack': dropdown.isOpen
   })
@@ -26,18 +25,30 @@ export default function Header({
     return (currentTarget.src = IMG_FALLBACK.AVATAR.SMALL)
   }
 
-  const renderConnectBtn = () => (
-    <ul className="header__section header__section--right">
-      <li className="header__item">
-        <button
-          className="header__btn"
-          onClick={ handleAuth }
-        >
-          <img className="sc sc--connect" />
-        </button>
-      </li>
-    </ul>
-  )
+  const renderUnauthSection = () => {
+    if (auth.result.isAuthorizing) {
+      return (
+        <ul className="header__section header__section--right">
+          <li className="header__item">
+            <i className="header__loader fa fa-circle-o-notch fa-spin" />
+          </li>
+        </ul>
+      )
+    }
+
+    return (
+      <ul className="header__section header__section--right">
+        <li className="header__item">
+          <button
+            className="header__btn"
+            onClick={ handleAuth }
+          >
+            <img className="sc sc--connect" />
+          </button>
+        </li>
+      </ul>
+    )
+  }
 
   const renderAuthSection = () => (
     <ul className="header__section header__section--right">
@@ -69,13 +80,13 @@ export default function Header({
           </li>
         </ul>
 
-        { auth.result.isAuthorized ? renderAuthSection() : renderConnectBtn() }
+        { auth.result.isAuthorized ? renderAuthSection() : renderUnauthSection() }
         { dropdown.isOpen && auth.result.isAuthorized
           ? <Dropdown
             handleAuth={ handleAuth }
             handleDropdown={ handleDropdown }
             isOpen={ dropdown.isOpen }
-            myAvatar={ myAvatar.small }
+            myAvatar={ myAvatar }
             myId={ me.id }
             myName={ myName }
             onImgErr={ handleImgError }

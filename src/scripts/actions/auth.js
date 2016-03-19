@@ -2,6 +2,7 @@ import * as ActionTypes from 'constants/ActionTypes'
 import { AUTH, REQ, AUTH_TYPES } from 'constants/Auth'
 import { Schemas } from 'constants/Schemas'
 import { notif } from 'actions/notification'
+import { fetchUser } from 'actions/user'
 
 function connect() {
   return {
@@ -51,6 +52,8 @@ function put(endpoint) {
   }
 }
 
+
+// Connect
 export function authConnect() {
   return dispatch => (
     dispatch(connect('connect')).then(
@@ -76,20 +79,92 @@ export function authDisconnect() {
   }
 }
 
-export function getAuthedUser() {
-  return dispatch => {
-    dispatch(get('/me', Schemas.USER, AUTH_TYPES.PROFILE))
+
+// Get
+export function loadAuthedUser() {
+  return (dispatch, getState) => {
+    const {
+      auth: {
+        result: {
+          id
+        }
+      },
+      entities: {
+        users
+      }
+    } = getState().app
+    const user = users[id]
+    const profileEndpoint = `/users/${id}/web-profiles?`
+
+    if (user && user.hasOwnProperty('web_profiles')) {
+      return null
+    }
+
+    return dispatch(get('/me', Schemas.USER, AUTH_TYPES.PROFILE))
+      .then(() => dispatch(fetchUser(id, profileEndpoint)))
   }
 }
 
-export function getAuthedFavorites() {
-  return dispatch => {
-    dispatch(get('/me/favorites', Schemas.TRACK_ARRAY, AUTH_TYPES.FAVORITES)).then(
-      res => console.log(res)
-    )
+export function loadAuthedFavorites(forceNext = false) {
+  return (dispatch, getState) => {
+    const {
+      ids = [],
+      next_href = '/me/favorites'
+    } = getState().app.auth.partition.playlists || {}
+
+    if (ids.length && !forceNext) {
+      return null
+    }
+
+    return dispatch(get(next_href, Schemas.TRACK_ARRAY, AUTH_TYPES.FAVORITES))
   }
 }
 
+export function loadAuthedPlaylists(forceNext = false) {
+  return (dispatch, getState) => {
+    const {
+      ids = [],
+      next_href = '/me/playlists'
+    } = getState().app.auth.partition.playlists || {}
+
+    if (ids.length && !forceNext) {
+      return null
+    }
+
+    return dispatch(get(next_href, Schemas.TRACK_ARRAY, AUTH_TYPES.PLAYLISTS))
+  }
+}
+
+export function loadAuthedTracks(forceNext = false) {
+  return (dispatch, getState) => {
+    const {
+      ids = [],
+      next_href = '/me/tracks'
+    } = getState().app.auth.partition.tracks || {}
+
+    if (ids.length && !forceNext) {
+      return null
+    }
+
+    return dispatch(get(next_href, Schemas.TRACK_ARRAY, AUTH_TYPES.TRACKS))
+  }
+}
+
+export function loadAuthedCollection() {
+  return dispatch => (
+    dispatch(loadAuthedUser()
+      ).then(() =>
+        Promise.all([
+          dispatch(loadAuthedFavorites()),
+          dispatch(loadAuthedPlaylists()),
+          dispatch(loadAuthedTracks())
+        ])
+      )
+  )
+}
+
+
+// Put
 export function addToFavorites(id) {
   return dispatch => {
     const endpoint = `/me/favorites/${id}`

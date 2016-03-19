@@ -13,11 +13,11 @@ export default function Menu(props) {
   })
 
   return (
-    <section className={ shouldStick }>
+    <nav className={ shouldStick }>
       <ul className={ `menu__inner ${innerClassName}` }>
         { children }
       </ul>
-    </section>
+    </nav>
   )
 }
 

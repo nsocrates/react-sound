@@ -2,32 +2,44 @@ import React, { PropTypes } from 'react'
 import LinkItem from 'components/LinkItem'
 
 export default function Dropdown({
-  handleAuth = () => {},
-  handleDropdown = () => {},
-  myAvatar = '',
-  myId = 0,
-  myName = 'User',
+  handleAuth,
+  handleDropdown,
+  myAvatar,
+  myId,
+  myName,
   onImgErr = () => {}
 }) {
   const dropdownLinks = [{
     icon: 'user',
-    text: 'Profile',
+    text: 'Public Profile',
     to: '#me'
+  }, {
+    isDivider: true
+  }, {
+    icon: 'th-large',
+    text: 'Collection',
+    to: '#me/collection'
   }, {
     icon: 'caret-square-o-right',
     text: 'Tracks',
-    to: '#me/tracks'
+    to: '#me/collection/tracks'
   }, {
     icon: 'list',
     text: 'Playlists',
-    to: '#me/playlists'
+    to: '#me/collection/playlists'
   }, {
     icon: 'heart',
     text: 'Favorites',
-    to: '#me/favorites'
+    to: '#me/collection/favorites'
   }]
 
   const mapDropdownLinks = dropdownLinks.map((item, index) => {
+    if (item.isDivider) {
+      return (
+        <li className="dropdown__divider" key={`${myId}${index}`} />
+      )
+    }
+
     const { icon, text, to } = item
     return (
       <li
@@ -87,10 +99,10 @@ export default function Dropdown({
 }
 
 Dropdown.propTypes = {
-  handleAuth: PropTypes.func,
-  handleDropdown: PropTypes.func,
-  myAvatar: PropTypes.string,
-  myId: PropTypes.number,
-  myName: PropTypes.string,
+  handleAuth: PropTypes.func.isRequired,
+  handleDropdown: PropTypes.func.isRequired,
+  myAvatar: PropTypes.string.isRequired,
+  myId: PropTypes.number.isRequired,
+  myName: PropTypes.string.isRequired,
   onImgErr: PropTypes.func
 }

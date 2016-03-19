@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 
-import { IMG_FORMAT, IMG_FALLBACK } from 'constants/ItemLists'
+import { IMG_FALLBACK } from 'constants/ItemLists'
+import { getCover } from 'utils/Utils'
 import { toggleProfileMenu } from 'actions/toggle'
 
 import CanvasGradient from 'components/CanvasGradient'
@@ -86,9 +87,7 @@ export default class User extends React.Component {
       }
     ]
 
-    const avatarUrl = avatar_url
-                        ? avatar_url.replace(/large/, IMG_FORMAT.LARGE)
-                        : IMG_FALLBACK.AVATAR.LARGE
+    const avatarUrl = getCover(avatar_url).large
 
     const getUserLocation = () => {
       if (city || country) {

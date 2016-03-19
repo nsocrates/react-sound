@@ -8,7 +8,7 @@ import { Schemas } from 'constants/Schemas'
 import { push } from 'react-router-redux'
 
 // Fetches a single user:
-function fetchUser(id, endpoint) {
+export function fetchUser(id, endpoint) {
   return {
     id,
     [CALL_API]: {

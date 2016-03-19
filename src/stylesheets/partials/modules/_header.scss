@@ -9,6 +9,37 @@
   }
 }
 
+.header__btn {
+  @extend %btn;
+  display: block;
+  height: auto;
+  line-height: initial;
+
+  &--settings {
+    background-color: $wan-white-gray;
+    box-shadow: inset 0 0 0 .1rem $black-disabled;
+    color: $black-hint;
+    padding: em(5px) em(6px);
+
+    &:active {
+      background-color: shade($wan-white-gray, 5%);
+      box-shadow: inset 0 0 0 .1rem $black-hint;
+      color: $black-secondary;
+    }
+
+    &:hover,
+    &:focus {
+      box-shadow: inset 0 0 0 .1rem $black-hint;
+      color: $black-secondary;
+    }
+  }
+}
+
+.header__loader {
+  color: $white-secondary;
+  font-size: 1.8rem;
+}
+
 .header__section {
   @extend %justified;
   color: $white-primary;
@@ -45,38 +76,6 @@
 .header__link {
   color: $white-primary;
   display: block;
-}
-
-.header__avatar {
-  display: block;
-  height: $bar-height - 1rem;
-  width: $bar-height - 1rem;
-}
-
-.header__btn {
-  @extend %btn;
-  display: block;
-  height: auto;
-  line-height: initial;
-
-  &--settings {
-    background-color: $wan-white-gray;
-    box-shadow: inset 0 0 0 .1rem $black-disabled;
-    color: $black-hint;
-    padding: em(5px) em(6px);
-
-    &:active {
-      background-color: shade($wan-white-gray, 5%);
-      box-shadow: inset 0 0 0 .1rem $black-hint;
-      color: $black-secondary;
-    }
-
-    &:hover,
-    &:focus {
-      box-shadow: inset 0 0 0 .1rem $black-hint;
-      color: $black-secondary;
-    }
-  }
 }
 
 .header__pair {

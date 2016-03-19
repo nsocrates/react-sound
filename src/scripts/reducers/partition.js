@@ -12,7 +12,7 @@ import merge from 'lodash/merge'
 const initialState = {
   ids: [],
   isFetching: false,
-  next_href: null,
+  next_href: undefined,
   offset: 0
 }
 

@@ -43,6 +43,15 @@ export function dtFormatter(timestamp) {
 export function getCover(url) {
   const cover = url || ''
 
+  if (cover.indexOf('default_avatar_large.png') > -1) {
+    return {
+      xLarge: IMG_FALLBACK.AVATAR.LARGE,
+      large: IMG_FALLBACK.AVATAR.LARGE,
+      default: IMG_FALLBACK.AVATAR.LARGE,
+      badge: IMG_FALLBACK.AVATAR.SMALL
+    }
+  }
+
   return {
     xLarge: cover.replace(/large/, IMG_FORMAT.XLARGE) || IMG_FALLBACK.PLACEHOLDER.XLARGE,
     large: cover.replace(/large/, IMG_FORMAT.LARGE) || IMG_FALLBACK.PLACEHOLDER.LARGE,

@@ -1,60 +1,26 @@
 import React, { PropTypes } from 'react'
-import Loader from 'components/Loader'
-import ArticleContent from 'components/ArticleContent'
-import { loadUser } from 'actions/user'
-
 import { connect } from 'react-redux'
 
-class UserDescriptionContainer extends React.Component {
-  componentDidMount() {
-    return this.updateComponent()
-  }
+import UserDescription from 'components/UserDescription'
 
-  updateComponent() {
-    const { dispatch, params } = this.props
-
-    return dispatch(loadUser(params.id))
-  }
-
-  render() {
-    const {
-      userEntity,
-      params
-    } = this.props
-
-    if (!userEntity[params.id] || userEntity[params.id].description === undefined) {
-      return <Loader className="loader--bottom" />
-    }
-
-    const user = userEntity[params.id]
-    return (
-      <section className="article article--lg">
-        <ArticleContent
-          content={ user.description }
-          missing={ "USER DOES NOT HAVE A DESCRIPTION." }
-          wrapperClassName={ "article-wrap" }
-        />
-      </section>
-    )
-  }
+function UserDescriptionContainer({ description }) {
+  return (
+    <UserDescription description={ description } />
+  )
 }
 
 UserDescriptionContainer.propTypes = {
-  dispatch: PropTypes.func,
-  params: PropTypes.object,
-  requested: PropTypes.object,
-  userEntity: PropTypes.object
+  description: PropTypes.string
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   const {
-    entities: { users },
-    partition: { tracksByUser }
+    entities: { users }
   } = state.app
+  const { params } = ownProps
 
   return {
-    tracksByUser,
-    userEntity: users
+    description: users[params.id].description
   }
 }
 

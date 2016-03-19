@@ -57,7 +57,7 @@
     @include absolute(top left);
     color: rgba($white, .85);
     content: '\25B6';
-    font-size: 15vmax;
+    font-size: 15vmin;
     height: 100%;
     line-height: 0;
     padding: 50% 0;
@@ -66,7 +66,7 @@
     width: 100%;
 
     @include susy-media(medium) {
-      font-size: 15vmin;
+      font-size: 10vmin;
     }
   }
 
