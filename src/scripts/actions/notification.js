@@ -23,14 +23,16 @@ export function clearNotif() {
 export function sendNotif(notifObj) {
   return dispatch => {
     const {
+      body,
+      icon = null,
       id = new Date().getTime(),
-      body = notifObj,
       kind = 'info',
       priority = false,
-      duration = priority ? 0 : 5000
+      duration = 5000
     } = notifObj || {}
-    dispatch(publishNotif({ id, body, kind, priority }))
-    if (duration) {
+
+    dispatch(publishNotif({ body, icon, id, kind, priority }))
+    if (duration && !priority) {
       setTimeout(() => (
         dispatch(destroyNotif(id))
       ), duration)
@@ -38,13 +40,14 @@ export function sendNotif(notifObj) {
   }
 }
 
-export function sendNotifSuccess(body, duration) {
+export function sendNotifSuccess(body, duration, icon) {
   return dispatch => {
     const payload = {
       body,
       duration,
-      kind: 'success',
+      icon,
       id: new Date().getTime(),
+      kind: 'success',
       priority: false
     }
     return dispatch(sendNotif(payload))
@@ -55,34 +58,36 @@ export function sendNotifError(body) {
   return dispatch => {
     const payload = {
       body,
-      kind: 'error',
       id: new Date().getTime(),
+      kind: 'error',
       priority: true
     }
     return dispatch(sendNotif(payload))
   }
 }
 
-export function sendNotifInfo(body, duration) {
+export function sendNotifInfo(body, duration, icon) {
   return dispatch => {
     const payload = {
       body,
       duration,
-      kind: 'info',
+      icon,
       id: new Date().getTime(),
+      kind: 'info',
       priority: false
     }
     return dispatch(sendNotif(payload))
   }
 }
 
-export function sendNotifAction(body, duration) {
+export function sendNotifAction(body, duration, icon) {
   return dispatch => {
     const payload = {
       body,
       duration,
-      kind: 'action',
+      icon,
       id: new Date().getTime(),
+      kind: 'action',
       priority: false
     }
     return dispatch(sendNotif(payload))

@@ -78,7 +78,7 @@
 
 // Player component
 .tracklist--player__wrapper {
-  background-color: rgba($shark, .93);
+  background-color: rgba($shark, .95);
   border-radius: .5rem .5rem 0 0;
   box-shadow: 0 -.2rem .3rem $black-hint;
   color: $white-primary;
@@ -123,6 +123,7 @@
 }
 
 .tracklist--player__data {
+  @extend %small;
   overflow: hidden;
 }
 

@@ -1,5 +1,5 @@
 import * as ActionTypes from 'constants/ActionTypes'
-import { AUTH, REQ } from 'constants/Auth'
+import { AUTH, REQ, AUTH_TYPES } from 'constants/Auth'
 import { Schemas } from 'constants/Schemas'
 import { notif } from 'actions/notification'
 
@@ -26,15 +26,11 @@ function disconnect() {
   }
 }
 
-function get(endpoint, schema) {
+function get(endpoint, schema, types) {
   return {
     [AUTH.CALL]: {
-      types: [
-        ActionTypes.GET_REQUEST,
-        ActionTypes.GET_SUCCESS,
-        ActionTypes.GET_FAILURE
-      ],
       request: REQ.GET,
+      types,
       endpoint,
       schema
     }
@@ -59,8 +55,8 @@ export function authConnect() {
   return dispatch => (
     dispatch(connect('connect')).then(
       res => {
-        const { username } = res.response
-        return dispatch(notif.success(`Connected as "${username}"`))
+        const { username, avatar } = res.response
+        return dispatch(notif.success(`Connected as "${username}"`, undefined, avatar))
       },
       err => dispatch(notif.error(err.error))
     )
@@ -80,8 +76,18 @@ export function authDisconnect() {
   }
 }
 
-export function getMe() {
-  return dispatch => dispatch(get('/me', Schemas.USER))
+export function getAuthedUser() {
+  return dispatch => {
+    dispatch(get('/me', Schemas.USER, AUTH_TYPES.PROFILE))
+  }
+}
+
+export function getAuthedFavorites() {
+  return dispatch => {
+    dispatch(get('/me/favorites', Schemas.TRACK_ARRAY, AUTH_TYPES.FAVORITES)).then(
+      res => console.log(res)
+    )
+  }
 }
 
 export function addToFavorites(id) {

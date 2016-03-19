@@ -5,7 +5,7 @@ import { normalize } from 'normalizr'
 
 const authFactory = () => {
   OAuth.initialize(AUTH.KEY)
-  const requestObject = OAuth.create(AUTH.SERVICE)
+  let requestObject = OAuth.create(AUTH.SERVICE)
 
   return {
     connect(...theArgs) {
@@ -16,15 +16,17 @@ const authFactory = () => {
         .then((result) => (
           result.me()
             .fail(error => new Error(error))
-            .then(response => (
-              Object.assign({},
+            .then(response => {
+              requestObject = OAuth.create(AUTH.SERVICE)
+
+              return Object.assign({},
               normalize(response.raw, schema), {
+                avatar: response.avatar,
                 id: response.raw.id,
-                username: response.raw.username,
-                access_token: requestObject.access_token,
-                service: requestObject.provider
+                username: response.alias,
+                access_token: requestObject.access_token
               })
-            ))
+            })
         ))
     },
     disconnect() {

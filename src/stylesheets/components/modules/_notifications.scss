@@ -65,18 +65,26 @@
 }
 
 .notif__body {
-  float: left;
   margin-right: em(20px);
+  overflow: hidden;
+  width: auto;
 }
 
 .notif__btn {
-  @include absolute(top bottom right em(20px));
-  float: right;
-  margin: auto;
-  opacity: $hint;
+  @include absolute(top 1rem right 1rem);
+  opacity: $secondary;
+  text-align: right;
   transition: opacity ease .2s;
 
   &:hover {
     opacity: 1;
   }
+}
+
+.notif__icon {
+  border-radius: 50%;
+  float: left;
+  height: 50px;
+  margin-right: 1rem;
+  width: 50px;
 }

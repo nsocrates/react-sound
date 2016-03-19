@@ -10,9 +10,8 @@ export default function ProfileCover(props) {
 
   const handleError = e => {
     const { currentTarget } = e
-    currentTarget.src = IMG_FALLBACK.PLACEHOLDER.LARGE
-
-    return currentTarget
+    const { fallback = IMG_FALLBACK.PLACEHOLDER.LARGE } = props
+    return (currentTarget.src = fallback)
   }
 
   const {
@@ -45,11 +44,12 @@ export default function ProfileCover(props) {
 }
 
 ProfileCover.propTypes = {
-  href: PropTypes.string,
-  src: PropTypes.string,
   anchorClassName: PropTypes.string,
+  children: PropTypes.node,
+  fallback: PropTypes.string,
+  href: PropTypes.string,
   imgClassName: PropTypes.string,
   onClick: PropTypes.func,
   onError: PropTypes.func,
-  children: PropTypes.node
+  src: PropTypes.string
 }

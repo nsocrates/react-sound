@@ -69,8 +69,8 @@ export default function Header({
           </li>
         </ul>
 
-        { auth.isAuthorized ? renderAuthSection() : renderConnectBtn() }
-        { dropdown.isOpen && auth.isAuthorized
+        { auth.result.isAuthorized ? renderAuthSection() : renderConnectBtn() }
+        { dropdown.isOpen && auth.result.isAuthorized
           ? <Dropdown
             handleAuth={ handleAuth }
             handleDropdown={ handleDropdown }

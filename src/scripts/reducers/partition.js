@@ -75,9 +75,9 @@ const partition = combineReducers({
   tracksByUser: partitionate({
     mapActionToKey: action => action.id,
     types: [
-      ActionTypes.USER_REQUEST,
-      ActionTypes.USER_SUCCESS,
-      ActionTypes.USER_FAILURE
+      ActionTypes.USER_TRACKS_REQUEST,
+      ActionTypes.USER_TRACKS_SUCCESS,
+      ActionTypes.USER_TRACKS_FAILURE
     ]
   }),
   playlistsByUser: partitionate({

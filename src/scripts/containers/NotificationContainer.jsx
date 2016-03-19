@@ -17,7 +17,7 @@ function NotificationContainer(props) {
 
   const priorityItem = () => {
     const [notif] = priorityList
-    const { id, body, kind } = notif
+    const { id, body, kind, icon } = notif
     const handleDestroyNotif = () => (
       dispatch(destroyNotif(id))
     )
@@ -25,6 +25,7 @@ function NotificationContainer(props) {
     return (
       <Notification
         body={ body }
+        icon={ icon }
         key={ id }
         kind={ kind }
         onClick={ handleDestroyNotif }
@@ -33,7 +34,7 @@ function NotificationContainer(props) {
   }
 
   const notifItems = notifications.map(notif => {
-    const { id, body, kind } = notif
+    const { id, body, kind, icon } = notif
     const handleDestroyNotif = () => (
       dispatch(destroyNotif(id))
     )
@@ -41,6 +42,7 @@ function NotificationContainer(props) {
     return (
       <Notification
         body={ body }
+        icon={ icon }
         key={ id }
         kind={ kind }
         onClick={ handleDestroyNotif }
