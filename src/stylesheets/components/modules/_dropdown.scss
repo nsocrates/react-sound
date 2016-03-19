@@ -6,19 +6,6 @@
   line-height: initial;
   width: 20rem;
   z-index: $stack;
-
-  &::after {
-    @include absolute(top -.8rem right 2.7rem);
-    background-color: $white;
-    border-top-left-radius: .3rem;
-    box-shadow: 0 -.1rem .1rem -.1rem $black-hint,
-                -.1rem 0 .1rem -.1rem $black-hint;
-    content: '';
-    height: 1.5rem;
-    transform: rotate(45deg);
-    width: 1.5rem;
-    z-index: -1;
-  }
 }
 
 .dropdown__avatar {
@@ -41,15 +28,6 @@
   border-top: .1rem solid $black-disabled;
   height: 0;
   margin: em(6px) 0;
-}
-
-.dropdown__greeting {
-  @extend %small;
-  color: $black-hint;
-  display: block;
-  font-weight: 700;
-  overflow: hidden;
-  padding: em(13px) em(18px) em(7px);
 }
 
 .dropdown__icon {
@@ -84,9 +62,32 @@
   font-weight: 700;
   overflow: hidden;
 
-  &:hover {
-    background-color: $wan-white-gray;
-    color: $black-primary;
+  &:first-child {
+    border-top-left-radius: .5rem;
+
+    @include susy-media(medium) {
+      border-top-right-radius: .5rem;
+    }
+  }
+
+  &:last-child {
+    border-bottom-left-radius: .5rem;
+
+    @include susy-media(medium) {
+      border-bottom-right-radius: .5rem;
+    }
+  }
+
+  &--stateful {
+    &:hover {
+      background-color: $wan-white-gray;
+      color: $black-primary;
+    }
+  }
+
+  &--greeting {
+    color: $black-hint;
+    padding: em(13px) em(18px) em(7px);
   }
 }
 
@@ -94,11 +95,22 @@
   background-color: $white;
   border-radius: .5rem 0 0 .5rem;
   box-shadow: 0 .1rem .5rem $black-hint;
-  overflow: hidden;
   z-index: $double-stack;
 
   @include susy-media(medium) {
     border-radius: .5rem;
+  }
+
+  &::before {
+    @include absolute(top -.8rem right 2.7rem);
+    background-color: $white;
+    border-top-left-radius: .3rem;
+    box-shadow: 0 -.1rem .1rem -.1rem $black-hint,
+                -.1rem 0 .1rem -.1rem $black-hint;
+    content: '';
+    height: 1.5rem;
+    transform: rotate(45deg);
+    width: 1.5rem;
   }
 }
 

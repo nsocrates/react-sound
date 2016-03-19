@@ -30,7 +30,10 @@ export default function Dropdown({
   const mapDropdownLinks = dropdownLinks.map((item, index) => {
     const { icon, text, to } = item
     return (
-      <li className="dropdown__item" key={`${myId}${index}`}>
+      <li
+        className="dropdown__item dropdown__item--stateful"
+        key={`${myId}${index}`}
+      >
         <LinkItem className="dropdown__content" to={ to }>
           <i className={`dropdown__icon fa fa-${icon}`} />
           <span className="dropdown__inline">
@@ -49,7 +52,7 @@ export default function Dropdown({
       />
       <ul className="dropdown__list">
 
-        <li className="dropdown__greeting">
+        <li className="dropdown__item dropdown__item--greeting">
           <img
             className="dropdown__avatar"
             onError={ onImgErr }
@@ -66,7 +69,7 @@ export default function Dropdown({
 
         <li className="dropdown__divider" />
 
-        <li className="dropdown__item">
+        <li className="dropdown__item dropdown__item--stateful">
           <button className="dropdown__content" onClick={ handleAuth }>
             <i className="dropdown__icon dropdown__icon--soundcloud fa fa-soundcloud" />
             <span className="dropdown__inline dropdown__inline--divider">
