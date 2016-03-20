@@ -5,7 +5,7 @@ import { push } from 'react-router-redux'
 import { toggleCloseAll } from 'actions/toggle'
 
 function LinkItem(props) {
-  const { children, className, to, onClick } = props
+  const { children, className, to, onClick, title } = props
 
   const handleClick = e => {
     e.preventDefault()
@@ -24,6 +24,7 @@ function LinkItem(props) {
       className={ className }
       onClick={ onClick || handleClick }
       to={ to }
+      title={ title }
     >
       { children }
     </Link>
@@ -33,15 +34,19 @@ function LinkItem(props) {
 LinkItem.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  dataContent: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   location: PropTypes.object,
   onClick: PropTypes.func,
+  title: PropTypes.string,
   to: PropTypes.string
 }
 
 LinkItem.defaultProps = {
   children: null,
-  className: null,
+  className: undefined,
+  dataContent: undefined,
+  title: undefined,
   to: '#'
 }
 

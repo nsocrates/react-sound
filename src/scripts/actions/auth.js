@@ -4,7 +4,7 @@ import { Schemas } from 'constants/Schemas'
 import { notif } from 'actions/notification'
 import { fetchUser } from 'actions/user'
 
-function connect() {
+export function aConnect() {
   return {
     [AUTH.CALL]: {
       types: [
@@ -18,7 +18,7 @@ function connect() {
   }
 }
 
-function disconnect() {
+function aDisconnect() {
   return {
     [AUTH.CALL]: {
       types: [ActionTypes.AUTH_DISCONNECT],
@@ -56,7 +56,7 @@ function put(endpoint) {
 // Connect
 export function authConnect() {
   return dispatch => (
-    dispatch(connect('connect')).then(
+    dispatch(aConnect()).then(
       res => {
         const { username, avatar } = res.response
         return dispatch(notif.success(`Connected as "${username}"`, undefined, avatar))
@@ -68,7 +68,7 @@ export function authConnect() {
 
 export function authDisconnect() {
   return (dispatch, getState) => {
-    dispatch(disconnect())
+    dispatch(aDisconnect())
     const { auth } = getState().app
 
     if (auth.isAuthorized && Object.keys(auth.result).length) {

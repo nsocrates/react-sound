@@ -3,39 +3,48 @@ import Header from 'components/Header'
 import Waypoint from 'components/Waypoint'
 import { connect } from 'react-redux'
 import { toggleNavBar, toggleDropdown } from 'actions/toggle'
-import { authConnect, authDisconnect } from 'actions/auth'
+import { aConnect, authConnect, authDisconnect } from 'actions/auth'
 
-function HeaderContainer(props) {
-  const { dispatch, auth, me, dropdown } = props
+class HeaderContainer extends React.Component {
+  componentDidMount() {
+    const { dispatch, auth: { result } } = this.props
+    const isAuthorized = !!result.isAuthorized && !!result.storage.oauthio_provider_soundcloud
 
-  const handleAuth = () => (
-    auth.result.isAuthorized
-      ? dispatch(authDisconnect())
-      : dispatch(authConnect())
-  )
+    return (isAuthorized && !result.id) ? dispatch(aConnect()) : null
+  }
 
-  const handleNavBar = () => (
-    dispatch(toggleNavBar())
-  )
-  const handleDropdown = () => (
-    dispatch(toggleDropdown())
-  )
+  render() {
+    const { dispatch, auth, me, dropdown } = this.props
 
-  return (
-    <Header
-      auth={ auth }
-      handleAuth={ handleAuth }
-      handleDropdown={ handleDropdown }
-      me={ me }
-      dropdown={ dropdown }
-    >
-      <Waypoint
-        onEnter={ handleNavBar }
-        onLeave={ handleNavBar }
-        triggerFrom="above"
-      />
-    </Header>
-  )
+    const handleAuth = () => (
+      auth.result.isAuthorized
+        ? dispatch(authDisconnect())
+        : dispatch(authConnect())
+    )
+
+    const handleNavBar = () => (
+      dispatch(toggleNavBar())
+    )
+    const handleDropdown = () => (
+      dispatch(toggleDropdown())
+    )
+
+    return (
+      <Header
+        auth={ auth }
+        handleAuth={ handleAuth }
+        handleDropdown={ handleDropdown }
+        me={ me }
+        dropdown={ dropdown }
+      >
+        <Waypoint
+          onEnter={ handleNavBar }
+          onLeave={ handleNavBar }
+          triggerFrom="above"
+        />
+      </Header>
+    )
+  }
 }
 
 HeaderContainer.propTypes = {

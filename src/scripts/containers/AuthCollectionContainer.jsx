@@ -19,21 +19,14 @@ class AuthCollectionContainer extends React.Component {
   }
 
   render() {
-    const { shouldPlay, children, currPath } = this.props
     return (
-      <AuthCollection
-        currPath={ currPath }
-        shouldPlay={ shouldPlay }
-      >
-        { children }
-      </AuthCollection>
+      <AuthCollection />
     )
   }
 }
 
 AuthCollectionContainer.propTypes = {
   auth: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired,
   currPath: PropTypes.string.isRequired,
   shouldPlay: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,

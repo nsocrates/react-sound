@@ -12,6 +12,7 @@ import TrackContainer from 'containers/TrackContainer'
 import UserContainer from 'containers/UserContainer'
 import UserDescriptionContainer from 'containers/UserDescriptionContainer'
 import UserMediaContainer from 'containers/UserMediaContainer'
+import AuthViewContainer from 'containers/AuthViewContainer'
 import AuthCollectionContainer from 'containers/AuthCollectionContainer'
 
 import End from 'components/End'
@@ -39,8 +40,8 @@ export const routes = (
       <Route component={ PlaylistContainer } path="#playlist/:id" />
       <Route component={ MeContainer } path="#me" />
 
-      <Route component={ AuthCollectionContainer } path="#me/collection">
-        <IndexRoute component={ End } />
+      <Route component={ AuthViewContainer } path="#me/collection">
+        <IndexRoute component={ AuthCollectionContainer } />
         <Route component={ End } path="tracks" />
         <Route component={ End } path="favorites" />
         <Route component={ End } path="playlists" />

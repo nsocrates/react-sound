@@ -2,9 +2,9 @@
   margin-bottom: 1.5rem;
   position: relative;
 
-  &:after {
+  &::after {
     @include absolute(bottom left);
-    border-bottom: .3rem solid $white-secondary;
+    border-bottom: .4rem solid $white-secondary;
     content: '';
     width: 100%;
     z-index: -1;
@@ -16,6 +16,8 @@
   @extend %lead;
   color: $black-secondary;
   font-weight: 300;
+  height: 4.8rem;
+  overflow: hidden;
 }
 
 .sub-nav__item {
@@ -24,29 +26,30 @@
 }
 
 .sub-nav__link {
-  border-bottom: .3rem solid transparent;
+  border-bottom: .4rem solid transparent;
   display: block;
-  padding: .5rem;
+  padding: .6rem;
 
   &:hover {
     color: $black-primary;
   }
 
   &--active {
-    position: relative;
-    border-color: $black-primary;
+    border-color: rgba($shark, $primary);
     color: $black-primary;
-    pointer-events: none;
     overflow: hidden;
+    pointer-events: none;
+    position: relative;
+    transition: border-color .1s linear;
 
     &::after {
-      @include absolute(bottom -3px left right);
-      margin: auto;
+      @include absolute(bottom -.4rem left right);
+      background-color: rgba($shark, $primary);
       content: '';
-      width: .6rem;
-      height: .6rem;
-      background-color: $black-primary;
+      height: .8rem;
+      margin: auto;
       transform: rotate(45deg);
+      width: .8rem;
     }
   }
 }

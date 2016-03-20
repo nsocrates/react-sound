@@ -40,7 +40,8 @@
     &::after {
       @include absolute(bottom left);
       background: linear-gradient(
-        transparent,
+        to bottom,
+        rgba($white, 0),
         $white
       );
       content: '';

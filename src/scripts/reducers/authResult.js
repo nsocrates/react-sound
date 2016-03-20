@@ -2,9 +2,10 @@ import * as ActionTypes from 'constants/ActionTypes'
 
 const initialState = {
   isAuthorizing: false,
-  isAuthorized: false,
+  isAuthorized: !!localStorage.oauthio_provider_soundcloud,
   id: null,
-  token: null
+  token: null,
+  storage: localStorage
 }
 
 export default function authResult(state = initialState, action) {
