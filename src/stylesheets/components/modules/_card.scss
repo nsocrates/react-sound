@@ -2,10 +2,6 @@
   @include span(full);
   background-color: transparent;
 
-  @include susy-media(large) {
-    display: flex;
-    flex-wrap: wrap;
-  }
 }
 
 .card__item {
@@ -15,11 +11,14 @@
   margin-bottom: gutter(8);
   overflow: hidden;
 
+  @include susy-media(medium) {
+    height: em(245px);
+  }
+
   @include susy-media(large) {
-    float: none;
     margin-bottom: gutter();
     margin-right: gutter();
-    padding: 1rem;
+    padding: em(10px);
     width: span(6);
 
     &:nth-child(even) {
@@ -27,15 +26,15 @@
     }
   }
 
-  @include susy-media(xlarge) {
+  @include susy-media(xxlarge) {
     margin-right: gutter();
-    width: span(3);
+    width: span(4);
 
     &:nth-child(even) {
       margin-right: gutter();
     }
 
-    &:nth-child(4n+4) {
+    &:nth-child(3n+3) {
       margin-right: 0;
     }
   }
@@ -43,39 +42,29 @@
 
 .card__cover {
   float: left;
-  height: 12.5rem;
+  height: em(150px);
   overflow: hidden;
   position: relative;
   width: 100%;
 
   @include susy-media(medium) {
-    @include span(4);
-    height: auto;
-    max-height: 24rem;
-    max-width: 24rem;
+    height: em(245px);
+    margin-right: gutter();
+    width: em(245px);
   }
 
   @include susy-media(large) {
-    @include span(6 wider);
-    max-height: none;
-    max-width: none;
+    height: em(225px);
+    width: em(225px);
   }
 
-  @include susy-media(xlarge) {
-    @include span(full);
-  }
 
   &--img {
-    @include absolute(top right bottom left);
+    @include absolute();
     display: block;
     height: auto;
     margin: auto;
     width: 100%;
-
-    @include susy-media(medium) {
-      float: left;
-      position: relative;
-    }
   }
 }
 
@@ -84,7 +73,7 @@
   background-color: $shark;
   display: block;
   height: auto;
-  padding-bottom: 25%;
+  padding-bottom: em(150px);
   width: 100%;
 
   @include susy-media(medium) {
@@ -94,37 +83,39 @@
 
 .card__content {
   float: left;
-  padding: 1rem;
+  padding: em(10px);
   width: 100%;
 
   @include susy-media(medium) {
     float: none;
+    max-height: em(245px);
     overflow: hidden;
     width: auto;
   }
 
   @include susy-media(large) {
-    padding: 0 0 0 1rem;
-  }
-
-  @include susy-media(xlarge) {
-    float: left;
-    padding: 1rem 0 0;
-    width: 100%;
+    max-height: em(225px);
+    padding: 0 0 0 em(10px);
   }
 
   &--title,
   &--byline {
-    margin: 0;
+    color: $black-secondary;
+    margin-bottom: .25em;
+  }
+
+  &--title {
+    font-weight: 700;
+    line-height: 1.3;
   }
 
   &--byline {
-    color: $black-secondary;
+    line-height: 1.15;
   }
 
   &--date {
     color: $black-hint;
-    margin-bottom: 1rem;
+    margin-bottom: em(15px);
   }
 
   &--tag {
@@ -133,6 +124,6 @@
     color: $black-hint;
     float: right;
     font-size: 1.4rem;
-    padding: .5rem;
+    padding: em(5px);
   }
 }

@@ -123,6 +123,10 @@
     @include susy-media(medium) {
       width: 90%;
     }
+
+    @include susy-media(xxlarge) {
+      @include container(em($xxlarge))
+    }
   }
 }
 

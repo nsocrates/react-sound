@@ -139,6 +139,7 @@ $small: 0;
 $medium: 640px;
 $large: 1024px;
 $xlarge: 1200px;
+$xxlarge: 1485px;
 
 
 // Susy
@@ -157,6 +158,7 @@ $susy-media: (
   medium: em($medium),
   large: em($large),
   xlarge: em($xlarge),
+  xxlarge: em($xxlarge),
   small-only: max-width (em($medium - 1px)),
   medium-only: em($medium) (em($large - 1px)),
   large-only: em($large) (em($xlarge - 1px))

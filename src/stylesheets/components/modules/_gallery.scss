@@ -88,6 +88,10 @@
   &--title {
     font-weight: 700;
   }
+
+  &--byline {
+    color: $black-secondary;
+  }
 }
 
 @keyframes scale-in {

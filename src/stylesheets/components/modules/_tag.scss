@@ -1,24 +1,25 @@
 .tags {
   @include span(full);
+  overflow: hidden;
+
+  &--card {
+    max-height: 10rem;
+  }
+
+  &--profile {
+    max-height: 7.1rem;
+  }
 }
 
 .tag {
   border-color: inherit;
   display: inline-block;
-  margin-bottom: gutter();
-  margin-right: gutter();
+  margin-bottom: .5rem;
+  margin-right: .5rem;
+  overflow: hidden;
 
   &:last-child {
     margin-right: 0;
-  }
-
-  &--card {
-    margin-bottom: .5rem;
-    margin-right: .5rem;
-
-    &:last-child {
-      margin-right: 0;
-    }
   }
 }
 
@@ -31,7 +32,7 @@
   display: inline-block;
   line-height: 1;
   margin-left: 1.1em;
-  padding: .5833em 1.5em;
+  padding: em(8px) em(21px);
   transition: color $trans-duration;
   z-index: 1;
 
@@ -52,7 +53,7 @@
     @include absolute(top 50% left -.25em);
     background-color: $white;
     border-radius: em(10px);
-    box-shadow: 0 -em(1px) em(1px) $black-hint;
+    box-shadow: 0 em(-1px) em(1px) $black-hint;
     content: '';
     display: block;
     height: .5em;
@@ -67,17 +68,12 @@
   }
 
   &--card {
-    background-color: tint($light-gray, 35%);
+    background-color: $white;
     color: $black-secondary;
     font-size: 1.2rem;
 
-    &:hover,
-    &:hover::before {
-      border-color: tint($shark, 65%);
-    }
-
     &:hover {
-      background-color: tint($light-gray, 10%);
+      background-color: tint($shark, 95%);
       color: $black-primary;
     }
   }
@@ -115,6 +111,10 @@
 
     @include susy-media(large) {
       max-width: em(80px);
+    }
+
+    @include susy-media(xxlarge) {
+      max-width: em(60px);
     }
   }
 }

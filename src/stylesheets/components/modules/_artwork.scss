@@ -41,32 +41,29 @@
   border: .5rem solid rgba($white, .9);
   border-radius: 50%;
   box-shadow: 0 0 .1rem rgba($black, .25);
-  height: 15vmax;
+  height: 10rem;
   margin: auto;
   opacity: 1;
   transition: opacity, background-color $trans-default;
-  width: 15vmax;
+  width: 10rem;
 
   @include susy-media(medium) {
-    height: 50%;
+    height: 11.5rem;
     opacity: 0;
-    width: 50%;
+    width: 11.5rem;
   }
 
   &::after {
-    @include absolute(top left);
+    @include absolute(top 50% left);
     color: rgba($white, .85);
     content: '\25B6';
-    font-size: 15vmin;
-    height: 100%;
-    line-height: 0;
-    padding: 50% 0;
+    font-size: 6rem;
     text-align: center;
     text-shadow: 0 0 .1rem rgba($white, .4);
     width: 100%;
 
     @include susy-media(medium) {
-      font-size: 10vmin;
+      font-size: 7rem;
     }
   }
 
@@ -75,6 +72,12 @@
 
     &::after {
       color: rgba($white, .95);
+    }
+  }
+
+  &--profile {
+    &::after {
+      top: 0;
     }
   }
 }

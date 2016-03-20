@@ -48,10 +48,12 @@
 
 .nav__input {
   @extend %input-search;
-  border-top: .1rem solid $light-gray;
   box-shadow: inset 0 -.1rem 0 $black-disabled;
+  height: $bar-height;
   line-height: $bar-height;
-  padding: 0 3.2rem 0 1.5rem;
+  margin-right: 1.5rem;
+  padding: 0 1rem;
+  width: em(200px);
 
   &:focus + .nav__focus-bar {
     transform: scaleX(1);

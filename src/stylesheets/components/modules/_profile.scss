@@ -8,32 +8,27 @@
   @include span(full);
 
   &--cover {
-    margin-bottom: 1rem;
+    margin-bottom: em(10px);
 
     @include susy-media(medium) {
-      @include span(5);
-      max-width: 27rem;
-      min-width: 22.5rem;
+      padding-right: em(15px);
+      width: span(5);
     }
 
     @include susy-media(large) {
-      @include span(4 wider);
-      margin-bottom: 0;
-      margin-right: gutter(8);
-      max-width: 35rem;
+      width: span(4) + gutter();
     }
   }
 
   &--details {
     @include susy-media(medium) {
-      float: none;
-      overflow: hidden;
-      padding-left: gutter();
-      width: auto;
+      float: left;
+      padding-left: em(15px);
+      width: span(7) + gutter();
     }
 
     @include susy-media(large) {
-      padding-left: 0;
+      width: span(8);
     }
   }
 }
@@ -41,13 +36,13 @@
 .profile__cover {
   display: block;
   margin: 0 auto;
-  max-width: 35rem;
-  width: 100%;
+  max-width: 100%;
+  width: em(350px);
 }
 
 .profile__textarea {
   @include span(full);
-  margin-bottom: 1rem;
+  margin-bottom: em(10px);
 }
 
 .profile__info {
