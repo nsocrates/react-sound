@@ -2,10 +2,10 @@ import * as ActionTypes from 'constants/ActionTypes'
 
 const initialState = {
   isAuthorizing: false,
-  isAuthorized: !!localStorage.oauthio_provider_soundcloud,
+  isAuthorized: false,
   id: null,
   token: null,
-  storage: localStorage
+  error: null
 }
 
 export default function authResult(state = initialState, action) {
@@ -23,6 +23,12 @@ export default function authResult(state = initialState, action) {
         token: access_token
       })
     }
+    case ActionTypes.AUTH_FAILURE:
+      return Object.assign({}, state, {
+        isAuthorizing: false,
+        isAuthorized: false,
+        error: action.error
+      })
     case ActionTypes.AUTH_DISCONNECT:
       return initialState
     default:

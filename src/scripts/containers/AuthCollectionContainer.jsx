@@ -3,50 +3,62 @@ import { connect } from 'react-redux'
 import { replace } from 'react-router-redux'
 
 import { loadAuthedCollection } from 'actions/auth'
-
 import AuthCollection from 'components/AuthCollection'
 
 class AuthCollectionContainer extends React.Component {
+  constructor(props) {
+    super(props)
+    this.updateComponent = this.updateComponent.bind(this)
+  }
 
   componentDidMount() {
     const { dispatch, auth } = this.props
+    const hasLocalStorage = !!localStorage.oauthio_provider_soundcloud
 
-    if (!auth.result.isAuthorized) {
+    if (!hasLocalStorage && !auth.result.isAuthorizing && !auth.result.isAuthorized) {
       return dispatch(replace({ location: '/' }))
     }
 
+    return null
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (!this.props.auth.result.isAuthorized && newProps.auth.result.isAuthorized) {
+      return this.updateComponent()
+    }
+
+    return null
+  }
+
+  updateComponent() {
+    const { dispatch } = this.props
     return dispatch(loadAuthedCollection())
   }
 
   render() {
+    const { auth } = this.props
+
     return (
-      <AuthCollection />
+      <AuthCollection auth={ auth } />
     )
   }
 }
 
 AuthCollectionContainer.propTypes = {
   auth: PropTypes.object.isRequired,
-  currPath: PropTypes.string.isRequired,
-  shouldPlay: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
-  location: PropTypes.object.isRequired
+  entities: PropTypes.object.isRequired
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   const {
     auth,
-    media: {
-      stream: { shouldPlay }
-    }
+    entities
   } = state.app
-
-  const { location } = ownProps
 
   return {
     auth,
-    shouldPlay,
-    currPath: location.pathname
+    entities
   }
 }
 

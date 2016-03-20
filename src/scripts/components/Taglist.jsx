@@ -35,7 +35,7 @@ export default function Taglist(props) {
   })
 
   return (
-    <ul className="tags">
+    <ul className={`tags tags--${modifier}`}>
       { tagItems }
     </ul>
   )

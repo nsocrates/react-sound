@@ -8,9 +8,9 @@ import { aConnect, authConnect, authDisconnect } from 'actions/auth'
 class HeaderContainer extends React.Component {
   componentDidMount() {
     const { dispatch, auth: { result } } = this.props
-    const isAuthorized = !!result.isAuthorized && !!result.storage.oauthio_provider_soundcloud
+    const hasLocalStorage = !!localStorage.oauthio_provider_soundcloud
 
-    return (isAuthorized && !result.id) ? dispatch(aConnect()) : null
+    return (hasLocalStorage && !result.id) ? dispatch(aConnect()) : null
   }
 
   render() {

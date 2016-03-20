@@ -276,7 +276,7 @@ class TrackContainer extends React.Component {
               onClick={ this.handleClick_stream }
               src={ mediaData.artwork.large }
             >
-              <aside className="artwork__filter" />
+              <aside className="artwork__filter artwork__filter--profile" />
             </ProfileCover>
 
             <section className="profile__section profile__section--details">
@@ -299,7 +299,7 @@ class TrackContainer extends React.Component {
               />
 
               <hr className="invis" />
-              <Taglist modifier="profile" tags={ mediaData.tags } max={ 10 } />
+              <Taglist modifier="profile" tags={ mediaData.tags } max={ 8 } />
             </section>
 
           </div>

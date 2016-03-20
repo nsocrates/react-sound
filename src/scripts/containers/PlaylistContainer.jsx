@@ -123,13 +123,11 @@ class PlaylistContainer extends React.Component {
 
     return (
       <Main shouldPush={ shouldPlay }>
-        {/* -- Banner -- */}
         <div className="canvas-container canvas-container--rainbow-grad">
           <CanvasBlur
             className="canvas canvas--ghost"
             src={ mediaData.artwork.large }
           />
-          {/* -- Profile -- */}
           <div className="profile">
 
             <ProfileCover
@@ -138,10 +136,9 @@ class PlaylistContainer extends React.Component {
               onClick={ this.handleLoadStreamList }
               src={ mediaData.artwork.large }
             >
-              <aside className="artwork__filter" />
+              <aside className="artwork__filter artwork__filter--profile" />
             </ProfileCover>
 
-            {/* -- Track Info -- */}
             <section className="profile__section profile__section--details">
               <article className="profile__info">
                 <h2 className="profile__info--primary">
@@ -165,14 +162,12 @@ class PlaylistContainer extends React.Component {
 
               <Taglist modifier="profile" tags={ mediaData.tags } max={ 10 } />
 
-            </section>{/* -- !Track Info -- */}
-          </div>{/* -- !Profile -- */}
-        </div>{/* -- !Banner -- */}
+            </section>
+          </div>
+        </div>
 
-        {/* -- Content -- */}
         <div className="main__container main__container--main">
 
-          {/* -- Track Description -- */}
           <TurncateView
             className="article article--push"
             initHeight={ 200 }
@@ -189,7 +184,7 @@ class PlaylistContainer extends React.Component {
               missingClassName="article__none article__none--track"
               wrapperClassName="article-wrap article-wrap--fill"
             />
-          </TurncateView>{/* -- !Track Description -- */}
+          </TurncateView>
 
           <Body
             headIconClassName="fa fa-list"
@@ -206,7 +201,7 @@ class PlaylistContainer extends React.Component {
 
           </Body>
 
-        </div>{/* -- !Content -- */}
+        </div>
       </Main>
     )
   }
