@@ -24,15 +24,34 @@
   }
 }
 
-.artwork__wrapper {
-  position: relative;
-}
-
-.artwork__img {
+.artwork__fav {
+  @include absolute(top em(-62.5px) left em(-62.5px));
+  background-color: tint($shark, 86%);
+  cursor: pointer;
   display: block;
-  height: 100%;
-  object-fit: cover;
-  width: 100%;
+  font-size: initial;
+  height: em(125px);
+  text-align: center;
+  transform: rotate(45deg);
+  white-space: nowrap;
+  width: em(125px);
+  z-index: 1;
+
+  &:hover {
+    background-color: tint($shark, 80%);
+
+    .artwork__fav-icon {
+      color: mix($light-pink, $sc-orange, 15%);
+      text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+    }
+  }
+
+  &--profile {
+    height: em(145px);
+    left: em(-72.5px);
+    top: em(-72.5px);
+    width: em(145px);
+  }
 }
 
 .artwork__filter {
@@ -41,26 +60,27 @@
   border: .5rem solid rgba($white, .9);
   border-radius: 50%;
   box-shadow: 0 0 .1rem rgba($black, .25);
-  height: 10rem;
+  font-size: initial;
+  height: em(100px);
   margin: auto;
   opacity: 1;
   transition: opacity, background-color $trans-default;
-  width: 10rem;
+  width: em(100px);
+  z-index: 1;
 
   @include susy-media(medium) {
-    height: 11.5rem;
+    height: em(115px);
     opacity: 0;
-    width: 11.5rem;
+    width: em(115px);
   }
 
   &::after {
-    @include absolute(top 50% left);
+    @include relative(left em(1px));
     color: rgba($white, .85);
     content: '\25B6';
+    display: block;
     font-size: 6rem;
-    text-align: center;
     text-shadow: 0 0 .1rem rgba($white, .4);
-    width: 100%;
 
     @include susy-media(medium) {
       font-size: 7rem;
@@ -76,8 +96,44 @@
   }
 
   &--profile {
-    &::after {
-      top: 0;
+    @include susy-media(small-only) {
+      width: em(125px);
+      height: em(125px);
+
+      &::after {
+        font-size: 7rem;
+      }
     }
   }
+}
+
+.artwork__fav-icon {
+  @include relative(left em(27px));
+  color: $black-hint;
+  font-size: 2.3rem;
+  transform: rotate(-45deg);
+  transition: color .2s ease,
+              text-shadow .2s ease;
+
+  &--is-fav {
+    color: $light-pink;
+    text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+  }
+
+  &--profile {
+    font-size: 2.5rem;
+    left: em(28px);
+  }
+}
+
+.artwork__img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.artwork__wrapper {
+  overflow: hidden;
+  position: relative;
 }

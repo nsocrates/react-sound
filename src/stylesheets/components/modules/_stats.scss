@@ -5,13 +5,16 @@
 }
 
 .stats__table-data {
-  box-shadow: .1rem 0 $white-disabled;
+  box-shadow: .15rem 0 $white-secondary;
   float: left;
+  padding-bottom: .5rem;
+  padding-top: .5rem;
   text-align: center;
   width: (100 / 3) * 1%;
 
   @include susy-media(medium) {
-    padding: 0 span(1);
+    padding-left: span(1);
+    padding-right: span(1);
     width: initial;
 
     &:first-child {

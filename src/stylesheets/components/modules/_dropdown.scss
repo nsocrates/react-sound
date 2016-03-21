@@ -11,15 +11,15 @@
 .dropdown__avatar {
   border-radius: 50%;
   display: inline-block;
-  height: 5rem;
+  height: em(60px);
   margin-right: em(10px);
   vertical-align: middle;
-  width: 5rem;
+  width: em(60px);
 }
 
 .dropdown__content {
   display: block;
-  padding: em(7px) em(18px);
+  padding: em(8px) em(18px);
   text-align: left;
   width: 100%;
 }
@@ -86,7 +86,7 @@
 
   &--greeting {
     color: $black-hint;
-    padding: em(13px) em(18px) em(7px);
+    padding: em(13px) em(18px) em(8px);
   }
 }
 

@@ -40,8 +40,10 @@
   display: inline-block;
 }
 
-.tracklist__btn--heart {
-  &:hover {
+.tracklist__btn {
+  &--fav {
+    pointer-events: none;
+
     .tracklist__icon--heart::before {
       color: $light-pink;
       content: '\f004';
@@ -49,10 +51,8 @@
     }
   }
 
-  &:active {
-    .tracklist__icon--heart::before {
-      color: $pink-disabled;
-    }
+  &--sc {
+    color: $sc-orange;
   }
 }
 
@@ -77,7 +77,7 @@
 }
 
 // Player component
-.tracklist--player__wrapper {
+.tracklist-player__wrapper {
   background-color: rgba($shark, .95);
   border-radius: .5rem .5rem 0 0;
   box-shadow: 0 -.2rem .3rem $black-hint;
@@ -86,7 +86,7 @@
   overflow: auto;
 }
 
-.tracklist--player__track {
+.tracklist-player__track {
   box-shadow: 0 .1rem .1rem rgba($light-gray, $disabled);
   display: block;
   opacity: $l-secondary;
@@ -95,19 +95,19 @@
   transition: opacity $trans-default;
 }
 
-.tracklist--player__active {
+.tracklist-player__active {
   animation: .5s $trans-func fade;
   background-color: rgba($shark, $hint);
   opacity: 1;
 }
 
-.tracklist--player__artwork {
+.tracklist-player__artwork {
   @extend %tracklist__artwork;
   height: $player-height;
   width: $player-height;
 }
 
-.tracklist--player__filter {
+.tracklist-player__filter {
   @extend %tracklist__filter;
 
   &::before {
@@ -122,39 +122,39 @@
   }
 }
 
-.tracklist--player__data {
+.tracklist-player__data {
   @extend %small;
   overflow: hidden;
 }
 
-.tracklist--player__title,
-.tracklist--player__user {
+.tracklist-player__title,
+.tracklist-player__user {
   @extend %ellipsis;
   line-height: $player-height / 2;
   margin: 0;
 }
 
-.tracklist--player__title {
+.tracklist-player__title {
   font-weight: 700;
 }
 
-.tracklist--player__user {
+.tracklist-player__user {
   color: $white-secondary;
 }
 
-.tracklist--player__icons {
+.tracklist-player__icons {
   @extend %tracklist__icons;
   min-width: 20rem;
 }
 
-.tracklist--player__icon {
+.tracklist-player__icon {
   font-size: 2.5rem;
   line-height: $player-height;
   padding: 0 2rem;
   text-shadow: $player-icon-shadow;
 }
 
-.tracklist--player__btn {
+.tracklist-player__btn {
   &:active {
     color: $pink-disabled;
   }
@@ -162,10 +162,21 @@
   &:hover {
     color: $white-secondary;
   }
+
+  &--heart {
+    &:hover {
+      color: $light-pink;
+      text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+    }
+
+    &:active {
+      color: $pink-disabled;
+    }
+  }
 }
 
 // Page component
-.tracklist--set__track {
+.tracklist-set__track {
   background-color: rgba($light-gray, $secondary);
   border-radius: .5rem;
   display: block;
@@ -181,13 +192,13 @@
   }
 }
 
-.tracklist--set__artwork {
+.tracklist-set__artwork {
   @extend %tracklist__artwork;
   height: 7rem;
   width: 7rem;
 }
 
-.tracklist--set__filter {
+.tracklist-set__filter {
   @extend %tracklist__filter;
 
   &::before {
@@ -202,46 +213,57 @@
   }
 }
 
-.tracklist--set__data {
+.tracklist-set__data {
   overflow: hidden;
   padding: 1rem 0;
 }
 
-.tracklist--set__title,
-.tracklist--set__user {
+.tracklist-set__title,
+.tracklist-set__user {
   @extend %ellipsis;
   line-height: (5 / 2) * 1rem;
   margin: 0;
 }
 
-.tracklist--set__title {
+.tracklist-set__title {
   font-weight: 700;
 }
 
-.tracklist--set__user {
+.tracklist-set__user {
   @extend %small;
   color: $black-secondary;
 }
 
-.tracklist--set__icons {
+.tracklist-set__icons {
   @extend %tracklist__icons;
   min-width: 13rem;
   padding: 1rem 1rem 1rem 0;
 }
 
-.tracklist--set__icon {
+.tracklist-set__icon {
   font-size: 2.1rem;
   line-height: 5rem;
   padding: 0 1rem;
 }
 
-.tracklist--set__btn {
+.tracklist-set__btn {
   &:active {
     color: $pink-disabled;
   }
 
   &:hover {
     color: $black;
+  }
+
+  &--heart {
+    &:hover {
+      color: $light-pink;
+      text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+    }
+
+    &:active {
+      color: $pink-disabled;
+    }
   }
 }
 

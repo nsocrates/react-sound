@@ -1,6 +1,6 @@
 .canvas-container {
   @extend %full__container;
-  background-color: $shark;
+  background-color: $white;
   text-align: center;
 
   @include susy-media(medium) {
@@ -29,5 +29,31 @@
 
   &--ghost {
     opacity: .65;
+  }
+}
+
+.canvas__action-btn {
+  @include absolute(top right);
+  background-color: transparent;
+  border-color: shade($white, 3%);
+  cursor: pointer;
+  display: block;
+  height: 6em;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 6em;
+  z-index: 1;
+
+  &::after {
+    @include absolute(top right);
+    border-color: transparent;
+    border-right-color: inherit;
+    border-style: solid;
+    border-width: 0 6em 6em 0;
+    content: '';
+    height: 0;
+    width: 0;
+    z-index: -1;
   }
 }
