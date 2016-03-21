@@ -1,24 +1,38 @@
 import React, { PropTypes } from 'react'
 import LinkItem from 'components/LinkItem'
+import classNames from 'classnames'
 
 export default function Card(props) {
-  const { children, imgUrl, href, title, byline, onCoverClick, date,
-        titlePath, bylinePath } = props
+  const { children, imgUrl, href, title, byline, onClickPlay, date,
+        titlePath, bylinePath, onClickFav, isFavorite } = props
+
+  const isFav = classNames('artwork__fav-icon fa fa-heart', {
+    'artwork__fav-icon--is-fav': isFavorite
+  })
+
   return (
     <article className="card__item">
 
       <div className="card__cover">
-        <a
+        <article
           className="card__cover--link artwork"
           href={ href }
-          onClick={ onCoverClick }
         >
           <img
             className="card__cover--img"
             src={ imgUrl }
           />
-          <aside className="artwork__filter" />
-        </a>
+          <button
+            className="artwork__fav"
+            onClick={ onClickFav }
+          >
+            <i className={ isFav } />
+          </button>
+          <button
+            className="artwork__filter"
+            onClick={ onClickPlay }
+          />
+        </article>
       </div>
 
       <div className="card__content">
@@ -52,7 +66,9 @@ Card.propTypes = {
   date: PropTypes.string,
   href: PropTypes.string,
   imgUrl: PropTypes.string,
-  onCoverClick: PropTypes.func,
+  isFavorite: PropTypes.bool,
+  onClickFav: PropTypes.func,
+  onClickPlay: PropTypes.func,
   title: PropTypes.string,
   titlePath: PropTypes.string
 }
@@ -61,10 +77,11 @@ Card.defaultProps = {
   byline: null,
   children: null,
   date: null,
-  href: '#',
+  href: undefined,
   imgUrl: null,
+  isFavorite: false,
   title: null,
-  titlePath: '#',
-  bylinePath: '#',
-  onCoverClick() {}
+  titlePath: undefined,
+  bylinePath: undefined,
+  onClickPlay() {}
 }

@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 import ArticleContent from 'components/ArticleContent'
 import Body from 'components/Body'
 import CanvasBlur from 'components/CanvasBlur'
-import TurncateView from 'components/TurncateView'
+import classNames from 'classnames'
 import End from 'components/End'
 import LinkItem from 'components/LinkItem'
 import Loader from 'components/Loader'
@@ -12,12 +12,15 @@ import ProfileCover from 'components/ProfileCover'
 import StatsList from 'components/StatsList'
 import Taglist from 'components/Taglist'
 import Tracklist from 'components/Tracklist'
+import TurncateView from 'components/TurncateView'
 import Waypoint from 'components/Waypoint'
+import { authFavorites } from 'actions/auth'
 import { connect } from 'react-redux'
+import { delayPagination } from 'actions/collection'
 import { extractStreamable, timeFactory, trackFactory, getCover, markNumber } from 'utils/Utils'
 import { loadPlaylist } from 'actions/playlist'
 import { loadStreamList } from 'actions/stream'
-import { delayPagination } from 'actions/collection'
+import { REQ } from 'constants/Auth'
 
 class PlaylistContainer extends React.Component {
 
@@ -25,6 +28,7 @@ class PlaylistContainer extends React.Component {
     super(props)
     this.handleLoadStreamList = this.handleLoadStreamList.bind(this)
     this.handleEnter = this.handleEnter.bind(this)
+    this.handleClickFav = this.handleClickFav.bind(this)
   }
 
   componentDidMount() {
@@ -42,6 +46,16 @@ class PlaylistContainer extends React.Component {
     return dispatch(loadStreamList(playlistObject.tracks))
   }
 
+  handleClickFav(e) {
+    e.preventDefault()
+
+    const { dispatch, params, authedFavorites } = this.props
+    if (authedFavorites.ids.indexOf(Number(params.id)) !== -1) {
+      return dispatch(authFavorites(REQ.DEL, params.id, this.playlistName))
+    }
+    return dispatch(authFavorites(REQ.PUT, params.id, this.playlistName))
+  }
+
   handleEnter() {
     const { dispatch, playlistObject, pagination } = this.props
     const ids = playlistObject.tracks.slice(0, pagination.result.length + 15)
@@ -51,6 +65,7 @@ class PlaylistContainer extends React.Component {
 
   render() {
     const {
+      authedFavorites,
       dispatch,
       isPlaying,
       pagination,
@@ -60,18 +75,22 @@ class PlaylistContainer extends React.Component {
       trackId,
       userEntity
     } = this.props
+    const userObject = playlistObject ? userEntity[playlistObject.user_id] : null
 
-    if (!playlistObject) {
+    if (!playlistObject || !userObject) {
       return <Loader className="loader--top" />
     }
 
     const trackFactoryArgs = {
-      userObject: userEntity[playlistObject.user_id],
+      userObject,
       mediaObject: playlistObject
     }
+
     const mediaData = trackFactory(trackFactoryArgs)
-    const userAvatar = getCover(userEntity[playlistObject.user_id].avatar_url)
+    const userAvatar = getCover(userObject.avatar_url)
     const streamable = extractStreamable(trackEntity, playlistObject.tracks)
+
+    this.playlistName = mediaData.media.name
 
     const statsListItems = [
       { text: mediaData.createdAt },
@@ -84,12 +103,17 @@ class PlaylistContainer extends React.Component {
       }
     ]
 
+    const isFavorite = classNames('artwork__fav-icon fa fa-heart', {
+      'artwork__fav-icon--is-fav': authedFavorites.ids.indexOf(playlistObject.id) !== -1
+    })
+
     const articleContent = ref => (this._articleContent = ref)
 
     const shouldRenderTracklist = () => {
       if (pagination.id === playlistObject.id && pagination.result.length) {
         return (
           <Tracklist
+            authedFavorites={ authedFavorites.ids }
             dispatch={ dispatch }
             isPlaying={ isPlaying }
             trackEntity={ trackEntity }
@@ -125,18 +149,28 @@ class PlaylistContainer extends React.Component {
       <Main shouldPush={ shouldPlay }>
         <div className="canvas-container canvas-container--rainbow-grad">
           <CanvasBlur
+            blurRadius={ 100 }
             className="canvas canvas--ghost"
-            src={ mediaData.artwork.large }
+            src={ mediaData.artwork.xLarge }
           />
           <div className="profile">
 
             <ProfileCover
-              anchorClassName="profile__cover artwork artwork__wrapper"
+              className="profile__cover artwork artwork__wrapper"
               imgClassName="artwork__img"
-              onClick={ this.handleLoadStreamList }
               src={ mediaData.artwork.large }
+              Type="div"
             >
-              <aside className="artwork__filter artwork__filter--profile" />
+            <button
+              className="artwork__fav"
+              onClick={ this.handleClickFav }
+            >
+              <i className={ isFavorite } />
+            </button>
+              <button
+                className="artwork__filter artwork__filter--profile"
+                onClick={ this.handleLoadStreamList }
+              />
             </ProfileCover>
 
             <section className="profile__section profile__section--details">
@@ -208,6 +242,7 @@ class PlaylistContainer extends React.Component {
 }
 
 PlaylistContainer.propTypes = {
+  authedFavorites: PropTypes.object,
   commentsByTrack: PropTypes.object,
   dispatch: PropTypes.func,
   isPlaying: PropTypes.bool,
@@ -226,6 +261,9 @@ function mapStateToProps(state, ownProps) {
       pagination,
       partition: { commentsByTrack },
       entities: { users, playlists, tracks },
+      auth: {
+        partition: { favorites }
+      },
       media: {
         stream: { trackId, shouldPlay },
         player: {
@@ -242,6 +280,7 @@ function mapStateToProps(state, ownProps) {
     shouldPlay,
     commentsByTrack,
     trackId,
+    authedFavorites: favorites,
     trackEntity: tracks,
     userEntity: users,
     playlistObject: playlists[id]

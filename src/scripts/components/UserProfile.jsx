@@ -65,8 +65,8 @@ export default class User extends React.Component {
     } = user
 
     const gradientColors = [
-      { offset: 0, color: '#1D2B64' },
-      { offset: 1, color: '#F8CDDA' }
+      { offset: 0, color: '#94719a' },
+      { offset: 1, color: '#3ac5c9' }
     ]
 
     const statsData = [
@@ -194,14 +194,14 @@ export default class User extends React.Component {
         <div className="canvas-container">
 
           <CanvasGradient
-            className="canvas canvas--translucent"
+            className="canvas"
             colors={ gradientColors }
           />
 
           <div className="profile">
 
             <ProfileCover
-              anchorClassName="profile__cover avatar"
+              className="profile__cover avatar"
               fallback={ IMG_FALLBACK.AVATAR.LARGE }
               href={ website || permalink_url }
               imgClassName="avatar__img"

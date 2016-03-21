@@ -1,5 +1,6 @@
 import 'isomorphic-fetch'
 import { OAuth } from 'utils/OAuth'
+import { extractNumber } from 'utils/Utils'
 import { AUTH, REQ } from 'constants/Auth'
 import { normalize } from 'normalizr'
 
@@ -13,8 +14,8 @@ const authFactory = () => {
 
       return OAuth.popup(AUTH.SERVICE, { cache: true })
         .fail(error => new Error(error))
-        .then((result) => (
-          result.me()
+        .then((resolve) => (
+          resolve.me()
             .fail(error => new Error(error))
             .then(response => {
               requestObject = OAuth.create(AUTH.SERVICE)
@@ -35,8 +36,8 @@ const authFactory = () => {
     get(endpoint, schema) {
       return OAuth.popup(AUTH.SERVICE, { cache: true })
         .fail(error => new Error(error))
-        .then(result => (
-          result.get(endpoint)
+        .then(resolve => (
+          resolve.get(endpoint)
             .fail(error => new Error(error))
             .then(response => (
               Object.assign({},
@@ -48,10 +49,21 @@ const authFactory = () => {
     put(endpoint) {
       return OAuth.popup(AUTH.SERVICE, { cache: true })
         .fail(error => new Error(error))
-        .then(result => (
-          result.put(endpoint)
+        .then(resolve => (
+          resolve.put(endpoint)
             .fail(error => new Error(error))
             .then(response => response)
+        ))
+    },
+    del(endpoint) {
+      return OAuth.popup(AUTH.SERVICE, { cache: true })
+        .fail(error => new Error(error))
+        .then(resolve => (
+          resolve.del(endpoint)
+            .fail(error => new Error(error))
+            .then(() => (
+              Object.assign({}, { id: extractNumber(endpoint) })
+            ))
         ))
     },
     call(request, ...theArgs) {
@@ -64,6 +76,8 @@ const authFactory = () => {
           return this.get(...theArgs)
         case REQ.PUT:
           return this.put(...theArgs)
+        case REQ.DEL:
+          return this.del(...theArgs)
         default:
           return new Error('Request method does not exist')
       }
@@ -78,7 +92,7 @@ export default store => next => action => {
   }
 
   let { endpoint } = callAUTH
-  const { schema, types, request } = callAUTH
+  const { schema, types, request, deleteType = undefined } = callAUTH
 
   if (!request) {
     throw new Error('Specify a request method')
@@ -123,7 +137,7 @@ export default store => next => action => {
     response => (
       next(actionWith({
         response,
-        type: successType
+        type: deleteType || successType
       }))),
     error => (
       next(actionWith({

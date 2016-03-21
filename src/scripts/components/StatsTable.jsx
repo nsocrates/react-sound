@@ -12,9 +12,9 @@ export default function StatsTable({ tableData }) {
         className="stats__link"
         to={ item.pathname }
       >
-        <h6 className="stats__table-data--title">
-          { item.title }
-        </h6>
+        <h5 className="stats__table-data--title">
+          <small>{ item.title }</small>
+        </h5>
         <h3 className="stats__table-data--value">
           { kFormatter(item.value) }
         </h3>

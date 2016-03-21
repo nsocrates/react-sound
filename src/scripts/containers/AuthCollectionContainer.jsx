@@ -19,6 +19,10 @@ class AuthCollectionContainer extends React.Component {
       return dispatch(replace({ location: '/' }))
     }
 
+    if (auth.result.isAuthorized) {
+      return this.updateComponent()
+    }
+
     return null
   }
 
@@ -31,6 +35,7 @@ class AuthCollectionContainer extends React.Component {
   }
 
   updateComponent() {
+    console.log('Updating Collection...')
     const { dispatch } = this.props
     return dispatch(loadAuthedCollection())
   }

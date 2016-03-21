@@ -1,15 +1,16 @@
 import React, { PropTypes } from 'react'
 import classNames from 'classnames'
-import LinkItem from 'components/LinkItem'
+import TracklistItem from 'components/TracklistItem'
 import { requestStream } from 'actions/stream'
 import { trackFactory } from 'utils/Utils'
 
-import { addToFavorites } from 'actions/auth'
+import { authFavorites } from 'actions/auth'
+import { REQ } from 'constants/Auth'
 
 export default function Tracklist(props) {
-  const { ids, userEntity, trackEntity, trackId, isPlaying, modifier } = props
+  const { ids, userEntity, trackEntity, trackId, isPlaying, modifier, authedFavorites } = props
 
-  const renderTracklist = ids.map((id, index) => {
+  const renderTracklistItems = ids.map((id, index) => {
     const mediaObject = trackEntity[id]
     const obj = {
       mediaObject,
@@ -18,21 +19,8 @@ export default function Tracklist(props) {
     const isCurrentTrack = trackId === id
     const isSet = modifier === 'set'
     const isPlayer = modifier === 'player'
+    const hasFavorites = !!authedFavorites.length
     const trackData = trackFactory(obj)
-
-    const shouldRenderDownload = () => {
-      if (trackData.download) {
-        return (
-          <button className={`tracklist--${modifier}__btn`}>
-            <a href={ trackData.download }>
-              <i className={`tracklist--${modifier}__icon fa fa-download`} />
-            </a>
-          </button>
-        )
-      }
-
-      return null
-    }
 
     const handlePlayPause = e => {
       if (!mediaObject.streamable) {
@@ -52,87 +40,55 @@ export default function Tracklist(props) {
     const handleAddToFavorites = e => {
       e.preventDefault()
       const { dispatch } = props
-      return dispatch(addToFavorites(id))
+      return dispatch(authFavorites(REQ.PUT, id, trackData.media.name))
     }
 
-    const isSoundCloud = classNames(`tracklist--${modifier}__btn`, {
-      'tracklist__btn--sc': !mediaObject.streamable
+    const isEven = classNames(`tracklist-${modifier}__track`, {
+      'tracklist-set__track--even': index % 2 === 0 && isSet
     })
-    const isPauseOrPlay = classNames(`tracklist--${modifier}__icon fa`, {
+    const isActive = classNames(isEven, {
+      'tracklist-player__active': isCurrentTrack && isPlayer
+    })
+    const isFavorite = classNames(`tracklist-${modifier}__btn tracklist-${modifier}__btn--heart`, {
+      'tracklist__btn--fav': hasFavorites && authedFavorites.indexOf(id) !== -1
+    })
+    const isPauseOrPlay = classNames(`tracklist-${modifier}__icon fa`, {
       'fa-play': !isCurrentTrack || !isPlaying,
       'fa-pause': isPlaying && isCurrentTrack,
       'tracklist__icon--sc fa-soundcloud': !mediaObject.streamable
     })
-    const isEven = classNames(`tracklist--${modifier}__track`, {
-      'tracklist--set__track--even': index % 2 === 0 && isSet
+    const isSoundCloud = classNames(`tracklist-${modifier}__btn`, {
+      'tracklist__btn--sc': !mediaObject.streamable
     })
-    const isActive = classNames(isEven, {
-      'tracklist--player__active': isCurrentTrack && isPlayer
+    const shouldFilter = classNames(`tracklist-${modifier}__artwork`, {
+      'tracklist-set__filter fa': isCurrentTrack && isSet,
+      'tracklist-player__filter fa': isCurrentTrack && isPlayer
     })
-    const shouldFilter = classNames(`tracklist--${modifier}__artwork`, {
-      'tracklist--set__filter fa': isCurrentTrack && isSet,
-      'tracklist--player__filter fa': isCurrentTrack && isPlayer
-    })
+
     return (
-      <li
-        className={ isActive }
-        key={ `tracklist--${modifier}__${index}_${id}` }
-      >
-        <aside className={ shouldFilter }>
-          <img
-            className="tracklist__img"
-            src={ trackData.artwork.badge }
-          />
-        </aside>
-
-          <section className={`tracklist--${modifier}__icons`}>
-
-            { shouldRenderDownload() }
-
-            <button
-              className={ isSoundCloud }
-              onClick={ handlePlayPause }
-            >
-              <i className={ isPauseOrPlay } />
-            </button>
-
-            <button
-              className={`tracklist--${modifier}__btn tracklist__btn--heart`}
-              onClick={ handleAddToFavorites }
-            >
-              <i className={`tracklist--${modifier}__icon
-                tracklist__icon--heart fa fa-heart-o`}
-              />
-            </button>
-
-          </section>
-
-          <section className={`tracklist--${modifier}__data`}>
-            <p className={`tracklist--${modifier}__title`}>
-              <LinkItem
-                className="tracklist__link"
-                to={`#track/${trackData.media.id}`}
-              >
-                { trackData.media.name }
-              </LinkItem>
-            </p>
-            <p className={`tracklist--${modifier}__user`}>
-              <LinkItem
-                className="tracklist__link"
-                to={`#user/${trackData.user.id}`}
-              >
-                { trackData.user.name }
-              </LinkItem>
-            </p>
-          </section>
-
-      </li>
+      <TracklistItem
+        key={`${id}${index}`}
+        downloadUrl={ trackData.download }
+        handleAddToFavorites={ handleAddToFavorites }
+        handlePlayPause={ handlePlayPause }
+        isActive={ isActive }
+        isFavorite={ isFavorite }
+        isPauseOrPlay={ isPauseOrPlay }
+        isSoundCloud={ isSoundCloud }
+        modifier={ modifier }
+        shouldFilter={ shouldFilter }
+        trackArtwork={ trackData.artwork.badge }
+        trackId={ trackData.media.id }
+        trackName={ trackData.media.name }
+        userId={ trackData.user.id }
+        userName={ trackData.user.name }
+      />
     )
   })
 
   return (
-    <ul className={`tracklist--${modifier}__wrapper`}>
-      { renderTracklist }
+    <ul className={`tracklist-${modifier}__wrapper`}>
+      { renderTracklistItems }
     </ul>
   )
 }
@@ -144,6 +100,7 @@ Tracklist.defaultProps = {
 }
 
 Tracklist.propTypes = {
+  authedFavorites: PropTypes.array,
   dispatch: PropTypes.func,
   ids: PropTypes.array,
   isPlaying: PropTypes.bool,

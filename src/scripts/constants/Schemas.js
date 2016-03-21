@@ -11,7 +11,8 @@ trackSchema.define({
 })
 
 playlistSchema.define({
-  tracks: arrayOf(trackSchema)
+  tracks: arrayOf(trackSchema),
+  user: userSchema
 })
 
 commentSchema.define({

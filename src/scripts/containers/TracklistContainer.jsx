@@ -5,14 +5,15 @@ import Tracklist from 'components/Tracklist'
 
 function TracklistContainer(props) {
   const {
-    tracklist,
+    authedFavorites,
+    dispatch,
     ids,
-    userEntity,
+    isPlaying,
+    shouldPlay,
     trackEntity,
     trackId,
-    isPlaying,
-    dispatch,
-    shouldPlay
+    tracklist,
+    userEntity
   } = props
 
   const open = () => (
@@ -24,6 +25,7 @@ function TracklistContainer(props) {
       transitionName="tracklist__player"
     >
       <Tracklist
+        authedFavorites={ authedFavorites }
         dispatch={ dispatch }
         ids={ ids }
         isPlaying={ isPlaying }
@@ -48,6 +50,7 @@ function TracklistContainer(props) {
 }
 
 TracklistContainer.propTypes = {
+  authedFavorites: React.PropTypes.array,
   dispatch: React.PropTypes.func.isRequired,
   ids: React.PropTypes.array,
   isPlaying: React.PropTypes.bool,
@@ -60,6 +63,7 @@ TracklistContainer.propTypes = {
 
 function mapStateToProps(state) {
   const {
+    auth: { partition: { favorites } },
     ui: { toggles: { tracklist } },
     entities: { tracks, users },
     media: {
@@ -74,6 +78,7 @@ function mapStateToProps(state) {
   } = state.app
 
   return {
+    authedFavorites: favorites.ids,
     userEntity: users,
     trackEntity: tracks,
     shouldPlay,

@@ -1,14 +1,18 @@
 import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
+
 import Card from 'components/Card'
 import End from 'components/End'
 import Loader from 'components/Loader'
 import Taglist from 'components/Taglist'
 import Waypoint from 'components/Waypoint'
+
+import { authFavorites } from 'actions/auth'
 import { loadUserTracks, loadUserFavorites, loadUserPlaylists } from 'actions/user'
 import { requestStream, loadStreamList } from 'actions/stream'
-import { trackFactory } from 'utils/Utils'
 
-import { connect } from 'react-redux'
+import { REQ } from 'constants/Auth'
+import { trackFactory } from 'utils/Utils'
 
 class UserMediaContainer extends React.Component {
 
@@ -118,6 +122,7 @@ class UserMediaContainer extends React.Component {
     }
 
     const renderCards = () => {
+      const { authedFavorites } = this.props
       const { ids } = partition
       return ids.map((item, index) => {
         const obj = {
@@ -125,8 +130,9 @@ class UserMediaContainer extends React.Component {
           mediaObject: mediaEntity[item]
         }
         const mediaData = trackFactory(obj)
+        const isFavorite = authedFavorites.ids.indexOf(mediaData.media.id) !== -1
 
-        const _handleCoverClick = e => {
+        const handleClickPlay = e => {
           e.preventDefault()
 
           if (route.path === 'playlists') {
@@ -143,6 +149,14 @@ class UserMediaContainer extends React.Component {
           return dispatch(requestStream(mediaData.media.id))
         }
 
+        const handleClickFav = e => {
+          e.preventDefault()
+
+          return isFavorite
+            ? dispatch(authFavorites(REQ.DEL, mediaData.media.id, mediaData.media.name))
+            : dispatch(authFavorites(REQ.PUT, mediaData.media.id, mediaData.media.name))
+        }
+
         const mediaPath = route.path === 'playlists'
                             ? `#playlist/${mediaData.media.id}`
                             : `#track/${mediaData.media.id}`
@@ -151,10 +165,13 @@ class UserMediaContainer extends React.Component {
           <Card
             byline={ mediaData.user.name }
             bylinePath={ `#user/${mediaData.user.id}` }
+            dispatch={ dispatch }
             date={ `Created ${mediaData.createdAt}` }
             imgUrl={ mediaData.artwork.large }
+            isFavorite={ isFavorite }
             key={ `user_card__${index}_${item}` }
-            onCoverClick={ _handleCoverClick }
+            onClickFav={ handleClickFav }
+            onClickPlay={ handleClickPlay }
             title={ mediaData.media.name }
             titlePath={ mediaPath }
           >
@@ -191,6 +208,7 @@ class UserMediaContainer extends React.Component {
 }
 
 UserMediaContainer.propTypes = {
+  authedFavorites: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   params: PropTypes.object.isRequired,
@@ -208,6 +226,9 @@ function mapStateToProps(state, ownProps) {
   const {
     entities: { users, tracks, playlists },
     partition: { tracksByUser, favoritesByUser, playlistsByUser },
+    auth: {
+      partition: { favorites }
+    },
     media: {
       stream: { trackId },
       player: {
@@ -225,7 +246,8 @@ function mapStateToProps(state, ownProps) {
     streamTrackId: trackId,
     userEntity: users,
     trackEntity: tracks,
-    playlistEntity: playlists
+    playlistEntity: playlists,
+    authedFavorites: favorites
   }
 }
 

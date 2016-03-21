@@ -3,20 +3,38 @@ import CanvasGradient from 'components/CanvasGradient'
 import StackBlur from 'utils/StackBlur'
 
 export default class Canvas extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleResize = this.handleResize.bind(this)
+  }
+
   componentDidMount() {
     const { _canvas, props: { src } } = this
     this.img = new Image()
     this.ctx = _canvas.getContext('2d')
 
     this.img.crossOrigin = 'Anonymous'
-    this.img.onload = () => this.drawBlur()
+    this.img.onload = () => this.handleResize()
     this.img.src = src
+
+    window.addEventListener('resize', this.handleResize, false)
   }
 
-  componentWillUpdate(nextProps) {
-    if (this.img.src !== nextProps.src) {
-      this.img.src = nextProps.src
-    }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize)
+  }
+
+  handleResize() {
+    let timer
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      this.callResize()
+    }, this.props.delay)
+  }
+
+  callResize() {
+    this._canvas.width = this._canvas.offsetWidth
+    this._canvas.height = this._canvas.offsetHeight
 
     return this.drawBlur()
   }
@@ -31,14 +49,16 @@ export default class Canvas extends React.Component {
         blurRadius
       }
     } = this
+    const wh = w > h ? w : h
+    const cX = (w - wh) / 2
+    const cY = (h - wh) / 2
 
     // Handle CORS error
     try {
-      this.ctx.drawImage(this.img, 0, 0, w, h)
+      this.ctx.drawImage(this.img, cX, cY, wh, wh)
     } catch (e) {
       return (this.hasError = true)
     }
-
     return StackBlur.canvasRGBA(this._canvas, 0, 0, w, h, blurRadius)
   }
 
@@ -47,10 +67,11 @@ export default class Canvas extends React.Component {
     const { className, height, width } = this.props
 
     if (this.hasError) {
+      const { fallbackGradient } = this.props
       return (
         <CanvasGradient
           className={ className }
-          colors={ this.props.fallbackGradient }
+          colors={ fallbackGradient }
           height={ height }
           ref={ canvasRef }
           width={ width }
@@ -72,6 +93,7 @@ export default class Canvas extends React.Component {
 Canvas.propTypes = {
   className: PropTypes.string,
   blurRadius: PropTypes.number,
+  delay: PropTypes.number,
   fallbackGradient: PropTypes.arrayOf(
     PropTypes.shape({
       offset: PropTypes.number.isRequired,
@@ -91,7 +113,8 @@ Canvas.propTypes = {
 
 Canvas.defaultProps = {
   className: 'canvas',
-  blurRadius: 65,
+  delay: 200,
+  blurRadius: 15,
   height: 300,
   width: 300,
   fallbackGradient: [

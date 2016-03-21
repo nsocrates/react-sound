@@ -52,30 +52,18 @@ function put(endpoint) {
   }
 }
 
-
-// Connect
-export function authConnect() {
-  return dispatch => (
-    dispatch(aConnect()).then(
-      res => {
-        const { username, avatar } = res.response
-        return dispatch(notif.success(`Connected as "${username}"`, undefined, avatar))
-      },
-      err => dispatch(notif.error(err.error))
-    )
-  )
-}
-
-export function authDisconnect() {
-  return (dispatch, getState) => {
-    dispatch(aDisconnect())
-    const { auth } = getState().app
-
-    if (auth.isAuthorized && Object.keys(auth.result).length) {
-      return dispatch(notif.error('Unable to log out'))
+function del(endpoint, deleteType) {
+  return {
+    [AUTH.CALL]: {
+      types: [
+        ActionTypes.DEL_REQUEST,
+        ActionTypes.DEL_SUCCESS,
+        ActionTypes.DEL_FAILURE
+      ],
+      request: REQ.DEL,
+      endpoint,
+      deleteType
     }
-
-    return dispatch(notif.action('You have logged out'))
   }
 }
 
@@ -164,14 +152,60 @@ export function loadAuthedCollection() {
 }
 
 
-// Put
-export function addToFavorites(id) {
+// Favorites
+export function authFavorites(method, id, name) {
   return dispatch => {
     const endpoint = `/me/favorites/${id}`
+    const track = name ? `"${name}"` : 'track'
+    const shouldRm = method === REQ.DEL
 
-    return dispatch(put(endpoint)).then(
-      () => dispatch(notif.action('Added track to favorites')),
+    let deleteType = undefined
+    let req = put
+    let action = 'Added'
+    let href = endpoint
+
+    if (shouldRm) {
+      deleteType = AUTH_TYPES.DEL.FAVORITES
+      req = del
+      action = 'Removed'
+      href = '/me/favorites'
+    }
+
+    return dispatch(req(endpoint, deleteType)).then(
+      () => dispatch(get(href, Schemas.TRACK, AUTH_TYPES.FAVORITES)).then(
+        () => dispatch(notif.action(`${action} ${track} to favorites.`)),
+        err => dispatch(notif.error(err.error))
+      ),
       err => dispatch(notif.error(err.error))
     )
+  }
+}
+
+// Connect
+export function authConnect() {
+  return dispatch => (
+    dispatch(aConnect()).then(
+      res => {
+        const { username, avatar } = res.response
+        return dispatch(loadAuthedFavorites()).then(
+          () => dispatch(notif.success(`Connected as "${username}"`, undefined, avatar)),
+          err => dispatch(notif.error(err.error))
+        )
+      },
+      err => dispatch(notif.error(err.error))
+    )
+  )
+}
+
+export function authDisconnect() {
+  return (dispatch, getState) => {
+    dispatch(aDisconnect())
+    const { auth } = getState().app
+
+    if (auth.isAuthorized && Object.keys(auth.result).length) {
+      return dispatch(notif.error('Unable to log out'))
+    }
+
+    return dispatch(notif.action('You have logged out'))
   }
 }

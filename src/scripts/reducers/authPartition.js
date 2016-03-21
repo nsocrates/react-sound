@@ -10,7 +10,10 @@ const initialState = {
   offset: 0
 }
 
-function partitionate({ types }) {
+function partitionate({
+  types,
+  deleteType = null
+}) {
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error('Expected types to be an array of three elements.')
   }
@@ -26,16 +29,24 @@ function partitionate({ types }) {
         return merge({}, state, {
           isFetching: true
         })
-      case successType:
+      case successType: {
+        const result = Array.isArray(action.response.result)
+          ? action.response.result
+          : [action.response.result]
         return merge({}, state, {
           isFetching: false,
-          ids: union(state.ids, action.response.result),
+          ids: union(state.ids, result),
           next_href: action.response.next_href,
           offset: action.offset || 0
         })
+      }
       case failureType:
         return merge({}, state, {
           isFetching: false
+        })
+      case deleteType:
+        return Object.assign({}, state, {
+          ids: state.ids.filter(n => n !== Number(action.response.id))
         })
       default:
         return state
@@ -51,7 +62,8 @@ export const authPartition = combineReducers({
     types: AUTH_TYPES.PLAYLISTS
   }),
   favorites: partitionate({
-    types: AUTH_TYPES.FAVORITES
+    types: AUTH_TYPES.FAVORITES,
+    deleteType: AUTH_TYPES.DEL.FAVORITES
   }),
   comments: partitionate({
     types: AUTH_TYPES.COMMENTS

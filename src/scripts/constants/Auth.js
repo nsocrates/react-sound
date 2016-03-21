@@ -40,5 +40,8 @@ export const AUTH_TYPES = {
     ActionTypes.MY_TRACKS_REQUEST,
     ActionTypes.MY_TRACKS_SUCCESS,
     ActionTypes.MY_TRACKS_FAILURE
-  ]
+  ],
+  DEL: {
+    FAVORITES: ActionTypes.MY_FAVORITES_DELETE
+  }
 }

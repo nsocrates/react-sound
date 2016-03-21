@@ -8,16 +8,14 @@ import { constructUrl, extractNumber } from 'utils/Utils'
 import { normalize } from 'normalizr'
 
 const entityFactory = json => ({
-  next_href: json.next_href || null,
+  next_href: json.next_href || undefined,
   isStreamable(item) {
     return item.streamable
   },
   getCollection() {
-    this.getCollection = null
     return json.collection || json
   },
   getSubResource(args) {
-    this.getSubResource = null
     const { entity, id, resource } = args
     const { collection } = json
 
@@ -30,7 +28,7 @@ const entityFactory = json => ({
 // Fetches an API response and normalizes the result JSON according to schema.
 function callApi(endpoint, schema) {
   const url = constructUrl(endpoint)
-
+console.log(url)
   return fetch(url)
     .then(response => {
       if (!response.ok) {
