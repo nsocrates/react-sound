@@ -1,5 +1,5 @@
 import authResult from './authResult'
-import authPartition from './authPartition'
+import authCollection from './authCollection'
 import entities from './entities'
 import errorMessage from './errorMessage'
 import notifications from './notifications'
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
   auth: combineReducers({
     storage: localStorage,
     result: authResult,
-    partition: authPartition
+    collection: authCollection
   }),
   ui: combineReducers({
     notifications,

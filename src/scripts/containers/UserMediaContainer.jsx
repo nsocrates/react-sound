@@ -7,7 +7,7 @@ import Loader from 'components/Loader'
 import Taglist from 'components/Taglist'
 import Waypoint from 'components/Waypoint'
 
-import { authFavorites } from 'actions/auth'
+import { updateMyTracks, updateMyPlaylists } from 'actions/auth'
 import { loadUserTracks, loadUserFavorites, loadUserPlaylists } from 'actions/user'
 import { requestStream, loadStreamList } from 'actions/stream'
 
@@ -65,6 +65,8 @@ class UserMediaContainer extends React.Component {
       userEntity,
       trackEntity,
       playlistEntity,
+      trackCollection,
+      playlistCollection,
       dispatch,
       route
     } = this.props
@@ -79,26 +81,32 @@ class UserMediaContainer extends React.Component {
       switch (route.path) {
         case 'tracks':
           return {
-            mediaEntity: trackEntity,
-            partition: userTracks,
+            collection: trackCollection,
             hasItems: !!this.user.track_count,
-            none: 'USER DOES NOT HAVE ANY TRACKS'
+            mediaEntity: trackEntity,
+            none: 'USER DOES NOT HAVE ANY TRACKS',
+            partition: userTracks,
+            updateCollection: updateMyTracks
           }
 
         case 'favorites':
           return {
-            mediaEntity: trackEntity,
-            partition: userFavorites,
+            collection: trackCollection,
             hasItems: !!this.user.public_favorites_count,
-            none: 'USER DOES NOT HAVE ANY FAVORITES'
+            mediaEntity: trackEntity,
+            none: 'USER DOES NOT HAVE ANY FAVORITES',
+            partition: userFavorites,
+            updateCollection: updateMyTracks
           }
 
         case 'playlists':
           return {
-            mediaEntity: playlistEntity,
-            partition: userPlaylists,
+            collection: playlistCollection,
             hasItems: !!this.user.playlist_count,
-            none: 'USER DOES NOT HAVE ANY PLAYLISTS'
+            mediaEntity: playlistEntity,
+            none: 'USER DOES NOT HAVE ANY PLAYLISTS',
+            partition: userPlaylists,
+            updateCollection: updateMyPlaylists
           }
 
         default:
@@ -107,10 +115,12 @@ class UserMediaContainer extends React.Component {
     }
 
     const {
-      mediaEntity,
-      partition,
+      collection,
       hasItems,
-      none
+      mediaEntity,
+      none,
+      partition,
+      updateCollection
     } = getEntity()
 
     if (!Object.keys(partition).length) {
@@ -122,7 +132,6 @@ class UserMediaContainer extends React.Component {
     }
 
     const renderCards = () => {
-      const { authedFavorites } = this.props
       const { ids } = partition
       return ids.map((item, index) => {
         const obj = {
@@ -130,7 +139,7 @@ class UserMediaContainer extends React.Component {
           mediaObject: mediaEntity[item]
         }
         const mediaData = trackFactory(obj)
-        const isFavorite = authedFavorites.ids.indexOf(mediaData.media.id) !== -1
+        const isFavorite = collection.ids.indexOf(mediaData.media.id) !== -1
 
         const handleClickPlay = e => {
           e.preventDefault()
@@ -153,8 +162,8 @@ class UserMediaContainer extends React.Component {
           e.preventDefault()
 
           return isFavorite
-            ? dispatch(authFavorites(REQ.DEL, mediaData.media.id, mediaData.media.name))
-            : dispatch(authFavorites(REQ.PUT, mediaData.media.id, mediaData.media.name))
+            ? dispatch(updateCollection(REQ.DEL, mediaData.media.id, mediaData.media.name))
+            : dispatch(updateCollection(REQ.PUT, mediaData.media.id, mediaData.media.name))
         }
 
         const mediaPath = route.path === 'playlists'
@@ -208,7 +217,8 @@ class UserMediaContainer extends React.Component {
 }
 
 UserMediaContainer.propTypes = {
-  authedFavorites: PropTypes.object.isRequired,
+  trackCollection: PropTypes.object.isRequired,
+  playlistCollection: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   params: PropTypes.object.isRequired,
@@ -226,9 +236,7 @@ function mapStateToProps(state, ownProps) {
   const {
     entities: { users, tracks, playlists },
     partition: { tracksByUser, favoritesByUser, playlistsByUser },
-    auth: {
-      partition: { favorites }
-    },
+    auth: { collection },
     media: {
       stream: { trackId },
       player: {
@@ -247,7 +255,8 @@ function mapStateToProps(state, ownProps) {
     userEntity: users,
     trackEntity: tracks,
     playlistEntity: playlists,
-    authedFavorites: favorites
+    trackCollection: collection.tracks,
+    playlistCollection: collection.playlists
   }
 }
 

@@ -15,7 +15,7 @@ import StatsList from 'components/StatsList'
 import Taglist from 'components/Taglist'
 
 import classNames from 'classnames'
-import { authFavorites } from 'actions/auth'
+import { updateMyTracks } from 'actions/auth'
 import { connect } from 'react-redux'
 import { loadTrack, loadTrackComments } from 'actions/track'
 import { REQ } from 'constants/Auth'
@@ -43,11 +43,11 @@ class TrackContainer extends React.Component {
   handleClickFav(e) {
     e.preventDefault()
 
-    const { dispatch, params, authedFavorites } = this.props
-    if (authedFavorites.ids.indexOf(Number(params.id)) !== -1) {
-      return dispatch(authFavorites(REQ.DEL, params.id, this.trackName))
+    const { dispatch, params, trackCollection } = this.props
+    if (trackCollection.ids.indexOf(Number(params.id)) !== -1) {
+      return dispatch(updateMyTracks(REQ.DEL, params.id, this.trackName))
     }
-    return dispatch(authFavorites(REQ.PUT, params.id, this.trackName))
+    return dispatch(updateMyTracks(REQ.PUT, params.id, this.trackName))
   }
 
   handleClickStream(e) {
@@ -59,7 +59,7 @@ class TrackContainer extends React.Component {
 
   render() {
     const {
-      authedFavorites,
+      trackCollection,
       userEntity,
       params,
       shouldPlay,
@@ -104,7 +104,7 @@ class TrackContainer extends React.Component {
     ]
 
     const isFavorite = classNames('artwork__fav-icon artwork__fav-icon--profile fa fa-heart', {
-      'artwork__fav-icon--is-fav': authedFavorites.ids.indexOf(trackObject.id) !== -1
+      'artwork__fav-icon--is-fav': trackCollection.ids.indexOf(trackObject.id) !== -1
     })
 
     const articleContent = ref => (this._articleContent = ref)
@@ -366,7 +366,7 @@ class TrackContainer extends React.Component {
 }
 
 TrackContainer.propTypes = {
-  authedFavorites: PropTypes.object.isRequired,
+  trackCollection: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   pagination: PropTypes.object.isRequired,
@@ -382,9 +382,7 @@ function mapStateToProps(state, ownProps) {
   const {
     app: {
       pagination,
-      auth: {
-        partition: { favorites }
-      },
+      auth: { collection },
       partition: { commentsByTrack },
       entities: { users, tracks },
       media: {
@@ -401,7 +399,7 @@ function mapStateToProps(state, ownProps) {
     pagination,
     isPlaying,
     shouldPlay,
-    authedFavorites: favorites,
+    trackCollection: collection.tracks,
     trackComments: commentsByTrack[id] || {},
     userEntity: users,
     streamTrackId: trackId,

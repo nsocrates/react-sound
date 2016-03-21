@@ -35,7 +35,6 @@ class AuthCollectionContainer extends React.Component {
   }
 
   updateComponent() {
-    console.log('Updating Collection...')
     const { dispatch } = this.props
     return dispatch(loadAuthedCollection())
   }

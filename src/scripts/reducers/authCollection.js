@@ -10,15 +10,12 @@ const initialState = {
   offset: 0
 }
 
-function partitionate({
-  types,
-  deleteType = null
-}) {
+function partitionate({ types, deleteType }) {
   if (!Array.isArray(types) || types.length !== 3) {
-    throw new Error('Expected types to be an array of three elements.')
+    throw new Error(`Expected types to be an array of three elements. Got: ${types}`)
   }
   if (!types.every(type => typeof type === 'string')) {
-    throw new Error('Expected types to be strings.')
+    throw new Error(`Expected types to be strings. Got: ${types}`)
   }
 
   const [requestType, successType, failureType] = types
@@ -54,20 +51,23 @@ function partitionate({
   }
 }
 
-export const authPartition = combineReducers({
+export const authCollection = combineReducers({
   tracks: partitionate({
-    types: AUTH_TYPES.TRACKS
+    types: AUTH_TYPES.TRACKS,
+    deleteType: AUTH_TYPES.DEL.TRACKS
   }),
   playlists: partitionate({
-    types: AUTH_TYPES.PLAYLISTS
+    types: AUTH_TYPES.PLAYLISTS,
+    deleteType: AUTH_TYPES.DEL.PLAYLISTS
   }),
-  favorites: partitionate({
-    types: AUTH_TYPES.FAVORITES,
-    deleteType: AUTH_TYPES.DEL.FAVORITES
+  followings: partitionate({
+    types: AUTH_TYPES.FOLLOWINGS,
+    deleteType: AUTH_TYPES.DEL.FOLLOWINGS
   }),
   comments: partitionate({
-    types: AUTH_TYPES.COMMENTS
+    types: AUTH_TYPES.COMMENTS,
+    deleteType: AUTH_TYPES.DEL.COMMENTS
   })
 })
 
-export default authPartition
+export default authCollection

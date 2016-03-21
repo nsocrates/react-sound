@@ -28,7 +28,7 @@ const entityFactory = json => ({
 // Fetches an API response and normalizes the result JSON according to schema.
 function callApi(endpoint, schema) {
   const url = constructUrl(endpoint)
-console.log(url)
+
   return fetch(url)
     .then(response => {
       if (!response.ok) {

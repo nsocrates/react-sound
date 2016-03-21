@@ -9,6 +9,12 @@ const authFactory = () => {
   let requestObject = OAuth.create(AUTH.SERVICE)
 
   return {
+    handleCollection(response) {
+      return response.collection
+    },
+    handleArray(response) {
+      return response.map(item => item.playlist)
+    },
     connect(...theArgs) {
       const schema = theArgs[1]
 
@@ -39,11 +45,19 @@ const authFactory = () => {
         .then(resolve => (
           resolve.get(endpoint)
             .fail(error => new Error(error))
-            .then(response => (
-              Object.assign({},
-                normalize(response, schema),
+            .then(response => {
+              let collection = response
+              if (Array.isArray(response)) {
+                collection = this.handleArray(response)
+              }
+              if (response.collection) {
+                collection = this.handleCollection(response)
+              }
+              return Object.assign({},
+                normalize(collection, schema),
                 { requestObject })
-            ))
+            }
+            )
         ))
     },
     put(endpoint) {

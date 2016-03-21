@@ -20,6 +20,14 @@ export default class Canvas extends React.Component {
     window.addEventListener('resize', this.handleResize, false)
   }
 
+  componentWillUpdate(nextProps) {
+    if (this.img.src !== nextProps.src) {
+      this.img.src = nextProps.src
+    }
+
+    return this.drawBlur()
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize)
   }

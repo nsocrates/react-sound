@@ -1,4 +1,13 @@
 import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
+
+import { updateMyPlaylists } from 'actions/auth'
+import { delayPagination } from 'actions/collection'
+import { loadPlaylist } from 'actions/playlist'
+import { loadStreamList } from 'actions/stream'
+
+import { REQ } from 'constants/Auth'
+import { extractStreamable, timeFactory, trackFactory, getCover, markNumber } from 'utils/Utils'
 
 import ArticleContent from 'components/ArticleContent'
 import Body from 'components/Body'
@@ -14,13 +23,6 @@ import Taglist from 'components/Taglist'
 import Tracklist from 'components/Tracklist'
 import TurncateView from 'components/TurncateView'
 import Waypoint from 'components/Waypoint'
-import { authFavorites } from 'actions/auth'
-import { connect } from 'react-redux'
-import { delayPagination } from 'actions/collection'
-import { extractStreamable, timeFactory, trackFactory, getCover, markNumber } from 'utils/Utils'
-import { loadPlaylist } from 'actions/playlist'
-import { loadStreamList } from 'actions/stream'
-import { REQ } from 'constants/Auth'
 
 class PlaylistContainer extends React.Component {
 
@@ -49,11 +51,11 @@ class PlaylistContainer extends React.Component {
   handleClickFav(e) {
     e.preventDefault()
 
-    const { dispatch, params, authedFavorites } = this.props
-    if (authedFavorites.ids.indexOf(Number(params.id)) !== -1) {
-      return dispatch(authFavorites(REQ.DEL, params.id, this.playlistName))
+    const { dispatch, params, playlistCollection } = this.props
+    if (playlistCollection.ids.indexOf(Number(params.id)) !== -1) {
+      return dispatch(updateMyPlaylists(REQ.DEL, params.id, this.playlistName))
     }
-    return dispatch(authFavorites(REQ.PUT, params.id, this.playlistName))
+    return dispatch(updateMyPlaylists(REQ.PUT, params.id, this.playlistName))
   }
 
   handleEnter() {
@@ -65,7 +67,8 @@ class PlaylistContainer extends React.Component {
 
   render() {
     const {
-      authedFavorites,
+      trackCollection,
+      playlistCollection,
       dispatch,
       isPlaying,
       pagination,
@@ -104,7 +107,7 @@ class PlaylistContainer extends React.Component {
     ]
 
     const isFavorite = classNames('artwork__fav-icon fa fa-heart', {
-      'artwork__fav-icon--is-fav': authedFavorites.ids.indexOf(playlistObject.id) !== -1
+      'artwork__fav-icon--is-fav': playlistCollection.ids.indexOf(playlistObject.id) !== -1
     })
 
     const articleContent = ref => (this._articleContent = ref)
@@ -113,7 +116,7 @@ class PlaylistContainer extends React.Component {
       if (pagination.id === playlistObject.id && pagination.result.length) {
         return (
           <Tracklist
-            authedFavorites={ authedFavorites.ids }
+            trackCollection={ trackCollection.ids }
             dispatch={ dispatch }
             isPlaying={ isPlaying }
             trackEntity={ trackEntity }
@@ -242,14 +245,15 @@ class PlaylistContainer extends React.Component {
 }
 
 PlaylistContainer.propTypes = {
-  authedFavorites: PropTypes.object,
   commentsByTrack: PropTypes.object,
   dispatch: PropTypes.func,
   isPlaying: PropTypes.bool,
   pagination: PropTypes.object,
   params: PropTypes.object,
+  playlistCollection: PropTypes.object,
   playlistObject: PropTypes.object,
   shouldPlay: PropTypes.bool,
+  trackCollection: PropTypes.object,
   trackEntity: PropTypes.object,
   trackId: PropTypes.number,
   userEntity: PropTypes.object
@@ -261,9 +265,7 @@ function mapStateToProps(state, ownProps) {
       pagination,
       partition: { commentsByTrack },
       entities: { users, playlists, tracks },
-      auth: {
-        partition: { favorites }
-      },
+      auth: { collection },
       media: {
         stream: { trackId, shouldPlay },
         player: {
@@ -280,7 +282,8 @@ function mapStateToProps(state, ownProps) {
     shouldPlay,
     commentsByTrack,
     trackId,
-    authedFavorites: favorites,
+    trackCollection: collection.tracks,
+    playlistCollection: collection.playlists,
     trackEntity: tracks,
     userEntity: users,
     playlistObject: playlists[id]

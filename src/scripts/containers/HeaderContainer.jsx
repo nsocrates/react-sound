@@ -3,7 +3,7 @@ import Header from 'components/Header'
 import Waypoint from 'components/Waypoint'
 import { connect } from 'react-redux'
 import { toggleNavBar, toggleDropdown } from 'actions/toggle'
-import { aConnect, authConnect, authDisconnect, loadAuthedFavorites } from 'actions/auth'
+import { authConnect, notifConnect, notifDisconnect, loadAuthedCollection } from 'actions/auth'
 
 class HeaderContainer extends React.Component {
   componentDidMount() {
@@ -11,7 +11,7 @@ class HeaderContainer extends React.Component {
     const hasLocalStorage = !!localStorage.oauthio_provider_soundcloud
 
     return (hasLocalStorage && !result.id)
-      ? dispatch(aConnect()).then(() => dispatch(loadAuthedFavorites()))
+      ? dispatch(authConnect()).then(() => dispatch(loadAuthedCollection()))
       : null
   }
 
@@ -20,8 +20,8 @@ class HeaderContainer extends React.Component {
 
     const handleAuth = () => (
       auth.result.isAuthorized
-        ? dispatch(authDisconnect())
-        : dispatch(authConnect())
+        ? dispatch(notifDisconnect())
+        : dispatch(notifConnect())
     )
 
     const handleNavBar = () => (

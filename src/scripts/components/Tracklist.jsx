@@ -4,11 +4,11 @@ import TracklistItem from 'components/TracklistItem'
 import { requestStream } from 'actions/stream'
 import { trackFactory } from 'utils/Utils'
 
-import { authFavorites } from 'actions/auth'
+import { updateMyTracks } from 'actions/auth'
 import { REQ } from 'constants/Auth'
 
 export default function Tracklist(props) {
-  const { ids, userEntity, trackEntity, trackId, isPlaying, modifier, authedFavorites } = props
+  const { ids, userEntity, trackEntity, trackId, isPlaying, modifier, trackCollection } = props
 
   const renderTracklistItems = ids.map((id, index) => {
     const mediaObject = trackEntity[id]
@@ -19,7 +19,7 @@ export default function Tracklist(props) {
     const isCurrentTrack = trackId === id
     const isSet = modifier === 'set'
     const isPlayer = modifier === 'player'
-    const hasFavorites = !!authedFavorites.length
+    const hasFavorites = !!trackCollection.length
     const trackData = trackFactory(obj)
 
     const handlePlayPause = e => {
@@ -40,7 +40,7 @@ export default function Tracklist(props) {
     const handleAddToFavorites = e => {
       e.preventDefault()
       const { dispatch } = props
-      return dispatch(authFavorites(REQ.PUT, id, trackData.media.name))
+      return dispatch(updateMyTracks(REQ.PUT, id, trackData.media.name))
     }
 
     const isEven = classNames(`tracklist-${modifier}__track`, {
@@ -50,7 +50,7 @@ export default function Tracklist(props) {
       'tracklist-player__active': isCurrentTrack && isPlayer
     })
     const isFavorite = classNames(`tracklist-${modifier}__btn tracklist-${modifier}__btn--heart`, {
-      'tracklist__btn--fav': hasFavorites && authedFavorites.indexOf(id) !== -1
+      'tracklist__btn--fav': hasFavorites && trackCollection.indexOf(id) !== -1
     })
     const isPauseOrPlay = classNames(`tracklist-${modifier}__icon fa`, {
       'fa-play': !isCurrentTrack || !isPlaying,
@@ -100,7 +100,7 @@ Tracklist.defaultProps = {
 }
 
 Tracklist.propTypes = {
-  authedFavorites: PropTypes.array,
+  trackCollection: PropTypes.array,
   dispatch: PropTypes.func,
   ids: PropTypes.array,
   isPlaying: PropTypes.bool,
