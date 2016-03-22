@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 export default function MediaCardItem(props) {
   const { children, imgUrl, href, title, byline, onClickPlay, date,
-        titlePath, bylinePath, onClickFav, isFavorite } = props
+        titlePath, bylinePath, onClickFav, isFavorite, head } = props
 
   const isFav = classNames('artwork__fav-icon fa fa-heart', {
     'artwork__fav-icon--is-fav': isFavorite
@@ -12,6 +12,8 @@ export default function MediaCardItem(props) {
 
   return (
     <article className="card__item">
+
+      { head }
 
       <section className="card__body">
 
@@ -68,6 +70,7 @@ MediaCardItem.propTypes = {
   bylinePath: PropTypes.string,
   children: PropTypes.node,
   date: PropTypes.string,
+  head: PropTypes.node,
   href: PropTypes.string,
   imgUrl: PropTypes.string,
   isFavorite: PropTypes.bool,
@@ -82,6 +85,7 @@ MediaCardItem.defaultProps = {
   bylinePath: undefined,
   children: null,
   date: null,
+  head: null,
   href: undefined,
   imgUrl: null,
   isFavorite: false,

@@ -6,9 +6,7 @@ import Loader from 'components/Loader'
 import MediaCards from 'components/MediaCards'
 import Waypoint from 'components/Waypoint'
 
-import { updateMyTracks, updateMyPlaylists } from 'actions/auth'
 import { loadUserTracks, loadUserFavorites, loadUserPlaylists } from 'actions/user'
-import { requestStream, loadStreamList } from 'actions/stream'
 
 class UserMediaContainer extends React.Component {
 
@@ -65,7 +63,6 @@ class UserMediaContainer extends React.Component {
       playlistEntity,
       trackCollection,
       playlistCollection,
-      dispatch,
       route
     } = this.props
 
@@ -84,8 +81,7 @@ class UserMediaContainer extends React.Component {
             isPlaylist: false,
             mediaEntity: trackEntity,
             none: 'USER DOES NOT HAVE ANY TRACKS',
-            partition: userTracks,
-            updateCollection: updateMyTracks
+            partition: userTracks
           }
 
         case 'favorites':
@@ -95,8 +91,7 @@ class UserMediaContainer extends React.Component {
             isPlaylist: false,
             mediaEntity: trackEntity,
             none: 'USER DOES NOT HAVE ANY FAVORITES',
-            partition: userFavorites,
-            updateCollection: updateMyTracks
+            partition: userFavorites
           }
 
         case 'playlists':
@@ -106,8 +101,7 @@ class UserMediaContainer extends React.Component {
             isPlaylist: true,
             mediaEntity: playlistEntity,
             none: 'USER DOES NOT HAVE ANY PLAYLISTS',
-            partition: userPlaylists,
-            updateCollection: updateMyPlaylists
+            partition: userPlaylists
           }
 
         default:
@@ -121,8 +115,7 @@ class UserMediaContainer extends React.Component {
       isPlaylist,
       mediaEntity,
       none,
-      partition,
-      updateCollection
+      partition
     } = getEntity()
 
     if (!Object.keys(partition).length) {
@@ -153,15 +146,12 @@ class UserMediaContainer extends React.Component {
     return (
       <MediaCards
         className="cards"
-        collectionHandler={ updateCollection }
         collectionIds={ collection.ids }
-        dispatch={ dispatch }
         ids={ partition.ids }
         isPlaying={ isPlaying }
         isPlaylist={ isPlaylist }
         maxTags={ 5 }
         mediaEntity={ mediaEntity }
-        streamHandler={ isPlaylist ? loadStreamList : requestStream }
         streamTrackId={ streamTrackId }
         userEntity={ userEntity }
       >

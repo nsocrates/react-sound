@@ -19,20 +19,21 @@ export default function AuthCollection(props) {
   const renderCardCollection = kind => {
     let isPlaylist = false
     let mediaEntity = entities.tracks
-    let ids = collection.tracks.ids
+    let coll = collection.tracks
 
     if (kind === 'playlists') {
       isPlaylist = true
       mediaEntity = entities.playlists
-      ids = collection.playlists.ids
+      coll = collection.playlists
     }
 
     return (
       <MediaCards
         className="cards"
-        collectionIds={ ids }
+        collectionIds={ coll.ids }
         dispatch={ dispatch }
-        ids={ ids }
+        hasHead
+        ids={ coll.payload }
         isPlaying={ audioIsPlaying }
         isPlaylist={ isPlaylist }
         maxCards={ 6 }
@@ -48,17 +49,17 @@ export default function AuthCollection(props) {
     <div className="collections">
 
       <section className="collection">
-        <h5 className="collection__head">{ "Tracks" }</h5>
+        <h3 className="collection__head">{ "Tracks" }</h3>
         { renderCardCollection('tracks') }
       </section>
 
       <section className="collection">
-        <h5 className="collection__head">{ "Playlists" }</h5>
+        <h3 className="collection__head">{ "Playlists" }</h3>
         { renderCardCollection('playlists')}
       </section>
 
       <section className="collection">
-        <h5 className="collection__head">{ "Followings" }</h5>
+        <h3 className="collection__head">{ "Followings" }</h3>
       </section>
 
     </div>

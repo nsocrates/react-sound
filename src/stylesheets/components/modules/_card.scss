@@ -35,11 +35,33 @@
   }
 }
 
+.card__head {
+  @include span(full);
+  background-color: $white;
+  border-top-left-radius: .5rem;
+  border-top-right-radius: .5rem;
+  height: em(50px);
+  margin-bottom: em(5px);
+  overflow: hidden;
+  padding: em(10px);
+
+  + .card__body {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+.card__data {
+  color: $black-hint;
+  display: inline-block;
+  margin: 0;
+  vertical-align: middle;
+}
+
 .card__body {
   @include span(full);
   background-color: $white;
   border-radius: .5rem;
-  // margin-bottom: gutter(8);
   overflow: hidden;
 
   @include susy-media(medium) {
@@ -47,27 +69,7 @@
   }
 
   @include susy-media(large) {
-    // margin-bottom: gutter();
-    // margin-right: gutter();
     padding: em(10px);
-    // width: span(6);
-
-    &:nth-of-type(even) {
-      margin-right: 0;
-    }
-  }
-
-  @include susy-media(xxlarge) {
-    // margin-right: gutter();
-    // width: span(4);
-
-    // &:nth-of-type(even) {
-    //   margin-right: gutter();
-    // }
-
-    // &:nth-of-type(3n+3) {
-    //   margin-right: 0;
-    // }
   }
 }
 

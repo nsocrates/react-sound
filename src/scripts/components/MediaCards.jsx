@@ -7,7 +7,7 @@ import Taglist from 'components/Taglist'
 import { requestStream, loadStreamList } from 'actions/stream'
 import { updateMyTracks, updateMyPlaylists } from 'actions/auth'
 
-import { trackFactory } from 'utils/Utils'
+import { trackFactory, dtFormatter } from 'utils/Utils'
 import { REQ } from 'constants/Auth'
 
 function MediaCards(props) {
@@ -16,6 +16,7 @@ function MediaCards(props) {
     className = 'cards',
     collectionIds = [],
     dispatch,
+    hasHead = false,
     ids = [],
     isPlaying,
     isPlaylist,
@@ -28,7 +29,8 @@ function MediaCards(props) {
 
   const cards = maxCards ? ids.slice(0, maxCards) : ids
 
-  const cardItems = cards.map((id, index) => {
+  const cardItems = cards.map((item, index) => {
+    const id = item.id || item
     const obj = {
       userObject: userEntity[mediaEntity[id].user_id],
       mediaObject: mediaEntity[id]
@@ -61,12 +63,19 @@ function MediaCards(props) {
         : dispatch(collectionHandler(REQ.PUT, id, mediaData.media.name))
     }
 
+    const head = (
+      <section className="card__head">
+        <h6 className="card__data">{`Added on ${dtFormatter(item.created_at)}`}</h6>
+      </section>
+    )
+
     return (
       <MediaCardItem
         byline={ mediaData.user.name }
         bylinePath={ `#user/${mediaData.user.id}` }
         date={ `Created ${mediaData.createdAt}` }
         dispatch={ dispatch }
+        head={ hasHead ? head : undefined }
         imgUrl={ mediaData.artwork.large }
         isFavorite={ isFavorite }
         key={ `${id}${index}` }
@@ -93,6 +102,7 @@ MediaCards.propTypes = {
   className: PropTypes.string,
   collectionIds: PropTypes.arrayOf(PropTypes.number.isRequired),
   dispatch: PropTypes.func.isRequired,
+  hasHead: PropTypes.bool,
   ids: PropTypes.arrayOf(PropTypes.number.isRequired),
   isPlaying: PropTypes.bool,
   isPlaylist: PropTypes.bool,
