@@ -162,16 +162,22 @@
   &:hover {
     color: $white-secondary;
   }
+}
 
-  &--heart {
-    &:hover {
+.tracklist-player__btn--heart {
+  &:hover {
+    color: $light-pink;
+    text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+
+    .tracklist__icon--heart::before {
       color: $light-pink;
+      content: '\f004';
       text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
     }
+  }
 
-    &:active {
-      color: $pink-disabled;
-    }
+  &:active {
+    color: $pink-disabled;
   }
 }
 
@@ -254,16 +260,24 @@
   &:hover {
     color: $black;
   }
+}
 
-  &--heart {
-    &:hover {
+.tracklist-set__btn--heart {
+  color: $black-secondary;
+
+  &:hover {
+    color: $light-pink;
+    text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+
+    .tracklist__icon--heart::before {
       color: $light-pink;
+      content: '\f004';
       text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
     }
+  }
 
-    &:active {
-      color: $pink-disabled;
-    }
+  &:active {
+    color: $pink-disabled;
   }
 }
 

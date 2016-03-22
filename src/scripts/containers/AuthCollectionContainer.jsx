@@ -40,29 +40,45 @@ class AuthCollectionContainer extends React.Component {
   }
 
   render() {
-    const { auth } = this.props
+    const { auth, entities, dispatch, audioIsPlaying, streamTrackId } = this.props
 
     return (
-      <AuthCollection auth={ auth } />
+      <AuthCollection
+        audioIsPlaying={ audioIsPlaying }
+        auth={ auth }
+        dispatch={ dispatch }
+        entities={ entities }
+        streamTrackId={ streamTrackId }
+      />
     )
   }
 }
 
 AuthCollectionContainer.propTypes = {
+  audioIsPlaying: PropTypes.bool.isRequired,
   auth: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
-  entities: PropTypes.object.isRequired
+  entities: PropTypes.object.isRequired,
+  streamTrackId: PropTypes.number.isRequired
 }
 
 function mapStateToProps(state) {
   const {
     auth,
-    entities
+    entities,
+    media: {
+      stream: { trackId },
+      player: {
+        audio: { isPlaying }
+      }
+    }
   } = state.app
 
   return {
     auth,
-    entities
+    entities,
+    streamTrackId: trackId,
+    audioIsPlaying: isPlaying
   }
 }
 

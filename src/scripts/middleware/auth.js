@@ -8,90 +8,113 @@ const authFactory = () => {
   OAuth.initialize(AUTH.KEY)
   let requestObject = OAuth.create(AUTH.SERVICE)
 
-  return {
-    handleCollection(response) {
-      return response.collection
-    },
-    handleArray(response) {
-      return response.map(item => item.playlist)
-    },
-    connect(...theArgs) {
-      const schema = theArgs[1]
+  function handleCollection(response) {
+    return response.collection
+  }
 
-      return OAuth.popup(AUTH.SERVICE, { cache: true })
-        .fail(error => new Error(error))
-        .then((resolve) => (
-          resolve.me()
-            .fail(error => new Error(error))
-            .then(response => {
-              requestObject = OAuth.create(AUTH.SERVICE)
+  function handleArray(response) {
+    return response.map(item => item.playlist)
+  }
 
-              return Object.assign({},
-              normalize(response.raw, schema), {
-                avatar: response.avatar,
-                id: response.raw.id,
-                username: response.alias,
-                access_token: requestObject.access_token
-              })
+  function handleFavorites(response, schema) {
+    const entities = response.map(item => item.playlist || item.track)
+    const likes = response.map(item => {
+      const media = item.playlist || item.track
+      return Object.assign({}, {
+        created_at: item.created_at,
+        id: media.id
+      })
+    })
+    return Object.assign({},
+      normalize(entities, schema), {
+        likes
+      }
+    )
+  }
+
+  function connect(...theArgs) {
+    const schema = theArgs[1]
+
+    return OAuth.popup(AUTH.SERVICE, { cache: true })
+      .fail(error => new Error(error))
+      .then((resolve) => (
+        resolve.me()
+          .fail(error => new Error(error))
+          .then(response => {
+            requestObject = OAuth.create(AUTH.SERVICE)
+
+            return Object.assign({},
+            normalize(response.raw, schema), {
+              avatar: response.avatar,
+              id: response.raw.id,
+              username: response.alias,
+              access_token: requestObject.access_token
             })
-        ))
-    },
-    disconnect() {
-      return OAuth.clearCache(AUTH.SERVICE)
-    },
-    get(endpoint, schema) {
-      return OAuth.popup(AUTH.SERVICE, { cache: true })
-        .fail(error => new Error(error))
-        .then(resolve => (
-          resolve.get(endpoint)
-            .fail(error => new Error(error))
-            .then(response => {
-              let collection = response
-              if (Array.isArray(response)) {
-                collection = this.handleArray(response)
-              }
-              if (response.collection) {
-                collection = this.handleCollection(response)
-              }
-              return Object.assign({},
-                normalize(collection, schema),
-                { requestObject })
+          })
+      ))
+  }
+
+  function disconnect() {
+    return OAuth.clearCache(AUTH.SERVICE)
+  }
+
+  function get(endpoint, schema) {
+    return OAuth.popup(AUTH.SERVICE, { cache: true })
+      .fail(error => new Error(error))
+      .then(resolve => (
+        resolve.get(endpoint)
+          .fail(error => new Error(error))
+          .then(response => {
+            let collection = response
+            if (Array.isArray(response) && !response.every(item => item.id)) {
+              collection = handleArray(response)
+              return handleFavorites(response, schema)
             }
-            )
-        ))
-    },
-    put(endpoint) {
-      return OAuth.popup(AUTH.SERVICE, { cache: true })
-        .fail(error => new Error(error))
-        .then(resolve => (
-          resolve.put(endpoint)
-            .fail(error => new Error(error))
-            .then(response => response)
-        ))
-    },
-    del(endpoint) {
-      return OAuth.popup(AUTH.SERVICE, { cache: true })
-        .fail(error => new Error(error))
-        .then(resolve => (
-          resolve.del(endpoint)
-            .fail(error => new Error(error))
-            .then(() => (
-              Object.assign({}, { id: extractNumber(endpoint) })
-            ))
-        ))
-    },
+            if (response.collection) {
+              collection = handleCollection(response)
+            }
+            return Object.assign({},
+              normalize(collection, schema),
+              { response })
+          })
+      ))
+  }
+
+  function put(endpoint) {
+    return OAuth.popup(AUTH.SERVICE, { cache: true })
+      .fail(error => new Error(error))
+      .then(resolve => (
+        resolve.put(endpoint)
+          .fail(error => new Error(error))
+          .then(response => response)
+      ))
+  }
+
+  function del(endpoint) {
+    return OAuth.popup(AUTH.SERVICE, { cache: true })
+      .fail(error => new Error(error))
+      .then(resolve => (
+        resolve.del(endpoint)
+          .fail(error => new Error(error))
+          .then(() => (
+            Object.assign({}, { id: extractNumber(endpoint) })
+          ))
+      ))
+  }
+
+  return {
     call(request, ...theArgs) {
       switch (request) {
         case REQ.CONNECT:
-          return this.connect(...theArgs)
+          return connect(...theArgs)
         case REQ.DISCONNECT:
-          return this.disconnect()
+          return disconnect()
         case REQ.GET:
-          return this.get(...theArgs)
+          return get(...theArgs)
         case REQ.PUT:
-          return this.put(...theArgs)
+          return put(...theArgs)
         case REQ.DEL:
-          return this.del(...theArgs)
+          return del(...theArgs)
         default:
           return new Error('Request method does not exist')
       }

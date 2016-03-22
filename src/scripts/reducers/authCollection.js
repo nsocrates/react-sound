@@ -7,7 +7,8 @@ const initialState = {
   ids: [],
   isFetching: false,
   next_href: undefined,
-  offset: 0
+  offset: 0,
+  payload: []
 }
 
 function partitionate({ types, deleteType }) {
@@ -30,11 +31,13 @@ function partitionate({ types, deleteType }) {
         const result = Array.isArray(action.response.result)
           ? action.response.result
           : [action.response.result]
+        const likes = action.response.likes
         return merge({}, state, {
           isFetching: false,
           ids: union(state.ids, result),
           next_href: action.response.next_href,
-          offset: action.offset || 0
+          offset: action.offset || 0,
+          payload: union(state.payload, likes)
         })
       }
       case failureType:
@@ -43,7 +46,10 @@ function partitionate({ types, deleteType }) {
         })
       case deleteType:
         return Object.assign({}, state, {
-          ids: state.ids.filter(n => n !== Number(action.response.id))
+          ids: state.ids.filter(n => n !== Number(action.response.id)),
+          payload: state.payload.length
+            ? state.payload.filter(n => n.id !== Number(action.response.id))
+            : null
         })
       default:
         return state

@@ -1,18 +1,14 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import Card from 'components/Card'
 import End from 'components/End'
 import Loader from 'components/Loader'
-import Taglist from 'components/Taglist'
+import MediaCards from 'components/MediaCards'
 import Waypoint from 'components/Waypoint'
 
 import { updateMyTracks, updateMyPlaylists } from 'actions/auth'
 import { loadUserTracks, loadUserFavorites, loadUserPlaylists } from 'actions/user'
 import { requestStream, loadStreamList } from 'actions/stream'
-
-import { REQ } from 'constants/Auth'
-import { trackFactory } from 'utils/Utils'
 
 class UserMediaContainer extends React.Component {
 
@@ -62,6 +58,8 @@ class UserMediaContainer extends React.Component {
 
   render() {
     const {
+      isPlaying,
+      streamTrackId,
       userEntity,
       trackEntity,
       playlistEntity,
@@ -83,6 +81,7 @@ class UserMediaContainer extends React.Component {
           return {
             collection: trackCollection,
             hasItems: !!this.user.track_count,
+            isPlaylist: false,
             mediaEntity: trackEntity,
             none: 'USER DOES NOT HAVE ANY TRACKS',
             partition: userTracks,
@@ -93,6 +92,7 @@ class UserMediaContainer extends React.Component {
           return {
             collection: trackCollection,
             hasItems: !!this.user.public_favorites_count,
+            isPlaylist: false,
             mediaEntity: trackEntity,
             none: 'USER DOES NOT HAVE ANY FAVORITES',
             partition: userFavorites,
@@ -103,6 +103,7 @@ class UserMediaContainer extends React.Component {
           return {
             collection: playlistCollection,
             hasItems: !!this.user.playlist_count,
+            isPlaylist: true,
             mediaEntity: playlistEntity,
             none: 'USER DOES NOT HAVE ANY PLAYLISTS',
             partition: userPlaylists,
@@ -117,6 +118,7 @@ class UserMediaContainer extends React.Component {
     const {
       collection,
       hasItems,
+      isPlaylist,
       mediaEntity,
       none,
       partition,
@@ -129,65 +131,6 @@ class UserMediaContainer extends React.Component {
 
     if (!hasItems && !partition.ids.length) {
       return <End className="end--bottom" text={ none } />
-    }
-
-    const renderCards = () => {
-      const { ids } = partition
-      return ids.map((item, index) => {
-        const obj = {
-          userObject: userEntity[mediaEntity[item].user_id],
-          mediaObject: mediaEntity[item]
-        }
-        const mediaData = trackFactory(obj)
-        const isFavorite = collection.ids.indexOf(mediaData.media.id) !== -1
-
-        const handleClickPlay = e => {
-          e.preventDefault()
-
-          if (route.path === 'playlists') {
-            return dispatch(loadStreamList(mediaData.tracklist.ids))
-          }
-
-          const { isPlaying, streamTrackId } = this.props
-          const audio = document.getElementById('audio')
-
-          if (mediaData.media.id === streamTrackId) {
-            return isPlaying ? audio.pause() : audio.play()
-          }
-
-          return dispatch(requestStream(mediaData.media.id))
-        }
-
-        const handleClickFav = e => {
-          e.preventDefault()
-
-          return isFavorite
-            ? dispatch(updateCollection(REQ.DEL, mediaData.media.id, mediaData.media.name))
-            : dispatch(updateCollection(REQ.PUT, mediaData.media.id, mediaData.media.name))
-        }
-
-        const mediaPath = route.path === 'playlists'
-                            ? `#playlist/${mediaData.media.id}`
-                            : `#track/${mediaData.media.id}`
-
-        return (
-          <Card
-            byline={ mediaData.user.name }
-            bylinePath={ `#user/${mediaData.user.id}` }
-            dispatch={ dispatch }
-            date={ `Created ${mediaData.createdAt}` }
-            imgUrl={ mediaData.artwork.large }
-            isFavorite={ isFavorite }
-            key={ `user_card__${index}_${item}` }
-            onClickFav={ handleClickFav }
-            onClickPlay={ handleClickPlay }
-            title={ mediaData.media.name }
-            titlePath={ mediaPath }
-          >
-            <Taglist max={ 5 } tags={ mediaData.tags } />
-          </Card>
-        )
-      })
     }
 
     const shouldRenderWaypoint = () => {
@@ -208,10 +151,22 @@ class UserMediaContainer extends React.Component {
     }
 
     return (
-      <section className="card">
-        { renderCards() }
+      <MediaCards
+        className="cards"
+        collectionHandler={ updateCollection }
+        collectionIds={ collection.ids }
+        dispatch={ dispatch }
+        ids={ partition.ids }
+        isPlaying={ isPlaying }
+        isPlaylist={ isPlaylist }
+        maxTags={ 5 }
+        mediaEntity={ mediaEntity }
+        streamHandler={ isPlaylist ? loadStreamList : requestStream }
+        streamTrackId={ streamTrackId }
+        userEntity={ userEntity }
+      >
         { shouldRenderWaypoint() }
-      </section>
+      </MediaCards>
     )
   }
 }

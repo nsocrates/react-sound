@@ -41,7 +41,7 @@
     background-color: tint($shark, 80%);
 
     .artwork__fav-icon {
-      color: mix($light-pink, $sc-orange, 15%);
+      color: $light-pink;
       text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
     }
   }
@@ -97,8 +97,8 @@
 
   &--profile {
     @include susy-media(small-only) {
-      width: em(125px);
       height: em(125px);
+      width: em(125px);
 
       &::after {
         font-size: 7rem;
@@ -108,7 +108,7 @@
 }
 
 .artwork__fav-icon {
-  @include relative(left em(27px));
+  @include relative(left em(25px));
   color: $black-hint;
   font-size: 2.3rem;
   transform: rotate(-45deg);
@@ -122,7 +122,6 @@
 
   &--profile {
     font-size: 2.5rem;
-    left: em(28px);
   }
 }
 

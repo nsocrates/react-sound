@@ -1,27 +1,22 @@
-.card {
+.cards {
   @include span(full);
   background-color: transparent;
 
 }
 
 .card__item {
-  @include span(full);
-  background-color: $white;
-  border-radius: .5rem;
+  @extend %clearfix;
+  float: left;
   margin-bottom: gutter(8);
   overflow: hidden;
-
-  @include susy-media(medium) {
-    height: em(245px);
-  }
+  width: 100%;
 
   @include susy-media(large) {
     margin-bottom: gutter();
     margin-right: gutter();
-    padding: em(10px);
     width: span(6);
 
-    &:nth-child(even) {
+    &:nth-of-type(even) {
       margin-right: 0;
     }
   }
@@ -30,13 +25,49 @@
     margin-right: gutter();
     width: span(4);
 
-    &:nth-child(even) {
+    &:nth-of-type(even) {
       margin-right: gutter();
     }
 
-    &:nth-child(3n+3) {
+    &:nth-of-type(3n+3) {
       margin-right: 0;
     }
+  }
+}
+
+.card__body {
+  @include span(full);
+  background-color: $white;
+  border-radius: .5rem;
+  // margin-bottom: gutter(8);
+  overflow: hidden;
+
+  @include susy-media(medium) {
+    height: em(245px);
+  }
+
+  @include susy-media(large) {
+    // margin-bottom: gutter();
+    // margin-right: gutter();
+    padding: em(10px);
+    // width: span(6);
+
+    &:nth-of-type(even) {
+      margin-right: 0;
+    }
+  }
+
+  @include susy-media(xxlarge) {
+    // margin-right: gutter();
+    // width: span(4);
+
+    // &:nth-of-type(even) {
+    //   margin-right: gutter();
+    // }
+
+    // &:nth-of-type(3n+3) {
+    //   margin-right: 0;
+    // }
   }
 }
 

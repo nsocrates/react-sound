@@ -106,13 +106,17 @@ class PlaylistContainer extends React.Component {
       }
     ]
 
-    const isFavorite = classNames('artwork__fav-icon fa fa-heart', {
+    const isFavorite = classNames('artwork__fav-icon artwork__fav-icon--profile fa fa-heart', {
       'artwork__fav-icon--is-fav': playlistCollection.ids.indexOf(playlistObject.id) !== -1
     })
 
     const articleContent = ref => (this._articleContent = ref)
 
     const shouldRenderTracklist = () => {
+      if (!streamable.length) {
+        return <End text={"NO STREAMABLE TRACKS."} />
+      }
+
       if (pagination.id === playlistObject.id && pagination.result.length) {
         return (
           <Tracklist
@@ -132,6 +136,10 @@ class PlaylistContainer extends React.Component {
     }
 
     const shouldRenderWaypoint = () => {
+      if (!streamable.length) {
+        return null
+      }
+
       if (pagination.isLoading) {
         return <Loader className="loader--bottom" />
       }

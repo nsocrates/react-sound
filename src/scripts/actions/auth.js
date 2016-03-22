@@ -112,7 +112,7 @@ export function loadTrackCollection(forceNext = false) {
   return (dispatch, getState) => {
     const {
       ids = [],
-      next_href = '/me/favorites'
+      next_href = '/e1/me/track_likes'
     } = getState().app.auth.collection.tracks || {}
 
     if (ids.length && !forceNext) {
