@@ -212,7 +212,7 @@ export default class User extends React.Component {
 
               <article className="profile__info">
                 <h2 className="profile__info--primary">
-                  { full_name || username }
+                  { full_name || username || user.id }
                 </h2>
                 <h4 className="profile__info--secondary">
                   { username }

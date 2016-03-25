@@ -108,7 +108,7 @@
 }
 
 .artwork__fav-icon {
-  @include relative(left em(25px));
+  @include relative(left em(25px) top .14285714em);
   color: $black-hint;
   font-size: 2.3rem;
   transform: rotate(-45deg);

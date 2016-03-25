@@ -119,19 +119,24 @@ class UserMediaContainer extends React.Component {
     } = getEntity()
 
     if (!Object.keys(partition).length) {
+      console.log('Partition length')
       return <Loader className="loader--bottom" />
     }
 
     if (!hasItems && !partition.ids.length) {
+      console.log('!hasItems && !partition.ids.length')
       return <End className="end--bottom" text={ none } />
     }
 
     const shouldRenderWaypoint = () => {
+      console.log('Rendering WP')
       if (partition.isFetching) {
+        console.log('IsFetching')
         return <Loader className="loader--bottom" />
       }
 
       if (!partition.next_href) {
+        console.log('!next_href')
         return <End className="end--bottom" />
       }
 

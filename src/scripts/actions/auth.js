@@ -38,8 +38,9 @@ function get(endpoint, schema, types) {
   }
 }
 
-function put(endpoint) {
+function put(id, endpoint) {
   return {
+    id,
     [AUTH.CALL]: {
       types: [
         ActionTypes.PUT_REQUEST,
@@ -52,8 +53,9 @@ function put(endpoint) {
   }
 }
 
-function del(endpoint, deleteType) {
+function del(id, endpoint, deleteType) {
   return {
+    id,
     [AUTH.CALL]: {
       types: [
         ActionTypes.DEL_REQUEST,
@@ -88,8 +90,10 @@ export function loadAuthedUser() {
       return null
     }
 
-    return dispatch(get('/me', Schemas.USER, AUTH_TYPES.PROFILE))
-      .then(() => dispatch(fetchUser(id, profileEndpoint)))
+    return dispatch(get('/me', Schemas.USER, AUTH_TYPES.PROFILE)).then(
+      () => dispatch(fetchUser(id, profileEndpoint)),
+      err => dispatch(notif.error(err.error))
+    )
   }
 }
 
@@ -154,18 +158,18 @@ export function loadAuthedCollection() {
 
     if (me && me.hasOwnProperty('web_profiles')) {
       return Promise.all([
-        dispatch(loadTrackCollection()),
-        dispatch(loadPlaylistCollection()),
-        dispatch(loadFollowingCollection())
+        dispatch(loadTrackCollection(true)),
+        dispatch(loadPlaylistCollection(true)),
+        dispatch(loadFollowingCollection(true))
       ])
     }
 
     return dispatch(loadAuthedUser()
       ).then(() =>
         Promise.all([
-          dispatch(loadTrackCollection()),
-          dispatch(loadPlaylistCollection()),
-          dispatch(loadFollowingCollection())
+          dispatch(loadTrackCollection(true)),
+          dispatch(loadPlaylistCollection(true)),
+          dispatch(loadFollowingCollection(true))
         ])
       )
   }
@@ -206,25 +210,24 @@ export function updateMyFollowings(method, id, name) {
 export function updateMyTracks(method, id, name) {
   return dispatch => {
     const endpoint = `/me/favorites/${id}`
+    // const href = '/e1/me/track_likes'
     const track = name ? `"${name}"` : 'track'
     const shouldRm = method === REQ.DEL
 
     let deleteType = undefined
     let reqMethod = put
     let action = 'Added'
-    let href = endpoint
-    let schema = Schemas.TRACK
+    // let schema = Schemas.TRACK
 
     if (shouldRm) {
       deleteType = AUTH_TYPES.DEL.TRACKS
       reqMethod = del
       action = 'Removed'
-      href = '/me/favorites'
-      schema = Schemas.TRACK_ARRAY
+      // schema = Schemas.TRACK_ARRAY
     }
 
-    return dispatch(reqMethod(endpoint, deleteType)).then(
-      () => dispatch(get(href, schema, AUTH_TYPES.TRACKS)).then(
+    return dispatch(reqMethod(id, endpoint, deleteType)).then(
+      () => dispatch(loadTrackCollection(true)).then(
         () => dispatch(notif.action(`${action} ${track} to favorites.`)),
         err => dispatch(notif.error(err.error))
       ),
@@ -238,7 +241,7 @@ export function updateMyPlaylists(method, id, name) {
     const endpoint = `/e1/me/playlist_likes/${id}`
     const playlist = name ? `"${name}"` : 'playlist'
     const shouldRm = method === REQ.DEL
-    const href = '/e1/me/playlist_likes'
+    // const href = '/e1/me/playlist_likes'
 
     let deleteType = undefined
     let reqMethod = put
@@ -250,8 +253,8 @@ export function updateMyPlaylists(method, id, name) {
       action = 'Removed'
     }
 
-    return dispatch(reqMethod(endpoint, deleteType)).then(
-      () => dispatch(get(href, Schemas.PLAYLIST_ARRAY, AUTH_TYPES.PLAYLISTS)).then(
+    return dispatch(reqMethod(id, endpoint, deleteType)).then(
+      () => dispatch(loadPlaylistCollection(true)).then(
         () => dispatch(notif.action(`${action} ${playlist} to favorites.`)),
         err => dispatch(notif.error(err.error))
       ),

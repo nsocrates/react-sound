@@ -21,6 +21,21 @@ function partitionate({ types, deleteType }) {
 
   const [requestType, successType, failureType] = types
 
+  function unionFn(payload, likes) {
+    if (!payload.length) {
+      return likes
+    }
+
+    const arr1 = payload.length > likes.length ? payload : likes
+    const arr2 = payload.length > likes.length ? likes : payload
+
+    return arr1.filter(n => (
+      arr2.filter(c => (
+        n.id !== c.id
+      ))
+    ))
+  }
+
   return function updatePartition(state = initialState, action) {
     switch (action.type) {
       case requestType:
@@ -37,7 +52,7 @@ function partitionate({ types, deleteType }) {
           ids: union(state.ids, result),
           next_href: action.response.next_href,
           offset: action.offset || 0,
-          payload: union(state.payload, likes)
+          payload: unionFn(state.payload, likes)
         })
       }
       case failureType:
@@ -46,9 +61,9 @@ function partitionate({ types, deleteType }) {
         })
       case deleteType:
         return Object.assign({}, state, {
-          ids: state.ids.filter(n => n !== Number(action.response.id)),
+          ids: state.ids.filter(n => n !== Number(action.id)),
           payload: state.payload.length
-            ? state.payload.filter(n => n.id !== Number(action.response.id))
+            ? state.payload.filter(n => n.id !== Number(action.id))
             : null
         })
       default:

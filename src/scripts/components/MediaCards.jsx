@@ -20,17 +20,16 @@ function MediaCards(props) {
     ids = [],
     isPlaying,
     isPlaylist,
-    maxCards = 0,
+    maxCards = undefined,
     maxTags = 5,
     mediaEntity = {},
     streamTrackId,
     userEntity = {}
   } = props
 
-  const cards = maxCards ? ids.slice(0, maxCards) : ids
+  const cardItems = ids.slice(0, maxCards).map((card, index) => {
+    const id = card.id || card
 
-  const cardItems = cards.map((item, index) => {
-    const id = item.id || item
     const obj = {
       userObject: userEntity[mediaEntity[id].user_id],
       mediaObject: mediaEntity[id]
@@ -65,7 +64,7 @@ function MediaCards(props) {
 
     const head = (
       <section className="card__head">
-        <h6 className="card__data">{`Added on ${dtFormatter(item.created_at)}`}</h6>
+        <h6 className="card__data">{`Added on ${dtFormatter(card.created_at)}`}</h6>
       </section>
     )
 
@@ -103,7 +102,12 @@ MediaCards.propTypes = {
   collectionIds: PropTypes.arrayOf(PropTypes.number.isRequired),
   dispatch: PropTypes.func.isRequired,
   hasHead: PropTypes.bool,
-  ids: PropTypes.arrayOf(PropTypes.number.isRequired),
+  ids: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.number.isRequired,
+      PropTypes.object.isRequired
+    ])
+  ),
   isPlaying: PropTypes.bool,
   isPlaylist: PropTypes.bool,
   maxCards: PropTypes.number,

@@ -55,6 +55,7 @@ const authFactory = () => {
   }
 
   function disconnect() {
+    localStorage.clear()
     return OAuth.clearCache(AUTH.SERVICE)
   }
 
@@ -167,7 +168,7 @@ export default store => next => action => {
   next(actionWith({ type: requestType }))
 
   if (request === REQ.DISCONNECT) {
-    return auth.disconnect()
+    return auth.call(request)
   }
 
   return auth.call(request, endpoint, schema).then(
@@ -179,7 +180,7 @@ export default store => next => action => {
     error => (
       next(actionWith({
         type: failureType,
-        error: error.message || 'Something went wrong...'
+        error: error.message || 'Something went wrong...Please clear history'
       })))
   )
 }

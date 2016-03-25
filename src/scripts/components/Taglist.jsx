@@ -2,7 +2,11 @@ import React, { PropTypes } from 'react'
 import LinkItem from 'components/LinkItem'
 
 export default function Taglist(props) {
-  const { tags, max = Infinity, modifier = 'card' } = props
+  const {
+    tags,
+    max = undefined,
+    modifier = 'card'
+  } = props
 
   if (!tags.length) {
     return <noscript />
