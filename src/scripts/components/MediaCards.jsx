@@ -7,7 +7,7 @@ import Taglist from 'components/Taglist'
 import { requestStream, loadStreamList } from 'actions/stream'
 import { updateMyTracks, updateMyPlaylists } from 'actions/auth'
 
-import { trackFactory, dtFormatter } from 'utils/Utils'
+import { trackFactory, dtFormatter, kFormatter, timeFactory } from 'utils/Utils'
 import { REQ } from 'constants/Auth'
 
 function MediaCards(props) {
@@ -37,6 +37,34 @@ function MediaCards(props) {
     const mediaData = trackFactory(obj)
     const isFavorite = collectionIds.indexOf(id) !== -1
     const mediaPath = isPlaylist ? `#playlist/${id}` : `#track/${id}`
+
+    const getStats = () => {
+      if (isPlaylist) {
+        return [{
+          title: 'duration',
+          icon: 'clock-o',
+          value: timeFactory(obj.mediaObject.duration / 1000).getShorthand()
+        }, {
+          title: 'tracks',
+          icon: 'list',
+          value: kFormatter(mediaData.tracklist.count)
+        }]
+      }
+
+      return [{
+        title: 'duration',
+        icon: 'clock-o',
+        value: timeFactory(obj.mediaObject.duration / 1000).getShorthand()
+      }, {
+        title: 'plays',
+        icon: 'headphones',
+        value: kFormatter(mediaData.stats.plays)
+      }, {
+        title: 'favorites',
+        icon: 'heart-o',
+        value: kFormatter(mediaData.stats.favorites)
+      }]
+    }
 
     const handleClickPlay = e => {
       e.preventDefault()
@@ -72,7 +100,7 @@ function MediaCards(props) {
       <MediaCardItem
         byline={ mediaData.user.name }
         bylinePath={ `#user/${mediaData.user.id}` }
-        date={ `Created ${mediaData.createdAt}` }
+        meta={ `Created ${mediaData.createdAt}` }
         dispatch={ dispatch }
         head={ hasHead ? head : undefined }
         imgUrl={ mediaData.artwork.large }
@@ -80,6 +108,7 @@ function MediaCards(props) {
         key={ `${id}${index}` }
         onClickFav={ handleClickFav }
         onClickPlay={ handleClickPlay }
+        stats={ getStats() }
         title={ mediaData.media.name }
         titlePath={ mediaPath }
       >

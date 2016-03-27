@@ -16,7 +16,8 @@ export default function TracklistItem(props) {
     trackId,
     trackName,
     userId,
-    userName
+    userName,
+    duration = undefined
   } = props
 
   const shouldRenderDownload = () => {
@@ -76,11 +77,14 @@ export default function TracklistItem(props) {
           </p>
           <p className={`tracklist-${modifier}__user`}>
             <LinkItem
-              className="tracklist__link"
+              className="tracklist__link tracklist__link--user"
               to={`#user/${userId}`}
             >
               { userName }
             </LinkItem>
+          </p>
+          <p className={`tracklist-${modifier}__time`}>
+            { duration }
           </p>
         </section>
 
@@ -90,6 +94,10 @@ export default function TracklistItem(props) {
 
 TracklistItem.propTypes = {
   downloadUrl: PropTypes.string,
+  duration: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   handleAddToFavorites: PropTypes.func,
   handlePlayPause: PropTypes.func,
   isActive: PropTypes.string,

@@ -90,7 +90,7 @@ class TrackContainer extends React.Component {
         icon: 'fa fa-heart',
         value: mediaData.stats.favorites
       }, {
-        icon: 'fa fa-play',
+        icon: 'fa fa-headphones',
         value: mediaData.stats.plays
       }, {
         icon: 'fa fa-comments',

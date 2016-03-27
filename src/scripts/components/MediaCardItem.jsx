@@ -3,12 +3,19 @@ import LinkItem from 'components/LinkItem'
 import classNames from 'classnames'
 
 export default function MediaCardItem(props) {
-  const { children, imgUrl, href, title, byline, onClickPlay, date,
-        titlePath, bylinePath, onClickFav, isFavorite, head } = props
+  const { children, imgUrl, href, title, byline, onClickPlay, meta,
+        titlePath, bylinePath, onClickFav, isFavorite, head, stats } = props
 
   const isFav = classNames('artwork__fav-icon fa fa-heart', {
     'artwork__fav-icon--is-fav': isFavorite
   })
+
+  const cardStats = stats.map((item, index) => (
+    <li className="card__stats-item" key={`${item.value}${index}`}>
+      <i className={`card__icon fa fa-${item.icon}`} />
+        { item.value }
+    </li>
+  ))
 
   return (
     <article className="card__item">
@@ -41,21 +48,31 @@ export default function MediaCardItem(props) {
 
         <section className="card__content">
 
-          <h5 className="card__content--title">
-            <LinkItem to={ titlePath } >
+          <h5 className="card__title">
+            <LinkItem
+              className="card__ellipsis"
+              to={ titlePath }
+            >
               { title }
             </LinkItem>
           </h5>
 
-          <h6 className="card__content--byline">
-            <LinkItem to={ bylinePath }>
+          <h6 className="card__byline">
+            <LinkItem
+              className="card__ellipsis"
+              to={ bylinePath }
+            >
               { byline }
             </LinkItem>
           </h6>
 
-          <h6 className="card__content--date">
-            <small>{ date }</small>
+          <h6 className="card__meta">
+            <small>{ meta }</small>
           </h6>
+
+          <ul className="card__stats">
+            { cardStats }
+          </ul>
 
           { children }
 
@@ -69,13 +86,14 @@ MediaCardItem.propTypes = {
   byline: PropTypes.string,
   bylinePath: PropTypes.string,
   children: PropTypes.node,
-  date: PropTypes.string,
   head: PropTypes.node,
   href: PropTypes.string,
   imgUrl: PropTypes.string,
   isFavorite: PropTypes.bool,
+  meta: PropTypes.string,
   onClickFav: PropTypes.func,
   onClickPlay: PropTypes.func,
+  stats: PropTypes.array,
   title: PropTypes.string,
   titlePath: PropTypes.string
 }
@@ -89,6 +107,7 @@ MediaCardItem.defaultProps = {
   href: undefined,
   imgUrl: null,
   isFavorite: false,
+  stats: [],
   title: null,
   titlePath: undefined,
   onClickPlay() {}

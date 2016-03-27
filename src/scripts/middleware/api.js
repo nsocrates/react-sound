@@ -38,7 +38,6 @@ function callApi(endpoint, schema) {
       return response.json()
     })
     .then(json => {
-      console.log(url)
       const entity = entityFactory(json)
       const { next_href } = entity
       let collection = entity.getCollection()

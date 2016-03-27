@@ -60,6 +60,50 @@ export function getCover(url) {
   }
 }
 
+// Formats seconds into readable time:
+export const timeFactory = seconds => ({
+  getHours() {
+    const hh = `0${Math.floor(seconds / 3600)}`
+    return hh.substr(-2)
+  },
+  getMinutes() {
+    const mm = `0${Math.floor((seconds % 3600) / 60)}`
+    return mm.substr(-2)
+  },
+  getSeconds() {
+    const ss = `0${Math.floor(seconds % 60)}`
+    return ss.substr(-2)
+  },
+  getFormatted() {
+    const hh = this.getHours()
+    const mm = this.getMinutes()
+    const ss = this.getSeconds()
+    const hasHours = parseInt(hh, 10) ? `${hh}:` : ''
+
+    return `${hasHours}${mm}:${ss}`
+  },
+  getShorthand() {
+    const hh = Math.floor(seconds / 3600)
+    const mm = Math.floor((seconds % 3600) / 60)
+    const ss = Math.floor(seconds % 60)
+
+    if (hh) {
+      return `${hh}h`
+    } else if (mm) {
+      return `${mm}m`
+    } else if (ss) {
+      return `${ss}s`
+    }
+
+    return `${seconds}ss`
+  }
+})
+
+// Prefixes numbers >= 1000
+export function kFormatter(number) {
+  return number > 999 ? `${Number((number / 1000).toFixed(1))}k` : number
+}
+
 // Extracts useful media data:
 export const trackFactory = obj => {
   const { userObject, mediaObject } = obj
@@ -94,6 +138,7 @@ export const trackFactory = obj => {
     download: mediaObject.downloadable
               ? `${mediaObject.download_url}?client_id=${CLIENT_ID}`
               : null,
+    duration: timeFactory(mediaObject.duration / 1000).getFormatted(),
     genre: mediaObject.genre ? parseGenre(mediaObject.genre) : [],
     kind: mediaObject.kind,
     tags: mediaObject.tag_list ? parseTags(mediaObject.tag_list, /"[^"]*"|[^\s"]+/g) : []
@@ -125,30 +170,6 @@ export const trackFactory = obj => {
   return Object.assign({}, data, rest)
 }
 
-// Formats seconds into readable time:
-export const timeFactory = seconds => ({
-  getHours() {
-    const hh = `0${Math.floor(seconds / 3600)}`
-    return hh.substr(-2)
-  },
-  getMinutes() {
-    const mm = `0${Math.floor((seconds % 3600) / 60)}`
-    return mm.substr(-2)
-  },
-  getSeconds() {
-    const ss = `0${Math.floor(seconds % 60)}`
-    return ss.substr(-2)
-  },
-  getFormatted() {
-    const hh = this.getHours()
-    const mm = this.getMinutes()
-    const ss = this.getSeconds()
-    const hasHours = parseInt(hh, 10) ? `${hh}:` : ''
-
-    return `${hasHours}${mm}:${ss}`
-  }
-})
-
 // Determines coordinates relative to target based on cursor position:
 export const coordinatesFactory = event => {
   const getOffsets = target => (
@@ -174,11 +195,6 @@ export const coordinatesFactory = event => {
       Math.min(Math.max(value * max, min), max)
     )
   }
-}
-
-// Prefixes numbers >= 1000
-export function kFormatter(number) {
-  return number > 999 ? `${Number((number / 1000).toFixed(1))}k` : number
 }
 
 // Adds comma for numbers of more than 3 digits

@@ -37,7 +37,12 @@
 }
 
 .tracklist__link {
-  display: inline-block;
+  @extend %ellipsis;
+  display: block;
+
+  &--user {
+    display: inline-block;
+  }
 }
 
 .tracklist__btn {
@@ -101,6 +106,10 @@
   opacity: 1;
 }
 
+.tracklist-player__time {
+  display: none;
+}
+
 .tracklist-player__artwork {
   @extend %tracklist__artwork;
   height: $player-height;
@@ -124,13 +133,15 @@
 
 .tracklist-player__data {
   @extend %small;
+  height: $player-height;
+  max-width: em(450px);
   overflow: hidden;
+  padding: em(10px) 0;
 }
 
 .tracklist-player__title,
 .tracklist-player__user {
-  @extend %ellipsis;
-  line-height: $player-height / 2;
+  line-height: 2rem;
   margin: 0;
 }
 
@@ -186,6 +197,7 @@
   background-color: rgba($light-gray, $secondary);
   border-radius: .5rem;
   display: block;
+  height: 7rem;
   margin-bottom: gutter();
   overflow: hidden;
 
@@ -220,13 +232,14 @@
 }
 
 .tracklist-set__data {
+  max-width: em(450px);
   overflow: hidden;
   padding: 1rem 0;
 }
 
 .tracklist-set__title,
-.tracklist-set__user {
-  @extend %ellipsis;
+.tracklist-set__user,
+.tracklist-set__time {
   line-height: (5 / 2) * 1rem;
   margin: 0;
 }
@@ -235,9 +248,15 @@
   font-weight: 700;
 }
 
-.tracklist-set__user {
+.tracklist-set__user,
+.tracklist-set__time {
   @extend %small;
   color: $black-secondary;
+  display: inline-block;
+}
+
+.tracklist-set__time {
+  float: right;
 }
 
 .tracklist-set__icons {

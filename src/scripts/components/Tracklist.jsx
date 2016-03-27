@@ -69,6 +69,7 @@ export default function Tracklist(props) {
       <TracklistItem
         key={`${id}${index}`}
         downloadUrl={ trackData.download }
+        duration={ trackData.duration }
         handleAddToFavorites={ handleAddToFavorites }
         handlePlayPause={ handlePlayPause }
         isActive={ isActive }
