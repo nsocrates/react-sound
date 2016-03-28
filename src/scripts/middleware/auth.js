@@ -180,7 +180,7 @@ export default store => next => action => {
     error => (
       next(actionWith({
         type: failureType,
-        error: error.message || 'Something went wrong...Please clear history'
+        error: error.message || error.responseJSON.errors[0].error_message
       })))
   )
 }

@@ -36,7 +36,8 @@ class UserContainer extends React.Component {
       children,
       shouldPlay,
       menu,
-      currPath
+      currPath,
+      userCollection
     } = this.props
 
     if (!Object.keys(user).length) {
@@ -51,6 +52,7 @@ class UserContainer extends React.Component {
         menu={ menu }
         shouldPlay={ shouldPlay }
         user={ user }
+        userCollection={ userCollection }
       >
        { children }
      </UserProfile>
@@ -65,13 +67,17 @@ UserContainer.propTypes = {
   menu: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   shouldPlay: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  userCollection: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   const {
     app: {
       entities: { users },
+      auth: {
+        collection: { followings }
+      },
       media: {
         stream: { shouldPlay }
       },
@@ -86,7 +92,8 @@ function mapStateToProps(state, ownProps) {
     currPath: location.pathname,
     menu: profileMenu,
     shouldPlay,
-    user: users[id] || {}
+    user: users[id] || {},
+    userCollection: followings
   }
 }
 

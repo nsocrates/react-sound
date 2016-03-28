@@ -186,19 +186,15 @@ export function updateMyFollowings(method, id, name) {
     let deleteType = undefined
     let reqMethod = put
     let action = 'Following'
-    let href = endpoint
-    let schema = Schemas.USER
 
     if (shouldRm) {
-      deleteType = AUTH_TYPES.DEL.TRACKS
+      deleteType = AUTH_TYPES.DEL.FOLLOWINGS
       reqMethod = del
       action = 'Unfollowed'
-      href = '/me/followings'
-      schema = Schemas.USER_ARRAY
     }
 
-    return dispatch(reqMethod(endpoint, deleteType)).then(
-      () => dispatch(get(href, schema, AUTH_TYPES.TRACKS)).then(
+    return dispatch(reqMethod(id, endpoint, deleteType)).then(
+      () => dispatch(loadFollowingCollection(true)).then(
         () => dispatch(notif.action(`${action} ${username}.`)),
         err => dispatch(notif.error(err.error))
       ),
@@ -210,25 +206,24 @@ export function updateMyFollowings(method, id, name) {
 export function updateMyTracks(method, id, name) {
   return dispatch => {
     const endpoint = `/me/favorites/${id}`
-    // const href = '/e1/me/track_likes'
     const track = name ? `"${name}"` : 'track'
     const shouldRm = method === REQ.DEL
 
     let deleteType = undefined
     let reqMethod = put
     let action = 'Added'
-    // let schema = Schemas.TRACK
+    let msg = `${action} ${track} to favorites`
 
     if (shouldRm) {
       deleteType = AUTH_TYPES.DEL.TRACKS
       reqMethod = del
       action = 'Removed'
-      // schema = Schemas.TRACK_ARRAY
+      msg = `${action} ${track} from favorites`
     }
 
     return dispatch(reqMethod(id, endpoint, deleteType)).then(
       () => dispatch(loadTrackCollection(true)).then(
-        () => dispatch(notif.action(`${action} ${track} to favorites.`)),
+        () => dispatch(notif.action(msg)),
         err => dispatch(notif.error(err.error))
       ),
       err => dispatch(notif.error(err.error))
@@ -241,7 +236,6 @@ export function updateMyPlaylists(method, id, name) {
     const endpoint = `/e1/me/playlist_likes/${id}`
     const playlist = name ? `"${name}"` : 'playlist'
     const shouldRm = method === REQ.DEL
-    // const href = '/e1/me/playlist_likes'
 
     let deleteType = undefined
     let reqMethod = put

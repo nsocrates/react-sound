@@ -77,7 +77,6 @@ class UserMediaContainer extends React.Component {
         case 'tracks':
           return {
             collection: trackCollection,
-            hasItems: !!this.user.track_count,
             isPlaylist: false,
             mediaEntity: trackEntity,
             none: 'USER DOES NOT HAVE ANY TRACKS.',
@@ -87,7 +86,6 @@ class UserMediaContainer extends React.Component {
         case 'favorites':
           return {
             collection: trackCollection,
-            hasItems: !!this.user.public_favorites_count,
             isPlaylist: false,
             mediaEntity: trackEntity,
             none: 'USER DOES NOT HAVE ANY FAVORITES.',
@@ -97,7 +95,6 @@ class UserMediaContainer extends React.Component {
         case 'playlists':
           return {
             collection: playlistCollection,
-            hasItems: !!this.user.playlist_count,
             isPlaylist: true,
             mediaEntity: playlistEntity,
             none: 'USER DOES NOT HAVE ANY PLAYLISTS.',
@@ -111,27 +108,24 @@ class UserMediaContainer extends React.Component {
 
     const {
       collection,
-      hasItems,
       isPlaylist,
       mediaEntity,
       none,
       partition
     } = getEntity()
 
-    if (!Object.keys(partition).length) {
+    const { isFetching, next_href } = partition
+
+    if (!Object.keys(partition).length || isFetching && !next_href) {
       return <Loader className="loader--bottom" />
     }
 
-    if (!hasItems && !partition.ids.length) {
-      return <End className="end--bottom" text={ none } />
-    }
-
     const shouldRenderWaypoint = () => {
-      if (partition.isFetching) {
+      if (isFetching) {
         return <Loader className="loader--bottom" />
       }
 
-      if (!partition.next_href) {
+      if (!next_href) {
         return <End className="end--bottom" />
       }
 
@@ -147,6 +141,8 @@ class UserMediaContainer extends React.Component {
       <MediaCards
         className="cards"
         collectionIds={ collection.ids }
+        endMsg={ none }
+        force={ !!next_href }
         ids={ partition.ids }
         isPlaying={ isPlaying }
         isPlaylist={ isPlaylist }

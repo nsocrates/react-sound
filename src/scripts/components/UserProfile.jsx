@@ -1,11 +1,15 @@
 import React, { PropTypes } from 'react'
 
 import { IMG_FALLBACK } from 'constants/ItemLists'
+import { REQ } from 'constants/Auth'
+
 import { getCover } from 'utils/Utils'
+import classNames from 'classnames'
+
 import { toggleProfileMenu } from 'actions/toggle'
+import { updateMyFollowings } from 'actions/auth'
 
 import CanvasGradient from 'components/CanvasGradient'
-import classNames from 'classnames'
 import LinkItem from 'components/LinkItem'
 import Loader from 'components/Loader'
 import Main from 'components/Main'
@@ -19,6 +23,7 @@ export default class User extends React.Component {
   constructor(props) {
     super(props)
     this.handleWaypointEvent = this.handleWaypointEvent.bind(this)
+    this.handleFollow = this.handleFollow.bind(this)
   }
 
   componentWillUnmount() {
@@ -37,13 +42,25 @@ export default class User extends React.Component {
     return this.dispatchStickyMenu(!menu.isSticky)
   }
 
+  handleFollow(e) {
+    e.preventDefault()
+
+    const { dispatch, user, userCollection } = this.props
+
+    if (userCollection.ids.indexOf(user.id) !== -1) {
+      return dispatch(updateMyFollowings(REQ.DEL, user.id, user.username))
+    }
+    return dispatch(updateMyFollowings(REQ.PUT, user.id, user.username))
+  }
+
   render() {
     const {
       basePath,
       currPath,
       menu,
       shouldPlay,
-      user
+      user,
+      userCollection
     } = this.props
 
     if (!Object.keys(user).length) {
@@ -95,6 +112,10 @@ export default class User extends React.Component {
 
       return 'Unspecified'
     }
+
+    const shouldFollow = classNames('profile__cta btn btn--lg btn__follow', {
+      'btn__follow--active': userCollection.ids.indexOf(user.id) !== -1
+    })
 
     const renderMenuItems = () => {
       const itemList = [
@@ -181,6 +202,15 @@ export default class User extends React.Component {
 
               <StatsTable tableData={ statsData } />
 
+              <hr className="invis" />
+
+              <div className="profile__cta-wrap">
+                <button
+                  className={ shouldFollow }
+                  onClick={ this.handleFollow }
+                />
+              </div>
+
             </section>
 
           </div>
@@ -216,5 +246,6 @@ User.propTypes = {
   dispatch: PropTypes.func.isRequired,
   menu: PropTypes.object.isRequired,
   shouldPlay: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  userCollection: PropTypes.object.isRequired
 }

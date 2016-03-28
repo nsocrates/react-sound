@@ -18,6 +18,7 @@ function MediaCards(props) {
     collectionIds = [],
     dispatch,
     endMsg,
+    force = false,
     hasHead = false,
     ids = [],
     isPlaying,
@@ -29,7 +30,7 @@ function MediaCards(props) {
     userEntity = {}
   } = props
 
-  if (!ids.length) {
+  if (!ids.length && !force) {
     return (
       <article className="end-wrapper">
         <End className="end--bottom" text={ endMsg } />
@@ -141,6 +142,7 @@ MediaCards.propTypes = {
   collectionIds: PropTypes.arrayOf(PropTypes.number.isRequired),
   dispatch: PropTypes.func.isRequired,
   endMsg: PropTypes.string,
+  force: PropTypes.bool,
   hasHead: PropTypes.bool,
   ids: PropTypes.arrayOf(
     PropTypes.oneOfType([
