@@ -33,19 +33,24 @@ $l-hint: .3;
 $white: #fff;
 $black: #000;
 $shark: #262728;
-$dark-gray: #1b1c1d;
 $light-gray: #ebeae8;
-$light-pink: #f7379f;
 $cyan: #00fff2;
 $blue-violet: #a418eb;
-$pink-disabled: tint($light-pink, 30%);
-$pink-dark: shade($light-pink, 5%);
 $wan-white-gray: shade($light-gray, 1%);
+
+// Primary Color
+$hollywood-cerise: #ec0081;
+$deep-pink: #f30d8b;
+$violet-red: #f7379f;
+$hot-pink: #f961b4;
+$tea-rose: #fb93cc;
+$pink-disabled: tint($violet-red, 30%);
+$pink-dark: shade($violet-red, 5%);
 
 // SoundCloud Colors
 $sc-orange: #fe4e06;
 $sc-active: shade($sc-orange, 3%);
-$sc-pink: mix($light-pink, $sc-orange, 48%);
+$sc-pink: mix($violet-red, $sc-orange, 48%);
 $sc-pink--dark: shade($sc-pink, 5%);
 $sc-pink--disabled: tint($sc-pink, 30%);
 
@@ -54,7 +59,7 @@ $aquamarine: #46fcb2;
 $gorse: #fffb28;
 $persian-rose: #f532b2;
 $bombay: #adb0b7;
-$london-hue: mix($light-pink, $bombay, 10%);
+$london-hue: mix($violet-red, $bombay, 10%);
 
 // Notification Colors
 $info: $shark;
@@ -75,18 +80,10 @@ $white-hint: rgba($white, $l-hint);
 $white-disabled: rgba($white, $disabled);
 
 // Link Colors
-$link: $light-pink;
-$link--hover: shade($link, 10%);
+$link: $violet-red;
+$link--hover: $deep-pink;
 $link--visited: $blue-violet;
-
-$link__accent: $light-pink;
-$link__accent--hover: shade($link--accent, 5%);
-
-$link__sc: mix($light-pink, $sc-orange, 48%);
-$link__sc--hover: shade($link__sc, 5%);
-
-$link__mail: mix($light-pink, $cyan, 30%);
-$link__mail--hover: shade($link__mail, 5%);
+$link--active: $hollywood-cerise;
 
 
 // Transition
@@ -110,7 +107,7 @@ $n-text-active: $black-primary;
 $n-stack-level: $double-stack;
 $n-main-color: $white;
 $n-focus: shade($n-main-color, 3%);
-$n-accent: inset 0 -.2rem 0 $light-pink;
+$n-accent: inset 0 -.2rem 0 $violet-red;
 
 
 // Search Modal Config
@@ -118,15 +115,15 @@ $m-stack-level: $triple-stack;
 $m-transition-short: $trans-default;
 $m-transition-long: .5s $trans-func;
 $m-overlay-bg: linear-gradient(
-  shade($light-pink, 25%) 0%,
-  $light-pink 49%,
-  tint($light-pink, 25%) 100%
+  shade($violet-red, 25%) 0%,
+  $violet-red 49%,
+  tint($violet-red, 25%) 100%
 );
 
 
 // Side Menu Config
 $oc-width: 30rem;
-$oc-hover: $light-pink;
+$oc-hover: $hot-pink;
 $oc-background: $shark;
 $oc-link: $white-secondary;
 $oc-border: solid .1rem $white-disabled;

@@ -1,12 +1,15 @@
 .link {
-  border-bottom: .08em dotted $black-disabled;
+  border-bottom: em(1.28px) dotted $black-disabled;
   color: $link;
-  padding-bottom: .08em;
+  padding-bottom: em(1.28px);
 
   &:hover,
-  &:active,
-  &:focus {
+  &:active {
     border-color: $link--hover;
+  }
+
+  &:active {
+    color: $link--active;
   }
 
   // Comment
@@ -14,8 +17,7 @@
     color: $black-primary;
 
     &:hover,
-    &:active,
-    &:focus {
+    &:active {
       border-color: $black-primary;
     }
   }

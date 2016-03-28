@@ -41,8 +41,8 @@
     background-color: tint($shark, 80%);
 
     .artwork__fav-icon {
-      color: $light-pink;
-      text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+      color: $violet-red;
+      text-shadow: 0 -.1rem .2rem rgba($violet-red, $hint);
     }
   }
 
@@ -116,8 +116,8 @@
               text-shadow .2s ease;
 
   &--is-fav {
-    color: $light-pink;
-    text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+    color: $violet-red;
+    text-shadow: 0 -.1rem .2rem rgba($violet-red, $hint);
   }
 
   &--profile {

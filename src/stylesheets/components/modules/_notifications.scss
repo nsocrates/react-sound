@@ -36,13 +36,13 @@
 
   &--action {
     background-color: $action;
-    box-shadow: inset 0 0 0 .2rem tint($light-pink, 35%);
-    color: rgba($light-pink, $primary);
+    box-shadow: inset 0 0 0 .2rem tint($violet-red, 35%);
+    color: rgba($violet-red, $primary);
     transition: color $trans-duration, opacity $trans-duration;
 
     &:hover {
-      box-shadow: inset 0 0 0 .2rem $light-pink;
-      color: $light-pink;
+      box-shadow: inset 0 0 0 .2rem $violet-red;
+      color: $violet-red;
     }
   }
 

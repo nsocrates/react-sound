@@ -10,7 +10,7 @@
   }
 
   &--even {
-    background-color: rgba(mix($light-pink, $light-gray, 35%), .2);
+    background-color: rgba(mix($violet-red, $light-gray, 35%), .2);
   }
 }
 
@@ -45,8 +45,4 @@
 
 .comment__by {
   font-weight: 700;
-}
-
-.comment__soundcloud {
-  color: $link--sc;
 }

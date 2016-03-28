@@ -12,6 +12,11 @@
     padding: em(8px) em(31px);
   }
 
+  &--lg {
+    font-size: 1.8rem;
+    padding: em(10.5px) em(28px);
+  }
+
   &--basic {
     @extend %btn--basic;
   }
@@ -23,6 +28,48 @@
   &--disabled {
     @extend %btn--disabled;
     box-shadow: none;
+  }
+}
+
+.btn__follow {
+  background-color: $white-disabled;
+  box-shadow: inset 0 0 0 2px rgba($white, $secondary);
+  color: $white-secondary;
+  line-height: 1em;
+  min-height: 1em;
+  text-transform: uppercase;
+  transition: all .1s ease;
+
+  &::after {
+    content: 'follow';
+  }
+
+  &:hover {
+    background-color: rgba($black, .05);
+    box-shadow: inset 0 0 0 2px $tea-rose;
+    color: $tea-rose;
+  }
+
+  &:active {
+    background-color: rgba($black, .1);
+    box-shadow: inset 0 0 0 2px shade($tea-rose, 5%);
+    transform: none;
+  }
+}
+
+.btn__follow--active {
+  background-color: rgba($white, $primary);
+  box-shadow: inset 0 0 0 2px $hot-pink;
+  color: $hot-pink;
+
+  &::after {
+    content: 'following';
+  }
+
+  &:hover {
+    &::after {
+      content: 'unfollow';
+    }
   }
 }
 

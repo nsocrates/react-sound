@@ -50,9 +50,9 @@
     pointer-events: none;
 
     .tracklist__icon--heart::before {
-      color: $light-pink;
+      color: $violet-red;
       content: '\f004';
-      text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+      text-shadow: 0 -.1rem .2rem rgba($violet-red, $hint);
     }
   }
 
@@ -177,13 +177,13 @@
 
 .tracklist-player__btn--heart {
   &:hover {
-    color: $light-pink;
-    text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+    color: $violet-red;
+    text-shadow: 0 -.1rem .2rem rgba($violet-red, $hint);
 
     .tracklist__icon--heart::before {
-      color: $light-pink;
+      color: $violet-red;
       content: '\f004';
-      text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+      text-shadow: 0 -.1rem .2rem rgba($violet-red, $hint);
     }
   }
 
@@ -285,13 +285,13 @@
   color: $black-secondary;
 
   &:hover {
-    color: $light-pink;
-    text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+    color: $violet-red;
+    text-shadow: 0 -.1rem .2rem rgba($violet-red, $hint);
 
     .tracklist__icon--heart::before {
-      color: $light-pink;
+      color: $violet-red;
       content: '\f004';
-      text-shadow: 0 -.1rem .2rem rgba($light-pink, $hint);
+      text-shadow: 0 -.1rem .2rem rgba($violet-red, $hint);
     }
   }
 

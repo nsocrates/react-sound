@@ -65,7 +65,7 @@
   }
 
   &--focus {
-    background-color: $dark-gray;
+    background-color: $shark;
   }
 
   &:active {
@@ -120,7 +120,7 @@
 
   &--control {
     @include absolute (bottom 100% right);
-    background-color: $dark-gray;
+    background-color: $shark;
     border-radius: 1rem 1rem 0 0;
     box-shadow: 0 -.2rem .3rem $black-hint;
     height: 0;
@@ -142,7 +142,7 @@
 
   &--slider {
     @include absolute(bottom);
-    background-color: $light-pink;
+    background-color: $violet-red;
     border-radius: 1rem;
     max-height: 100%;
     overflow: hidden;
@@ -215,6 +215,6 @@
   }
 
   &--slider {
-    background-color: $light-pink;
+    background-color: $violet-red;
   }
 }

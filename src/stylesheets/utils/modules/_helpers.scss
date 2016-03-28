@@ -1,4 +1,6 @@
 .invis {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
   visibility: hidden;
 }
 
@@ -22,7 +24,7 @@
 
 // Buttons
 %btn {
-  border-radius: em(4px);
+  border-radius: em(5px);
   box-shadow: inset 0 0 0 .1rem transparent;
   cursor: pointer;
   text-align: center;
