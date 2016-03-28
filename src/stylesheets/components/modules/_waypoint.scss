@@ -36,3 +36,10 @@
 .end {
   color: $black-hint;
 }
+
+.end-wrapper {
+  @extend %clearfix;
+  background-color: $white;
+  border-radius: .5rem;
+  margin-bottom: gutter();
+}

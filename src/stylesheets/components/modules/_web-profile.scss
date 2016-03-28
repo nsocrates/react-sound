@@ -1,0 +1,70 @@
+.web-profiles {
+  display: inline-block;
+  font-size: 2rem;
+  margin: -1.5rem -1.5rem 1rem;
+  overflow: hidden;
+  text-align: left;
+  width: 100%;
+
+  @include susy-media(medium) {
+    display: table;
+    table-layout: fixed;
+    text-align: center;
+    white-space: nowrap;
+    width: auto;
+  }
+}
+
+.web-profile__icon {
+  margin-left: em(5px);
+  margin-right: em(10px);
+  text-align: center;
+  width: em(20.57142864px);
+
+  @include susy-media(medium) {
+    margin-left: 0;
+    width: auto;
+  }
+
+  &--soundcloud {
+    color: $sc-orange;
+  }
+}
+
+.web-profile__link {
+  color: $black-secondary;
+  display: block;
+  padding: .3rem 0;
+
+  &:hover {
+    color: $black-primary;
+  }
+}
+
+.web-profile__item {
+  box-shadow: inset 0 -.2rem .1rem -.1rem $black-disabled;
+  display: block;
+  width: 100%;
+
+  @include susy-media(medium) {
+    box-shadow: .2rem 0 .1rem -.1rem $black-disabled,
+                inset 0 -.2rem .1rem -.1rem $black-disabled;
+    display: table-cell;
+    width: 1%;
+
+    &:last-child {
+      box-shadow: inset 0 -.2rem .1rem -.1rem $black-disabled;
+    }
+  }
+}
+
+.web-profile__text {
+  font-size: 1.4rem;
+  opacity: $primary;
+  text-transform: capitalize;
+}
+
+.web-profile__icon,
+.web-profile__text {
+  vertical-align: middle;
+}

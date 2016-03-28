@@ -12,12 +12,21 @@ class UserContainer extends React.Component {
     return this.updateComponent()
   }
 
-  updateComponent() {
-    const { dispatch, params } = this.props
+  componentWillReceiveProps(nextProps) {
+    if (this.props.params.id !== nextProps.params.id) {
+      return this.updateComponent(nextProps.params.id)
+    }
 
-    return /^\d+$/.test(params.id)
-      ? dispatch(loadUser(params.id))
-      : dispatch(resolveUser(params.id))
+    return null
+  }
+
+  updateComponent(id) {
+    const { dispatch, params } = this.props
+    const user = id || params.id
+
+    return /^\d+$/.test(user)
+      ? dispatch(loadUser(user))
+      : dispatch(resolveUser(user))
   }
 
   render() {

@@ -80,7 +80,7 @@ class UserMediaContainer extends React.Component {
             hasItems: !!this.user.track_count,
             isPlaylist: false,
             mediaEntity: trackEntity,
-            none: 'USER DOES NOT HAVE ANY TRACKS',
+            none: 'USER DOES NOT HAVE ANY TRACKS.',
             partition: userTracks
           }
 
@@ -90,7 +90,7 @@ class UserMediaContainer extends React.Component {
             hasItems: !!this.user.public_favorites_count,
             isPlaylist: false,
             mediaEntity: trackEntity,
-            none: 'USER DOES NOT HAVE ANY FAVORITES',
+            none: 'USER DOES NOT HAVE ANY FAVORITES.',
             partition: userFavorites
           }
 
@@ -100,7 +100,7 @@ class UserMediaContainer extends React.Component {
             hasItems: !!this.user.playlist_count,
             isPlaylist: true,
             mediaEntity: playlistEntity,
-            none: 'USER DOES NOT HAVE ANY PLAYLISTS',
+            none: 'USER DOES NOT HAVE ANY PLAYLISTS.',
             partition: userPlaylists
           }
 

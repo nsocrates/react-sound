@@ -3,14 +3,20 @@ import { connect } from 'react-redux'
 
 import UserDescription from 'components/UserDescription'
 
-function UserDescriptionContainer({ description }) {
+function UserDescriptionContainer({ description, webProfiles, permaLink }) {
   return (
-    <UserDescription description={ description } />
+    <UserDescription
+      description={ description }
+      permaLink={ permaLink }
+      webProfiles={ webProfiles }
+    />
   )
 }
 
 UserDescriptionContainer.propTypes = {
-  description: PropTypes.string
+  description: PropTypes.string,
+  permaLink: PropTypes.string,
+  webProfiles: PropTypes.array
 }
 
 function mapStateToProps(state, ownProps) {
@@ -20,7 +26,9 @@ function mapStateToProps(state, ownProps) {
   const { params } = ownProps
 
   return {
-    description: users[params.id].description
+    description: users[params.id].description,
+    permaLink: users[params.id].permalink_url,
+    webProfiles: users[params.id].web_profiles
   }
 }
 

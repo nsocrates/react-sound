@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
+import End from 'components/End'
 import MediaCardItem from 'components/MediaCardItem'
 import Taglist from 'components/Taglist'
 
@@ -16,6 +17,7 @@ function MediaCards(props) {
     className = 'cards',
     collectionIds = [],
     dispatch,
+    endMsg,
     hasHead = false,
     ids = [],
     isPlaying,
@@ -26,6 +28,14 @@ function MediaCards(props) {
     streamTrackId,
     userEntity = {}
   } = props
+
+  if (!ids.length) {
+    return (
+      <article className="end-wrapper">
+        <End className="end--bottom" text={ endMsg } />
+      </article>
+    )
+  }
 
   const cardItems = ids.slice(0, maxCards).map((card, index) => {
     const id = card.id || card
@@ -130,6 +140,7 @@ MediaCards.propTypes = {
   className: PropTypes.string,
   collectionIds: PropTypes.arrayOf(PropTypes.number.isRequired),
   dispatch: PropTypes.func.isRequired,
+  endMsg: PropTypes.string,
   hasHead: PropTypes.bool,
   ids: PropTypes.arrayOf(
     PropTypes.oneOfType([

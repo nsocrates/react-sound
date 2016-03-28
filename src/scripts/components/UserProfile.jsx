@@ -13,7 +13,6 @@ import Menu from 'components/Menu'
 import ProfileCover from 'components/ProfileCover'
 import StatsTable from 'components/StatsTable'
 import Waypoint from 'components/Waypoint'
-import WebIcon from 'components/WebIcon'
 
 export default class User extends React.Component {
 
@@ -94,12 +93,12 @@ export default class User extends React.Component {
         return city && country ? `${city}, ${country}` : country || city
       }
 
-      return 'Somewhere...'
+      return 'Unspecified'
     }
 
     const renderMenuItems = () => {
       const itemList = [
-        { text: 'Bio',
+        { text: 'Profile',
           icon: 'fa-pencil-square-o',
           path: `${basePath}` },
 
@@ -143,51 +142,6 @@ export default class User extends React.Component {
       })
     }
 
-    const renderWebIcons = () => {
-      if (!user.web_profiles || !user.web_profiles.length) {
-        return <hr className="invis" />
-      }
-
-      const { web_profiles } = user
-      const webIcons = web_profiles.map((item, index) => {
-        const { service, url, id } = item
-        let icon
-
-        switch (service) {
-          case 'facebook':
-            icon = 'fa-facebook-square'
-            break
-          case 'instagram':
-            icon = 'fa-instagram'
-            break
-          case 'youtube':
-            icon = 'fa-youtube-square'
-            break
-          case 'twitter':
-            icon = 'fa-twitter-square'
-            break
-          default:
-            return null
-        }
-
-        return (
-          <WebIcon
-            href={ url }
-            iconClassName={ `fa ${icon}` }
-            itemClassName="web-icon__list--item"
-            key={`web_profile__${index}_${id}`}
-            linkClassName="web-icon__link"
-          />
-        )
-      })
-
-      return (
-        <ul className="interact-bar interact-bar--shark web-icon__list">
-          { webIcons }
-        </ul>
-      )
-    }
-
     return (
       <Main shouldPush={ shouldPlay }>
 
@@ -228,18 +182,6 @@ export default class User extends React.Component {
               <StatsTable tableData={ statsData } />
 
             </section>
-
-            {/* Web Icons */}
-            { renderWebIcons() }
-
-            <a
-              className="interact-bar interact-bar__link-to-sc"
-              href={ permalink_url }
-              target="_blank"
-            >
-              <i className="interact-bar__icon fa fa-soundcloud" />
-              <strong className="interact-bar__text">{" SOUNDCLOUD"}</strong>
-            </a>
 
           </div>
         </div>

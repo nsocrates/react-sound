@@ -8,7 +8,6 @@
     background-color: transparent;
     color: $n-text-color;
     margin-bottom: -$bar-height;
-    // overflow: hidden;
     padding-top: gutter(8);
 
     @include susy-media(medium) {
@@ -76,8 +75,18 @@
   }
 
   &--profile {
+    &:first-child {
+      > .menu__link--profile {
+        border-radius: .5rem 0 0 .5rem;
+      }
+    }
+
     &:last-child {
       border: 0;
+
+      > .menu__link--profile {
+        border-radius: 0 .5rem .5rem 0;
+      }
     }
   }
 }

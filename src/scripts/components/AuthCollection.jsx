@@ -20,11 +20,13 @@ export default function AuthCollection(props) {
     let isPlaylist = false
     let mediaEntity = entities.tracks
     let coll = collection.tracks
+    let endMsg = 'YOU DO NOT HAVE ANY FAVORITED TRACKS.'
 
     if (kind === 'playlists') {
       isPlaylist = true
       mediaEntity = entities.playlists
       coll = collection.playlists
+      endMsg = 'YOU DO NOT HAVE ANY FAVORITED PLAYLISTS.'
     }
 
     return (
@@ -32,6 +34,7 @@ export default function AuthCollection(props) {
         className="cards"
         collectionIds={ coll.ids }
         dispatch={ dispatch }
+        endMsg={ endMsg }
         hasHead
         ids={ coll.payload }
         isPlaying={ audioIsPlaying }
