@@ -1,5 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
 import GlobalEvents from 'utils/GlobalEvents'
 import LinkItem from './LinkItem'
 
@@ -14,7 +13,7 @@ export default class SideMenu extends React.Component {
   }
 
   render() {
-    const { actions, location, genreList } = this.props
+    const { actions, genreList } = this.props
 
     const menuItems = genreList.map(item => {
       const locationDescriptor = {
@@ -24,13 +23,10 @@ export default class SideMenu extends React.Component {
         }
       }
 
-      const active = classNames('side-menu__list--item', {
-        'side-menu__list--item--active': location.query.q === item
-      })
-
       return (
         <LinkItem
-          className={ active }
+          activeClassName="side-menu__list--item--active"
+          className="side-menu__list--item"
           key={ item }
           to={ locationDescriptor }
         >
@@ -64,6 +60,5 @@ SideMenu.propTypes = {
   genreList: React.PropTypes.arrayOf(
     React.PropTypes.string.isRequired
   ),
-  isVisible: React.PropTypes.bool.isRequired,
-  location: React.PropTypes.object
+  isVisible: React.PropTypes.bool.isRequired
 }
