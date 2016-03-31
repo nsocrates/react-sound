@@ -1,17 +1,17 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import AuthView from 'components/AuthView'
+import CollectionView from 'components/CollectionView'
 
 function AuthViewContainer(props) {
   const { shouldPlay, children, currPath } = props
   return (
-    <AuthView
+    <CollectionView
       currPath={ currPath }
       shouldPlay={ shouldPlay }
     >
       { children }
-    </AuthView>
+    </CollectionView>
   )
 }
 

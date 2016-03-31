@@ -13,6 +13,14 @@ class UserContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if ((
+          nextProps.location.key !== this.props.location.key &&
+          nextProps.location.state &&
+          nextProps.location.state.isModal
+    )) {
+      this.previousChildren = this.props.children
+    }
+
     if (this.props.params.id !== nextProps.params.id) {
       return this.updateComponent(nextProps.params.id)
     }
@@ -33,12 +41,13 @@ class UserContainer extends React.Component {
     const {
       user,
       dispatch,
+      location,
       children,
       shouldPlay,
       menu,
-      currPath,
       userCollection
     } = this.props
+    const state = location.state || {}
 
     if (!Object.keys(user).length) {
       return <Loader className="loader--top" />
@@ -47,25 +56,28 @@ class UserContainer extends React.Component {
     return (
       <UserProfile
         basePath={`#user/${user.id}`}
-        currPath={ currPath }
+        currPath={ location.pathname }
         dispatch={ dispatch }
         menu={ menu }
         shouldPlay={ shouldPlay }
         user={ user }
         userCollection={ userCollection }
       >
-       { children }
+        { state.isModal ? this.previousChildren : children }
+        { state.isModal && children }
      </UserProfile>
     )
   }
 }
 
 UserContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-  currPath: PropTypes.string.isRequired,
+  children: PropTypes.node,
+  history: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
   menu: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  routes: PropTypes.array.isRequired,
   shouldPlay: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
   userCollection: PropTypes.object.isRequired
@@ -86,10 +98,9 @@ function mapStateToProps(state, ownProps) {
       }
     }
   } = state
-  const { location, params: { id } } = ownProps
+  const { params: { id } } = ownProps
 
   return {
-    currPath: location.pathname,
     menu: profileMenu,
     shouldPlay,
     user: users[id] || {},

@@ -3,7 +3,7 @@ import Main from 'components/Main'
 import LinkItem from 'components/LinkItem'
 import classNames from 'classnames'
 
-export default function AuthCollection(props) {
+export default function CollectionView(props) {
   const { shouldPlay, currPath, children = null } = props
   const navItems = [{
     text: 'Collection',
@@ -25,7 +25,7 @@ export default function AuthCollection(props) {
     })
 
     return (
-      <li className="sub-nav__item" key={`sub-nav__${index}`}>
+      <li className="sub-nav__item" key={`${item.text}${index}`}>
         <LinkItem className={ isActive } to={ item.to }>
           { item.text }
         </LinkItem>
@@ -50,7 +50,7 @@ export default function AuthCollection(props) {
   )
 }
 
-AuthCollection.propTypes = {
+CollectionView.propTypes = {
   children: PropTypes.node,
   currPath: PropTypes.string.isRequired,
   shouldPlay: PropTypes.bool.isRequired

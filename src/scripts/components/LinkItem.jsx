@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { push } from 'react-router-redux'
+import { push, replace } from 'react-router-redux'
 import { toggleCloseAll } from 'actions/toggle'
 
 function LinkItem(props) {
@@ -10,13 +10,10 @@ function LinkItem(props) {
   const handleClick = e => {
     e.preventDefault()
 
-    const { dispatch, location } = props
-    const locationDescriptor = location || {
-      pathname: to
-    }
+    const { dispatch } = props
 
     dispatch(toggleCloseAll())
-    return dispatch(push(locationDescriptor))
+    return to.replace ? dispatch(replace(to)) : dispatch(push(to))
   }
 
   return (
@@ -36,10 +33,17 @@ LinkItem.propTypes = {
   className: PropTypes.string,
   dataContent: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
-  location: PropTypes.object,
   onClick: PropTypes.func,
   title: PropTypes.string,
-  to: PropTypes.string
+  to: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      pathname: PropTypes.string,
+      query: PropTypes.object,
+      hash: PropTypes.string,
+      state: PropTypes.object
+    }).isRequired
+  ])
 }
 
 LinkItem.defaultProps = {
@@ -47,7 +51,7 @@ LinkItem.defaultProps = {
   className: undefined,
   dataContent: undefined,
   title: undefined,
-  to: '#'
+  to: {}
 }
 
 export default connect()(LinkItem)

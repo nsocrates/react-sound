@@ -2,18 +2,20 @@ import React, { PropTypes } from 'react'
 
 export default function End({
   className = 'end--top',
-  text = 'NO MORE ITEMS TO DISPLAY.'
+  text = 'NO MORE ITEMS TO DISPLAY.',
+  Type = 'h5'
 }) {
   const componentClassName = `end ${className}`
 
   return (
-    <h5 className={ componentClassName.trim() }>
+    <Type className={ componentClassName.trim() }>
       { text }
-    </h5>
+    </Type>
   )
 }
 
 End.propTypes = {
   className: PropTypes.string,
-  text: PropTypes.string
+  text: PropTypes.string,
+  Type: PropTypes.string
 }

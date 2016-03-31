@@ -3,12 +3,12 @@ import LinkItem from 'components/LinkItem'
 import { kFormatter } from 'utils/Utils'
 
 export default function StatsList({ listItems, pathname, hashTags = [] }) {
-  const items = listItems.map((item, index) => {
+  const items = listItems.map(item => {
     if (item.text) {
       return (
         <li
           className="stats__list-item"
-          key={`list-item__${index}`}
+          key={`${item.text}`}
         >
           { item.text }
         </li>
@@ -18,9 +18,9 @@ export default function StatsList({ listItems, pathname, hashTags = [] }) {
     return (
       <li
         className="stats__list-item"
-        key={`list-item__${index}`}
+        key={`${item.icon}_${item.value}`}
       >
-        <i className={`stats__icon ${item.icon}`} />
+        <i className={`stats__icon fa fa-${item.icon}`} />
         { kFormatter(item.value) }
       </li>
     )
@@ -37,12 +37,11 @@ export default function StatsList({ listItems, pathname, hashTags = [] }) {
     return (
       <li
         className="stats__list-item"
-        key={`hashtag__${index}_${tag}`}
+        key={`${tag}_${index}`}
       >
         <LinkItem
           className="stats__link stats__link--hashtag"
-          location={ location }
-          to={ "#genre" }
+          to={ location }
         >
           <i className="stats__icon fa fa-hashtag" />
           { tag }

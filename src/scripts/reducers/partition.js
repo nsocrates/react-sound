@@ -13,7 +13,7 @@ const initialState = {
   ids: [],
   isFetching: false,
   next_href: undefined,
-  offset: 0
+  offset: -1
 }
 
 function partitionate({ types, mapActionToKey }) {
@@ -126,6 +126,22 @@ const partition = combineReducers({
       ActionTypes.TRACK_COMMENTS_REQUEST,
       ActionTypes.TRACK_COMMENTS_SUCCESS,
       ActionTypes.TRACK_COMMENTS_FAILURE
+    ]
+  }),
+  followersByUser: partitionate({
+    mapActionToKey: action => action.id,
+    types: [
+      ActionTypes.FOLLOWERS_REQUEST,
+      ActionTypes.FOLLOWERS_SUCCESS,
+      ActionTypes.FOLLOWERS_FAILURE
+    ]
+  }),
+  followingsByUser: partitionate({
+    mapActionToKey: action => action.id,
+    types: [
+      ActionTypes.FOLLOWINGS_REQUEST,
+      ActionTypes.FOLLOWINGS_SUCCESS,
+      ActionTypes.FOLLOWINGS_FAILURE
     ]
   })
 })

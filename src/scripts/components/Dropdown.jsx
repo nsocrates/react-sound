@@ -33,10 +33,10 @@ export default function Dropdown({
     to: '#me/collection/favorites'
   }]
 
-  const mapDropdownLinks = dropdownLinks.map((item, index) => {
+  const mapDropdownLinks = dropdownLinks.map(item => {
     if (item.isDivider) {
       return (
-        <li className="dropdown__divider" key={`${myId}${index}`} />
+        <li className="dropdown__divider" key={`${myId}_${item.text}`} />
       )
     }
 
@@ -44,7 +44,7 @@ export default function Dropdown({
     return (
       <li
         className="dropdown__item dropdown__item--stateful"
-        key={`${myId}${index}`}
+        key={ item.text }
       >
         <LinkItem className="dropdown__content" to={ to }>
           <i className={`dropdown__icon fa fa-${icon}`} />

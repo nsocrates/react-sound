@@ -18,7 +18,7 @@ function MediaCards(props) {
     collectionIds = [],
     dispatch,
     endMsg,
-    force = false,
+    hasLoaded = false,
     hasHead = false,
     ids = [],
     isPlaying,
@@ -30,7 +30,7 @@ function MediaCards(props) {
     userEntity = {}
   } = props
 
-  if (!ids.length && !force) {
+  if (!ids.length && hasLoaded) {
     return (
       <article className="end-wrapper">
         <End className="end--bottom" text={ endMsg } />
@@ -38,7 +38,7 @@ function MediaCards(props) {
     )
   }
 
-  const cardItems = ids.slice(0, maxCards).map((card, index) => {
+  const cardItems = ids.slice(0, maxCards).map(card => {
     const id = card.id || card
 
     const obj = {
@@ -116,7 +116,7 @@ function MediaCards(props) {
         head={ hasHead ? head : undefined }
         imgUrl={ mediaData.artwork.large }
         isFavorite={ isFavorite }
-        key={ `${id}${index}` }
+        key={ id }
         onClickFav={ handleClickFav }
         onClickPlay={ handleClickPlay }
         stats={ getStats() }
@@ -142,8 +142,8 @@ MediaCards.propTypes = {
   collectionIds: PropTypes.arrayOf(PropTypes.number.isRequired),
   dispatch: PropTypes.func.isRequired,
   endMsg: PropTypes.string,
-  force: PropTypes.bool,
   hasHead: PropTypes.bool,
+  hasLoaded: PropTypes.bool,
   ids: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.number.isRequired,

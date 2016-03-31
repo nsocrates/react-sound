@@ -85,23 +85,27 @@ export default class User extends React.Component {
       { offset: 1, color: '#3ac5c9' }
     ]
 
-    const statsData = [
-      {
-        title: 'Followers',
-        value: followers_count,
-        pathname: `${basePath}/followers`
-      },
-      {
-        title: 'Following',
-        value: followings_count,
-        pathname: `${basePath}/following`
-      },
-      {
-        title: 'Tracks',
-        value: track_count,
+    const statsData = [{
+      title: 'Followers',
+      value: followers_count,
+      to: {
+        pathname: `${basePath}/followers`,
+        state: { isModal: true, returnPath: currPath }
+      }
+    }, {
+      title: 'Following',
+      value: followings_count,
+      to: {
+        pathname: `${basePath}/followings`,
+        state: { isModal: true, returnPath: currPath }
+      }
+    }, {
+      title: 'Tracks',
+      value: track_count,
+      to: {
         pathname: `${basePath}/tracks`
       }
-    ]
+    }]
 
     const avatarUrl = getCover(avatar_url).large
 
@@ -113,8 +117,9 @@ export default class User extends React.Component {
       return 'Unspecified'
     }
 
-    const shouldFollow = classNames('profile__cta btn btn--lg btn__follow', {
-      'btn__follow--active': userCollection.ids.indexOf(user.id) !== -1
+    const shouldFollow = classNames('profile__cta btn btn--lg', {
+      'btn__follow btn__follow--cta': userCollection.ids.indexOf(user.id) === -1,
+      'btn__following btn__following--cta': userCollection.ids.indexOf(user.id) !== -1
     })
 
     const renderMenuItems = () => {
@@ -136,7 +141,7 @@ export default class User extends React.Component {
           path: `${basePath}/favorites` }
       ]
 
-      return itemList.map((item, index) => {
+      return itemList.map(item => {
         const isActive = classNames('menu__link menu__link--profile', {
           'menu__link--active': currPath === item.path
         })
@@ -148,7 +153,7 @@ export default class User extends React.Component {
         return (
           <li
             className={ shouldShowData }
-            key={`menu__${item.text}_${index}`}
+            key={`${item.text}`}
             data-content={ item.text }
           >
             <LinkItem
@@ -221,7 +226,6 @@ export default class User extends React.Component {
           isSticky={ menu.isSticky }
           outerClassName="menu--profile"
         >
-          {/* Menu Items */}
           { renderMenuItems() }
         </Menu>
 

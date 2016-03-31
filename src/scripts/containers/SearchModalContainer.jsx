@@ -21,11 +21,11 @@ function SearchModalContainer(props) {
 
   return (
     <ReactCSSTransitionGroup
-      className="modal"
+      className="s-modal"
       component="aside"
       transitionEnterTimeout={ 500 }
       transitionLeaveTimeout={ 500 }
-      transitionName="modal"
+      transitionName="s-modal"
     >
       { shouldRenderModal() }
     </ReactCSSTransitionGroup>

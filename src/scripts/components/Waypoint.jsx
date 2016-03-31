@@ -20,8 +20,9 @@ const propTypes = {
   onEnter: PropTypes.func,
   onLeave: PropTypes.func,
   scrollableParent: PropTypes.node,
+  threshold: PropTypes.number,
   triggerFrom: PropTypes.string,
-  threshold: PropTypes.number
+  Type: PropTypes.string
 };
 
 const defaultProps = {
@@ -30,7 +31,8 @@ const defaultProps = {
   onEnter() {},
   onLeave() {},
   triggerFrom: 'inside',
-  threshold: 0
+  threshold: 0,
+  Type: 'span'
 };
 
 /**
@@ -216,9 +218,9 @@ export default class Waypoint extends React.Component {
   render() {
     // We need an element that we can locate in the DOM to determine where it is
     // rendered relative to the top of its context.
-    const { className } = this.props
+    const { className, Type } = this.props
     return (
-      <span
+      <Type
         className={ className }
         style={{ fontSize: 0 }}
       />

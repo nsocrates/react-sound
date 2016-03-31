@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { replace } from 'react-router-redux'
 
 import { loadAuthedCollection } from 'actions/auth'
-import AuthCollection from 'components/AuthCollection'
+import CollectionIndex from 'components/CollectionIndex'
 
 class AuthCollectionContainer extends React.Component {
   constructor(props) {
@@ -43,7 +43,7 @@ class AuthCollectionContainer extends React.Component {
     const { auth, entities, dispatch, audioIsPlaying, streamTrackId } = this.props
 
     return (
-      <AuthCollection
+      <CollectionIndex
         audioIsPlaying={ audioIsPlaying }
         auth={ auth }
         dispatch={ dispatch }

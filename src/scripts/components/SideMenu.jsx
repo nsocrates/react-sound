@@ -16,31 +16,23 @@ export default class SideMenu extends React.Component {
   render() {
     const { actions, location, genreList } = this.props
 
-    const menuItems = genreList.map((item, index) => {
+    const menuItems = genreList.map(item => {
+      const locationDescriptor = {
+        pathname: '#genre',
+        query: {
+          q: item
+        }
+      }
+
       const active = classNames('side-menu__list--item', {
         'side-menu__list--item--active': location.query.q === item
       })
 
-      const _handleClick = e => {
-        e.preventDefault()
-
-        const locationDescriptor = {
-          pathname: '#genre',
-          query: {
-            q: item
-          }
-        }
-
-        actions.push(locationDescriptor)
-        actions.toggleSideMenu()
-      }
-
       return (
         <LinkItem
           className={ active }
-          key={ `side-menu__${index}_${item}` }
-          onClick={ _handleClick }
-          to="#genre"
+          key={ item }
+          to={ locationDescriptor }
         >
           { item }
         </LinkItem>

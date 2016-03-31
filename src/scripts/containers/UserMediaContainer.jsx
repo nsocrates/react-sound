@@ -1,10 +1,9 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import End from 'components/End'
 import Loader from 'components/Loader'
 import MediaCards from 'components/MediaCards'
-import Waypoint from 'components/Waypoint'
+import WaypointLoader from 'components/WaypointLoader'
 
 import { loadUserTracks, loadUserFavorites, loadUserPlaylists } from 'actions/user'
 
@@ -114,27 +113,10 @@ class UserMediaContainer extends React.Component {
       partition
     } = getEntity()
 
-    const { isFetching, next_href } = partition
+    const { isFetching, next_href, offset } = partition
 
     if (!Object.keys(partition).length || isFetching && !next_href) {
       return <Loader className="loader--bottom" />
-    }
-
-    const shouldRenderWaypoint = () => {
-      if (isFetching) {
-        return <Loader className="loader--bottom" />
-      }
-
-      if (!next_href) {
-        return <End className="end--bottom" />
-      }
-
-      return (
-        <Waypoint
-          className="waypoint waypoint--bottom"
-          onEnter={ this.handleWaypointEnter }
-        />
-      )
     }
 
     return (
@@ -142,7 +124,7 @@ class UserMediaContainer extends React.Component {
         className="cards"
         collectionIds={ collection.ids }
         endMsg={ none }
-        force={ !!next_href }
+        hasLoaded={ offset !== -1 }
         ids={ partition.ids }
         isPlaying={ isPlaying }
         isPlaylist={ isPlaylist }
@@ -151,7 +133,14 @@ class UserMediaContainer extends React.Component {
         streamTrackId={ streamTrackId }
         userEntity={ userEntity }
       >
-        { shouldRenderWaypoint() }
+        <WaypointLoader
+          endProps={{ className: 'end--bottom' }}
+          hasMore={ !!next_href }
+          isFetching={ isFetching }
+          loaderProps={{ className: 'loader--bottom' }}
+          onEnter={ this.handleWaypointEnter }
+          waypointProps={{ className: 'waypoint waypoint--bottom' }}
+        />
       </MediaCards>
     )
   }

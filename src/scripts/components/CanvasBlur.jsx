@@ -35,6 +35,7 @@ export default class Canvas extends React.Component {
   handleResize() {
     let timer
     clearTimeout(timer)
+
     timer = setTimeout(() => {
       this.callResize()
     }, this.props.delay)

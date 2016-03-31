@@ -1,15 +1,26 @@
 import React from 'react'
 
-const Overlay = ({ classNames = '', onOverlayClick = () => ({}) }) => (
-  <span
-    className={ classNames }
-    onClick={ onOverlayClick }
-  />
-)
+export default function Overlay({
+  className = undefined,
+  onClick = () => ({}),
+  Type = 'span',
+  children = null
+}) {
+  return (
+    <Type
+      className={ className }
+      onClick={ onClick }
+    >
+      { children }
+    </Type>
+  )
+}
 
 Overlay.propTypes = {
-  classNames: React.PropTypes.string,
-  onOverlayClick: React.PropTypes.func
+  children: React.PropTypes.node,
+  className: React.PropTypes.string,
+  onClick: React.PropTypes.func,
+  Type: React.PropTypes.string
 }
 
 export default Overlay

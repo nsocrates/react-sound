@@ -26,8 +26,8 @@ function SideMenuContainer(props) {
         transitionName = { ReactCSSTransitionNames }
       >
         <Overlay
-          classNames="side-menu__overlay"
-          onOverlayClick={ actions.toggleSideMenu}
+          className="side-menu__overlay"
+          onClick={ actions.toggleSideMenu}
         />
         <SideMenu
           { ...props }

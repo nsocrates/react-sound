@@ -68,6 +68,36 @@ function fetchUserPlaylists(id, next_href) {
   }
 }
 
+function fetchUserFollowings(id, next_href) {
+  return {
+    id,
+    [CALL_API]: {
+      types: [
+        ActionTypes.FOLLOWINGS_REQUEST,
+        ActionTypes.FOLLOWINGS_SUCCESS,
+        ActionTypes.FOLLOWINGS_FAILURE
+      ],
+      endpoint: next_href,
+      schema: Schemas.USER_ARRAY
+    }
+  }
+}
+
+function fetchUserFollowers(id, next_href) {
+  return {
+    id,
+    [CALL_API]: {
+      types: [
+        ActionTypes.FOLLOWERS_REQUEST,
+        ActionTypes.FOLLOWERS_SUCCESS,
+        ActionTypes.FOLLOWERS_FAILURE
+      ],
+      endpoint: next_href,
+      schema: Schemas.USER_ARRAY
+    }
+  }
+}
+
 export function loadUserFavorites(id, next = false) {
   return (dispatch, getState) => {
     const {
@@ -110,6 +140,36 @@ export function loadUserTracks(id, next = false) {
     }
 
     return dispatch(fetchUserTracks(id, next_href))
+  }
+}
+
+export function loadUserFollowers(id, next = false) {
+  return (dispatch, getState) => {
+    const {
+      ids = [],
+      next_href = `/users/${id}/followers?`
+    } = getState().app.partition.followersByUser[id] || {}
+
+    if (ids.length && !next) {
+      return null
+    }
+
+    return dispatch(fetchUserFollowers(id, next_href))
+  }
+}
+
+export function loadUserFollowings(id, next = false) {
+  return (dispatch, getState) => {
+    const {
+      ids = [],
+      next_href = `/users/${id}/followings?`
+    } = getState().app.partition.followingsByUser[id] || {}
+
+    if (ids.length && !next) {
+      return null
+    }
+
+    return dispatch(fetchUserFollowings(id, next_href))
   }
 }
 

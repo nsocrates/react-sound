@@ -3,14 +3,14 @@ import { kFormatter } from 'utils/Utils'
 import LinkItem from 'components/LinkItem'
 
 export default function StatsTable({ tableData }) {
-  const dataItems = tableData.map((item, index) => (
+  const dataItems = tableData.map((item) => (
     <td
       className="stats__table-data"
-      key={`stats__data--${item.title}_${index}`}
+      key={`${item.title}_${item.value}`}
     >
       <LinkItem
         className="stats__link"
-        to={ item.pathname }
+        to={ item.to }
       >
         <h5 className="stats__table-data--title">
           <small>{ item.title }</small>

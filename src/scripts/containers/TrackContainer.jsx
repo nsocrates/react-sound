@@ -87,13 +87,13 @@ class TrackContainer extends React.Component {
       {
         text: mediaData.createdAt
       }, {
-        icon: 'fa fa-heart',
+        icon: 'heart',
         value: mediaData.stats.favorites
       }, {
-        icon: 'fa fa-headphones',
+        icon: 'headphones',
         value: mediaData.stats.plays
       }, {
-        icon: 'fa fa-comments',
+        icon: 'comments',
         value: mediaData.stats.comments
       }
     ]
@@ -146,7 +146,7 @@ class TrackContainer extends React.Component {
             body={ comment.body }
             by={ user.username }
             index={ index }
-            key={`track__comment--${comment.id}_${index}`}
+            key={ comment.id }
             timestamp={ timestamp }
             userId={ user.id }
           />
@@ -209,7 +209,7 @@ class TrackContainer extends React.Component {
                 <PaginationIndex
                   page={ page }
                   isCurrent={ isCurrent }
-                  key={`pagination__${value}_${page}`}
+                  key={ value }
                   onClick={ _handleClick }
                 />
               )
@@ -222,7 +222,7 @@ class TrackContainer extends React.Component {
                   ellipsis={[10]}
                   page={ page }
                   isCurrent={ isCurrent }
-                  key={`pagination__${value}_${page}`}
+                  key={ value }
                   onClick={ _handleClick }
                 />
               )
@@ -235,7 +235,7 @@ class TrackContainer extends React.Component {
                   ellipsis={[lastPage - 9]}
                   page={ page }
                   isCurrent={ isCurrent }
-                  key={`pagination__${value}_${page}`}
+                  key={ value }
                   onClick={ _handleClick }
                 />
               )
@@ -248,7 +248,7 @@ class TrackContainer extends React.Component {
                   ellipsis={[currentPage - 4, currentPage + 4]}
                   page={ page }
                   isCurrent={ isCurrent }
-                  key={`pagination__${value}_${page}`}
+                  key={ value }
                   onClick={ _handleClick }
                 />
               )
@@ -336,9 +336,14 @@ class TrackContainer extends React.Component {
             target={ this._articleContent }
             targetClassName="article-wrap"
           >
-            <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
-              <img className=" article__avatar--img avatar__img" src={ userAvatar.default } />
-            </LinkItem>
+
+            <div className="article__user">
+              <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
+                <img className=" article__avatar--img avatar__img" src={ userAvatar.default } />
+              </LinkItem>
+              <button className="article__follow btn btn--sm btn__follow btn__follow--light" />
+            </div>
+
             <ArticleContent
               ref={ articleContent }
               content={ trackObject.description }

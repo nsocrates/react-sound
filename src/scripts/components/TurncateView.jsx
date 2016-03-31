@@ -70,7 +70,7 @@ export default class TurncateView extends React.Component {
       if (state.isCollapsed) {
         return (
           <button
-            className="btn btn--sm btn--basic"
+            className="btn btn--xs btn--basic"
             onClick={ this.handleExpand }
           >
             {"Show More "}
@@ -81,7 +81,7 @@ export default class TurncateView extends React.Component {
 
       return (
         <button
-          className="btn btn--sm btn--basic"
+          className="btn btn--xs btn--basic"
           onClick={ this.handleTurncate }
         >
           {"Show Less "}

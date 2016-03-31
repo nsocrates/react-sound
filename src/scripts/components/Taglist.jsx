@@ -23,12 +23,11 @@ export default function Taglist(props) {
     return (
       <li
         className={`tag tag--${modifier}`}
-        key={`tag__${index}_${tag}`}
+        key={`${tag}_${index}`}
       >
         <LinkItem
           className={`tag__item tag__item--${modifier}`}
-          location={ location }
-          to="#tag"
+          to={ location }
         >
           <div className={`tag__text tag__text--${modifier}`}>
             { tag }

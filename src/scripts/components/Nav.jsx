@@ -32,8 +32,8 @@ export default class Nav extends React.Component {
       location
     } = this.props
 
-    const shouldExpandOverlay = classNames('modal__overlay', {
-      'modal__overlay--open': searchModal.isOpen
+    const shouldExpandOverlay = classNames('s-modal__overlay', {
+      's-modal__overlay--open': searchModal.isOpen
     })
     const shouldStick = classNames('nav menu', {
       'nav--sticky': navbar.isSticky
@@ -41,7 +41,7 @@ export default class Nav extends React.Component {
     const refNavbar = ref => (this._navbar = ref)
     const search = ref => (this._search = ref)
 
-    const menuItems = genreList.map((item, index) => {
+    const menuItems = genreList.map(item => {
       const active = classNames('menu__link', {
         'menu__link--active': location.query.q === item
       })
@@ -56,12 +56,11 @@ export default class Nav extends React.Component {
       return (
         <li
           className="menu__item menu__item--nav"
-          key={ `menu--nav__${index}_${item}` }
+          key={ item }
         >
           <LinkItem
-            className={ active || null }
-            location={ locationDescriptor }
-            to="#genre"
+            className={ active }
+            to={ locationDescriptor }
           >
             { item }
           </LinkItem>
@@ -88,14 +87,14 @@ export default class Nav extends React.Component {
           <ul className="nav__section nav__section--search">
             <li className="nav__search">
               <button
-                className="modal__portal"
+                className="s-modal__portal"
                 onClick={ uiActions.toggleModal }
               >
                 <i className="fa fa-search" />
               </button>
               <Overlay
-                classNames={ shouldExpandOverlay }
-                onOverlayClick={ uiActions.toggleModal }
+                className={ shouldExpandOverlay }
+                onClick={ uiActions.toggleModal }
               />
               <SearchForm
                 formClassName="nav__form"

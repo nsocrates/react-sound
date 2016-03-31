@@ -1,8 +1,7 @@
 import React from 'react'
-import End from 'components/End'
 import Gallery from 'components/Gallery'
 import Main from 'components/Main'
-import Waypoint from 'components/Waypoint'
+import WaypointLoader from 'components/WaypointLoader'
 import Loader from 'components/Loader'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -14,7 +13,7 @@ import { requestStream } from 'actions/stream'
 import { trackFactory } from 'utils/Utils'
 import { loadCollection } from 'actions/collection'
 
-class CollectionContainer extends React.Component {
+class GalleryContainer extends React.Component {
 
   constructor(props) {
     super(props)
@@ -67,13 +66,13 @@ class CollectionContainer extends React.Component {
         case '#tag':
           return tracksByTag[location.query.q]
         default:
-          return null
+          return {}
       }
     }
 
-    const collection = getCollection()
+    const collection = getCollection() || {}
 
-    if (!collection) {
+    if (!Object.keys(collection).length) {
       return <Loader className="loader--bottom" />
     }
 
@@ -82,7 +81,7 @@ class CollectionContainer extends React.Component {
     // Render Gallery
     const renderGallery = () => {
       const ids = collection.ids
-      const gallery = ids.map((item, index) => {
+      const gallery = ids.map(item => {
         const args = {
           userObject: userEntity[trackEntity[item].user_id],
           mediaObject: trackEntity[item]
@@ -93,26 +92,13 @@ class CollectionContainer extends React.Component {
           <Gallery
             actions={ actions }
             audioIsPlaying={ audioIsPlaying }
-            key={ `gallery__${index}_${trackId}` }
+            key={ trackId }
             streamTrackId={ streamTrackId }
             trackData={ trackData }
           />
         )
       })
       return gallery
-    }
-
-    const shouldRenderWaypoint = () => {
-      if (next_href) {
-        return (
-          <Waypoint
-            className="waypoint waypoint--bottom"
-            onEnter={ this.handleWaypointEnter }
-          />
-        )
-      }
-
-      return null
     }
 
     return (
@@ -122,15 +108,21 @@ class CollectionContainer extends React.Component {
       >
         <div className="main__container">
           { renderGallery() }
-          { isFetching ? <Loader className="loader--bottom" /> : shouldRenderWaypoint() }
-          { !next_href && !isFetching ? <End className="end--bottom" /> : null }
+          <WaypointLoader
+            onEnter={ this.handleWaypointEnter }
+            isFetching={ isFetching }
+            hasMore={ !!next_href }
+            waypointProps={{ className: 'waypoint waypoint--bottom' }}
+            loaderProps={{ className: 'loader--bottom' }}
+            endProps={{ className: 'end--bottom' }}
+          />
         </div>
       </Main>
     )
   }
 }
 
-CollectionContainer.propTypes = {
+GalleryContainer.propTypes = {
   actions: React.PropTypes.shape(
     React.PropTypes.func.isRequired
   ),
@@ -187,4 +179,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollectionContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(GalleryContainer)

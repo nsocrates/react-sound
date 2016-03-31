@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 import MediaCards from 'components/MediaCards'
 import Loader from 'components/Loader'
 
-export default function AuthCollection(props) {
+export default function CollectionIndex(props) {
   const {
     entities,
     dispatch,
@@ -69,7 +69,7 @@ export default function AuthCollection(props) {
   )
 }
 
-AuthCollection.propTypes = {
+CollectionIndex.propTypes = {
   audioIsPlaying: PropTypes.bool.isRequired,
   auth: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,

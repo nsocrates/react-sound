@@ -31,7 +31,7 @@ export default class ArticleContent extends React.Component {
         return (
           <p
             className="article__paragraph"
-            key={`content--link_${index}`}
+            key={`${link}_${index}`}
           >
             { text }
             <a
@@ -55,7 +55,7 @@ export default class ArticleContent extends React.Component {
           return (
             <p
               className="article__paragraph"
-              key={`content--mail__${index}`}
+              key={`${mail}_${index}`}
             >
               { textSplit[0] }
               <a
@@ -73,7 +73,7 @@ export default class ArticleContent extends React.Component {
         return (
           <p
             className="article__paragraph"
-            key={`content--mail__${index}`}
+            key={`${item[0]}_${index}`}
           >
             <a
               className="link link--has-visit-state"
@@ -97,7 +97,7 @@ export default class ArticleContent extends React.Component {
           return (
             <p
               className="article__paragraph"
-              key={`content--soundcloud__${index}`}
+              key={`${scUser}_${index}`}
             >
               { `${textSplit[0]}@` }
               <a
@@ -115,7 +115,7 @@ export default class ArticleContent extends React.Component {
         return (
           <p
             className="article__paragraph"
-            key={`content--soundcloud__${index}`}
+            key={`${scUser}_${index}`}
           >
             {"@"}
             <a
@@ -132,7 +132,7 @@ export default class ArticleContent extends React.Component {
       return (
         <p
           className="article__paragraph"
-          key={`content--text__${index}`}
+          key={ index }
         >
           { item[0] }
         </p>

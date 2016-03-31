@@ -1,17 +1,23 @@
 import React, { PropTypes } from 'react'
 
-export default function Loader({ className = 'loader--center' }) {
+export default function Loader({
+  className = 'loader--center',
+  iconClassName = 'loader__icon',
+  Type = 'aside'
+}) {
   const loaderClass = `loader ${className}`
 
   return (
-    <aside className={ loaderClass.trim() }>
-      <i className="loader__icon fa fa-spinner fa-pulse" />
-    </aside>
+    <Type className={ loaderClass.trim() }>
+      <i className={`${iconClassName} fa fa-spinner fa-pulse`} />
+    </Type>
   )
 }
 
 Loader.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  iconClassName: PropTypes.string,
+  Type: PropTypes.string
 }
 
 export default Loader

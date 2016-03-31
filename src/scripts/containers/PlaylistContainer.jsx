@@ -219,9 +219,14 @@ class PlaylistContainer extends React.Component {
             target={ this._articleContent }
             targetClassName="article-wrap"
           >
-            <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
-              <img className="article__avatar--img avatar__img" src={ userAvatar.default } />
-            </LinkItem>
+
+            <div className="article__user">
+              <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
+                <img className=" article__avatar--img avatar__img" src={ userAvatar.default } />
+              </LinkItem>
+              <button className="article__follow btn btn--sm btn__follow btn__follow--light" />
+            </div>
+
             <ArticleContent
               ref={ articleContent }
               content={ playlistObject.description }
