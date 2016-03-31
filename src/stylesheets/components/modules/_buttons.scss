@@ -2,9 +2,14 @@
   @extend %btn;
   display: inline-block;
 
-  &--sm {
+  &--xs {
     font-size: 1.2rem;
     padding: em(4px) em(15px);
+  }
+
+  &--sm {
+    font-size: 1.2rem;
+    padding: em(8px) em(20px);
   }
 
   &--md {
@@ -32,34 +37,48 @@
 }
 
 .btn__follow {
-  background-color: $white-disabled;
-  box-shadow: inset 0 0 0 2px rgba($white, $secondary);
-  color: $white-secondary;
-  line-height: 1em;
-  min-height: 1em;
-  text-transform: uppercase;
-  transition: all .1s ease;
+  @extend %btn--follow;
 
   &::after {
     content: 'follow';
   }
 
-  &:hover {
-    background-color: rgba($black, .05);
-    box-shadow: inset 0 0 0 2px $tea-rose;
-    color: $tea-rose;
+  &--cta {
+    background-color: $white-disabled;
+    box-shadow: inset 0 0 0 2px rgba($white, $secondary);
+    color: $white-secondary;
+
+    &:hover {
+      background-color: rgba($black, .05);
+      box-shadow: inset 0 0 0 2px $tea-rose;
+      color: $tea-rose;
+    }
+
+    &:active {
+      background-color: rgba($black, .1);
+      box-shadow: inset 0 0 0 2px $hot-pink;
+    }
   }
 
-  &:active {
-    background-color: rgba($black, .1);
-    box-shadow: inset 0 0 0 2px shade($tea-rose, 5%);
-    transform: none;
+  &--light {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 1px $tea-rose;
+    color: $tea-rose;
+
+    &:hover {
+      box-shadow: inset 0 0 0 1px $violet-red;
+      color: $violet-red;
+    }
+
+    &:active {
+      box-shadow: inset 0 0 0 1px $hollywood-cerise;
+      color: $hollywood-cerise;
+    }
   }
 }
 
-.btn__follow--active {
-  background-color: rgba($white, $primary);
-  box-shadow: inset 0 0 0 2px $hot-pink;
+.btn__following {
+  @extend %btn--follow;
   color: $hot-pink;
 
   &::after {
@@ -69,6 +88,22 @@
   &:hover {
     &::after {
       content: 'unfollow';
+    }
+  }
+
+  &--cta {
+    background-color: rgba($white, $primary);
+    box-shadow: inset 0 0 0 2px $hot-pink;
+    color: $hot-pink;
+  }
+
+  &--light {
+    background-color: $hot-pink;
+    box-shadow: inset 0 0 0 1px $white;
+    color: $white;
+
+    &:hover {
+      background-color: $violet-red;
     }
   }
 }

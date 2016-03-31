@@ -1,0 +1,131 @@
+.blur {
+  filter: blur(3px);
+}
+
+.modal {
+  @include fixed(top left);
+  background-color: rgba($black, $l-secondary);
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  overflow: hidden;
+  perspective: 2000px;
+  width: 100%;
+  z-index: $quad-stack;
+}
+
+.modal__body {
+  overflow-y: scroll;
+  position: relative;
+}
+
+.modal__content-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    flex: 0 0 10rem;
+  }
+}
+
+.modal__content {
+  background-color: $white;
+  border-radius: .5rem;
+  box-shadow: .1rem .3rem .3rem $black-disabled,
+              .1rem .3rem 1.5rem .2rem $black-disabled;
+  display: flex;
+  flex: 0 1 em(600px);
+  flex-direction: column;
+  margin: auto;
+  max-width: em(600px);
+  min-height: em(300px);
+  width: 85vw;
+}
+
+.modal__close {
+  @include absolute(top right);
+  color: $white;
+  font-size: 2.4rem;
+  padding: .5rem 1.2rem;
+}
+
+.modal__scroll-wrapper {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  margin: auto;
+  overflow: auto;
+  position: relative;
+  width: 100%;
+}
+
+.modal__head {
+  box-shadow: inset 0 -.1rem .3rem $black-disabled;
+  color: $black-secondary;
+  margin: 0;
+  padding: 0 2rem;
+  text-transform: uppercase;
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    padding: .75rem 0;
+  }
+}
+
+.contact {
+  align-content: center;
+  align-items: center;
+  box-shadow: inset 0 -.1rem .1rem $black-disabled;
+  display: flex;
+  overflow: hidden;
+  padding: 1.2rem 2rem;
+
+  &--waypoint {
+    box-shadow: none;
+    height: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  &--end,
+  &--loader {
+    box-shadow: none;
+    justify-content: center;
+  }
+}
+
+.contact__loader-icon {
+  color: $black-secondary;
+}
+
+.contact__action {
+  margin-left: auto;
+}
+
+.contact__avatar {
+  flex: 0 0 em(50px);
+  height: em(50px);
+  margin-right: em(10px);
+  position: relative;
+  width: em(50px);
+}
+
+.contact__text {
+  font-size: 1.4rem;
+  margin: 0;
+
+  &--fullname {
+    color: $black-secondary;
+  }
+}
+
+.contact__user {
+  line-height: em(20px);
+}

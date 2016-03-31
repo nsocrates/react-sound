@@ -29,8 +29,14 @@
   }
 
   &--fill {
+    float: left;
     overflow: hidden;
-    width: auto;
+    width: 100%;
+
+    @include susy-media(medium) {
+      float: none;
+      width: auto;
+    }
   }
 
   &--is-collapsed {
@@ -53,17 +59,14 @@
 }
 
 .article__avatar {
-  float: left;
+  display: block;
   height: 10rem;
-  margin-right: gutter();
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
   text-align: left;
   width: 10rem;
-
-  @include susy-media(medium) {
-    margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
-  }
 
   &--img {
     @include absolute;
@@ -89,4 +92,22 @@
     overflow: hidden;
     text-align: left;
   }
+}
+
+.article__user {
+  @extend %clearfix;
+  float: left;
+  width: 100%;
+
+  @include susy-media(medium) {
+    margin-bottom: 1.5rem;
+    margin-right: 1.5rem;
+    margin-top: 1.5rem;
+    width: 10rem;
+  }
+}
+
+.article__follow {
+  margin-bottom: 1.5rem;
+  width: 100%;
 }

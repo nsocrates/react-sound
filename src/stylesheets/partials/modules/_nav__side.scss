@@ -6,7 +6,7 @@
 
 .side-menu__overlay {
   @include fixed(top left);
-  background-color: $black-disabled;
+  background-color: $black-hint;
   height: 100%;
   width: 100%;
   z-index: $oc-stack-level;

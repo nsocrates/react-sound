@@ -1,5 +1,5 @@
-.modal,
-.modal__portal {
+.s-modal,
+.s-modal__portal {
   position: relative;
 
   @include susy-media(large) {
@@ -7,7 +7,7 @@
   }
 }
 
-.modal__portal {
+.s-modal__portal {
   transition: color $trans-duration;
 
   &:hover {
@@ -19,7 +19,7 @@
   }
 }
 
-.modal__overlay {
+.s-modal__overlay {
   @include absolute(top .7rem right -.7rem);
   background-image: $m-overlay-bg;
   border-radius: 50%;
@@ -34,7 +34,7 @@
   }
 }
 
-.modal__form {
+.s-modal__form {
   @include fixed(top 50% left 50%);
   background-color: transparent;
   max-width: 90%;
@@ -51,7 +51,7 @@
   }
 }
 
-.modal__btn {
+.s-modal__btn {
   @include fixed(top right);
   color: $black-secondary;
   padding: 1rem;
@@ -66,7 +66,7 @@
   }
 }
 
-.modal__input {
+.s-modal__input {
   @extend %input-search;
   border-bottom: .4rem solid rgba($white, $l-secondary);
   color: rgba($white, $l-primary);
@@ -85,26 +85,26 @@
 }
 
 // ReactCSSTransitionGroup
-.modal-enter {
+.s-modal-enter {
 
-  .modal__form {
+  .s-modal__form {
     opacity: 0;
     transform: translate(-35%, -65%);
   }
 
-  .modal__btn {
+  .s-modal__btn {
     opacity: 0;
     transform: translate(2rem) rotate(90deg);
   }
 
   &-active {
-    .modal__form {
+    .s-modal__form {
       opacity: 1;
       transform: translate(-50%, -65%);
       transition: all $m-transition-short .2s;
     }
 
-    .modal__btn {
+    .s-modal__btn {
       opacity: 1;
       transform: none;
       transition: all $m-transition-short;
@@ -112,14 +112,14 @@
   }
 }
 
-.modal-leave-active {
-  .modal__form {
+.s-modal-leave-active {
+  .s-modal__form {
     opacity: 0;
     transform: translate(-35%, -65%);
     transition: all $m-transition-short;
   }
 
-  .modal__btn {
+  .s-modal__btn {
     opacity: 0;
     transform: translate(2rem) rotate(90deg);
     transition: all $m-transition-short;

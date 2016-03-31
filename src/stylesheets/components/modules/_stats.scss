@@ -74,7 +74,7 @@
     transition: background-color $trans-default;
 
     &:hover {
-      background-color: #746363;
+      background-color: rgba($black, .2);
     }
   }
 }
