@@ -19,47 +19,26 @@
   }
 }
 
-.s-modal__overlay {
-  @include absolute(top .7rem right -.7rem);
-  background-image: $m-overlay-bg;
-  border-radius: 50%;
-  height: 3rem;
-  transform: scale(0);
-  transition: transform $m-transition-long;
-  width: 3rem;
-  z-index: $m-stack-level;
-
-  &--open {
-    transform: scale(80);
-  }
+.s-modal__form {
+  border-bottom: em(4px) solid rgba($white, $l-secondary);
+  margin-bottom: em(8px);
+  padding-bottom: em(8px);
+  width: 100%;
 }
 
-.s-modal__form {
-  @include fixed(top 50% left 50%);
-  background-color: transparent;
-  max-width: 90%;
-  opacity: 1;
-  padding: 6rem 0;
-  transform: translate(-50%, -65%);
-  width: 100%;
-  z-index: $m-stack-level + 1;
+.s-modal__label {
+  color: rgba($white, .54);
 
-  label {
-    @include absolute(left bottom);
-    color: rgba($white, $l-secondary);
-    padding: 1.5rem;
+  &--text {
+    margin: 0;
   }
 }
 
 .s-modal__btn {
   @include fixed(top right);
-  color: $black-secondary;
+  color: $white;
   padding: 1rem;
   z-index: $m-stack-level + 1;
-
-  &:hover {
-    color: $black-primary;
-  }
 
   h3 {
     margin: 0;
@@ -68,60 +47,35 @@
 
 .s-modal__input {
   @extend %input-search;
-  border-bottom: .4rem solid rgba($white, $l-secondary);
   color: rgba($white, $l-primary);
   font-size: 2.4rem;
   line-height: $header-line-height;
-  padding: 1.5rem;
-  width: span(full);
+  width: 100%;
 
   @include susy-media(medium) {
-    font-size: 4.8rem;
+    font-size: 3.1rem;
   }
+}
 
-  &::placeholder {
-    color: rgba($white, $l-secondary);
-  }
+.s-modal__wrapper {
+  width: 90%;
 }
 
 // ReactCSSTransitionGroup
 .s-modal-enter {
-
-  .s-modal__form {
-    opacity: 0;
-    transform: translate(-35%, -65%);
-  }
-
-  .s-modal__btn {
-    opacity: 0;
-    transform: translate(2rem) rotate(90deg);
-  }
+  opacity: .01;
 
   &-active {
-    .s-modal__form {
-      opacity: 1;
-      transform: translate(-50%, -65%);
-      transition: all $m-transition-short .2s;
-    }
-
-    .s-modal__btn {
-      opacity: 1;
-      transform: none;
-      transition: all $m-transition-short;
-    }
+    opacity: 1;
+    transition: opacity .2s linear;
   }
 }
 
-.s-modal-leave-active {
-  .s-modal__form {
-    opacity: 0;
-    transform: translate(-35%, -65%);
-    transition: all $m-transition-short;
-  }
+.s-modal-leave {
+  opacity: 1;
 
-  .s-modal__btn {
-    opacity: 0;
-    transform: translate(2rem) rotate(90deg);
-    transition: all $m-transition-short;
+  &-active {
+    opacity: .01;
+    transition: opacity .2s linear;
   }
 }

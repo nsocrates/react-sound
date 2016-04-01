@@ -9,16 +9,6 @@ import { toggleModal } from 'actions/toggle'
 function SearchModalContainer(props) {
   const { actions, searchModal } = props
 
-  const shouldRenderModal = () => {
-    if (searchModal.isOpen) {
-      return (
-        <SearchModal actions={ actions } />
-      )
-    }
-
-    return <noscript />
-  }
-
   return (
     <ReactCSSTransitionGroup
       className="s-modal"
@@ -27,7 +17,7 @@ function SearchModalContainer(props) {
       transitionLeaveTimeout={ 500 }
       transitionName="s-modal"
     >
-      { shouldRenderModal() }
+      { searchModal.isOpen && <SearchModal actions={ actions } /> }
     </ReactCSSTransitionGroup>
   )
 }

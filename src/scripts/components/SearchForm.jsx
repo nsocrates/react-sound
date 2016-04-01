@@ -1,8 +1,22 @@
 import React from 'react'
 
 export default class SearchForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleClick(e) {
+    e.stopPropagation()
+  }
+
   render() {
-    const { formClassName, onFormSubmit, inputClassName, inputId, children } = this.props
+    const { formClassName,
+      onFormSubmit,
+      inputClassName,
+      inputId,
+      children
+  } = this.props
     const input = ref => (this._input = ref)
 
     return (
@@ -13,6 +27,7 @@ export default class SearchForm extends React.Component {
         <input
           className={ inputClassName }
           id={ inputId }
+          onClick={ this.handleClick }
           placeholder="Looking for something...?"
           ref={ input }
           type="text"

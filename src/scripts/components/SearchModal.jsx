@@ -1,36 +1,18 @@
 import React from 'react'
 import SearchForm from './SearchForm'
-import GlobalEvents from 'utils/GlobalEvents'
+import Modal from './Modal'
 
 export default class SearchModal extends React.Component {
 
   constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.listenForClose = this.listenForClose.bind(this)
   }
 
   componentDidMount() {
-    const { hideBodyOverflow, _mSearch: { _input } } = this
+    const { _mSearch: { _input } } = this
 
-    hideBodyOverflow(true)
     _input.focus()
-  }
-
-  componentWillUnmount() {
-    const { hideBodyOverflow } = this
-
-    hideBodyOverflow(false)
-    this.onkeydown = null
-  }
-
-  listenForClose(e) {
-    const { key, keyCode } = e
-    const { actions } = this.props
-
-    if (key === 'Escape' || keyCode === 27) {
-      actions.toggleModal()
-    }
   }
 
   handleSubmit(e) {
@@ -47,34 +29,36 @@ export default class SearchModal extends React.Component {
     actions.push(location)
   }
 
-  hideBodyOverflow(shouldHide) {
-    GlobalEvents.emit('hideBodyOverflow', shouldHide)
-  }
-
   render() {
     const { actions } = this.props
     const mSearch = ref => (this._mSearch = ref)
 
     return (
-      <div
-        className="s-modal__controller"
-        onKeyDown={ this.listenForClose }
+      <Modal
+        className="modal modal--search"
+        handleExit={ actions.toggleModal }
       >
-        <button
-          className="s-modal__btn"
-          onClick={ actions.toggleModal }
-        >
-          <h3><i className="fa fa-times" /></h3>
+
+        <button className="modal__close">
+          <i className="fa fa-times" />
+          <span className="reader">{"Close"}</span>
         </button>
-        <SearchForm
-          formClassName="s-modal__form"
-          inputClassName="s-modal__input"
-          onFormSubmit={ this.handleSubmit }
-          ref={ mSearch }
-        >
-          <label><h5>{ "Click anywhere to close (esc)" }</h5></label>
-        </SearchForm>
-      </div>
+
+        <div className="s-modal__wrapper">
+          <SearchForm
+            formClassName="s-modal__form"
+            inputClassName="s-modal__input"
+            onFormSubmit={ this.handleSubmit }
+            ref={ mSearch }
+          />
+          <label className="s-modal__label">
+            <h5 className="s-modal__label--text">
+              { "Click anywhere to close (esc)" }
+            </h5>
+          </label>
+        </div>
+
+      </Modal>
     )
   }
 }

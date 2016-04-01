@@ -12,6 +12,11 @@
   perspective: 2000px;
   width: 100%;
   z-index: $quad-stack;
+
+  &--search {
+    align-items: center;
+    background-color: $black-primary;
+  }
 }
 
 .modal__body {

@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import LinkItem from './LinkItem'
-import Overlay from './Overlay'
 import SearchForm from './SearchForm'
 
 export default class Nav extends React.Component {
@@ -27,13 +26,9 @@ export default class Nav extends React.Component {
     const {
       uiActions,
       genreList,
-      searchModal,
       navbar
     } = this.props
 
-    const shouldExpandOverlay = classNames('s-modal__overlay', {
-      's-modal__overlay--open': searchModal.isOpen
-    })
     const shouldStick = classNames('nav menu', {
       'nav--sticky': navbar.isSticky
     })
@@ -88,10 +83,6 @@ export default class Nav extends React.Component {
               >
                 <i className="fa fa-search" />
               </button>
-              <Overlay
-                className={ shouldExpandOverlay }
-                onClick={ uiActions.toggleModal }
-              />
               <SearchForm
                 formClassName="nav__form"
                 inputClassName="nav__input"
