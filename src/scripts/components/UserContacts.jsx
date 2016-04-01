@@ -40,7 +40,7 @@ export default function UserContacts(props) {
         </button>
 
         <div className="modal__content-wrapper">
-          <div
+          <section
             onClick={ handlePropagation }
             className="modal__content"
           >
@@ -49,24 +49,24 @@ export default function UserContacts(props) {
               { `${payload.count} ${payload.currentPath}` }
             </h5>
 
-              <ContactList
-                className="modal__body"
-                hasLoaded={ payload.partition.offset !== -1 }
-                ids={ payload.partition.ids }
-                userCollection={ userCollection }
-                userEntity={ userEntity }
-              >
-                <WaypointLoader
-                  endProps={ wProps.end }
-                  hasMore={ !!payload.partition.next_href }
-                  isFetching={ payload.partition.isFetching }
-                  loaderProps={ wProps.loader }
-                  onEnter={ handleWaypoint }
-                  waypointProps={ wProps.waypoint }
-                />
-              </ContactList>
+            <ContactList
+              className="modal__body"
+              hasLoaded={ payload.partition.offset !== -1 }
+              ids={ payload.partition.ids }
+              userCollection={ userCollection }
+              userEntity={ userEntity }
+            >
+              <WaypointLoader
+                endProps={ wProps.end }
+                hasMore={ !!payload.partition.next_href }
+                isFetching={ payload.partition.isFetching }
+                loaderProps={ wProps.loader }
+                onEnter={ handleWaypoint }
+                waypointProps={ wProps.waypoint }
+              />
+            </ContactList>
 
-          </div>
+          </section>
         </div>
       </div>
 
