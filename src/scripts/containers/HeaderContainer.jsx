@@ -7,12 +7,11 @@ import { authConnect, notifConnect, notifDisconnect, loadAuthedCollection } from
 
 class HeaderContainer extends React.Component {
   componentDidMount() {
-    const { dispatch, auth: { result } } = this.props
-    const hasLocalStorage = !!localStorage.oauthio_provider_soundcloud
+    // const { dispatch, auth: { result } } = this.props
 
-    return (hasLocalStorage && !result.id)
-      ? dispatch(authConnect()).then(() => dispatch(loadAuthedCollection()))
-      : null
+    // return (!result.id)
+    //   ? dispatch(authConnect()).then(() => dispatch(loadAuthedCollection()))
+    //   : null
   }
 
   render() {

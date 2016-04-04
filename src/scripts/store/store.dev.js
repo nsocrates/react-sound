@@ -5,7 +5,6 @@ import rootReducer from 'reducers/rootReducer'
 import thunk from 'redux-thunk'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { routerReducer, routerMiddleware } from 'react-router-redux'
-import { browserHistory } from 'react-router'
 
 const reducer = combineReducers({
   app: rootReducer,
@@ -13,18 +12,17 @@ const reducer = combineReducers({
 })
 
 const logger = createLogger()
-const reduxRouter = routerMiddleware(browserHistory)
 
-const createStoreWithMiddleware = applyMiddleware(
-  api,
-  auth,
-  thunk,
-  logger,
-  reduxRouter
-)(createStore)
-
-export default function makeStore() {
-  const store = createStoreWithMiddleware(reducer)
+export default function makeStore(initialState, history) {
+  const reduxRouter = routerMiddleware(history)
+  const createStoreWithMiddleware = applyMiddleware(
+    api,
+    auth,
+    thunk,
+    logger,
+    reduxRouter
+  )(createStore)
+  const store = createStoreWithMiddleware(reducer, initialState)
 
   return store
 }

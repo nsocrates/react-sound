@@ -1,0 +1,10 @@
+{
+  "verbose": false,
+  "watch": [
+    "src/scripts/server.jsx",
+    "src/scripts/routes.jsx",
+    "server",
+    "webpack"
+  ],
+  "exec": "npm run build:dev && babel-node server/index.js"
+}

@@ -16,7 +16,6 @@ const rootReducer = combineReducers({
   pagination,
   partition,
   auth: combineReducers({
-    storage: localStorage,
     result: authResult,
     collection: authCollection
   }),

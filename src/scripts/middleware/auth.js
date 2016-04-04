@@ -1,8 +1,8 @@
 import 'isomorphic-fetch'
-import { OAuth } from 'utils/OAuth'
 import { extractNumber } from 'utils/Utils'
 import { AUTH, REQ } from 'constants/Auth'
 import { normalize } from 'normalizr'
+const OAuth = {}
 
 const authFactory = () => {
   OAuth.initialize(AUTH.KEY)

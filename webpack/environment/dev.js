@@ -1,7 +1,5 @@
 // https://github.com/newtriks/generator-react-webpack
 
-'use strict'
-
 import path from 'path'
 import webpack from 'webpack'
 import _ from 'lodash'
