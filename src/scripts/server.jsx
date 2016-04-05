@@ -32,8 +32,19 @@ const renderFullPage = (appContent, initialState, head) => (`
 `)
 
 export default function render(req, res) {
+  const state = {
+    app: {
+      auth: {
+        result: {
+          id: req.isAuthenticated() && req.user.id,
+          isAuthorized: req.isAuthenticated()
+        }
+      }
+    }
+  }
+
   const history = createMemoryHistory()
-  const store = makeStore({}, history)
+  const store = makeStore(state, history)
 
   match({ routes, location: req.url },
     (error, redirectLocation, renderProps) => {

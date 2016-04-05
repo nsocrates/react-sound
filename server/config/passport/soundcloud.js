@@ -5,6 +5,6 @@ export default new SoundCloudStrategy({
   clientID: secrets.soundcloud.clientID,
   clientSecret: secrets.soundcloud.clientSecret,
   callbackURL: secrets.soundcloud.callbackURL
-}, (req, accessToken, refreshToken, profile, done) => (
+}, (accessToken, refreshToken, profile, done) => (
   done(null, profile)
 ))

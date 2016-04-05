@@ -52,10 +52,11 @@
 }
 
 .modal__close {
-  @include absolute(top right);
+  @include fixed(top right);
   color: $white;
   font-size: 2.4rem;
   padding: .5rem 1.2rem;
+  transform: translateX(-50%);
 }
 
 .modal__scroll-wrapper {
