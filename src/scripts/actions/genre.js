@@ -3,7 +3,7 @@
  */
 
 import * as ActionTypes from 'constants/ActionTypes'
-import { CALL_API } from 'constants/Api'
+import { CALL_API } from 'constants/ApiConstants'
 import { Schemas } from 'constants/Schemas'
 
 // Fetches a collection of tracks for a particular genre:

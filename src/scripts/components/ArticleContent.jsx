@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { splitLines } from 'utils/Utils'
+import separateLinksFromText from 'utils/separateLinksFromText'
 
 export default class ArticleContent extends React.Component {
   render() {
@@ -19,7 +19,7 @@ export default class ArticleContent extends React.Component {
       )
     }
 
-    const paragraphs = splitLines(content).map((item, index) => {
+    const paragraphs = separateLinksFromText(content).map((item, index) => {
       const reAtSound = /@([\w\-]+\w)/i
       const reAtMail = /(\S+@\S+\.\S+)/i
       const text = item[0]

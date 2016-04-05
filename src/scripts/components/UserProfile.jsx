@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 
-import { IMG_FALLBACK } from 'constants/ItemLists'
+import { FALLBACK } from 'constants/ImageConstants'
 import { REQ } from 'constants/Auth'
 
-import { getCover } from 'utils/Utils'
+import { formatCover } from 'utils/formatUtils'
 import classNames from 'classnames'
 
 import { toggleProfileMenu } from 'actions/toggle'
@@ -107,7 +107,7 @@ export default class User extends React.Component {
       }
     }]
 
-    const avatarUrl = getCover(avatar_url).large
+    const avatarUrl = formatCover(avatar_url).large
 
     const getUserLocation = () => {
       if (city || country) {
@@ -182,7 +182,7 @@ export default class User extends React.Component {
 
             <ProfileCover
               className="profile__cover avatar"
-              fallback={ IMG_FALLBACK.AVATAR.LARGE }
+              fallback={ FALLBACK.AVATAR.LARGE }
               href={ website || permalink_url }
               imgClassName="avatar__img"
               src={ avatarUrl }

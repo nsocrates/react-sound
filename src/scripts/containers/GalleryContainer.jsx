@@ -1,17 +1,17 @@
 import React from 'react'
 import Gallery from 'components/Gallery'
-import Main from 'components/Main'
-import WaypointLoader from 'components/WaypointLoader'
 import Loader from 'components/Loader'
+import Main from 'components/Main'
+import mediaFactory from 'utils/mediaFactory'
+import WaypointLoader from 'components/WaypointLoader'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { loadCollection } from 'actions/collection'
 import { loadGenre } from 'actions/genre'
 import { loadSearch } from 'actions/search'
 import { loadUser } from 'actions/user'
 import { push } from 'react-router-redux'
 import { requestStream } from 'actions/stream'
-import { trackFactory } from 'utils/Utils'
-import { loadCollection } from 'actions/collection'
 
 class GalleryContainer extends React.Component {
 
@@ -86,7 +86,7 @@ class GalleryContainer extends React.Component {
           userObject: userEntity[trackEntity[item].user_id],
           mediaObject: trackEntity[item]
         }
-        const trackData = trackFactory(args)
+        const trackData = mediaFactory(args)
         const trackId = item
         return (
           <Gallery

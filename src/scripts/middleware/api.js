@@ -3,8 +3,9 @@
  */
 
 import 'isomorphic-fetch'
-import { CALL_API } from 'constants/Api'
-import { constructUrl, extractNumber } from 'utils/Utils'
+import { CALL_API } from 'constants/ApiConstants'
+import { constructUrlFromEndpoint } from 'utils/urlUtils'
+import { extractNumber } from 'utils/extractUtils'
 import { normalize } from 'normalizr'
 
 const entityFactory = json => ({
@@ -27,7 +28,7 @@ const entityFactory = json => ({
 
 // Fetches an API response and normalizes the result JSON according to schema.
 function callApi(endpoint, schema) {
-  const url = constructUrl(endpoint)
+  const url = constructUrlFromEndpoint(endpoint)
 
   return fetch(url)
     .then(response => {

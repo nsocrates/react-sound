@@ -6,7 +6,7 @@ import _ from 'lodash'
 import baseConfig from './base'
 
 const config = _.merge({
-  entry: path.join(__dirname, '../../src/scripts/index'),
+  entry: path.join(__dirname, '../../src/scripts/client'),
   cache: false,
   devtool: 'sourcemap',
   plugins: [

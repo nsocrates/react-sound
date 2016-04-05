@@ -3,8 +3,8 @@ import LinkItem from 'components/LinkItem'
 import Dropdown from 'components/Dropdown'
 
 import classNames from 'classnames'
-import { getCover } from 'utils/Utils'
-import { IMG_FALLBACK } from 'constants/ItemLists'
+import { formatCover } from 'utils/formatUtils'
+import { FALLBACK } from 'constants/ImageConstants'
 
 export default function Header({
   auth = {},
@@ -15,14 +15,14 @@ export default function Header({
   me = {}
 }) {
   const myName = me.first_name || me.username
-  const myAvatar = Object.keys(me).length ? getCover(me.avatar_url).badge : {}
+  const myAvatar = Object.keys(me).length ? formatCover(me.avatar_url).badge : {}
   const shouldStack = classNames('header__item', {
     'header__item--stack': dropdown.isOpen
   })
 
   const handleImgError = e => {
     const { currentTarget } = e
-    return (currentTarget.src = IMG_FALLBACK.AVATAR.SMALL)
+    return (currentTarget.src = FALLBACK.AVATAR.SMALL)
   }
 
   const renderUnauthSection = () => {

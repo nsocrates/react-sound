@@ -1,5 +1,5 @@
 import * as ActionTypes from 'constants/ActionTypes'
-import { CALL_API } from 'constants/Api'
+import { CALL_API } from 'constants/ApiConstants'
 import { Schemas } from 'constants/Schemas'
 
 function fetchSearch(input, next_href) {

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 
-import GlobalEvents from 'utils/GlobalEvents'
+import GlobalEvents from 'constants/GlobalEvents'
 
 export default class Modal extends React.Component {
   constructor(props) {

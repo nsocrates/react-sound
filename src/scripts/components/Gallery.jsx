@@ -1,6 +1,6 @@
 import React from 'react'
 import LinkItem from 'components/LinkItem'
-import { IMG_FALLBACK } from 'constants/ItemLists'
+import { FALLBACK } from 'constants/ImageConstants'
 
 export default function Gallery(props) {
   const {
@@ -23,7 +23,7 @@ export default function Gallery(props) {
 
   const handleError = e => {
     const { currentTarget } = e
-    currentTarget.src = IMG_FALLBACK.PLACEHOLDER_LARGE
+    currentTarget.src = FALLBACK.PLACEHOLDER_LARGE
 
     return currentTarget
   }

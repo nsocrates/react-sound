@@ -1,5 +1,5 @@
 import 'isomorphic-fetch'
-import { extractNumber } from 'utils/Utils'
+import { extractNumber } from 'utils/extractUtils'
 import { AUTH, REQ } from 'constants/Auth'
 import { normalize } from 'normalizr'
 const OAuth = {}

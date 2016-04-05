@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import { IMG_FALLBACK } from 'constants/ItemLists'
+import { FALLBACK } from 'constants/ImageConstants'
 import { REQ } from 'constants/Auth'
 
-import { getCover } from 'utils/Utils'
+import { formatCover } from 'utils/formatUtils'
 
 import { updateMyFollowings } from 'actions/auth'
 
@@ -32,13 +32,13 @@ export default function ContactList(props) {
 
   const handleError = e => {
     const { currentTarget } = e
-    return (currentTarget.src = IMG_FALLBACK.AVATAR.SMALL)
+    return (currentTarget.src = FALLBACK.AVATAR.SMALL)
   }
 
   const contactItems = ids.map((id, index) => {
     const user = userEntity[id]
     const username = user.username
-    const avatar = getCover(user.avatar_url).badge
+    const avatar = formatCover(user.avatar_url).badge
 
     const handleFollow = e => {
       e.preventDefault()

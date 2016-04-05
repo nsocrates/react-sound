@@ -3,7 +3,7 @@
  */
 
 import * as ActionTypes from 'constants/ActionTypes'
-import { CALL_API, API_ROOT, CLIENT_ID } from 'constants/Api'
+import { CALL_API, ROOT, CLIENT_ID } from 'constants/ApiConstants'
 import { setPagination } from 'actions/collection'
 import { Schemas } from 'constants/Schemas'
 
@@ -17,7 +17,7 @@ function fetchPlaylist(id) {
         ActionTypes.PLAYLIST_SUCCESS,
         ActionTypes.PLAYLIST_FAILURE
       ],
-      endpoint: `${API_ROOT}/playlists/${id}?${CLIENT_ID}`,
+      endpoint: `${ROOT}/playlists/${id}?client_id=${CLIENT_ID}`,
       schema: Schemas.PLAYLIST
     }
   }

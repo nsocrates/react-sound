@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { IMG_FALLBACK } from 'constants/ItemLists'
+import { FALLBACK } from 'constants/ImageConstants'
 import LinkItem from 'components/LinkItem'
 import CommentBody from 'components/CommentBody'
 import classNames from 'classnames'
@@ -13,7 +13,7 @@ export default function Comment(props) {
 
   const handleImgError = e => {
     const { currentTarget } = e
-    return (currentTarget.src = IMG_FALLBACK.AVATAR.SMALL)
+    return (currentTarget.src = FALLBACK.AVATAR.SMALL)
   }
 
   return (

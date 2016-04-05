@@ -1,5 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
+
+import timeFactory from 'utils/timeFactory'
+import coordinatesFactory from 'utils/coordinatesFactory'
+
 import PlayerArtwork from './PlayerArtwork'
 import PlayerButton from './PlayerButton'
 import PlayerDetails from './PlayerDetails'
@@ -7,7 +11,6 @@ import PlayerProgressBar from './PlayerProgressBar'
 import PlayerTimer from './PlayerTimer'
 import PlayerVolume from './PlayerVolume'
 import PlayerVolumeControl from './PlayerVolumeControl'
-import { timeFactory, coordinatesFactory } from 'utils/Utils'
 
 export default class AudioPlayer extends React.Component {
 

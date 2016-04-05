@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import LinkItem from 'components/LinkItem'
-import { kFormatter } from 'utils/Utils'
+import { kFormatter } from 'utils/formatUtils'
 
 export default function StatsList({ listItems, pathname, hashTags = [] }) {
   const items = listItems.map(item => {

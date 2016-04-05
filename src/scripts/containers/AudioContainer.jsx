@@ -8,7 +8,8 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import TracklistContainer from './TracklistContainer'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { constructStreamUrl, trackFactory } from 'utils/Utils'
+import { constructStreamUrl } from 'utils/urlUtils'
+import mediaFactory from 'utils/mediaFactory'
 import { toggleTracklist } from 'actions/toggle'
 
 class AudioContainer extends React.Component {
@@ -34,7 +35,7 @@ class AudioContainer extends React.Component {
       userObject,
       mediaObject: trackObject
     }
-    const trackData = trackFactory(args)
+    const trackData = mediaFactory(args)
     const src = constructStreamUrl(trackId)
     const audioStream = ref => (this._audioStream = ref)
 

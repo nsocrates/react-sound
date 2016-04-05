@@ -1,12 +1,10 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
 export const AUTH = {
-  KEY: 'x-1A6oIyD8i3_Lh0-3ksX5nfpfI',
-  SERVICE: 'soundcloud',
   CALL: Symbol('Call AUTH')
 }
 
-export const REQ = {
+export const AUTH_REQ = {
   CONNECT: 'CONNECT',
   DISCONNECT: 'DISCONNECT',
   GET: 'GET',

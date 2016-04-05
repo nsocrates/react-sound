@@ -8,7 +8,10 @@ import Taglist from 'components/Taglist'
 import { requestStream, loadStreamList } from 'actions/stream'
 import { updateMyTracks, updateMyPlaylists } from 'actions/auth'
 
-import { trackFactory, dtFormatter, kFormatter, timeFactory } from 'utils/Utils'
+import timeFactory from 'utils/timeFactory'
+import mediaFactory from 'utils/mediaFactory'
+import { dtFormatter, kFormatter } from 'utils/formatUtils'
+
 import { REQ } from 'constants/Auth'
 
 function MediaCards(props) {
@@ -45,7 +48,7 @@ function MediaCards(props) {
       userObject: userEntity[mediaEntity[id].user_id],
       mediaObject: mediaEntity[id]
     }
-    const mediaData = trackFactory(obj)
+    const mediaData = mediaFactory(obj)
     const isFavorite = collectionIds.indexOf(id) !== -1
     const mediaPath = isPlaylist ? `#playlist/${id}` : `#track/${id}`
 

@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react'
-import { IMG_FALLBACK } from 'constants/ItemLists'
+import { FALLBACK } from 'constants/ImageConstants'
 
 export default function ProfileCover(props) {
   const handleError = e => {
     const { currentTarget } = e
-    const { fallback = IMG_FALLBACK.PLACEHOLDER.LARGE } = props
+    const { fallback = FALLBACK.PLACEHOLDER.LARGE } = props
     return (currentTarget.src = fallback)
   }
 

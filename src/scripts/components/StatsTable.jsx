@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { kFormatter } from 'utils/Utils'
+import { kFormatter } from 'utils/formatUtils'
 import LinkItem from 'components/LinkItem'
 
 export default function StatsTable({ tableData }) {

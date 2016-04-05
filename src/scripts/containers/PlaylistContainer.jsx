@@ -7,7 +7,11 @@ import { loadPlaylist } from 'actions/playlist'
 import { loadStreamList } from 'actions/stream'
 
 import { REQ } from 'constants/Auth'
-import { extractStreamable, timeFactory, trackFactory, getCover, markNumber } from 'utils/Utils'
+
+import mediaFactory from 'utils/mediaFactory'
+import timeFactory from 'utils/timeFactory'
+import { extractStreamableTracks } from 'utils/extractUtils'
+import { formatCover, markNumber } from 'utils/formatUtils'
 
 import ArticleContent from 'components/ArticleContent'
 import Body from 'components/Body'
@@ -84,14 +88,14 @@ class PlaylistContainer extends React.Component {
       return <Loader className="loader--top" />
     }
 
-    const trackFactoryArgs = {
+    const mediaFactoryArgs = {
       userObject,
       mediaObject: playlistObject
     }
 
-    const mediaData = trackFactory(trackFactoryArgs)
-    const userAvatar = getCover(userObject.avatar_url)
-    const streamable = extractStreamable(trackEntity, playlistObject.tracks)
+    const mediaData = mediaFactory(mediaFactoryArgs)
+    const userAvatar = formatCover(userObject.avatar_url)
+    const streamable = extractStreamableTracks(trackEntity, playlistObject.tracks)
 
     this.playlistName = mediaData.media.name
 

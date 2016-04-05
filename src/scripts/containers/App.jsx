@@ -10,7 +10,7 @@ import SideMenuContainer from './SideMenuContainer'
 
 function App(props) {
   return (
-    <div className="app">
+    <div className="site-wrapper">
       <SearchModalContainer />
       <SideMenuContainer location={ props.location} />
       <HeaderContainer />

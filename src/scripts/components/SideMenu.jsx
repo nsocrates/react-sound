@@ -1,5 +1,5 @@
 import React from 'react'
-import GlobalEvents from 'utils/GlobalEvents'
+import GlobalEvents from 'constants/GlobalEvents'
 import LinkItem from './LinkItem'
 
 export default class SideMenu extends React.Component {

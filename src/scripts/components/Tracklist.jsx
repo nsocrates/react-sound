@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import classNames from 'classnames'
 import TracklistItem from 'components/TracklistItem'
 import { requestStream } from 'actions/stream'
-import { trackFactory } from 'utils/Utils'
+import mediaFactory from 'utils/mediaFactory'
 
 import { updateMyTracks } from 'actions/auth'
 import { REQ } from 'constants/Auth'
@@ -20,7 +20,7 @@ export default function Tracklist(props) {
     const isSet = modifier === 'set'
     const isPlayer = modifier === 'player'
     const hasFavorites = !!trackCollection.length
-    const trackData = trackFactory(obj)
+    const trackData = mediaFactory(obj)
 
     const handlePlayPause = e => {
       if (!mediaObject.streamable) {

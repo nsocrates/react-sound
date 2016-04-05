@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { push, replace } from 'react-router-redux'
 
-import { markNumber } from 'utils/Utils'
+import { markNumber } from 'utils/formatUtils'
 
 import { loadUserFollowers, loadUserFollowings } from 'actions/user'
 

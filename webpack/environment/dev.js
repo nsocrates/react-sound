@@ -10,7 +10,7 @@ const config = _.merge({
     'webpack-dev-server/client?http://localhost:8000',
     'webpack/hot/only-dev-server',
     'babel-polyfill',
-    './src/scripts/index'
+    './src/scripts/client'
   ],
   cache: true,
   devtool: 'eval',

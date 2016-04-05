@@ -20,7 +20,11 @@ import { connect } from 'react-redux'
 import { loadTrack, loadTrackComments } from 'actions/track'
 import { REQ } from 'constants/Auth'
 import { requestStream } from 'actions/stream'
-import { timeFactory, trackFactory, getCover, dtFormatter, markNumber, constructUrl } from 'utils/Utils'
+
+import mediaFactory from 'utils/mediaFactory'
+import timeFactory from 'utils/timeFactory'
+import { constructUrlFromEndpoint } from 'utils/urlUtils'
+import { formatCover, dtFormatter, markNumber } from 'utils/formatUtils'
 
 class TrackContainer extends React.Component {
 
@@ -73,13 +77,13 @@ class TrackContainer extends React.Component {
     }
 
     const { [trackObject.user_id]: userObject } = userEntity
-    const trackFactoryArgs = {
+    const mediaFactoryArgs = {
       userObject,
       mediaObject: trackObject
     }
 
-    const mediaData = trackFactory(trackFactoryArgs)
-    const userAvatar = getCover(userObject.avatar_url)
+    const mediaData = mediaFactory(mediaFactoryArgs)
+    const userAvatar = formatCover(userObject.avatar_url)
 
     this.trackName = mediaData.media.name
 
@@ -135,7 +139,7 @@ class TrackContainer extends React.Component {
         const { comments: { [id]: comment } } = trackObject
         const user = userEntity[comment.user]
 
-        const avatar = getCover(user.avatar_url)
+        const avatar = formatCover(user.avatar_url)
         const createdAt = dtFormatter(comment.created_at)
         const timestamp = timeFactory(comment.timestamp / 1000).getFormatted()
 
@@ -164,7 +168,7 @@ class TrackContainer extends React.Component {
       if (_shouldRender()) {
         const { offset } = trackComments
         const endpoint = `/tracks/${params.id}/comments?`
-        const url = trackComments.next_href || `${constructUrl(endpoint)}&offset=${offset + 24}`
+        const url = trackComments.next_href || `${constructUrlFromEndpoint(endpoint)}&offset=${offset + 24}`
         const pages = Math.ceil(mediaData.stats.comments / 24)
         const re = /(&offset=)(\d*)/i
         const nextOffset = parseInt(re.exec(url)[2], 10)

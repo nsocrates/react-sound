@@ -4,7 +4,7 @@ import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { GENRES } from 'constants/ItemLists'
+import { GENRES } from 'constants/Genres'
 import { push } from 'react-router-redux'
 import { toggleSideMenu } from 'actions/toggle'
 

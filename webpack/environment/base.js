@@ -12,7 +12,7 @@ const baseConfig = {
   debug: true,
   output: {
     path: path.join(__dirname, '/../../dist/assets'),
-    filename: 'bundle.js',
+    filename: 'app.js',
     publicPath
   },
   devServer: {
