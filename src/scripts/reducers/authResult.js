@@ -1,10 +1,10 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
 const initialState = {
-  isAuthorizing: false,
-  isAuthorized: false,
+  isAuthenticating: false,
+  isAuthenticated: false,
   id: null,
-  token: null,
+  accessToken: null,
   error: null
 }
 
@@ -12,21 +12,21 @@ export default function authResult(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.AUTH_REQUEST:
       return Object.assign({}, state, {
-        isAuthorizing: true
+        isAuthenticating: true
       })
     case ActionTypes.AUTH_SUCCESS: {
       const { id, access_token } = action.response
       return Object.assign({}, state, {
-        isAuthorizing: false,
-        isAuthorized: true,
+        isAuthenticating: false,
+        isAuthenticated: true,
         id,
-        token: access_token
+        accessToken: access_token
       })
     }
     case ActionTypes.AUTH_FAILURE:
       return Object.assign({}, state, {
-        isAuthorizing: false,
-        isAuthorized: false,
+        isAuthenticating: false,
+        isAuthenticated: false,
         error: action.error
       })
     case ActionTypes.AUTH_DISCONNECT:

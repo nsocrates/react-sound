@@ -1,12 +1,12 @@
 import 'isomorphic-fetch'
 import { extractNumber } from 'utils/extractUtils'
-import { AUTH, REQ } from 'constants/Auth'
+import { CALL_AUTH, AuthReq } from 'constants/Auth'
 import { normalize } from 'normalizr'
-const OAuth = {}
+import SC from 'auth/index'
 
 const authFactory = () => {
-  OAuth.initialize(AUTH.KEY)
-  let requestObject = OAuth.create(AUTH.SERVICE)
+  // OAuth.initialize(AUTH.KEY)
+  // let requestObject = OAuth.create(AUTH.SERVICE)
 
   function handleCollection(response) {
     return response.collection
@@ -35,86 +35,89 @@ const authFactory = () => {
   function connect(...theArgs) {
     const schema = theArgs[1]
 
-    return OAuth.popup(AUTH.SERVICE, { cache: true })
-      .fail(error => new Error(error))
-      .then((resolve) => (
-        resolve.me()
-          .fail(error => new Error(error))
-          .then(response => {
-            requestObject = OAuth.create(AUTH.SERVICE)
+    return SC.connect()
+      .then(accessToken => accessToken)
+      .catch(error => { throw new Error(`${error.error}: ${error.error_description}`) })
 
-            return Object.assign({},
-            normalize(response.raw, schema), {
-              avatar: response.avatar,
-              id: response.raw.id,
-              username: response.alias,
-              access_token: requestObject.access_token
-            })
-          })
-      ))
+    // return OAuth.popup(AUTH.SERVICE, { cache: true })
+    //   .fail(error => new Error(error))
+    //   .then((resolve) => (
+    //     resolve.me()
+    //       .fail(error => new Error(error))
+    //       .then(response => {
+    //         requestObject = OAuth.create(AUTH.SERVICE)
+
+    //         return Object.assign({},
+    //         normalize(response.raw, schema), {
+    //           avatar: response.avatar,
+    //           id: response.raw.id,
+    //           username: response.alias,
+    //           access_token: requestObject.access_token
+    //         })
+    //       })
+    //   ))
   }
 
   function disconnect() {
-    localStorage.clear()
-    return OAuth.clearCache(AUTH.SERVICE)
+    return SC.disconnect()
   }
 
   function get(endpoint, schema) {
-    return OAuth.popup(AUTH.SERVICE, { cache: true })
-      .fail(error => new Error(error))
-      .then(resolve => (
-        resolve.get(endpoint)
-          .fail(error => new Error(error))
-          .then(response => {
-            let collection = response
-            if (Array.isArray(response) && !response.every(item => item.id)) {
-              collection = handleArray(response)
-              return handleFavorites(response, schema)
-            }
-            if (response.collection) {
-              collection = handleCollection(response)
-            }
-            return Object.assign({},
-              normalize(collection, schema),
-              { response })
-          })
-      ))
+    // return OAuth.popup(AUTH.SERVICE, { cache: true })
+    //   .fail(error => new Error(error))
+    //   .then(resolve => (
+    //     resolve.get(endpoint)
+    //       .fail(error => new Error(error))
+    //       .then(response => {
+    //         let collection = response
+    //         if (Array.isArray(response) && !response.every(item => item.id)) {
+    //           collection = handleArray(response)
+    //           return handleFavorites(response, schema)
+    //         }
+    //         if (response.collection) {
+    //           collection = handleCollection(response)
+    //         }
+    //         return Object.assign({},
+    //           normalize(collection, schema),
+    //           { response })
+    //       })
+    //   ))
   }
 
   function put(endpoint) {
-    return OAuth.popup(AUTH.SERVICE, { cache: true })
-      .fail(error => new Error(error))
-      .then(resolve => (
-        resolve.put(endpoint)
-          .fail(error => new Error(error))
-          .then(response => response)
-      ))
+    // return OAuth.popup(AUTH.SERVICE, { cache: true })
+    //   .fail(error => new Error(error))
+    //   .then(resolve => (
+    //     resolve.put(endpoint)
+    //       .fail(error => new Error(error))
+    //       .then(response => response)
+    //   ))
   }
 
   function del(endpoint) {
-    return OAuth.popup(AUTH.SERVICE, { cache: true })
-      .fail(error => new Error(error))
-      .then(resolve => (
-        resolve.del(endpoint)
-          .fail(error => new Error(error))
-          .then(() => (
-            Object.assign({}, { id: extractNumber(endpoint) })
-          ))
-      ))
+    // return OAuth.popup(AUTH.SERVICE, { cache: true })
+    //   .fail(error => new Error(error))
+    //   .then(resolve => (
+    //     resolve.del(endpoint)
+    //       .fail(error => new Error(error))
+    //       .then(() => (
+    //         Object.assign({}, { id: extractNumber(endpoint) })
+    //       ))
+    //   ))
   }
 
   return {
     call(request, ...theArgs) {
       switch (request) {
-        case REQ.CONNECT:
+        case AuthReq.CONNECT:
           return connect(...theArgs)
-        case REQ.DISCONNECT:
+        case AuthReq.DISCONNECT:
           return disconnect()
-        case REQ.GET:
+        case AuthReq.GET:
           return get(...theArgs)
-        case REQ.PUT:
+        case AuthReq.PUT:
           return put(...theArgs)
-        case REQ.DEL:
+        case AuthReq.DEL:
           return del(...theArgs)
         default:
           return new Error('Request method does not exist')
@@ -124,7 +127,7 @@ const authFactory = () => {
 }
 
 export default store => next => action => {
-  const callAUTH = action[AUTH.CALL]
+  const callAUTH = action[CALL_AUTH]
   if (typeof callAUTH === 'undefined') {
     return next(action)
   }
@@ -136,7 +139,7 @@ export default store => next => action => {
     throw new Error('Specify a request method')
   }
 
-  if (request === REQ.GET) {
+  if (request === AuthReq.GET) {
     if (typeof endpoint === 'function') {
       endpoint = endpoint(store.getState())
     }
@@ -156,7 +159,7 @@ export default store => next => action => {
 
   function actionWith(data) {
     const finalAction = Object.assign({}, action, data)
-    finalAction[AUTH.CALL] = null
+    finalAction[CALL_AUTH] = null
 
     return finalAction
   }
@@ -167,7 +170,7 @@ export default store => next => action => {
 
   next(actionWith({ type: requestType }))
 
-  if (request === REQ.DISCONNECT) {
+  if (request === AuthReq.DISCONNECT) {
     return auth.call(request)
   }
 

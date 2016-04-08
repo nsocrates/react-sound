@@ -2,9 +2,9 @@
 const hasWindow = typeof window !== 'undefined'
 
 export const CLIENT_ID = '178cca51f2fb0a81487dc7aafafb4787'
-export const CALLBACK = hasWindow && `${window.location.protocol}//${window.location.host}/auth/soundcloud/callback`
+export const AUTH_ROUTE = hasWindow &&
+  `${window.location.protocol}//${window.location.host}/auth/soundcloud`
 export const BASE = 'https://api.soundcloud.com'
-export const CONNECT = 'https://soundcloud.com/connect'
 export const CALL_API = Symbol('Call API')
 
 export const PARAMS = {

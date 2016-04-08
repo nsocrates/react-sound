@@ -1,4 +1,4 @@
-import { AUTH_TYPES } from 'constants/Auth'
+import { AuthTypes } from 'constants/Auth'
 import { combineReducers } from 'redux'
 import union from 'lodash/union'
 import merge from 'lodash/merge'
@@ -74,20 +74,20 @@ function partitionate({ types, deleteType }) {
 
 export const authCollection = combineReducers({
   tracks: partitionate({
-    types: AUTH_TYPES.TRACKS,
-    deleteType: AUTH_TYPES.DEL.TRACKS
+    types: AuthTypes.TRACKS,
+    deleteType: AuthTypes.DEL.TRACKS
   }),
   playlists: partitionate({
-    types: AUTH_TYPES.PLAYLISTS,
-    deleteType: AUTH_TYPES.DEL.PLAYLISTS
+    types: AuthTypes.PLAYLISTS,
+    deleteType: AuthTypes.DEL.PLAYLISTS
   }),
   followings: partitionate({
-    types: AUTH_TYPES.FOLLOWINGS,
-    deleteType: AUTH_TYPES.DEL.FOLLOWINGS
+    types: AuthTypes.FOLLOWINGS,
+    deleteType: AuthTypes.DEL.FOLLOWINGS
   }),
   comments: partitionate({
-    types: AUTH_TYPES.COMMENTS,
-    deleteType: AUTH_TYPES.DEL.COMMENTS
+    types: AuthTypes.COMMENTS,
+    deleteType: AuthTypes.DEL.COMMENTS
   })
 })
 

@@ -1,7 +1,5 @@
 import express from 'express'
-import passport from 'passport'
 import bsExpress from './config/express'
-import bsPassport from './config/passport'
 import bsRoutes from './config/routes'
 import webpack from 'webpack'
 import webpackMiddleware from 'webpack-dev-middleware'
@@ -22,9 +20,8 @@ if (isDev) {
   app.use(webpackHotMiddleware(compiler))
 }
 
-bsExpress(app, passport)
-bsPassport(app, passport)
-bsRoutes(app, passport)
+bsExpress(app)
+bsRoutes(app)
 
 app.listen(app.get('port'), () => {
   /* eslint-disable no-console */

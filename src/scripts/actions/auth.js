@@ -1,18 +1,18 @@
 import * as ActionTypes from 'constants/ActionTypes'
-import { AUTH, REQ, AUTH_TYPES } from 'constants/Auth'
+import { CALL_AUTH, AuthReq, AuthTypes } from 'constants/Auth'
 import { Schemas } from 'constants/Schemas'
 import { notif } from 'actions/notification'
 import { fetchUser } from 'actions/user'
 
 export function authConnect() {
   return {
-    [AUTH.CALL]: {
+    [CALL_AUTH]: {
       types: [
         ActionTypes.AUTH_REQUEST,
         ActionTypes.AUTH_SUCCESS,
         ActionTypes.AUTH_FAILURE
       ],
-      request: REQ.CONNECT,
+      request: AuthReq.CONNECT,
       schema: Schemas.USER
     }
   }
@@ -20,17 +20,17 @@ export function authConnect() {
 
 function authDisconnect() {
   return {
-    [AUTH.CALL]: {
+    [CALL_AUTH]: {
       types: [ActionTypes.AUTH_DISCONNECT],
-      request: REQ.DISCONNECT
+      request: AuthReq.DISCONNECT
     }
   }
 }
 
 function get(endpoint, schema, types) {
   return {
-    [AUTH.CALL]: {
-      request: REQ.GET,
+    [CALL_AUTH]: {
+      request: AuthReq.GET,
       types,
       endpoint,
       schema
@@ -41,13 +41,13 @@ function get(endpoint, schema, types) {
 function put(id, endpoint) {
   return {
     id,
-    [AUTH.CALL]: {
+    [CALL_AUTH]: {
       types: [
         ActionTypes.PUT_REQUEST,
         ActionTypes.PUT_SUCCESS,
         ActionTypes.PUT_FAILURE
       ],
-      request: REQ.PUT,
+      request: AuthReq.PUT,
       endpoint
     }
   }
@@ -56,13 +56,13 @@ function put(id, endpoint) {
 function del(id, endpoint, deleteType) {
   return {
     id,
-    [AUTH.CALL]: {
+    [CALL_AUTH]: {
       types: [
         ActionTypes.DEL_REQUEST,
         ActionTypes.DEL_SUCCESS,
         ActionTypes.DEL_FAILURE
       ],
-      request: REQ.DEL,
+      request: AuthReq.DEL,
       endpoint,
       deleteType
     }
@@ -90,7 +90,7 @@ export function loadAuthedUser() {
       return null
     }
 
-    return dispatch(get('/me', Schemas.USER, AUTH_TYPES.PROFILE)).then(
+    return dispatch(get('/me', Schemas.USER, AuthTypes.PROFILE)).then(
       () => dispatch(fetchUser(id, profileEndpoint)),
       err => dispatch(notif.error(err.error))
     )
@@ -108,7 +108,7 @@ export function loadFollowingCollection(forceNext = false) {
       return null
     }
 
-    return dispatch(get(next_href, Schemas.USER_ARRAY, AUTH_TYPES.FOLLOWINGS))
+    return dispatch(get(next_href, Schemas.USER_ARRAY, AuthTypes.FOLLOWINGS))
   }
 }
 
@@ -123,7 +123,7 @@ export function loadTrackCollection(forceNext = false) {
       return null
     }
 
-    return dispatch(get(next_href, Schemas.TRACK_ARRAY, AUTH_TYPES.TRACKS))
+    return dispatch(get(next_href, Schemas.TRACK_ARRAY, AuthTypes.TRACKS))
   }
 }
 
@@ -138,7 +138,7 @@ export function loadPlaylistCollection(forceNext = false) {
       return null
     }
 
-    return dispatch(get(next_href, Schemas.PLAYLIST_ARRAY, AUTH_TYPES.PLAYLISTS))
+    return dispatch(get(next_href, Schemas.PLAYLIST_ARRAY, AuthTypes.PLAYLISTS))
   }
 }
 
@@ -181,14 +181,14 @@ export function updateMyFollowings(method, id, name) {
   return dispatch => {
     const endpoint = `/me/followings/${id}`
     const username = name ? `"${name}"` : 'user'
-    const shouldRm = method === REQ.DEL
+    const shouldRm = method === AuthReq.DEL
 
     let deleteType = undefined
     let reqMethod = put
     let action = 'Following'
 
     if (shouldRm) {
-      deleteType = AUTH_TYPES.DEL.FOLLOWINGS
+      deleteType = AuthTypes.DEL.FOLLOWINGS
       reqMethod = del
       action = 'Unfollowed'
     }
@@ -207,7 +207,7 @@ export function updateMyTracks(method, id, name) {
   return dispatch => {
     const endpoint = `/me/favorites/${id}`
     const track = name ? `"${name}"` : 'track'
-    const shouldRm = method === REQ.DEL
+    const shouldRm = method === AuthReq.DEL
 
     let deleteType = undefined
     let reqMethod = put
@@ -215,7 +215,7 @@ export function updateMyTracks(method, id, name) {
     let msg = `${action} ${track} to favorites`
 
     if (shouldRm) {
-      deleteType = AUTH_TYPES.DEL.TRACKS
+      deleteType = AuthTypes.DEL.TRACKS
       reqMethod = del
       action = 'Removed'
       msg = `${action} ${track} from favorites`
@@ -235,14 +235,14 @@ export function updateMyPlaylists(method, id, name) {
   return dispatch => {
     const endpoint = `/e1/me/playlist_likes/${id}`
     const playlist = name ? `"${name}"` : 'playlist'
-    const shouldRm = method === REQ.DEL
+    const shouldRm = method === AuthReq.DEL
 
     let deleteType = undefined
     let reqMethod = put
     let action = 'Added'
 
     if (shouldRm) {
-      deleteType = AUTH_TYPES.DEL.PLAYLISTS
+      deleteType = AuthTypes.DEL.PLAYLISTS
       reqMethod = del
       action = 'Removed'
     }

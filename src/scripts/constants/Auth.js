@@ -1,10 +1,8 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
-export const AUTH = {
-  CALL: Symbol('Call AUTH')
-}
+export const CALL_AUTH = Symbol('Call AUTH')
 
-export const AUTH_REQ = {
+export const AuthReq = {
   CONNECT: 'CONNECT',
   DISCONNECT: 'DISCONNECT',
   GET: 'GET',
@@ -13,7 +11,7 @@ export const AUTH_REQ = {
   DEL: 'DEL'
 }
 
-export const AUTH_TYPES = {
+export const AuthTypes = {
   COMMENTS: [
     ActionTypes.MY_COMMENTS_REQUEST,
     ActionTypes.MY_COMMENTS_SUCCESS,

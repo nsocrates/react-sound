@@ -32,19 +32,10 @@ const renderFullPage = (appContent, initialState, head) => (`
 `)
 
 export default function render(req, res) {
-  const state = {
-    app: {
-      auth: {
-        result: {
-          id: req.isAuthenticated() && req.user.id,
-          isAuthorized: req.isAuthenticated()
-        }
-      }
-    }
-  }
+  const initialState = {}
 
   const history = createMemoryHistory()
-  const store = makeStore(state, history)
+  const store = makeStore(initialState, history)
 
   match({ routes, location: req.url },
     (error, redirectLocation, renderProps) => {
@@ -62,9 +53,9 @@ export default function render(req, res) {
         fetchComponentDataBeforeRender(store.dispatch, renderProps.components, renderProps.params)
           .then(() => {
             const componentHTML = renderToString(InitialView)
-            const initialState = store.getState()
+            const state = store.getState()
 
-            res.status(200).end(renderFullPage(componentHTML, initialState, {
+            res.status(200).end(renderFullPage(componentHTML, state, {
               title: headconfig.title,
               meta: headconfig.meta,
               link: headconfig.link
