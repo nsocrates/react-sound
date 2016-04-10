@@ -1,22 +1,22 @@
 // https://github.com/newtriks/generator-react-webpack
 
 import path from 'path'
-import parseArgs from 'minimist'
 
 // List of allowed environments
 const allowedEnvs = ['dev', 'dist', 'test']
 
 // Set the correct environment
-const args = parseArgs(process.argv.slice(2))
-
 function setEnvironment() {
-  if (args._.length > 0 && args._.indexOf('start') !== -1) {
-    return 'test'
-  } else if (args.env) {
-    return args.env
+  switch (process.env.NODE_ENV) {
+    case 'development':
+      return 'dev'
+    case 'production':
+      return 'dist'
+    case 'test':
+      return 'test'
+    default:
+      return 'dev'
   }
-
-  return 'dev'
 }
 
 const currEnv = setEnvironment()
@@ -24,9 +24,10 @@ process.env.REACT_WEBPACK_ENV = currEnv
 
 // Get available configurations
 const configs = {
-  base: require(path.join(__dirname, './environment/base')),
-  dev: require(path.join(__dirname, './environment/dev')),
-  dist: require(path.join(__dirname, './environment/dist'))
+  base: require(path.join(__dirname, 'environment', 'base')),
+  dev: require(path.join(__dirname, 'environment', 'dev')),
+  dist: require(path.join(__dirname, 'environment', 'dist')),
+  server: require(path.join(__dirname, 'environment', 'dev-server'))
 }
 
 // Get valid environment
@@ -39,8 +40,9 @@ function getValidEnv(env) {
 // Build the webpack configuration
 function buildConfig(env) {
   const usedEnv = getValidEnv(env)
+  const isServer = process.argv.indexOf('--server') !== -1
 
-  return configs[usedEnv].default
+  return isServer ? configs.server.default : configs[usedEnv].default
 }
 
 export default buildConfig(currEnv)

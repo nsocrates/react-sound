@@ -1,22 +1,26 @@
-// https://github.com/newtriks/generator-react-webpack
-
 import path from 'path'
 import webpack from 'webpack'
-import _ from 'lodash'
 import baseConfig from './base'
+import merge from 'lodash/merge'
 
-const config = _.merge({
+const config = merge({
   entry: [
-    'webpack-dev-server/client?http://localhost:8000',
     'webpack/hot/only-dev-server',
-    'babel-polyfill',
     './src/scripts/client'
   ],
+  output: {
+    filename: 'app.js'
+  },
   cache: true,
   devtool: 'eval',
+  name: 'browser',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+      __DEVCLIENT__: true,
+      __DEVSERVER__: false
+    })
   ]
 }, baseConfig)
 
@@ -24,7 +28,15 @@ const config = _.merge({
 config.module.loaders.push({
   test: /\.(js|jsx)$/,
   loader: 'react-hot!babel-loader',
-  include: path.join(__dirname, '/../../src')
+  include: path.join(__dirname, '..', '..', 'src')
+}, {
+  test: /\.scss$/,
+  loaders: [
+    'style-loader',
+    'css-loader',
+    'postcss-loader',
+    'sass-loader?outputStyle=compressed'
+  ]
 })
 
 export default config

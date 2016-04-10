@@ -2,10 +2,10 @@
 
 import path from 'path'
 import webpack from 'webpack'
-import _ from 'lodash'
+import merge from 'lodash/merge'
 import baseConfig from './base'
 
-const config = _.merge({
+const config = merge({
   entry: path.join(__dirname, '../../src/scripts/client'),
   cache: false,
   devtool: 'sourcemap',

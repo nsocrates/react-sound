@@ -1,18 +1,16 @@
-// https://github.com/newtriks/generator-react-webpack
-
 import path from 'path'
 import autoprefixer from 'autoprefixer'
 
 const port = 8000
-const srcPath = path.join(__dirname, '/../../src')
+const srcPath = path.join(__dirname, '..', '..', 'src')
+const assetsPath = path.join(__dirname, '..', '..', 'dist', 'assets')
 const publicPath = '/assets/'
 
 const baseConfig = {
   port,
   debug: true,
   output: {
-    path: path.join(__dirname, '/../../dist/assets'),
-    filename: 'app.js',
+    path: assetsPath,
     publicPath
   },
   devServer: {
@@ -21,7 +19,7 @@ const baseConfig = {
     hot: true,
     port,
     publicPath,
-    noInfo: false,
+    noInfo: true,
     stats: {
       colors: true
     }
@@ -35,6 +33,7 @@ const baseConfig = {
     alias: {
       config: `${srcPath}/scripts.config/${process.env.REACT_WEBPACK_ENV}`,
       actions: `${srcPath}/scripts/actions/`,
+      auth: `${srcPath}/scripts/auth/`,
       components: `${srcPath}/scripts/components/`,
       constants: `${srcPath}/scripts/constants/`,
       containers: `${srcPath}/scripts/containers/`,
@@ -47,21 +46,16 @@ const baseConfig = {
     }
   },
   module: {
-    loaders: [
-      {
-        test: /\.scss$/,
-        loaders: [
-          'style-loader',
-          'css-loader',
-          'postcss-loader',
-          'sass-loader?outputStyle=compressed'
-        ]
-      },
-      {
-        test: /\.(png|jpg|gif|woff|woff2)$/,
-        loader: 'url-loader?limit=8192'
-      }
-    ]
+    loaders: [{
+      test: /\.(png|jpg|gif|woff|woff2)$/,
+      loader: 'url-loader?limit=8192'
+    }, {
+      test: /\.html$/,
+      loader: 'html-loader'
+    }, {
+      test: /\.json$/,
+      loader: 'json-loader'
+    }]
   },
   postcss() {
     return [
