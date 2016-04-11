@@ -1,10 +1,12 @@
 {
   "verbose": false,
   "watch": [
+    "server",
+    "webpack",
     "src/scripts/server.jsx",
     "src/scripts/routes.jsx",
-    "server",
-    "webpack"
+    "src/scripts/helmConfig.js",
+    "src/scripts/components/Meta.jsx"
   ],
   "exec": "npm run build:dev && npm run dev"
 }

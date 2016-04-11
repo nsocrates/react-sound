@@ -1,15 +1,19 @@
+/* eslint-disable max-len */
+
 import path from 'path'
 import webpack from 'webpack'
 import baseConfig from './base'
 import merge from 'lodash/merge'
 
+const hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'
+
 const config = merge({
   entry: [
-    'webpack/hot/only-dev-server',
-    './src/scripts/client'
+    './scripts/client',
+    hotMiddlewareScript
   ],
   output: {
-    filename: 'app.js'
+    filename: 'bundle.js'
   },
   cache: true,
   devtool: 'eval',
@@ -27,8 +31,18 @@ const config = merge({
 // Add needed loaders
 config.module.loaders.push({
   test: /\.(js|jsx)$/,
-  loader: 'react-hot!babel-loader',
-  include: path.join(__dirname, '..', '..', 'src')
+  loader: 'babel-loader',
+  plugins: [
+    'react-transform', {
+      transforms: [{
+        transform: 'react-transform-hmr',
+        imports: ['react'],
+        locals: ['module']
+      }]
+    }
+  ],
+  include: path.join(__dirname, '../..', 'src'),
+  exclude: path.join(__dirname, '/node_modules/')
 }, {
   test: /\.scss$/,
   loaders: [

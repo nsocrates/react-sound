@@ -2,12 +2,13 @@ import path from 'path'
 import autoprefixer from 'autoprefixer'
 
 const port = 8000
-const srcPath = path.join(__dirname, '..', '..', 'src')
-const assetsPath = path.join(__dirname, '..', '..', 'dist', 'assets')
+const srcPath = path.join(__dirname, '../..', 'src')
+const assetsPath = path.join(__dirname, '../..', 'dist', 'assets')
 const publicPath = '/assets/'
 
 const baseConfig = {
   port,
+  context: srcPath,
   debug: true,
   output: {
     path: assetsPath,
@@ -16,7 +17,6 @@ const baseConfig = {
   devServer: {
     contentBase: './src/',
     historyApiFallback: true,
-    hot: true,
     port,
     publicPath,
     noInfo: true,
@@ -48,7 +48,14 @@ const baseConfig = {
   module: {
     loaders: [{
       test: /\.(png|jpg|gif|woff|woff2)$/,
-      loader: 'url-loader?limit=8192'
+      loader: 'url',
+      query: {
+        name: '[hash].[ext]',
+        limit: 8192
+      }
+    }, {
+      test: /\.(mp4|ogg|svg)$/,
+      loader: 'file-loader'
     }, {
       test: /\.html$/,
       loader: 'html-loader'

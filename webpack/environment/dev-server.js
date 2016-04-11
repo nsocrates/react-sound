@@ -3,10 +3,9 @@ import webpack from 'webpack'
 import baseConfig from './base'
 import merge from 'lodash/merge'
 
-const entry = path.join(__dirname, '..', '..', 'src', 'scripts', 'server')
-
 const config = merge({
-  entry,
+  name: 'server rendering',
+  entry: './scripts/server',
   target: 'node',
   output: {
     filename: 'server.js',
@@ -23,8 +22,9 @@ const config = merge({
 // Add needed loaders
 config.module.loaders.push({
   test: /\.(js|jsx)$/,
-  loader: 'babel-loader',
-  include: path.join(__dirname, '..', '..', 'src')
+  loader: 'babel',
+  include: path.join(__dirname, '../..', 'src'),
+  exclude: path.join(__dirname, '/node_modules/')
 })
 
 export default config
