@@ -3,128 +3,28 @@
  */
 
 import * as ActionTypes from 'constants/ActionTypes'
-import { CALL_API } from 'constants/ApiConstants'
 import { Schemas } from 'constants/Schemas'
 import { push } from 'react-router-redux'
+import { callApi } from 'actions/call'
 
-// Fetches a single user:
-export function fetchUser(id, endpoint) {
-  return {
-    id,
-    [CALL_API]: {
-      types: [
-        ActionTypes.USER_REQUEST,
-        ActionTypes.USER_SUCCESS,
-        ActionTypes.USER_FAILURE
-      ],
-      endpoint,
-      schema: Schemas.USER
-    }
-  }
-}
-
-function fetchUserTracks(id, next_href) {
-  return {
-    id,
-    [CALL_API]: {
-      types: [
-        ActionTypes.USER_TRACKS_REQUEST,
-        ActionTypes.USER_TRACKS_SUCCESS,
-        ActionTypes.USER_TRACKS_FAILURE
-      ],
-      endpoint: next_href,
-      schema: Schemas.TRACK_ARRAY
-    }
-  }
-}
-
-function fetchUserFavorites(id, next_href) {
-  return {
-    id,
-    [CALL_API]: {
-      types: [
-        ActionTypes.FAVORITE_REQUEST,
-        ActionTypes.FAVORITE_SUCCESS,
-        ActionTypes.FAVORITE_FAILURE
-      ],
-      endpoint: next_href,
-      schema: Schemas.TRACK_ARRAY
-    }
-  }
-}
-
-function fetchUserPlaylists(id, next_href) {
-  return {
-    id,
-    [CALL_API]: {
-      types: [
-        ActionTypes.PLAYLIST_REQUEST,
-        ActionTypes.PLAYLIST_SUCCESS,
-        ActionTypes.PLAYLIST_FAILURE
-      ],
-      endpoint: next_href,
-      schema: Schemas.PLAYLIST_ARRAY
-    }
-  }
-}
-
-function fetchUserFollowings(id, next_href) {
-  return {
-    id,
-    [CALL_API]: {
-      types: [
-        ActionTypes.FOLLOWINGS_REQUEST,
-        ActionTypes.FOLLOWINGS_SUCCESS,
-        ActionTypes.FOLLOWINGS_FAILURE
-      ],
-      endpoint: next_href,
-      schema: Schemas.USER_ARRAY
-    }
-  }
-}
-
-function fetchUserFollowers(id, next_href) {
-  return {
-    id,
-    [CALL_API]: {
-      types: [
-        ActionTypes.FOLLOWERS_REQUEST,
-        ActionTypes.FOLLOWERS_SUCCESS,
-        ActionTypes.FOLLOWERS_FAILURE
-      ],
-      endpoint: next_href,
-      schema: Schemas.USER_ARRAY
-    }
-  }
-}
-
-export function loadUserFavorites(id, next = false) {
+export function loadUser(id) {
   return (dispatch, getState) => {
-    const {
-      ids = [],
-      next_href = `/users/${id}/favorites?`
-    } = getState().app.partition.favoritesByUser[id] || {}
+    const user = getState().app.entities.users[id]
+    const types = [
+      ActionTypes.USER_REQUEST,
+      ActionTypes.USER_SUCCESS,
+      ActionTypes.USER_FAILURE
+    ]
+    const userEndpoint = `/users/${id}`
+    const profileEndpoint = `/users/${id}/web-profiles`
+    const schema = Schemas.USER
 
-    if (ids.length && !next) {
+    if (user && user.hasOwnProperty('web_profiles')) {
       return null
     }
 
-    return dispatch(fetchUserFavorites(id, next_href))
-  }
-}
-
-export function loadUserPlaylists(id, next = false) {
-  return (dispatch, getState) => {
-    const {
-      ids = [],
-      next_href = `/users/${id}/playlists?`
-    } = getState().app.partition.playlistsByUser[id] || {}
-
-    if (ids.length && !next) {
-      return null
-    }
-
-    return dispatch(fetchUserPlaylists(id, next_href))
+    return dispatch(callApi({ id }, { endpoint: userEndpoint, types, schema }))
+      .then(() => dispatch(callApi({ id }, { endpoint: profileEndpoint, types, schema })))
   }
 }
 
@@ -132,29 +32,68 @@ export function loadUserTracks(id, next = false) {
   return (dispatch, getState) => {
     const {
       ids = [],
-      next_href = `/users/${id}/tracks?`
+      next_href = `/users/${id}/tracks`
     } = getState().app.partition.tracksByUser[id] || {}
+
+    const types = [
+      ActionTypes.USER_TRACKS_REQUEST,
+      ActionTypes.USER_TRACKS_SUCCESS,
+      ActionTypes.USER_TRACKS_FAILURE
+    ]
+    const endpoint = next_href
+    const schema = Schemas.TRACK_ARRAY
 
     if (ids.length && !next) {
       return null
     }
 
-    return dispatch(fetchUserTracks(id, next_href))
+    return dispatch(callApi({ id }, { endpoint, types, schema }))
   }
 }
 
-export function loadUserFollowers(id, next = false) {
+export function loadUserFavorites(id, next = false) {
   return (dispatch, getState) => {
     const {
       ids = [],
-      next_href = `/users/${id}/followers?`
-    } = getState().app.partition.followersByUser[id] || {}
+      next_href = `/users/${id}/favorites`
+    } = getState().app.partition.favoritesByUser[id] || {}
+
+    const types = [
+      ActionTypes.FAVORITE_REQUEST,
+      ActionTypes.FAVORITE_SUCCESS,
+      ActionTypes.FAVORITE_FAILURE
+    ]
+    const endpoint = next_href
+    const schema = Schemas.TRACK_ARRAY
 
     if (ids.length && !next) {
       return null
     }
 
-    return dispatch(fetchUserFollowers(id, next_href))
+    return dispatch(callApi({ id }, { endpoint, types, schema }))
+  }
+}
+
+export function loadUserPlaylists(id, next = false) {
+  return (dispatch, getState) => {
+    const {
+      ids = [],
+      next_href = `/users/${id}/playlists`
+    } = getState().app.partition.playlistsByUser[id] || {}
+
+    const types = [
+      ActionTypes.PLAYLIST_REQUEST,
+      ActionTypes.PLAYLIST_SUCCESS,
+      ActionTypes.PLAYLIST_FAILURE
+    ]
+    const endpoint = next_href
+    const schema = Schemas.PLAYLIST_ARRAY
+
+    if (ids.length && !next) {
+      return null
+    }
+
+    return dispatch(callApi({ id }, { endpoint, types, schema }))
   }
 }
 
@@ -162,43 +101,63 @@ export function loadUserFollowings(id, next = false) {
   return (dispatch, getState) => {
     const {
       ids = [],
-      next_href = `/users/${id}/followings?`
+      next_href = `/users/${id}/followings`
     } = getState().app.partition.followingsByUser[id] || {}
+
+    const types = [
+      ActionTypes.FOLLOWINGS_REQUEST,
+      ActionTypes.FOLLOWINGS_SUCCESS,
+      ActionTypes.FOLLOWINGS_FAILURE
+    ]
+    const endpoint = next_href
+    const schema = Schemas.USER_ARRAY
 
     if (ids.length && !next) {
       return null
     }
 
-    return dispatch(fetchUserFollowings(id, next_href))
+    return dispatch(callApi({ id }, { endpoint, types, schema }))
   }
 }
 
-// Fetches a single user from SoundCloud API unless it is cached:
-export function loadUser(id) {
+export function loadUserFollowers(id, next = false) {
   return (dispatch, getState) => {
-    const user = getState().app.entities.users[id]
-    const userEndpoint = `/users/${id}?`
-    const profileEndpoint = `/users/${id}/web-profiles?`
+    const {
+      ids = [],
+      next_href = `/users/${id}/followers`
+    } = getState().app.partition.followersByUser[id] || {}
 
-    if (user && user.hasOwnProperty('web_profiles')) {
+    const types = [
+      ActionTypes.FOLLOWERS_REQUEST,
+      ActionTypes.FOLLOWERS_SUCCESS,
+      ActionTypes.FOLLOWERS_FAILURE
+    ]
+    const endpoint = next_href
+    const schema = Schemas.USER_ARRAY
+
+    if (ids.length && !next) {
       return null
     }
 
-    return dispatch(fetchUser(id, userEndpoint))
-      .then(() => (
-        dispatch(fetchUser(id, profileEndpoint))
-      ))
+    return dispatch(callApi({ id }, { endpoint, types, schema }))
   }
 }
 
 export function resolveUser(username) {
   return dispatch => {
-    const endpoint = `/resolve?url=http://soundcloud.com/${username}&`
+    const endpoint = `/resolve?url=http://soundcloud.com/${username}`
+    const types = [
+      ActionTypes.USER_REQUEST,
+      ActionTypes.USER_SUCCESS,
+      ActionTypes.USER_FAILURE
+    ]
+    const schema = Schemas.USER
 
-    dispatch(fetchUser(username, endpoint))
+    return dispatch(callApi({ username }, { endpoint, types, schema }))
       .then(res => {
         const id = res.response.result.toString()
-        dispatch(fetchUser(id, `/users/${id}/web-profiles?`))
+        const profileEndpoint = `/users/${id}/web-profiles`
+        return dispatch(callApi({ id }, { endpoint: profileEndpoint, types, schema }))
           .then(() => (
             dispatch(push({ pathname: `#user/${id}` }))
           ))

@@ -1,7 +1,7 @@
 import deferred from '../deferred'
 import dialogStore from './store'
 import popup from './popup'
-import { AUTH_ROUTE } from 'constants/ApiConstants'
+import { AUTH_BASE } from 'constants/Auth'
 import { constructUrl } from 'utils/urlUtils'
 
 export default function dialogFactory() {
@@ -19,7 +19,7 @@ export default function dialogFactory() {
     deferred: deferred(),
 
     open() {
-      const url = constructUrl(AUTH_ROUTE, this.query)
+      const url = constructUrl(AUTH_BASE, this.query)
       this.popup = popup.open(url, this.width, this.height)
       dialogStore.set(this.id, this)
 

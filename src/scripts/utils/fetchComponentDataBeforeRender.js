@@ -1,4 +1,4 @@
-export function fetchComponentDataBeforeRender(dispatch, components, params) {
+export default function fetchComponentDataBeforeRender(dispatch, components, params) {
   const needs = components.reduce((prev, current) => (
     (current.need || [])
       .concat((current.WrappedComponent ? current.WrappedComponent.need : []) || [])

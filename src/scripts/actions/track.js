@@ -3,62 +3,10 @@
  */
 
 import * as ActionTypes from 'constants/ActionTypes'
-import { CALL_API } from 'constants/ApiConstants'
+import { callApi } from 'actions/call'
 import { Schemas } from 'constants/Schemas'
 import { setPagination } from 'actions/collection'
 
-// Fetches a single track:
-function fetchTrack(id) {
-  return {
-    id,
-    [CALL_API]: {
-      types: [
-        ActionTypes.TRACK_REQUEST,
-        ActionTypes.TRACK_SUCCESS,
-        ActionTypes.TRACK_FAILURE
-      ],
-      endpoint: `/tracks/${id}?`,
-      schema: Schemas.TRACK
-    }
-  }
-}
-
-function fetchTrackComments(id, offset, next_href = `/tracks/${id}/comments?`) {
-  return {
-    id,
-    offset,
-    [CALL_API]: {
-      types: [
-        ActionTypes.TRACK_COMMENTS_REQUEST,
-        ActionTypes.TRACK_COMMENTS_SUCCESS,
-        ActionTypes.TRACK_COMMENTS_FAILURE
-      ],
-      endpoint: next_href,
-      schema: Schemas.COMMENT_ARRAY
-    }
-  }
-}
-
-export function loadTrackComments(id, offset, endpoint, next = true) {
-  return (dispatch, getState) => {
-    const { commentsByTrack } = getState().app.partition
-    const {
-      next_href = `/tracks/${id}/comments?`
-    } = commentsByTrack[id] || {}
-    const url = endpoint || next_href
-
-    if (!next) {
-      return null
-    }
-
-    return dispatch(fetchTrackComments(id, offset, url))
-      .then(res => (
-        dispatch(setPagination(id, res.response.result))
-      ))
-  }
-}
-
-// Fetches a single track from SoundCloud API unless it is cached:
 export function loadTrack(id) {
   return (dispatch, getState) => {
     const track = getState().app.entities.tracks[id]
@@ -68,13 +16,62 @@ export function loadTrack(id) {
       return null
     }
 
-    return dispatch(fetchTrack(id))
+    const trackOptions = {
+      types: [
+        ActionTypes.TRACK_REQUEST,
+        ActionTypes.TRACK_SUCCESS,
+        ActionTypes.TRACK_FAILURE
+      ],
+      endpoint: `/tracks/${id}`,
+      schema: Schemas.TRACK
+    }
+
+    const commentOptions = {
+      types: [
+        ActionTypes.TRACK_COMMENTS_REQUEST,
+        ActionTypes.TRACK_COMMENTS_SUCCESS,
+        ActionTypes.TRACK_COMMENTS_FAILURE
+      ],
+      endpoint: `/tracks/${id}/comments`,
+      schema: Schemas.COMMENT_ARRAY
+    }
+
+    return dispatch(callApi({ id }, trackOptions))
       .then(() => (
-        dispatch(fetchTrackComments(id))
+        dispatch(callApi({ id }, commentOptions))
       )
       .then(res => (
         dispatch(setPagination(id, res.response.result)))
       )
     )
+  }
+}
+
+export function loadTrackComments(id, offset, endpoint, force = true) {
+  return (dispatch, getState) => {
+    const { commentsByTrack } = getState().app.partition
+    const {
+      next_href = `/tracks/${id}/comments`
+    } = commentsByTrack[id] || {}
+    const path = endpoint || next_href
+
+    const options = {
+      types: [
+        ActionTypes.TRACK_COMMENTS_REQUEST,
+        ActionTypes.TRACK_COMMENTS_SUCCESS,
+        ActionTypes.TRACK_COMMENTS_FAILURE
+      ],
+      endpoint: path,
+      schema: Schemas.COMMENT_ARRAY
+    }
+
+    if (!force) {
+      return null
+    }
+
+    return dispatch(callApi({ id, offset }, options))
+      .then(res => (
+        dispatch(setPagination(id, res.response.result))
+      ))
   }
 }

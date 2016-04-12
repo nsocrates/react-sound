@@ -59,6 +59,8 @@ export const TAG_FAILURE = 'TAG_FAILURE'
 export const TAG_REQUEST = 'TAG_REQUEST'
 export const TAG_SUCCESS = 'TAG_SUCCESS'
 
+export const TEST_BROWSER = 'TEST_BROWSER'
+
 export const TOGGLE_CLOSE_ALL = 'TOGGLE_CLOSE_ALL'
 export const TOGGLE_DROPDOWN = 'TOGGLE_DROPDOWN'
 export const TOGGLE_MENU = 'TOGGLE_MENU'

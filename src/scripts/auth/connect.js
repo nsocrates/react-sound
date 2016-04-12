@@ -1,6 +1,5 @@
 import config from './config'
 import dialogFactory from './dialog/factory'
-import { Promise } from 'es6-promise'
 import authUser from './authUser'
 
 export default function connect() {

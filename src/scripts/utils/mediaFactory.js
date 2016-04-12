@@ -1,6 +1,6 @@
 import timeFactory from './timeFactory'
 import { formatCover, dtFormatter } from './formatUtils'
-import { CLIENT_ID } from 'constants/ApiConstants'
+import { CLIENT_ID } from 'constants/Api'
 
 export default function mediaFactory({ userObject, mediaObject }) {
   if (!mediaObject || !userObject) {

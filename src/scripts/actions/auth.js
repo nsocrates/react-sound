@@ -91,8 +91,7 @@ export function loadAuthedUser() {
     }
 
     return dispatch(get('/me', Schemas.USER, AuthTypes.PROFILE)).then(
-      () => dispatch(fetchUser(id, profileEndpoint)),
-      err => dispatch(notif.error(err.error))
+      () => dispatch(fetchUser(id, profileEndpoint))
     )
   }
 }
@@ -196,9 +195,7 @@ export function updateMyFollowings(method, id, name) {
     return dispatch(reqMethod(id, endpoint, deleteType)).then(
       () => dispatch(loadFollowingCollection(true)).then(
         () => dispatch(notif.action(`${action} ${username}.`)),
-        err => dispatch(notif.error(err.error))
-      ),
-      err => dispatch(notif.error(err.error))
+      )
     )
   }
 }
@@ -224,9 +221,7 @@ export function updateMyTracks(method, id, name) {
     return dispatch(reqMethod(id, endpoint, deleteType)).then(
       () => dispatch(loadTrackCollection(true)).then(
         () => dispatch(notif.action(msg)),
-        err => dispatch(notif.error(err.error))
-      ),
-      err => dispatch(notif.error(err.error))
+      )
     )
   }
 }
@@ -250,9 +245,7 @@ export function updateMyPlaylists(method, id, name) {
     return dispatch(reqMethod(id, endpoint, deleteType)).then(
       () => dispatch(loadPlaylistCollection(true)).then(
         () => dispatch(notif.action(`${action} ${playlist} to favorites.`)),
-        err => dispatch(notif.error(err.error))
-      ),
-      err => dispatch(notif.error(err.error))
+      )
     )
   }
 }
@@ -263,7 +256,6 @@ export function notifConnect() {
   return dispatch => (
     dispatch(authConnect()).then(
       res => {
-        console.log(res.response)
         const { username, avatar } = res.response
         return dispatch(loadAuthedCollection()).then(
           () => dispatch(notif.success(`Connected as "${username}"`, undefined, avatar))
@@ -277,6 +269,6 @@ export function notifDisconnect() {
   return dispatch => (
     dispatch(authDisconnect()).then(
       () => dispatch(notif.action('You have logged out')),
-      err => dispatch(notif.error(err.error || 'Unable to logout')))
     )
+  )
 }

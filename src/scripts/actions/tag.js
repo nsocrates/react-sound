@@ -1,21 +1,6 @@
 import * as ActionTypes from 'constants/ActionTypes'
-import { CALL_API } from 'constants/ApiConstants'
+import { callApi } from 'actions/call'
 import { Schemas } from 'constants/Schemas'
-
-function fetchTag(tag, next_href) {
-  return {
-    tag,
-    [CALL_API]: {
-      types: [
-        ActionTypes.TAG_REQUEST,
-        ActionTypes.TAG_SUCCESS,
-        ActionTypes.TAG_FAILURE
-      ],
-      endpoint: next_href,
-      schema: Schemas.TRACK_ARRAY
-    }
-  }
-}
 
 export function loadTag(tag, next = false) {
   return (dispatch, getState) => {
@@ -26,13 +11,23 @@ export function loadTag(tag, next = false) {
     const encoded = encodeURIComponent(decoded).replace(/%20/g, '+')
     const {
       ids = [],
-      next_href = `/tracks/?tags=${encoded}&`
+      next_href = `/tracks/?tags=${encoded}`
     } = getState().app.partition.tracksByTag[decoded] || {}
+
+    const options = {
+      types: [
+        ActionTypes.TAG_REQUEST,
+        ActionTypes.TAG_SUCCESS,
+        ActionTypes.TAG_FAILURE
+      ],
+      endpoint: next_href,
+      schema: Schemas.TRACK_ARRAY
+    }
 
     if (ids.length && !next) {
       return null
     }
 
-    return dispatch(fetchTag(decoded, next_href))
+    return dispatch(callApi({ tag: decoded }, options))
   }
 }

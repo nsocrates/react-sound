@@ -1,13 +1,9 @@
-import 'isomorphic-fetch'
 import { extractNumber } from 'utils/extractUtils'
-import { CALL_AUTH, AuthReq } from 'constants/Auth'
+import { CALL_AUTH, AUTH_BASE, AuthReq } from 'constants/Auth'
 import { normalize } from 'normalizr'
 import SC from 'auth/index'
 
 const authFactory = () => {
-  // OAuth.initialize(AUTH.KEY)
-  // let requestObject = OAuth.create(AUTH.SERVICE)
-
   function handleCollection(response) {
     return response.collection
   }
@@ -37,7 +33,7 @@ const authFactory = () => {
 
     return SC.connect()
       .then(resolve => (
-        fetch('http://localhost:8000/auth/soundcloud/me')
+        fetch(`${AUTH_BASE}/me`)
           .then(response => {
             if (!response.ok) {
               return Promise.reject(response)
@@ -52,27 +48,10 @@ const authFactory = () => {
           })
       ))
       .catch(error => { throw new Error(error.error_description) })
-
-    // return SC.connect()
-    //   .then(resolve => (
-    //     fetch('http://localhost:8000/auth/soundcloud/me')
-    //       .then(response => {
-    //         if (!response.ok) {
-    //           return Promise.reject(response)
-    //         }
-    //         return response.json().then(json => (
-    //           Object.assign({},
-    //             normalize(json, schema), {
-    //               avatar: json.avatar_url,
-    //               username: json.username
-    //             }, resolve)
-    //         )).catch(error => { throw new Error(error) })
-    //       }).catch(error => { throw new Error(error) })
-    //   ))
   }
 
   function disconnect() {
-    return fetch('http://localhost:8000/auth/soundcloud/logout')
+    return fetch(`${AUTH_BASE}/logout`)
       .then(response => {
         if (!response.ok) {
           throw new Error(`${response.status} (${response.statusText})`)

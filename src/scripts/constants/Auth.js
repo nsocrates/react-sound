@@ -1,5 +1,9 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
+const isBrowser = typeof window !== 'undefined'
+
+export const AUTH_BASE = isBrowser
+  && `${window.location.protocol}//${window.location.host}/auth/soundcloud`
 export const CALL_AUTH = Symbol('Call AUTH')
 export const AUTH_KEY = 'accessToken'
 export const AUTH_ID = 'userId'

@@ -1,13 +1,14 @@
 import qs from 'query-string'
-import { BASE, CLIENT_ID, PARAMS } from 'constants/ApiConstants'
+import { BASE, CLIENT_ID, DEFAULT_PARAMS } from 'constants/Api'
 
-export function constructUrl(path, params = PARAMS) {
+export function constructUrl(path, params = DEFAULT_PARAMS) {
   return `${path}?${qs.stringify(params)}`
 }
 
-export function constructUrlFromEndpoint(endpoint, params = PARAMS) {
+export function constructUrlFromEndpoint(endpoint, params = DEFAULT_PARAMS) {
+  const separator = endpoint.indexOf('?') !== -1 ? '&' : '?'
   if (endpoint.indexOf(BASE) === -1) {
-    return BASE + endpoint + qs.stringify(params)
+    return BASE + endpoint + separator + qs.stringify(params)
   }
 
   return endpoint

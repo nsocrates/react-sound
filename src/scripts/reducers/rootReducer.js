@@ -1,5 +1,6 @@
 import authCollection from './authCollection'
 import authUser from './authUser'
+import browser from './browser'
 import entities from './entities'
 import notifications from './notifications'
 import pagination from './pagination'
@@ -10,6 +11,7 @@ import toggles from './toggles'
 import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
+  browser,
   entities,
   pagination,
   partition,
