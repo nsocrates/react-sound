@@ -13,13 +13,14 @@ class AuthCollectionContainer extends React.Component {
 
   componentDidMount() {
     const { dispatch, auth } = this.props
+    const { user } = auth
     const hasLocalStorage = !!localStorage.oauthio_provider_soundcloud
 
-    if (!hasLocalStorage && !auth.result.isAuthorizing && !auth.result.isAuthorized) {
+    if (!hasLocalStorage && !user.isAuthorizing && !user.isAuthorized) {
       return dispatch(replace({ location: '/' }))
     }
 
-    if (auth.result.isAuthorized) {
+    if (user.isAuthorized) {
       return this.updateComponent()
     }
 
@@ -27,7 +28,7 @@ class AuthCollectionContainer extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (!this.props.auth.result.isAuthorized && newProps.auth.result.isAuthorized) {
+    if (!this.props.auth.user.isAuthorized && newProps.auth.user.isAuthorized) {
       return this.updateComponent()
     }
 

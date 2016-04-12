@@ -17,6 +17,7 @@ export default function UserContacts(props) {
   const wProps = {
     end: {
       className: 'contact contact--end',
+      text: 'NO MORE USERS TO DISPLAY.',
       Type: 'li'
     },
     loader: {

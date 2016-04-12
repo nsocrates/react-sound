@@ -36,30 +36,50 @@ const authFactory = () => {
     const schema = theArgs[1]
 
     return SC.connect()
-      .then(accessToken => accessToken)
-      .catch(error => { throw new Error(`${error.error}: ${error.error_description}`) })
+      .then(resolve => (
+        fetch('http://localhost:8000/auth/soundcloud/me')
+          .then(response => {
+            if (!response.ok) {
+              return Promise.reject(response)
+            }
+            return response.json().then(json => (
+              Object.assign({},
+                normalize(json, schema), {
+                  avatar: json.avatar_url,
+                  username: json.username
+                }, resolve)
+            ))
+          })
+      ))
+      .catch(error => { throw new Error(error.error_description) })
 
-    // return OAuth.popup(AUTH.SERVICE, { cache: true })
-    //   .fail(error => new Error(error))
-    //   .then((resolve) => (
-    //     resolve.me()
-    //       .fail(error => new Error(error))
+    // return SC.connect()
+    //   .then(resolve => (
+    //     fetch('http://localhost:8000/auth/soundcloud/me')
     //       .then(response => {
-    //         requestObject = OAuth.create(AUTH.SERVICE)
-
-    //         return Object.assign({},
-    //         normalize(response.raw, schema), {
-    //           avatar: response.avatar,
-    //           id: response.raw.id,
-    //           username: response.alias,
-    //           access_token: requestObject.access_token
-    //         })
-    //       })
+    //         if (!response.ok) {
+    //           return Promise.reject(response)
+    //         }
+    //         return response.json().then(json => (
+    //           Object.assign({},
+    //             normalize(json, schema), {
+    //               avatar: json.avatar_url,
+    //               username: json.username
+    //             }, resolve)
+    //         )).catch(error => { throw new Error(error) })
+    //       }).catch(error => { throw new Error(error) })
     //   ))
   }
 
   function disconnect() {
-    return SC.disconnect()
+    return fetch('http://localhost:8000/auth/soundcloud/logout')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`${response.status} (${response.statusText})`)
+        }
+        SC.disconnect()
+        return response
+      })
   }
 
   function get(endpoint, schema) {
@@ -126,36 +146,13 @@ const authFactory = () => {
   }
 }
 
-export default store => next => action => {
+export default store => next => action => { // eslint-disable-line no-unused-vars
   const callAUTH = action[CALL_AUTH]
   if (typeof callAUTH === 'undefined') {
     return next(action)
   }
 
-  let { endpoint } = callAUTH
-  const { schema, types, request, deleteType = undefined } = callAUTH
-
-  if (!request) {
-    throw new Error('Specify a request method')
-  }
-
-  if (request === AuthReq.GET) {
-    if (typeof endpoint === 'function') {
-      endpoint = endpoint(store.getState())
-    }
-    if (typeof endpoint !== 'string') {
-      throw new Error('Specify a string endpoint URL.')
-    }
-    if (!schema) {
-      throw new Error('Specify one of the exported Schemas.')
-    }
-    if (!Array.isArray(types) || types.length !== 3) {
-      throw new Error('Expected an array of three action types.')
-    }
-    if (!types.every(type => typeof type === 'string')) {
-      throw new Error('Expected action types to be strings.')
-    }
-  }
+  const { endpoint, schema, types, request, deleteType = undefined } = callAUTH
 
   function actionWith(data) {
     const finalAction = Object.assign({}, action, data)

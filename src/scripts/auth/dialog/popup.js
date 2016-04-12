@@ -3,9 +3,9 @@ const popup = {
     const opts = {
       width,
       height,
-      location: 'yes',
       left: window.screenX + (window.outerWidth - width) / 2,
       top: window.screenY + (window.outerHeight - height) / 2,
+      location: 'yes',
       toolbar: 'no',
       scrollbars: 'yes'
     }

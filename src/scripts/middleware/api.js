@@ -33,7 +33,7 @@ function callApi(endpoint, schema) {
   return fetch(url)
     .then(response => {
       if (!response.ok) {
-        throw new Error(`${response.status} (${response.statusText})`)
+        return Promise.reject(response)
       }
 
       return response.json()
@@ -69,30 +69,13 @@ function callApi(endpoint, schema) {
 
 // A Redux middleware that interprets actions with CALL_API info specified.
 // Performs the call and promises when such actions are dispatched.
-export default store => next => action => {
+export default store => next => action => { // eslint-disable-line no-unused-vars
   const callAPI = action[CALL_API]
   if (typeof callAPI === 'undefined') {
     return next(action)
   }
 
-  let { endpoint } = callAPI
-  const { schema, types } = callAPI
-
-  if (typeof endpoint === 'function') {
-    endpoint = endpoint(store.getState())
-  }
-  if (typeof endpoint !== 'string') {
-    throw new Error('Specify a string endpoint URL.')
-  }
-  if (!schema) {
-    throw new Error('Specify one of the exported Schemas.')
-  }
-  if (!Array.isArray(types) || types.length !== 3) {
-    throw new Error('Expected an array of three action types.')
-  }
-  if (!types.every(type => typeof type === 'string')) {
-    throw new Error('Expected action types to be strings.')
-  }
+  const { endpoint, schema, types } = callAPI
 
   function actionWith(data) {
     const finalAction = Object.assign({}, action, data)

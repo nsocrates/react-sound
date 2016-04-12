@@ -1,7 +1,6 @@
-import authResult from './authResult'
 import authCollection from './authCollection'
+import authUser from './authUser'
 import entities from './entities'
-import errorMessage from './errorMessage'
 import notifications from './notifications'
 import pagination from './pagination'
 import partition from './partition'
@@ -12,12 +11,11 @@ import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
   entities,
-  errorMessage,
   pagination,
   partition,
   auth: combineReducers({
-    result: authResult,
-    collection: authCollection
+    collection: authCollection,
+    user: authUser
   }),
   ui: combineReducers({
     notifications,

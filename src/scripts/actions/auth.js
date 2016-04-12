@@ -263,26 +263,20 @@ export function notifConnect() {
   return dispatch => (
     dispatch(authConnect()).then(
       res => {
+        console.log(res.response)
         const { username, avatar } = res.response
         return dispatch(loadAuthedCollection()).then(
-          () => dispatch(notif.success(`Connected as "${username}"`, undefined, avatar)),
-          err => dispatch(notif.error(err.error))
+          () => dispatch(notif.success(`Connected as "${username}"`, undefined, avatar))
         )
-      },
-      err => dispatch(notif.error(err.error))
+      }
     )
   )
 }
 
 export function notifDisconnect() {
-  return (dispatch, getState) => {
-    dispatch(authDisconnect())
-    const { auth } = getState().app
-
-    if (auth.isAuthorized && Object.keys(auth.result).length) {
-      return dispatch(notif.error('Unable to log out'))
-    }
-
-    return dispatch(notif.action('You have logged out'))
-  }
+  return dispatch => (
+    dispatch(authDisconnect()).then(
+      () => dispatch(notif.action('You have logged out')),
+      err => dispatch(notif.error(err.error || 'Unable to logout')))
+    )
 }

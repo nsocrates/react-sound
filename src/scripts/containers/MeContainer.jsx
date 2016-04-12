@@ -5,15 +5,15 @@ import { replace } from 'react-router-redux'
 class MeContainer extends React.Component {
 
   componentDidMount() {
-    const { dispatch, result } = this.props
+    const { dispatch, user } = this.props
     const locationDescriptor = {
       pathname: '#genre',
       query: {
         q: 'trance'
       }
     }
-    return result.isAuthorized
-      ? dispatch(replace({ pathname: `#user/${result.id}` }))
+    return user.isAuthenticated
+      ? dispatch(replace({ pathname: `#user/${user.userId}` }))
       : dispatch(replace(locationDescriptor))
   }
 
@@ -24,16 +24,16 @@ class MeContainer extends React.Component {
 
 MeContainer.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  result: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
   const {
-    result
+    user
   } = state.app.auth
 
   return {
-    result
+    user
   }
 }
 

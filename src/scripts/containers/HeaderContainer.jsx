@@ -7,18 +7,17 @@ import { authConnect, notifConnect, notifDisconnect, loadAuthedCollection } from
 
 class HeaderContainer extends React.Component {
   componentDidMount() {
-    // const { dispatch, auth: { result } } = this.props
-
-    // return (!result.id)
-    //   ? dispatch(authConnect()).then(() => dispatch(loadAuthedCollection()))
-    //   : null
+    const { user } = this.props
+    if (!user.isAuthenticated) {
+      localStorage.clear()
+    }
   }
 
   render() {
-    const { dispatch, auth, me, dropdown } = this.props
+    const { dispatch, user, me, dropdown } = this.props
 
     const handleAuth = () => (
-      auth.result.isAuthorized
+      user.isAuthenticated
         ? dispatch(notifDisconnect())
         : dispatch(notifConnect())
     )
@@ -32,11 +31,11 @@ class HeaderContainer extends React.Component {
 
     return (
       <Header
-        auth={ auth }
+        dropdown={ dropdown }
         handleAuth={ handleAuth }
         handleDropdown={ handleDropdown }
         me={ me }
-        dropdown={ dropdown }
+        user={ user }
       >
         <Waypoint
           onEnter={ handleNavBar }
@@ -49,29 +48,34 @@ class HeaderContainer extends React.Component {
 }
 
 HeaderContainer.propTypes = {
-  auth: React.PropTypes.object.isRequired,
   dispatch: React.PropTypes.func.isRequired,
   dropdown: React.PropTypes.object.isRequired,
-  me: React.PropTypes.object.isRequired
+  me: React.PropTypes.object.isRequired,
+  user: React.PropTypes.object.isRequired
 }
 
-function mapStateToProps(state) {
+function mapStateToProps({ app }) {
   const {
-    auth,
+    auth: {
+      user
+    },
+
+    entities: {
+      users: {
+        [user.userId]: me = {}
+      }
+    },
+
     ui: {
       toggles: {
         dropdown
       }
-    },
-    entities: {
-      users: {
-        [auth.result.id]: me = {}
-      }
     }
-  } = state.app
+
+  } = app
 
   return {
-    auth,
+    user,
     dropdown,
     me
   }

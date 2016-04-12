@@ -7,7 +7,7 @@ import { formatCover } from 'utils/formatUtils'
 import { FALLBACK } from 'constants/ImageConstants'
 
 export default function Header({
-  auth = {},
+  user = {},
   children = null,
   handleAuth = () => {},
   handleDropdown = () => {},
@@ -15,7 +15,7 @@ export default function Header({
   me = {}
 }) {
   const myName = me.first_name || me.username
-  const myAvatar = Object.keys(me).length ? formatCover(me.avatar_url).badge : {}
+  const myAvatar = Object.keys(me).length ? formatCover(me.avatar_url).badge : ''
   const shouldStack = classNames('header__item', {
     'header__item--stack': dropdown.isOpen
   })
@@ -26,7 +26,7 @@ export default function Header({
   }
 
   const renderUnauthSection = () => {
-    if (auth.result.isAuthorizing) {
+    if (user.isAuthenticating) {
       return (
         <ul className="header__section header__section--right">
           <li className="header__item">
@@ -80,18 +80,23 @@ export default function Header({
           </li>
         </ul>
 
-        { auth.result.isAuthorized ? renderAuthSection() : renderUnauthSection() }
-        { dropdown.isOpen && auth.result.isAuthorized
+        { user.isAuthenticated ? renderAuthSection() : renderUnauthSection() }
+        { dropdown.isOpen && user.isAuthenticated
+
+          /* eslint-disable react/jsx-indent-props, react/jsx-closing-bracket-location */
           ? <Dropdown
-            handleAuth={ handleAuth }
-            handleDropdown={ handleDropdown }
-            isOpen={ dropdown.isOpen }
-            myAvatar={ myAvatar }
-            myId={ me.id }
-            myName={ myName }
-            onImgErr={ handleImgError }
-          />
-          : null }
+              handleAuth={ handleAuth }
+              handleDropdown={ handleDropdown }
+              isOpen={ dropdown.isOpen }
+              myAvatar={ myAvatar }
+              myId={ me.id }
+              myName={ myName }
+              onImgErr={ handleImgError }
+            />
+          : null
+          /* eslint-enable react/jsx-indent-props, react/jsx-closing-bracket-location */
+
+        }
 
       </div>
       { children }
@@ -100,7 +105,7 @@ export default function Header({
 }
 
 Header.propTypes = {
-  auth: React.PropTypes.object,
+  user: React.PropTypes.object,
   children: React.PropTypes.node,
   dropdown: React.PropTypes.object,
   handleAuth: React.PropTypes.func,

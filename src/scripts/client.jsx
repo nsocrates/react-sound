@@ -1,15 +1,17 @@
 import 'stylesheets'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import constructRoutes from 'routes/routes'
 import makeStore from 'store/store'
 import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
-import { routes } from 'routes/routes'
 import { syncHistoryWithStore } from 'react-router-redux'
 
 const initialState = window.__INITIAL_STATE__
 
 const store = makeStore(initialState, browserHistory)
+const routes = constructRoutes(store)
+
 const history = syncHistoryWithStore(
   browserHistory,
   store, {
@@ -39,5 +41,5 @@ ReactDOM.render(
       { routes }
     </Router>
   </Provider>,
-  document.getElementById('app')
+  document.getElementById('root')
 )

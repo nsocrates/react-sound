@@ -1,11 +1,13 @@
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import environment from './environment'
+import express from 'express'
 import methodOverride from 'method-override'
 import morgan from 'morgan'
+import path from 'path'
 import PrettyError from 'pretty-error'
 
-export default function (app) {
+export default function configureExpress(app) {
   app.set('port', environment.port)
   app.disable('x-powered-by')
   app.set('view cache', false)
@@ -13,6 +15,7 @@ export default function (app) {
   app.use(methodOverride())
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
+  app.use(express.static(path.join(__dirname, '../..', 'dist')))
 
   app.use(morgan('dev'))
 

@@ -1,32 +1,61 @@
-import api from './api'
+import Api from './Api'
 import qs from 'query-string'
+import config from './config'
 
 const SC = {
   initAuth(req, res) {
-    const url = api.getConnectUrl(req.query.state)
+    const { accessToken, userId } = config.getMe()
+    const { state } = req.query
+
+    if (accessToken && userId) {
+      const q = qs.stringify({
+        access_token: accessToken,
+        user_id: userId,
+        state })
+      const callback = `/callback?${q}`
+      return res.redirect(callback)
+    }
+
+    const url = Api.getConnectUrl(state)
     res.writeHead(301, { Location: url })
     return res.end()
   },
 
   handleRedirect(req, res) {
     const { state, code } = req.query
-    api.authorize(state, code,
+    Api.authorize(state, code,
       (err, payload) => {
-        if (err) return res.json(err)
+        if (err) {
+          const qErr = qs.stringify({
+            code: err.code || 404,
+            error_message: err.message || 'Something went wrong',
+            error: err.error || 'error',
+            state
+          })
+          return res.redirect(`/callback?${qErr}`)
+        }
+
         const callback = `/callback?${qs.stringify(payload)}`
         return res.redirect(callback)
       })
   },
 
-  getMe(req, res) {
-    api.getMe(
+  handleMe(req, res) {
+    Api.getMe(
       (err, me) => (
-        err ? res.send(err) : res.json(me)))
+        err ? res.status(err.code).send(err.message) : res.json(me)))
   },
 
   handleLogout(req, res) {
-    api.flush()
-    res.redirect('/')
+    Api.flush()
+    res.redirect('back')
+  },
+
+  testRoute(req, res) {
+    return res.redirect('/callback')
+    // Api.get('/tracks/33991476',
+    //   (err, track) => (
+    //     err ? res.status(err.code).send(err.message) : res.json(track)))
   }
 }
 

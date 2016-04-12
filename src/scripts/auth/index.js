@@ -1,6 +1,7 @@
 import connect from './connect'
 import config from './config'
 import callback from './callback'
+import user from './authUser'
 
 export default global.SC = {
   connect() {
@@ -8,12 +9,11 @@ export default global.SC = {
   },
 
   isConnected() {
-    return config.get('access_token') !== undefined
+    return config.get('accessToken') !== undefined
   },
 
   disconnect() {
-    Storage.clear()
-    return config.set('access_token', undefined)
+    return user.flush()
   },
 
   callback() {

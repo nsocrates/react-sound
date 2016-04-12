@@ -16,31 +16,46 @@ import UserMediaContainer from 'containers/UserMediaContainer'
 
 import End from 'components/End'
 
-export const routes = (
-  <Route component={ App } path="/">
-    <IndexRoute component={ RoutingContainer } />
+export default function constructRoutes(store) {
+  const checkAuth = (nextState, replace, callback) => {
+    const { user } = store.getState().app.auth
 
-    <Route component={ GalleryContainer } path="#genre" />
-    <Route component={ GalleryContainer } path="#search" />
-    <Route component={ GalleryContainer } path="#tag" />
-    <Route component={ TrackContainer } path="#track/:id" />
-    <Route component={ PlaylistContainer } path="#playlist/:id" />
-    <Route component={ MeContainer } path="#me" />
+    /* eslint-disable indent */
+    return !user.isAuthenticated
+      ? replace({
+          pathname: '/',
+          state: { nextPathname: nextState.location.pathname }
+        })
+      : callback()
+    /* eslint-enable indent */
+  }
 
-    <Route component={ AuthViewContainer } path="#me/collection">
-      <IndexRoute component={ AuthCollectionContainer } />
-      <Route component={ End } path="tracks" />
-      <Route component={ End } path="playlists" />
-      <Route component={ End } path="followings" />
+  return (
+    <Route component={ App } path="/">
+      <IndexRoute component={ RoutingContainer } />
+
+      <Route component={ GalleryContainer } path="#genre" />
+      <Route component={ GalleryContainer } path="#search" />
+      <Route component={ GalleryContainer } path="#tag" />
+      <Route component={ TrackContainer } path="#track/:id" />
+      <Route component={ PlaylistContainer } path="#playlist/:id" />
+      <Route component={ MeContainer } path="#me" />
+
+      <Route component={ AuthViewContainer } path="#me/collection" onEnter={ checkAuth }>
+        <IndexRoute component={ AuthCollectionContainer } />
+        <Route component={ End } path="tracks" />
+        <Route component={ End } path="playlists" />
+        <Route component={ End } path="followings" />
+      </Route>
+
+      <Route component={ UserContainer } path="#user/:id">
+        <IndexRoute component={ UserDescriptionContainer } />
+        <Route component={ UserMediaContainer } path="tracks" />
+        <Route component={ UserMediaContainer } path="favorites" />
+        <Route component={ UserMediaContainer } path="playlists" />
+        <Route component={ UserContactsContainer} path="followers" />
+        <Route component={ UserContactsContainer} path="followings" />
+      </Route>
     </Route>
-
-    <Route component={ UserContainer } path="#user/:id">
-      <IndexRoute component={ UserDescriptionContainer } />
-      <Route component={ UserMediaContainer } path="tracks" />
-      <Route component={ UserMediaContainer } path="favorites" />
-      <Route component={ UserMediaContainer } path="playlists" />
-      <Route component={ UserContactsContainer} path="followers" />
-      <Route component={ UserContactsContainer} path="followings" />
-    </Route>
-  </Route>
-)
+  )
+}

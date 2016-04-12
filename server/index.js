@@ -27,7 +27,7 @@ if (isDev) {
 
 if (isDevClient) {
   app.get('/',
-    (req, res) => res.sendFile(path.resolve(__dirname, '../', 'src', 'index.html')))
+    (req, res) => res.sendFile(path.join(__dirname, 'index.html')))
   start('Webpack Dev Server', config.port)
 } else {
   configureExpress(app)

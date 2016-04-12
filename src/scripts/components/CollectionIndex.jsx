@@ -9,10 +9,12 @@ export default function CollectionIndex(props) {
     dispatch,
     audioIsPlaying,
     streamTrackId,
-    auth: { collection, result }
+    auth
   } = props
 
-  if (result.isAuthorizing) {
+  const { user, collection } = auth
+
+  if (user.isAuthorizing) {
     return <Loader className="loader--top" />
   }
 

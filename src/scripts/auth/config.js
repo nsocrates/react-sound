@@ -1,8 +1,7 @@
-import { CLIENT_ID } from 'constants/ApiConstants'
-
 const config = {
-  access_token: undefined,
-  client_id: CLIENT_ID
+  accessToken: undefined,
+  userId: undefined,
+  state: {}
 }
 
 export default {
@@ -12,7 +11,9 @@ export default {
   set(key, value) {
     return !!value && (config[key] = value)
   },
-
+  remove(key) {
+    return (config[key] = null)
+  },
   expose() {
     return config
   }

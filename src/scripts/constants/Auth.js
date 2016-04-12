@@ -1,6 +1,8 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
 export const CALL_AUTH = Symbol('Call AUTH')
+export const AUTH_KEY = 'accessToken'
+export const AUTH_ID = 'userId'
 
 export const AuthReq = {
   CONNECT: 'CONNECT',

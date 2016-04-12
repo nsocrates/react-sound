@@ -3,23 +3,23 @@ import * as ActionTypes from 'constants/ActionTypes'
 const initialState = {
   isAuthenticating: false,
   isAuthenticated: false,
-  id: null,
+  userId: null,
   accessToken: null,
   error: null
 }
 
-export default function authResult(state = initialState, action) {
+export default function authUser(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.AUTH_REQUEST:
       return Object.assign({}, state, {
         isAuthenticating: true
       })
     case ActionTypes.AUTH_SUCCESS: {
-      const { id, access_token } = action.response
+      const { user_id, access_token } = action.response
       return Object.assign({}, state, {
         isAuthenticating: false,
         isAuthenticated: true,
-        id,
+        userId: user_id,
         accessToken: access_token
       })
     }

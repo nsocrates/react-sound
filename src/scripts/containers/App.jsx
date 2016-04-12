@@ -8,14 +8,14 @@ import NotificationContainer from './NotificationContainer'
 import SearchModalContainer from './SearchModalContainer'
 import SideMenuContainer from './SideMenuContainer'
 
-function App(props) {
+function App({ location, children }) {
   return (
-    <div className="site-wrapper">
+    <div className="app">
       <SearchModalContainer />
-      <SideMenuContainer location={ props.location} />
+      <SideMenuContainer location={ location} />
       <HeaderContainer />
-      <NavContainer location={ props.location} />
-      { props.children }
+      <NavContainer location={ location} />
+      { children }
       <AudioContainer />
       <NotificationContainer />
     </div>
@@ -24,7 +24,6 @@ function App(props) {
 
 App.propTypes = {
   children: PropTypes.node.isRequired,
-  dispatch: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired
 }
 
