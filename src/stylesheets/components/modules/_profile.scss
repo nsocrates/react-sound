@@ -5,10 +5,24 @@
 }
 
 .profile__cover {
+  background-color: rgba($white, .2);
   display: block;
   margin: 0 auto;
   max-width: 100%;
   width: em(350px);
+
+  &--avatar {
+    border-radius: 50%;
+  }
+}
+
+.profile__avatar {
+  box-shadow: 0 0 0 .8rem $white-hint;
+  transition: box-shadow .5s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 0 0 1.2rem $white-secondary;
+  }
 }
 
 .profile__cta-wrap {

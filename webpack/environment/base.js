@@ -31,7 +31,6 @@ const baseConfig = {
       '.jsx'
     ],
     alias: {
-      config: `${srcPath}/scripts.config/${process.env.REACT_WEBPACK_ENV}`,
       actions: `${srcPath}/scripts/actions/`,
       auth: `${srcPath}/scripts/auth/`,
       components: `${srcPath}/scripts/components/`,
@@ -42,7 +41,8 @@ const baseConfig = {
       routes: `${srcPath}/scripts/routes/`,
       store: `${srcPath}/scripts/store/`,
       stylesheets: `${srcPath}/stylesheets/main.scss`,
-      utils: `${srcPath}/scripts/utils`
+      utils: `${srcPath}/scripts/utils`,
+      vendor: `${srcPath}/scripts/vendor`
     }
   },
   module: {

@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react'
 
-import GlobalEvents from 'constants/GlobalEvents'
-
 export default class Modal extends React.Component {
   constructor(props) {
     super(props)
@@ -20,8 +18,12 @@ export default class Modal extends React.Component {
   }
 
   handleExit() {
-    this.props.handleExit()
-    this.hideBodyOverflow(false)
+    return this.props.handleExit()
+  }
+
+  hideBodyOverflow(shouldHide) {
+    const body = document.body
+    return (body.style.overflow = shouldHide ? 'hidden' : '')
   }
 
   listenForClose(e) {
@@ -30,11 +32,6 @@ export default class Modal extends React.Component {
     if (key === 'Escape' || keyCode === 27) {
       this.props.handleExit()
     }
-  }
-
-  hideBodyOverflow(shouldHide) {
-    return GlobalEvents.emit('hideBodyOverflow', shouldHide)
-                       // .emit('blurBody', shouldHide)
   }
 
   render() {

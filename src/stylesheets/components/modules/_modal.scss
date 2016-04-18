@@ -1,7 +1,3 @@
-.blur {
-  filter: blur(3px);
-}
-
 .modal {
   @include fixed(top left);
   background-color: rgba($black, $l-secondary);
@@ -55,8 +51,7 @@
   @include fixed(top right);
   color: $white;
   font-size: 2.4rem;
-  padding: .5rem 1.2rem;
-  transform: translateX(-50%);
+  padding: em(8px) em(14px);
 }
 
 .modal__scroll-wrapper {
@@ -78,7 +73,6 @@
   margin: 0;
   overflow: hidden;
   padding: 2.5rem 2rem;
-  text-transform: uppercase;
 }
 
 .contact {
@@ -103,20 +97,25 @@
   }
 }
 
-.contact__loader-icon {
-  color: $black-secondary;
-}
-
-.contact__action {
-  margin-left: auto;
-}
-
 .contact__avatar {
   flex: 0 0 em(50px);
   height: em(50px);
   margin-right: em(10px);
   position: relative;
   width: em(50px);
+}
+
+.contact__btn-wrap {
+  margin-left: auto;
+  min-width: em(138px);
+}
+
+.contact__btn {
+  width: 100%;
+}
+
+.contact__loader-icon {
+  color: $black-secondary;
 }
 
 .contact__text {

@@ -18,9 +18,51 @@
   }
 
   &:hover {
-    .artwork__filter {
+    .artwork__filter,
+    .artwork__add {
       opacity: 1;
     }
+  }
+}
+
+.artwork__add {
+  @include absolute(bottom .5rem right .5rem);
+  background-color: rgba($black, .25);
+  border-radius: 50%;
+  box-shadow: 0 0 0 em(3px) rgba($white, $primary);
+  display: block;
+  font-size: initial;
+  height: em(45px);
+  opacity: 1;
+  transition: all $trans-default;
+  width: em(45px);
+  z-index: 1;
+
+  @include susy-media(medium) {
+    height: em(60px);
+    opacity: 0;
+    width: em(60px);
+  }
+
+  &:hover {
+    background-color: $black-hint;
+    box-shadow: 0 0 0 em(4px) $white;
+
+    .artwork__add-icon {
+      color: $white;
+    }
+  }
+}
+
+.artwork__add-icon {
+  color: rgba($white, $primary);
+  font-size: 2rem;
+  text-shadow: 0 0 .1rem rgba($white, .4);
+  vertical-align: middle;
+  z-index: 1;
+
+  @include susy-media(medium) {
+    font-size: 2.2rem;
   }
 }
 
@@ -57,14 +99,13 @@
 .artwork__filter {
   @include absolute(top right bottom left);
   background-color: rgba($black, .25);
-  border: .5rem solid rgba($white, .9);
   border-radius: 50%;
-  box-shadow: 0 0 .1rem rgba($black, .25);
+  box-shadow: 0 0 0 em(5px) rgba($white, $primary);
   font-size: initial;
   height: em(100px);
   margin: auto;
   opacity: 1;
-  transition: opacity, background-color $trans-default;
+  transition: all $trans-default;
   width: em(100px);
   z-index: 1;
 
@@ -76,7 +117,7 @@
 
   &::after {
     @include relative(left em(1px));
-    color: rgba($white, .85);
+    color: rgba($white, $primary);
     content: '\25B6';
     display: block;
     font-size: 6rem;
@@ -89,9 +130,10 @@
 
   &:hover {
     background-color: $black-hint;
+    box-shadow: 0 0 0 em(6.5px) $white;
 
     &::after {
-      color: rgba($white, .95);
+      color: $white;
     }
   }
 
@@ -108,7 +150,7 @@
 }
 
 .artwork__fav-icon {
-  @include relative(left em(25px) top .14285714em);
+  @include relative(left em(26px) top em(2px));
   color: $black-hint;
   font-size: 2.3rem;
   transform: rotate(-45deg);
@@ -122,6 +164,8 @@
 
   &--profile {
     font-size: 2.5rem;
+    left: em(28px);
+    top: em(3px);
   }
 }
 

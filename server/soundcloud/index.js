@@ -49,13 +49,6 @@ const SC = {
   handleLogout(req, res) {
     Api.flush()
     res.redirect('back')
-  },
-
-  testRoute(req, res) {
-    return res.redirect('/callback')
-    // Api.get('/tracks/33991476',
-    //   (err, track) => (
-    //     err ? res.status(err.code).send(err.message) : res.json(track)))
   }
 }
 

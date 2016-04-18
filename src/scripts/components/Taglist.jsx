@@ -14,7 +14,7 @@ export default function Taglist(props) {
 
   const tagItems = tags.slice(0, max).map((tag, index) => {
     const location = {
-      pathname: '#tag',
+      pathname: '/tag',
       query: {
         q: tag
       }

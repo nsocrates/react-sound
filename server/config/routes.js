@@ -1,9 +1,5 @@
 import path from 'path'
-import SC from '../service/index'
-import config from '../service/config'
-
-const compiled_app_module_path = path.resolve(__dirname, '../../', 'dist', 'assets', 'server.js')
-const App = require(compiled_app_module_path)
+import SC from '../soundcloud/index'
 
 export default function configureRoutes(app) {
   app.get('/callback',
@@ -11,11 +7,6 @@ export default function configureRoutes(app) {
 
   app.get('/auth/soundcloud', SC.initAuth)
   app.get('/auth/soundcloud/callback', SC.handleRedirect)
-
   app.get('/auth/soundcloud/logout', SC.handleLogout)
-
   app.get('/auth/soundcloud/me', SC.handleMe)
-  app.get('/test', SC.testRoute)
-
-  app.get('*', (req, res) => App.default(req, res, config.getMe()))
 }

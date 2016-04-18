@@ -1,17 +1,16 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import { updateMyPlaylists } from 'actions/auth'
-import { delayPagination } from 'actions/collection'
+import { updateMyPlaylists, updateMyFollowings } from 'actions/collection'
+import { setPagination } from 'actions/pagination'
 import { loadPlaylist } from 'actions/playlist'
 import { loadStreamList } from 'actions/stream'
-
-import { REQ } from 'constants/Auth'
 
 import mediaFactory from 'utils/mediaFactory'
 import timeFactory from 'utils/timeFactory'
 import { extractStreamableTracks } from 'utils/extractUtils'
 import { formatCover, markNumber } from 'utils/formatUtils'
+import { fetchNeeds } from 'utils/fetchComponentData'
 
 import ArticleContent from 'components/ArticleContent'
 import Body from 'components/Body'
@@ -28,22 +27,20 @@ import Tracklist from 'components/Tracklist'
 import TurncateView from 'components/TurncateView'
 import Waypoint from 'components/Waypoint'
 
-class PlaylistContainer extends React.Component {
+const needs = [loadPlaylist]
 
+class PlaylistContainer extends React.Component {
   constructor(props) {
     super(props)
     this.handleLoadStreamList = this.handleLoadStreamList.bind(this)
     this.handleEnter = this.handleEnter.bind(this)
     this.handleClickFav = this.handleClickFav.bind(this)
+    this.handleClickFollow = this.handleClickFollow.bind(this)
   }
 
   componentDidMount() {
-    return this.updateComponent()
-  }
-
-  updateComponent() {
     const { dispatch, params } = this.props
-    return dispatch(loadPlaylist(params.id))
+    return fetchNeeds(needs, dispatch, { params })
   }
 
   handleLoadStreamList(e) {
@@ -54,25 +51,30 @@ class PlaylistContainer extends React.Component {
 
   handleClickFav(e) {
     e.preventDefault()
+    const { dispatch, params } = this.props
+    return dispatch(updateMyPlaylists(params.id, this.playlistName))
+  }
 
-    const { dispatch, params, playlistCollection } = this.props
-    if (playlistCollection.ids.indexOf(Number(params.id)) !== -1) {
-      return dispatch(updateMyPlaylists(REQ.DEL, params.id, this.playlistName))
-    }
-    return dispatch(updateMyPlaylists(REQ.PUT, params.id, this.playlistName))
+  handleClickFollow(e) {
+    e.preventDefault()
+    const { dispatch, userEntity, playlistObject } = this.props
+    const { [playlistObject.user_id]: userObject } = userEntity
+    const { id, username } = userObject
+    return dispatch(updateMyFollowings(id, username))
   }
 
   handleEnter() {
     const { dispatch, playlistObject, pagination } = this.props
     const ids = playlistObject.tracks.slice(0, pagination.result.length + 15)
 
-    return dispatch(delayPagination(playlistObject.id, ids, 250))
+    return dispatch(setPagination(playlistObject.id, ids))
   }
 
   render() {
     const {
       trackCollection,
       playlistCollection,
+      userCollection,
       dispatch,
       isPlaying,
       pagination,
@@ -82,7 +84,7 @@ class PlaylistContainer extends React.Component {
       trackId,
       userEntity
     } = this.props
-    const userObject = playlistObject ? userEntity[playlistObject.user_id] : null
+    const userObject = !!playlistObject && userEntity[playlistObject.user_id]
 
     if (!playlistObject || !userObject) {
       return <Loader className="loader--top" />
@@ -112,6 +114,11 @@ class PlaylistContainer extends React.Component {
 
     const isFavorite = classNames('artwork__fav-icon artwork__fav-icon--profile fa fa-heart', {
       'artwork__fav-icon--is-fav': playlistCollection.ids.indexOf(playlistObject.id) !== -1
+    })
+
+    const isFollowing = classNames('article__follow btn btn--sm', {
+      'btn__follow btn__follow--light': userCollection.ids.indexOf(userObject.id) === -1,
+      'btn__following btn__following--light': userCollection.ids.indexOf(userObject.id) !== -1
     })
 
     const articleContent = ref => (this._articleContent = ref)
@@ -154,7 +161,7 @@ class PlaylistContainer extends React.Component {
 
       return (
         <Waypoint
-          className="waypoint waypoint--bottom"
+          className="waypoint"
           onEnter={ this.handleEnter }
         />
       )
@@ -194,7 +201,7 @@ class PlaylistContainer extends React.Component {
                   { mediaData.media.name }
                 </h2>
                 <h4 className="profile__info--secondary">
-                  <LinkItem to={`#user/${mediaData.user.id}`}>
+                  <LinkItem to={`/user/${mediaData.user.id}`}>
                     { mediaData.user.name }
                   </LinkItem>
                 </h4>
@@ -204,7 +211,7 @@ class PlaylistContainer extends React.Component {
               <StatsList
                 listItems={ statsListItems }
                 hashTags={ mediaData.genre }
-                pathname="#genre"
+                pathname="/genre"
               />
 
               <hr className="invis" />
@@ -225,10 +232,13 @@ class PlaylistContainer extends React.Component {
           >
 
             <div className="article__user">
-              <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
+              <LinkItem className="article__avatar" to={`/user/${mediaData.user.id}`}>
                 <img className=" article__avatar--img avatar__img" src={ userAvatar.default } />
               </LinkItem>
-              <button className="article__follow btn btn--sm btn__follow btn__follow--light" />
+              <button
+                className={ isFollowing }
+                onClick={ this.handleClickFollow }
+              />
             </div>
 
             <ArticleContent
@@ -273,6 +283,7 @@ PlaylistContainer.propTypes = {
   trackCollection: PropTypes.object,
   trackEntity: PropTypes.object,
   trackId: PropTypes.number,
+  userCollection: PropTypes.object,
   userEntity: PropTypes.object
 }
 
@@ -301,10 +312,14 @@ function mapStateToProps(state, ownProps) {
     trackId,
     trackCollection: collection.tracks,
     playlistCollection: collection.playlists,
+    userCollection: collection.followings,
     trackEntity: tracks,
     userEntity: users,
     playlistObject: playlists[id]
   }
 }
 
-export default connect(mapStateToProps)(PlaylistContainer)
+const PlaylistWrap = connect(mapStateToProps)(PlaylistContainer)
+PlaylistWrap.needs = needs
+
+export default PlaylistWrap

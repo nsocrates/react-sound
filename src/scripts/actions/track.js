@@ -5,9 +5,10 @@
 import * as ActionTypes from 'constants/ActionTypes'
 import { callApi } from 'actions/call'
 import { Schemas } from 'constants/Schemas'
-import { setPagination } from 'actions/collection'
+import { setPagination } from 'actions/pagination'
 
-export function loadTrack(id) {
+export function loadTrack({ params }) {
+  const { id } = params
   return (dispatch, getState) => {
     const track = getState().app.entities.tracks[id]
     const { ids = [] } = getState().app.partition.commentsByTrack[id] || {}
@@ -54,7 +55,6 @@ export function loadTrackComments(id, offset, endpoint, force = true) {
       next_href = `/tracks/${id}/comments`
     } = commentsByTrack[id] || {}
     const path = endpoint || next_href
-
     const options = {
       types: [
         ActionTypes.TRACK_COMMENTS_REQUEST,

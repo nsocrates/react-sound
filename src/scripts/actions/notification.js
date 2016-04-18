@@ -1,4 +1,5 @@
 import * as ActionTypes from 'constants/ActionTypes'
+import { generateUid } from 'utils/mutationUtils'
 
 function publishNotif(payload) {
   return {
@@ -25,7 +26,7 @@ export function sendNotif(notifObj) {
     const {
       body,
       icon = null,
-      id = new Date().getTime(),
+      id = generateUid('Notif'),
       kind = 'info',
       priority = false,
       duration = 5000
@@ -46,7 +47,7 @@ export function sendNotifSuccess(body, duration, icon) {
       body,
       duration,
       icon,
-      id: new Date().getTime(),
+      id: generateUid('Notif_Success'),
       kind: 'success',
       priority: false
     }
@@ -58,7 +59,7 @@ export function sendNotifError(body) {
   return dispatch => {
     const payload = {
       body,
-      id: new Date().getTime(),
+      id: generateUid('Notif_Error'),
       kind: 'error',
       priority: true
     }
@@ -72,7 +73,7 @@ export function sendNotifInfo(body, duration, icon) {
       body,
       duration,
       icon,
-      id: new Date().getTime(),
+      id: generateUid('Notif_Info'),
       kind: 'info',
       priority: false
     }
@@ -86,7 +87,7 @@ export function sendNotifAction(body, duration, icon) {
       body,
       duration,
       icon,
-      id: new Date().getTime(),
+      id: generateUid('Notif_Action'),
       kind: 'action',
       priority: false
     }

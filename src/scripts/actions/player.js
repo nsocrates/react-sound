@@ -1,4 +1,5 @@
 import * as ActionTypes from 'constants/ActionTypes'
+import { notif } from 'actions/notification'
 
 export function expandVolume(shouldExpand) {
   return {
@@ -57,10 +58,17 @@ export function seekPosition(isSeeking, position) {
   }
 }
 
-export function pushTrack(trackId, kind = 'track') {
+export function appendTrack(trackId, kind = 'track') {
   return {
-    type: ActionTypes.TRACK_PUSH,
+    type: ActionTypes.TRACK_ADD,
     trackId,
     kind
+  }
+}
+
+export function addTrack(id, name, kind = 'track') {
+  return dispatch => {
+    dispatch(appendTrack(id, kind))
+    dispatch(notif.action(`${name} added to playlist.`))
   }
 }

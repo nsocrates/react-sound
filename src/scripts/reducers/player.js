@@ -84,7 +84,7 @@ export default function stream(state = initialState, action) {
       return merge({}, state, {
         volume: { isMuted }
       })
-    case ActionTypes.TRACK_PUSH:
+    case ActionTypes.TRACK_ADD:
 
       if (kind === 'playlist') {
         return Object.assign({}, state, {

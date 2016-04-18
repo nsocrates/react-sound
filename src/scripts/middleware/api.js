@@ -8,7 +8,8 @@ import { extractNumber } from 'utils/extractUtils'
 import { normalize } from 'normalizr'
 
 const entityFactory = json => ({
-  next_href: json.next_href || undefined,
+  next_href: json.next_href || null,
+  future_href: json.future_href || null,
   isStreamable(item) {
     return item.streamable
   },
@@ -22,24 +23,41 @@ const entityFactory = json => ({
     return {
       entities: { [entity]: { [id]: { [resource]: collection } } }
     }
+  },
+  handleE1(collection, schema, next_href) {
+    const entities = collection.map(item => item.playlist || item.track)
+    const data = collection.map(item => {
+      const media = item.playlist || item.track
+      return { created_at: item.created_at, id: media.id }
+    })
+    return Object.assign({},
+      normalize(entities, schema),
+      { data },
+      { next_href })
   }
 })
 
 // Fetches an API response and normalizes the result JSON according to schema.
-function callApi(endpoint, schema) {
-  const url = constructUrlFromEndpoint(endpoint)
+function callApi(method, endpoint, params, schema) {
+  const url = constructUrlFromEndpoint(endpoint, params)
 
-  return fetch(url)
+  return fetch(url, { method })
     .then(response => {
       if (!response.ok) {
-        return Promise.reject(response)
+        return Promise.reject({
+          message: `${response.status} - ${response.statusText}`
+        })
       }
 
       return response.json()
     })
     .then(json => {
+      if (method !== 'GET' || !schema) {
+        return json
+      }
+
       const entity = entityFactory(json)
-      const { next_href } = entity
+      const { next_href, future_href } = entity
       let collection = entity.getCollection()
 
       if (/web-profiles/.test(endpoint)) {
@@ -51,18 +69,26 @@ function callApi(endpoint, schema) {
           id: extractNumber(endpoint),
           resource: separated[3]
         }
-        const subResource = entity.getSubResource(args)
+        // const subResource = entity.getSubResource(args)
 
-        return Object.assign({}, subResource)
+        return entity.getSubResource(args)
       }
 
-      if (/genres|\d\/playlists|favorites|tags|\?q=/.test(endpoint)) {
+      if (/genres|favorites|tags|\?q=/.test(endpoint)) {
         collection = collection.filter(entity.isStreamable)
       }
 
+      if (/e1/.test(endpoint) && !/ids/.test(endpoint)) {
+        return entity.handleE1(collection, schema, next_href)
+      }
+
+      if (/activities/.test(endpoint)) {
+        collection = collection.map(item => item.origin)
+                               .filter(origin => origin.kind !== 'playlist')
+      }
       return Object.assign({},
         normalize(collection, schema),
-        { next_href })
+        { next_href, future_href })
     })
 }
 
@@ -74,22 +100,31 @@ export default store => next => action => { // eslint-disable-line no-unused-var
     return next(action)
   }
 
-  const { endpoint, schema, types } = callAPI
+  const { method, endpoint, schema, types, params } = callAPI
 
   function actionWith(data) {
     const finalAction = Object.assign({}, action, data)
     finalAction[CALL_API] = null
-
     return finalAction
   }
 
-  const [requestType, successType, failureType] = types
+  const [requestType, successType, failureType, putType, deleteType] = types
+
+  let responseType
+  if (method === 'PUT') {
+    responseType = putType
+  } else if (method === 'DELETE') {
+    responseType = deleteType
+  } else {
+    responseType = successType
+  }
+
   next(actionWith({ type: requestType }))
 
-  return callApi(endpoint, schema).then(
+  return callApi(method, endpoint, params, schema).then(
     response => next(actionWith({
       response,
-      type: successType
+      type: responseType
     })),
     err => next(actionWith({
       type: failureType,

@@ -1,5 +1,4 @@
 import SideMenu from 'components/SideMenu'
-import Overlay from 'components/Overlay'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { bindActionCreators } from 'redux'
@@ -15,39 +14,30 @@ function SideMenuContainer(props) {
     leave: 'leave'
   }
 
-  const shouldRenderMenuContainer = () => {
-    if (isVisible) {
-      return (
-      <ReactCSSTransitionGroup
-        className = "side-menu"
-        component = "section"
-        transitionEnterTimeout = { 500 }
-        transitionLeaveTimeout = { 500 }
-        transitionName = { ReactCSSTransitionNames }
-      >
-        <Overlay
-          className="side-menu__overlay"
-          onClick={ actions.toggleSideMenu}
-        />
-        <SideMenu
-          { ...props }
-          genreList={ GENRES }
-        />
-      </ReactCSSTransitionGroup>
-      )
-    }
-    return (
-      <ReactCSSTransitionGroup
-        className = "side-menu"
-        component = "section"
-        transitionEnterTimeout = { 500 }
-        transitionLeaveTimeout = { 500 }
-        transitionName = { ReactCSSTransitionNames }
-      />
-    )
-  }
+  const component = [
+    <aside
+      className="side-menu__overlay"
+      key="side-menu_overlay"
+      onClick={ actions.toggleSideMenu }
+    />,
+    <SideMenu
+      { ...props }
+      genreList={ GENRES }
+      key="side-menu_component"
+    />
+  ]
 
-  return shouldRenderMenuContainer()
+  return (
+    <ReactCSSTransitionGroup
+      className = "side-menu"
+      component = "section"
+      transitionEnterTimeout = { 500 }
+      transitionLeaveTimeout = { 500 }
+      transitionName = { ReactCSSTransitionNames }
+    >
+    { isVisible && component }
+    </ReactCSSTransitionGroup>
+  )
 }
 
 SideMenuContainer.propTypes = {

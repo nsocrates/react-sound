@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 export default function End({
   className = 'end--top',
   text = 'NO MORE ITEMS TO DISPLAY.',
-  Type = 'h5'
+  Type = 'h6'
 }) {
   const componentClassName = `end ${className}`
 

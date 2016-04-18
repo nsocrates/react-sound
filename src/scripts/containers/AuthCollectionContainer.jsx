@@ -1,54 +1,46 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { replace } from 'react-router-redux'
+import { fetchNeeds } from 'utils/fetchComponentData'
+import { loadCollection } from 'actions/conditional'
+import CollectionWrapper from 'components/CollectionWrapper'
 
-import { loadAuthedCollection } from 'actions/auth'
-import CollectionIndex from 'components/CollectionIndex'
+const needs = [loadCollection]
 
 class AuthCollectionContainer extends React.Component {
   constructor(props) {
     super(props)
     this.updateComponent = this.updateComponent.bind(this)
+    this.handleWaypointEnter = this.handleWaypointEnter.bind(this)
   }
 
   componentDidMount() {
-    const { dispatch, auth } = this.props
-    const { user } = auth
-    const hasLocalStorage = !!localStorage.oauthio_provider_soundcloud
-
-    if (!hasLocalStorage && !user.isAuthorizing && !user.isAuthorized) {
-      return dispatch(replace({ location: '/' }))
-    }
-
-    if (user.isAuthorized) {
-      return this.updateComponent()
-    }
-
-    return null
+    return this.updateComponent(this.props, true)
   }
 
-  componentWillReceiveProps(newProps) {
-    if (!this.props.auth.user.isAuthorized && newProps.auth.user.isAuthorized) {
-      return this.updateComponent()
-    }
-
-    return null
+  componentWillReceiveProps(nextProps) {
+    return this.props.location.pathname !== nextProps.location.pathname
+      && this.updateComponent(nextProps)
   }
 
-  updateComponent() {
-    const { dispatch } = this.props
-    return dispatch(loadAuthedCollection())
+  updateComponent(props, forceNext) {
+    const { dispatch, location } = props
+    const { pathname } = location
+    return fetchNeeds(needs, dispatch, { pathname }, forceNext)
+  }
+
+  handleWaypointEnter() {
+    return this.updateComponent(this.props)
   }
 
   render() {
-    const { auth, entities, dispatch, audioIsPlaying, streamTrackId } = this.props
-
+    const { auth, entities, audioIsPlaying, streamTrackId, location } = this.props
     return (
-      <CollectionIndex
+      <CollectionWrapper
         audioIsPlaying={ audioIsPlaying }
         auth={ auth }
-        dispatch={ dispatch }
+        pathname={ location.pathname }
         entities={ entities }
+        handleWaypointEnter={ this.handleWaypointEnter }
         streamTrackId={ streamTrackId }
       />
     )
@@ -58,8 +50,10 @@ class AuthCollectionContainer extends React.Component {
 AuthCollectionContainer.propTypes = {
   audioIsPlaying: PropTypes.bool.isRequired,
   auth: PropTypes.object.isRequired,
+  authPlaylists: PropTypes.array,
   dispatch: PropTypes.func.isRequired,
   entities: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
   streamTrackId: PropTypes.number.isRequired
 }
 
@@ -83,4 +77,7 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(AuthCollectionContainer)
+const AuthCollectionWrap = connect(mapStateToProps)(AuthCollectionContainer)
+AuthCollectionWrap.needs = needs
+
+export default AuthCollectionWrap

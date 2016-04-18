@@ -12,25 +12,29 @@ export default function Dropdown({
   const dropdownLinks = [{
     icon: 'user',
     text: 'Public Profile',
-    to: '#me'
+    to: `/user/${myId}`
   }, {
     isDivider: true
   }, {
+    icon: 'rss',
+    text: 'Stream',
+    to: '/me/stream'
+  }, {
     icon: 'th-large',
     text: 'Collection',
-    to: '#me/collection'
+    to: '/me/collection'
   }, {
     icon: 'caret-square-o-right',
     text: 'Tracks',
-    to: '#me/collection/tracks'
+    to: '/me/tracks'
   }, {
     icon: 'list',
     text: 'Playlists',
-    to: '#me/collection/playlists'
+    to: '/me/playlists'
   }, {
-    icon: 'heart',
-    text: 'Favorites',
-    to: '#me/collection/favorites'
+    icon: 'star',
+    text: 'Followings',
+    to: '/me/followings'
   }]
 
   const mapDropdownLinks = dropdownLinks.map(item => {
@@ -46,7 +50,7 @@ export default function Dropdown({
         className="dropdown__item dropdown__item--stateful"
         key={ item.text }
       >
-        <LinkItem className="dropdown__content" to={ to }>
+        <LinkItem className="dropdown__content" to={{ pathname: to }}>
           <i className={`dropdown__icon fa fa-${icon}`} />
           <span className="dropdown__inline">
             { text }

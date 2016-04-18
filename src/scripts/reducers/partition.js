@@ -13,7 +13,8 @@ const initialState = {
   ids: [],
   isFetching: false,
   next_href: undefined,
-  offset: -1
+  offset: -1,
+  error: null
 }
 
 function partitionate({ types, mapActionToKey }) {
@@ -40,11 +41,12 @@ function partitionate({ types, mapActionToKey }) {
           isFetching: false,
           ids: union(state.ids, action.response.result),
           next_href: action.response.next_href,
-          offset: action.offset || 0
+          offset: action.offset || 24
         })
       case failureType:
         return merge({}, state, {
-          isFetching: false
+          isFetching: false,
+          error: action.response.error
         })
       default:
         return state

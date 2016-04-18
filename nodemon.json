@@ -4,9 +4,9 @@
     "server",
     "webpack",
     "src/scripts/server.jsx",
-    "src/scripts/routes.jsx",
     "src/scripts/helmConfig.js",
-    "src/scripts/components/Meta.jsx"
+    "src/scripts/routes/routes.jsx",
+    "src/scripts/components/Meta.jsx",
     "src/scripts/reducers/rootReducer.js"
   ],
   "exec": "npm run build:dev && npm run dev"

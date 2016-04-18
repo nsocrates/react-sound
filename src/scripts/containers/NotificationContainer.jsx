@@ -68,7 +68,6 @@ NotificationContainer.propTypes = {
   notifications: React.PropTypes.array.isRequired
 }
 
-
 function mapStateToProps(state) {
   const { notifications } = state.app.ui
 

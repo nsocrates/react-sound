@@ -1,15 +1,19 @@
 import React from 'react'
-import GlobalEvents from 'constants/GlobalEvents'
 import LinkItem from './LinkItem'
 
 export default class SideMenu extends React.Component {
 
   componentWillMount() {
-    GlobalEvents.emit('hideBodyOverflow', true)
+    return this.hideBodyOverflow(true)
   }
 
   componentWillUnmount() {
-    GlobalEvents.emit('hideBodyOverflow', false)
+    return this.hideBodyOverflow(false)
+  }
+
+  hideBodyOverflow(shouldHide) {
+    const body = document.body
+    return (body.style.overflow = shouldHide ? 'hidden' : '')
   }
 
   render() {
@@ -17,7 +21,7 @@ export default class SideMenu extends React.Component {
 
     const menuItems = genreList.map(item => {
       const locationDescriptor = {
-        pathname: '#genre',
+        pathname: '/genre',
         query: {
           q: item
         }

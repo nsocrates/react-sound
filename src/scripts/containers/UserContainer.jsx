@@ -1,13 +1,15 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import { loadUser, resolveUser } from 'actions/user'
+import { processUserParam } from 'actions/user'
+import { fetchNeeds } from 'utils/fetchComponentData'
 
 import UserProfile from 'components/UserProfile'
 import Loader from 'components/Loader'
 
-class UserContainer extends React.Component {
+const needs = [processUserParam]
 
+class UserContainer extends React.Component {
   componentDidMount() {
     return this.updateComponent()
   }
@@ -21,20 +23,16 @@ class UserContainer extends React.Component {
       this.previousChildren = this.props.children
     }
 
-    if (this.props.params.id !== nextProps.params.id) {
-      return this.updateComponent(nextProps.params.id)
-    }
-
-    return null
+    return (
+      this.props.params.id !== nextProps.params.id &&
+      this.updateComponent(nextProps.params)
+    )
   }
 
-  updateComponent(id) {
-    const { dispatch, params } = this.props
-    const user = id || params.id
+  updateComponent(params = this.props.params) {
+    const { dispatch } = this.props
 
-    return /^\d+$/.test(user)
-      ? dispatch(loadUser(user))
-      : dispatch(resolveUser(user))
+    return fetchNeeds(needs, dispatch, { params })
   }
 
   render() {
@@ -55,7 +53,7 @@ class UserContainer extends React.Component {
 
     return (
       <UserProfile
-        basePath={`#user/${user.id}`}
+        basePath={`/user/${user.id}`}
         currPath={ location.pathname }
         dispatch={ dispatch }
         menu={ menu }
@@ -108,4 +106,7 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps)(UserContainer)
+const UserWrap = connect(mapStateToProps)(UserContainer)
+UserWrap.needs = needs
+
+export default UserWrap

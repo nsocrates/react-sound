@@ -4,6 +4,11 @@
   clear: both;
   float: left;
   width: 100%;
+}
+
+.loader,
+.end {
+  text-align: center;
 
   &--top {
     margin: 11.5rem 0;
@@ -16,16 +21,6 @@
   &--bottom {
     margin: 5rem 0;
   }
-}
-
-.waypoint--debug {
-  background-color: $sc-orange;
-  padding: 1rem 0;
-}
-
-.loader,
-.end {
-  text-align: center;
 }
 
 .loader__icon {

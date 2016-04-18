@@ -1,0 +1,144 @@
+.p-cards {
+  @include span(full);
+  background-color: transparent;
+}
+
+.p-card__body {
+  @include span(full);
+  align-items: center;
+  background-color: $white;
+  border-radius: .5rem;
+  display: flex;
+  overflow: hidden;
+  padding: em(15px);
+}
+
+.p-card__btn {
+  width: 100%;
+}
+
+.p-card__btn-wrap {
+  width: em(140px);
+}
+
+.p-card__cover {
+  border-radius: 50%;
+  flex: 0 0 em(125px);
+  float: left;
+  height: em(125px);
+  margin-right: gutter();
+  position: relative;
+  transition: box-shadow .5s ease-in-out;
+  width: em(125px);
+
+  @include susy-media(medium) {
+    flex: 0 0 em(150px);
+    height: em(150px);
+    width: em(150px);
+  }
+
+  @include susy-media(large) {
+    flex: 0 0 em(175px);
+    height: em(175px);
+    width: em(175px);
+  }
+
+  &--img {
+    @include absolute();
+    border-radius: 50%;
+    box-shadow: 0 0 0 .6rem rgba($shark, $disabled);
+    display: block;
+    height: auto;
+    margin: auto;
+    transition: box-shadow .5s ease-in-out;
+    width: 100%;
+
+    &:hover {
+      box-shadow: 0 0 0 .8rem rgba($shark, .22);
+    }
+  }
+}
+
+.p-card__cover--link {
+  @extend %reset-white-space;
+  background-color: $white;
+  display: block;
+  height: auto;
+  padding-bottom: em(125px);
+  width: 100%;
+
+  @include susy-media(medium) {
+    padding-bottom: 100%;
+  }
+}
+
+.p-card__content {
+  float: none;
+  padding-left: em(15px);
+  margin-right: em(15px);
+  overflow: hidden;
+  width: auto;
+
+  @include susy-media(medium) {
+    max-height: em(150px);
+  }
+
+  @include susy-media(large) {
+    max-height: em(175px);
+  }
+}
+
+.p-card__item {
+  @extend %clearfix;
+  float: left;
+  margin-bottom: gutter(8);
+  overflow: hidden;
+  width: 100%;
+
+  @include susy-media(large) {
+    margin-bottom: gutter();
+    margin-right: gutter();
+    width: span(6);
+
+    &:nth-of-type(even) {
+      margin-right: 0;
+    }
+  }
+
+  @include susy-media(xxlarge) {
+    margin-right: gutter();
+    width: span(4);
+
+    &:nth-of-type(even) {
+      margin-right: gutter();
+    }
+
+    &:nth-of-type(3n+3) {
+      margin-right: 0;
+    }
+  }
+}
+
+.p-card__username,
+.p-card__fullname {
+  color: $black-secondary;
+  margin-bottom: .25em;
+}
+
+.p-card__username {
+  font-weight: 700;
+  line-height: 1.3;
+
+  &:hover {
+    color: $black-primary;
+  }
+}
+
+.p-card__fullname {
+  line-height: 1.15;
+}
+
+.p-card__location {
+  color: $black-hint;
+  margin-bottom: em(15px);
+}

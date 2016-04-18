@@ -8,12 +8,14 @@ import merge from 'lodash/merge'
 const hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'
 
 const config = merge({
-  entry: [
-    './scripts/client',
-    hotMiddlewareScript
-  ],
+  entry: {
+    app: [
+      './scripts/client',
+      hotMiddlewareScript
+    ]
+  },
   output: {
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
   cache: true,
   devtool: 'eval',

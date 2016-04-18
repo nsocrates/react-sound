@@ -1,12 +1,17 @@
-import constructRoutes from 'routes/routes'
-import fetchComponentDataBeforeRender from 'utils/fetchComponentDataBeforeRender'
-import headconfig from 'components/Meta'
-import makeStore from 'store/store'
+import 'isomorphic-fetch'
+
 import React from 'react'
-import { normalize } from 'normalizr'
-import { Provider } from 'react-redux'
 import { renderToString } from 'react-dom/server'
+
+import constructRoutes from 'routes/routes'
 import { RouterContext, match, createMemoryHistory } from 'react-router'
+
+import makeStore from 'store/store'
+import { Provider } from 'react-redux'
+
+import headconfig from 'components/Meta'
+import { fetchComponentDataBeforeRender } from 'utils/fetchComponentData'
+import { normalize } from 'normalizr'
 import { Schemas } from 'constants/Schemas'
 
 const renderFullPage = (appContent, initialState, head) => (`
@@ -26,7 +31,7 @@ const renderFullPage = (appContent, initialState, head) => (`
       window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
     </script>
 
-    <script type="text/javascript" charset="utf-8" src="assets/bundle.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/assets/app.js"></script>
   </body>
   </html>
 `)
@@ -77,8 +82,15 @@ export default function render(req, res, me) {
             <RouterContext { ...renderProps } />
           </Provider>
         )
+        const { components, params, location } = renderProps
+        const { pathname, query } = location
+        const locals = {
+          pathname,
+          query,
+          params
+        }
 
-        fetchComponentDataBeforeRender(store.dispatch, renderProps.components, renderProps.params)
+        fetchComponentDataBeforeRender(store.dispatch, components, locals)
           .then(() => {
             const componentHTML = renderToString(InitialView)
             const state = store.getState()

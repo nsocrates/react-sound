@@ -1,33 +1,34 @@
+import * as ActionTypes from 'constants/ActionTypes'
 import { AuthTypes } from 'constants/Auth'
 import { combineReducers } from 'redux'
 import union from 'lodash/union'
-import merge from 'lodash/merge'
 
 const initialState = {
+  e1: [],
   ids: [],
   isFetching: false,
   next_href: undefined,
-  offset: 0,
-  payload: []
+  offset: -1,
+  error: null
 }
 
-function partitionate({ types, deleteType }) {
-  if (!Array.isArray(types) || types.length !== 3) {
-    throw new Error(`Expected types to be an array of three elements. Got: ${types}`)
-  }
-  if (!types.every(type => typeof type === 'string')) {
-    throw new Error(`Expected types to be strings. Got: ${types}`)
-  }
+function partitionate({ types }) {
+  const [
+    requestType,
+    successType,
+    failureType,
+    putType,
+    deleteType,
+    syncType
+  ] = types
 
-  const [requestType, successType, failureType] = types
-
-  function unionFn(payload, likes) {
-    if (!payload.length) {
-      return likes
+  function unionFn(e1, data) {
+    if (!e1 || !e1.length) {
+      return data
     }
 
-    const arr1 = payload.length > likes.length ? payload : likes
-    const arr2 = payload.length > likes.length ? likes : payload
+    const arr1 = e1.length > data.length ? e1 : data
+    const arr2 = e1.length > data.length ? data : e1
 
     return arr1.filter(n => (
       arr2.filter(c => (
@@ -39,32 +40,41 @@ function partitionate({ types, deleteType }) {
   return function updatePartition(state = initialState, action) {
     switch (action.type) {
       case requestType:
-        return merge({}, state, {
+        return Object.assign({}, state, {
           isFetching: true
         })
       case successType: {
-        const result = Array.isArray(action.response.result)
-          ? action.response.result
-          : [action.response.result]
-        const likes = action.response.likes
-        return merge({}, state, {
+        const data = action.response.data || []
+        return Object.assign({}, state, {
           isFetching: false,
-          ids: union(state.ids, result),
+          ids: union(state.ids, action.response.result),
           next_href: action.response.next_href,
-          offset: action.offset || 0,
-          payload: unionFn(state.payload, likes)
+          offset: action.offset || 24,
+          e1: unionFn(state.e1, data)
         })
       }
       case failureType:
-        return merge({}, state, {
-          isFetching: false
+        return Object.assign({}, state, {
+          isFetching: false,
+          error: action.error
+        })
+      case putType:
+        return Object.assign({}, state, {
+          isFetching: false,
+          ids: state.ids.concat(action.id)
         })
       case deleteType:
         return Object.assign({}, state, {
-          ids: state.ids.filter(n => n !== Number(action.id)),
-          payload: state.payload.length
-            ? state.payload.filter(n => n.id !== Number(action.id))
-            : null
+          isFetching: false,
+          ids: state.ids.filter(n => n !== action.id),
+          e1: state.e1.length
+            ? state.e1.filter(n => n.id !== action.id)
+            : state.e1
+        })
+      case syncType:
+        return Object.assign({}, state, {
+          isFetching: false,
+          ids: action.response.collection
         })
       default:
         return state
@@ -74,21 +84,17 @@ function partitionate({ types, deleteType }) {
 
 export const authCollection = combineReducers({
   tracks: partitionate({
-    types: AuthTypes.TRACKS,
-    deleteType: AuthTypes.DEL.TRACKS
+    types: AuthTypes.TRACKS.concat(ActionTypes.SYNC_TRACKS)
   }),
   playlists: partitionate({
-    types: AuthTypes.PLAYLISTS,
-    deleteType: AuthTypes.DEL.PLAYLISTS
+    types: AuthTypes.PLAYLISTS.concat(ActionTypes.SYNC_PLAYLISTS)
   }),
   followings: partitionate({
-    types: AuthTypes.FOLLOWINGS,
-    deleteType: AuthTypes.DEL.FOLLOWINGS
-  }),
-  comments: partitionate({
-    types: AuthTypes.COMMENTS,
-    deleteType: AuthTypes.DEL.COMMENTS
+    types: AuthTypes.FOLLOWINGS.concat(ActionTypes.SYNC_FOLLOWINGS)
   })
+  // comments: partitionate({
+  //   types: AuthTypes.COMMENTS.concat(ActionTypes.SYNC_COMMENTS)
+  // })
 })
 
 export default authCollection

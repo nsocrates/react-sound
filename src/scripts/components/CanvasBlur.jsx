@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import CanvasGradient from 'components/CanvasGradient'
-import StackBlur from 'utils/StackBlur'
+import StackBlur from 'vendor/stackblur'
 
 export default class Canvas extends React.Component {
   constructor(props) {
@@ -36,7 +36,7 @@ export default class Canvas extends React.Component {
     let timer
     clearTimeout(timer)
 
-    timer = setTimeout(() => {
+    timer = setTimeout(() => { // eslint-disable-line prefer-const
       this.callResize()
     }, this.props.delay)
   }

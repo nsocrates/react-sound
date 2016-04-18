@@ -20,7 +20,7 @@ export default function Comment(props) {
     <div className={ isEven }>
       <LinkItem
         className="comment__avatar avatar avatar--badge"
-        to={`#user/${userId}`}
+        to={`/user/${userId}`}
       >
         <img
           className="avatar__img"
@@ -34,7 +34,7 @@ export default function Comment(props) {
         <small className="comment__group">
           <LinkItem
             className="link link--comment link--unvisited comment__by"
-            to={`#user/${userId}`}
+            to={`/user/${userId}`}
           >
             { by }
           </LinkItem>

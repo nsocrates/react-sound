@@ -54,8 +54,7 @@ function processOptions(method, endpoint, _params, _callback = () => {}) {
   let params = _params
   let callback = _callback
 
-  const requiresAuth = method === 'PUT' ||
-                       method === 'DELETE' ||
+  const requiresAuth = method !== 'GET' ||
                        endpoint.split('/').indexOf('me') !== -1
 
   if (typeof params === 'function') {
@@ -150,14 +149,6 @@ const soundcloud = {
 
   get(endpoint, params, callback) {
     return processOptions('GET', endpoint, params, callback)
-  },
-
-  put(endpoint, params, callback) {
-    return processOptions('PUT', endpoint, params, callback)
-  },
-
-  delete(endpoint, params, callback) {
-    return processOptions('DELETE', endpoint, params, callback)
   },
 
   getMe(callback) {

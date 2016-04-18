@@ -3,14 +3,15 @@
  * https://github.com/brigade/react-waypoint
  */
 
-import React, { PropTypes } from 'react';
-import ReactDOM from 'react-dom';
+import React, { PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 
 const POSITIONS = {
   above: 'above',
   inside: 'inside',
-  below: 'below'
-};
+  below: 'below',
+  invisible: 'invisible'
+}
 
 const propTypes = {
   // threshold is percentage of the height of the visible part of the
@@ -20,20 +21,22 @@ const propTypes = {
   onEnter: PropTypes.func,
   onLeave: PropTypes.func,
   scrollableParent: PropTypes.node,
+  onPositionChange: PropTypes.func,
   threshold: PropTypes.number,
   triggerFrom: PropTypes.string,
   Type: PropTypes.string
-};
+}
 
 const defaultProps = {
   className: null,
   fireOnRapidScroll: true,
   onEnter() {},
   onLeave() {},
+  onPositionChange() {},
   triggerFrom: 'inside',
   threshold: 0,
   Type: 'span'
-};
+}
 
 /**
  * Calls a function when you scroll to the element.
@@ -41,28 +44,28 @@ const defaultProps = {
 export default class Waypoint extends React.Component {
   componentDidMount() {
     if (!Waypoint.getWindow()) {
-      return;
+      return
     }
 
-    this._handleScroll = this._handleScroll.bind(this);
-    this.scrollableAncestor = this._findScrollableAncestor();
-    this.scrollableAncestor.addEventListener('scroll', this._handleScroll);
-    window.addEventListener('resize', this._handleScroll);
-    this._handleScroll(null);
+    this._handleScroll = this._handleScroll.bind(this)
+    this.scrollableAncestor = this._findScrollableAncestor()
+    this.scrollableAncestor.addEventListener('scroll', this._handleScroll)
+    window.addEventListener('resize', this._handleScroll)
+    this._handleScroll(null)
   }
 
   componentDidUpdate() {
     if (!Waypoint.getWindow()) {
-      return;
+      return
     }
 
     // The element may have moved.
-    this._handleScroll(null);
+    this._handleScroll(null)
   }
 
   componentWillUnmount() {
     if (!Waypoint.getWindow()) {
-      return;
+      return
     }
 
     if (this.scrollableAncestor) {
@@ -70,9 +73,9 @@ export default class Waypoint extends React.Component {
       // exist. Guarding against this prevents the following error:
       //
       //   Cannot read property 'removeEventListener' of undefined
-      this.scrollableAncestor.removeEventListener('scroll', this._handleScroll);
+      this.scrollableAncestor.removeEventListener('scroll', this._handleScroll)
     }
-    window.removeEventListener('resize', this._handleScroll);
+    window.removeEventListener('resize', this._handleScroll)
   }
 
   /**
@@ -85,36 +88,36 @@ export default class Waypoint extends React.Component {
    */
   _findScrollableAncestor() {
     if (this.props.scrollableParent) {
-      return this.props.scrollableParent;
+      return this.props.scrollableParent
     }
 
-    let node = ReactDOM.findDOMNode(this);
+    let node = ReactDOM.findDOMNode(this)
 
     while (node.parentNode) {
-      node = node.parentNode;
+      node = node.parentNode
 
       if (node === document) {
         // This particular node does not have a computed style.
-        continue;
+        continue
       }
 
       if (node === document.documentElement) {
         // This particular node does not have a scroll bar, it uses the window.
-        continue;
+        continue
       }
 
-      const style = window.getComputedStyle(node);
+      const style = window.getComputedStyle(node)
       const overflowY = style.getPropertyValue('overflow-y') ||
-        style.getPropertyValue('overflow');
+        style.getPropertyValue('overflow')
 
       if (overflowY === 'auto' || overflowY === 'scroll') {
-        return node;
+        return node
       }
     }
 
     // A scrollable ancestor element was not found, which means that we need to
     // do stuff on window.
-    return window;
+    return window
   }
 
   /**
@@ -123,32 +126,47 @@ export default class Waypoint extends React.Component {
    *   called by a React lifecyle method
    */
   _handleScroll(event) {
-    const currentPosition = this._currentPosition();
-    const previousPosition = this._previousPosition || null;
+    const currentPosition = this._currentPosition()
+    const previousPosition = this._previousPosition || null
     const { triggerFrom } = this.props
 
     // Save previous position as early as possible to prevent cycles
-    this._previousPosition = currentPosition;
+    this._previousPosition = currentPosition
     if (previousPosition === currentPosition) {
       // No change since last trigger
-      return;
+      return
     }
 
+    const callbackArg = {
+      currentPosition,
+      previousPosition,
+      event
+    }
+    this.props.onPositionChange.call(this, callbackArg);
+
     if (currentPosition === POSITIONS[triggerFrom]) {
-      this.props.onEnter.call(this, event, previousPosition);
+      this.props.onEnter.call(this, callbackArg)
     } else if (previousPosition === POSITIONS[triggerFrom]) {
-      this.props.onLeave.call(this, event, currentPosition);
+      this.props.onLeave.call(this, callbackArg)
     }
 
     const isRapidScrollDown = previousPosition === POSITIONS.below &&
-      currentPosition === POSITIONS.above;
+      currentPosition === POSITIONS.above
     const isRapidScrollUp = previousPosition === POSITIONS.above &&
-      currentPosition === POSITIONS.below;
+      currentPosition === POSITIONS.below
     if (this.props.fireOnRapidScroll && (isRapidScrollDown || isRapidScrollUp)) {
       // If the scroll event isn't fired often enough to occur while the
       // waypoint was visible, we trigger both callbacks anyway.
-      this.props.onEnter.call(this, event, previousPosition);
-      this.props.onLeave.call(this, event, currentPosition);
+      this.props.onEnter.call(this, {
+        currentPosition: POSITIONS[triggerFrom],
+        previousPosition,
+        event
+      })
+      this.props.onLeave.call(this, {
+        currentPosition: POSITIONS[triggerFrom],
+        previousPosition,
+        event
+      })
     }
   }
 
@@ -158,23 +176,21 @@ export default class Waypoint extends React.Component {
    */
   _distanceToTopOfScrollableAncestor(node) {
     if (this.scrollableAncestor !== window && !node.offsetParent) {
-      throw new Error(
-        'The scrollable ancestor of Waypoint needs to have positioning to ' +
-        'properly determine position of Waypoint (e.g. `position: relative;`)'
-      );
+      return null
     }
 
     if (this.scrollableAncestor === window) {
-      const rect = node.getBoundingClientRect();
-      return rect.top + window.pageYOffset - document.documentElement.clientTop;
+      const rect = node.getBoundingClientRect()
+      return rect.top + window.pageYOffset - document.documentElement.clientTop
     }
 
     if (node.offsetParent === this.scrollableAncestor || !node.offsetParent) {
       return node.offsetTop;
+    } else {
+      const nextOffset =
+        this._distanceToTopOfScrollableAncestor(node.offsetParent);
+      return nextOffset === null ? null : node.offsetTop + nextOffset;
     }
-
-    return node.offsetTop +
-      this._distanceToTopOfScrollableAncestor(node.offsetParent);
   }
 
   /**
@@ -184,32 +200,36 @@ export default class Waypoint extends React.Component {
    */
   _currentPosition() {
     const waypointTop =
-      this._distanceToTopOfScrollableAncestor(ReactDOM.findDOMNode(this));
-    let contextHeight;
-    let contextScrollTop;
+      this._distanceToTopOfScrollableAncestor(ReactDOM.findDOMNode(this))
+    if (waypointTop === null) {
+      // not visible
+      return POSITIONS.invisible
+    }
+    let contextHeight
+    let contextScrollTop
 
     if (this.scrollableAncestor === window) {
-      contextHeight = window.innerHeight;
-      contextScrollTop = window.pageYOffset;
+      contextHeight = window.innerHeight
+      contextScrollTop = window.pageYOffset
     } else {
-      contextHeight = this.scrollableAncestor.offsetHeight;
-      contextScrollTop = this.scrollableAncestor.scrollTop;
+      contextHeight = this.scrollableAncestor.offsetHeight
+      contextScrollTop = this.scrollableAncestor.scrollTop
     }
 
-    const thresholdPx = contextHeight * this.props.threshold;
+    const thresholdPx = contextHeight * this.props.threshold
 
-    const isBelowTop = contextScrollTop <= waypointTop + thresholdPx;
+    const isBelowTop = contextScrollTop <= waypointTop + thresholdPx
     if (!isBelowTop) {
-      return POSITIONS.above;
+      return POSITIONS.above
     }
 
-    const contextBottom = contextScrollTop + contextHeight;
-    const isAboveBottom = contextBottom >= waypointTop - thresholdPx;
+    const contextBottom = contextScrollTop + contextHeight
+    const isAboveBottom = contextBottom >= waypointTop - thresholdPx
     if (!isAboveBottom) {
-      return POSITIONS.below;
+      return POSITIONS.below
     }
 
-    return POSITIONS.inside;
+    return POSITIONS.inside
   }
 
   /**
@@ -224,17 +244,17 @@ export default class Waypoint extends React.Component {
         className={ className }
         style={{ fontSize: 0 }}
       />
-    );
+    )
   }
 }
 
-Waypoint.propTypes = propTypes;
-Waypoint.above = POSITIONS.above;
-Waypoint.below = POSITIONS.below;
+Waypoint.propTypes = propTypes
+Waypoint.above = POSITIONS.above
+Waypoint.below = POSITIONS.below
 Waypoint.getWindow = () => {
   if (typeof window !== 'undefined') {
-    return window;
+    return window
   }
-  return null;
-};
-Waypoint.defaultProps = defaultProps;
+  return null
+}
+Waypoint.defaultProps = defaultProps

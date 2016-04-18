@@ -5,7 +5,7 @@ const initialState = {
   cookies: null
 }
 
-export default function authConfig(state = initialState, action) {
+export default function browser(state = initialState, action) {
   if (action.type === TEST_BROWSER) {
     return Object.assign({}, state, action.results)
   }

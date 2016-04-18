@@ -27,7 +27,7 @@ class UserContactListContainer extends React.Component {
       return this.updateComponent(this.props)
     }
 
-    return dispatch(replace(`#user/${params.id}`))
+    return dispatch(replace(`user/${params.id}`))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -72,6 +72,7 @@ class UserContactListContainer extends React.Component {
     const currentPath = routes[routes.length - 1].path
     const payload = {
       currentPath,
+      username: userEntity[params.id].username,
       partition: currentPath === 'followers'
         ? this.props.followers
         : this.props.followings,

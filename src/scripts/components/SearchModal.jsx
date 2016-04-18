@@ -19,7 +19,7 @@ export default class SearchModal extends React.Component {
     e.preventDefault()
     const { _mSearch: { _input }, props: { actions } } = this
     const location = {
-      pathname: '#search',
+      pathname: '/search',
       query: {
         q: _input.value
       }

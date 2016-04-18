@@ -13,21 +13,18 @@ export default function UserContacts(props) {
     handlePropagation,
     handleWaypoint
   } = props
-
+  const { currentPath, username, partition, count } = payload
   const wProps = {
     end: {
       className: 'contact contact--end',
-      text: 'NO MORE USERS TO DISPLAY.',
-      Type: 'li'
+      text: 'NO MORE USERS TO DISPLAY.'
     },
     loader: {
       className: 'contact contact--loader',
-      iconClassName: 'contact__loader-icon',
-      Type: 'li'
+      iconClassName: 'contact__loader-icon'
     },
     waypoint: {
-      className: 'contact contact--waypoint',
-      Type: 'li'
+      className: 'contact contact--waypoint'
     }
   }
 
@@ -47,22 +44,23 @@ export default function UserContacts(props) {
           >
 
             <h5 className="modal__head">
-              { `${payload.count} ${payload.currentPath}` }
+              { `${username} has ${count} ${currentPath}` }
             </h5>
 
             <ContactList
               className="modal__body"
-              hasLoaded={ payload.partition.offset !== -1 }
-              ids={ payload.partition.ids }
+              hasLoaded={ partition.offset > 0 }
+              ids={ partition.ids }
               userCollection={ userCollection }
               userEntity={ userEntity }
             >
               <WaypointLoader
                 endProps={ wProps.end }
-                hasMore={ !!payload.partition.next_href }
-                isFetching={ payload.partition.isFetching }
+                hasMore={ !!partition.next_href && partition.offset > 0 }
+                isFetching={ partition.isFetching }
                 loaderProps={ wProps.loader }
                 onEnter={ handleWaypoint }
+                Type="li"
                 waypointProps={ wProps.waypoint }
               />
             </ContactList>
@@ -70,7 +68,6 @@ export default function UserContacts(props) {
           </section>
         </div>
       </div>
-
     </Modal>
   )
 }

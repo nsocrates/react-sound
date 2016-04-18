@@ -5,6 +5,7 @@ import Waypoint from 'components/Waypoint'
 
 export default function WaypointLoader(props) {
   const {
+    Type = 'div',
     isFetching,
     hasMore,
     onEnter,
@@ -13,20 +14,17 @@ export default function WaypointLoader(props) {
     waypointProps = {}
 } = props
 
-  if (isFetching) {
+  if (!hasMore && !isFetching) {
     return (
-      <Loader { ...loaderProps} />
-    )
-  }
-
-  if (!hasMore) {
-    return (
-      <End { ...endProps} />
+      <End { ...endProps} Type={ Type } />
     )
   }
 
   return (
-    <Waypoint { ...waypointProps} onEnter={ onEnter } />
+    <Type>
+      <Loader { ...loaderProps } />
+      <Waypoint { ...waypointProps} onEnter={ onEnter } />
+    </Type>
   )
 }
 
@@ -36,5 +34,6 @@ WaypointLoader.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   loaderProps: PropTypes.object,
   onEnter: PropTypes.func.isRequired,
+  Type: PropTypes.string,
   waypointProps: PropTypes.object
 }

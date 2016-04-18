@@ -16,7 +16,7 @@ function TracklistContainer(props) {
     userEntity
   } = props
 
-  const open = () => (
+  return (
     <ReactCSSTransitionGroup
       className="tracklist"
       component="aside"
@@ -24,29 +24,18 @@ function TracklistContainer(props) {
       transitionLeaveTimeout={ 500 }
       transitionName="tracklist__player"
     >
-      <Tracklist
-        dispatch={ dispatch }
-        ids={ ids }
-        isPlaying={ isPlaying }
-        trackCollection={ trackCollection }
-        trackEntity={ trackEntity }
-        trackId={ trackId }
-        userEntity={ userEntity }
-      />
+      { (tracklist.isOpen && shouldPlay) &&
+        <Tracklist
+          dispatch={ dispatch }
+          ids={ ids }
+          isPlaying={ isPlaying }
+          trackCollection={ trackCollection }
+          trackEntity={ trackEntity }
+          trackId={ trackId }
+          userEntity={ userEntity }
+        /> }
     </ReactCSSTransitionGroup>
   )
-
-  const close = () => (
-      <ReactCSSTransitionGroup
-        className="tracklist"
-        component="aside"
-        transitionEnterTimeout={ 500 }
-        transitionLeaveTimeout={ 500 }
-        transitionName="tracklist__player"
-      />
-  )
-
-  return tracklist.isOpen && shouldPlay ? open() : close()
 }
 
 TracklistContainer.propTypes = {

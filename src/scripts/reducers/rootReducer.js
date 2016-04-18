@@ -1,3 +1,4 @@
+import authAffiliations from './authAffiliations'
 import authCollection from './authCollection'
 import authUser from './authUser'
 import browser from './browser'
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   pagination,
   partition,
   auth: combineReducers({
+    affiliations: authAffiliations,
     collection: authCollection,
     user: authUser
   }),

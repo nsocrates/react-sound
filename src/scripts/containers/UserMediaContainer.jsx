@@ -5,10 +5,12 @@ import Loader from 'components/Loader'
 import MediaCards from 'components/MediaCards'
 import WaypointLoader from 'components/WaypointLoader'
 
-import { loadUserTracks, loadUserFavorites, loadUserPlaylists } from 'actions/user'
+import { loadUserMedia } from 'actions/conditional'
+import { fetchNeeds } from 'utils/fetchComponentData'
+
+const needs = [loadUserMedia]
 
 class UserMediaContainer extends React.Component {
-
   constructor(props) {
     super(props)
     const { userEntity, params } = props
@@ -17,40 +19,28 @@ class UserMediaContainer extends React.Component {
   }
 
   componentDidMount() {
-    return this.updateComponent()
+    return this.updateComponent(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.route !== nextProps.route) {
-      return this.updateComponent(nextProps.route.path)
-    }
-
-    return null
+    return this.props.route !== nextProps.route
+      && this.updateComponent(nextProps)
   }
 
-  updateComponent(path, next) {
-    const {
-      dispatch,
-      params,
-      route
-    } = this.props
-
-    const pathName = path || route.path
-
-    switch (pathName) {
-      case 'tracks':
-        return dispatch(loadUserTracks(params.id, next))
-      case 'favorites':
-        return dispatch(loadUserFavorites(params.id, next))
-      case 'playlists':
-        return dispatch(loadUserPlaylists(params.id, next))
-      default:
-        return null
+  updateComponent(props, next) {
+    const { dispatch, location, params } = props
+    const { pathname, query } = location
+    const locals = {
+      pathname,
+      query,
+      params
     }
+
+    return fetchNeeds(needs, dispatch, locals, next)
   }
 
   handleWaypointEnter() {
-    return this.updateComponent(null, true)
+    return this.updateComponent(this.props, true)
   }
 
   render() {
@@ -76,7 +66,6 @@ class UserMediaContainer extends React.Component {
         case 'tracks':
           return {
             collection: trackCollection,
-            isPlaylist: false,
             mediaEntity: trackEntity,
             none: 'USER DOES NOT HAVE ANY TRACKS.',
             partition: userTracks
@@ -85,7 +74,6 @@ class UserMediaContainer extends React.Component {
         case 'favorites':
           return {
             collection: trackCollection,
-            isPlaylist: false,
             mediaEntity: trackEntity,
             none: 'USER DOES NOT HAVE ANY FAVORITES.',
             partition: userFavorites
@@ -94,7 +82,6 @@ class UserMediaContainer extends React.Component {
         case 'playlists':
           return {
             collection: playlistCollection,
-            isPlaylist: true,
             mediaEntity: playlistEntity,
             none: 'USER DOES NOT HAVE ANY PLAYLISTS.',
             partition: userPlaylists
@@ -107,7 +94,6 @@ class UserMediaContainer extends React.Component {
 
     const {
       collection,
-      isPlaylist,
       mediaEntity,
       none,
       partition
@@ -120,41 +106,43 @@ class UserMediaContainer extends React.Component {
     }
 
     return (
-      <MediaCards
-        className="cards"
-        collectionIds={ collection.ids }
-        endMsg={ none }
-        hasLoaded={ offset !== -1 }
-        ids={ partition.ids }
-        isPlaying={ isPlaying }
-        isPlaylist={ isPlaylist }
-        maxTags={ 5 }
-        mediaEntity={ mediaEntity }
-        streamTrackId={ streamTrackId }
-        userEntity={ userEntity }
-      >
-        <WaypointLoader
-          endProps={{ className: 'end--bottom' }}
-          hasMore={ !!next_href }
-          isFetching={ isFetching }
-          loaderProps={{ className: 'loader--bottom' }}
-          onEnter={ this.handleWaypointEnter }
-          waypointProps={{ className: 'waypoint waypoint--bottom' }}
+      <div>
+        <MediaCards
+          className="cards"
+          collectionIds={ collection.ids }
+          endMsg={ none }
+          hasLoaded={ offset > 0 }
+          ids={ partition.ids }
+          isPlaying={ isPlaying }
+          maxTags={ 5 }
+          mediaEntity={ mediaEntity }
+          streamTrackId={ streamTrackId }
+          userEntity={ userEntity }
         />
-      </MediaCards>
+        { !!partition.ids.length &&
+          <WaypointLoader
+            endProps={{ className: 'end--bottom' }}
+            hasMore={ !!next_href }
+            isFetching={ isFetching }
+            loaderProps={{ className: 'loader--bottom' }}
+            onEnter={ this.handleWaypointEnter }
+            waypointProps={{ className: 'waypoint' }}
+          /> }
+      </div>
     )
   }
 }
 
 UserMediaContainer.propTypes = {
-  trackCollection: PropTypes.object.isRequired,
-  playlistCollection: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
+  location: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  playlistCollection: PropTypes.object.isRequired,
   playlistEntity: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   streamTrackId: PropTypes.number.isRequired,
+  trackCollection: PropTypes.object.isRequired,
   trackEntity: PropTypes.object.isRequired,
   userEntity: PropTypes.object.isRequired,
   userFavorites: PropTypes.object.isRequired,
@@ -190,4 +178,7 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps)(UserMediaContainer)
+const UserMediaWrap = connect(mapStateToProps)(UserMediaContainer)
+UserMediaWrap.needs = needs
+
+export default UserMediaWrap

@@ -6,18 +6,12 @@ import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import config from '../webpack/config.babel'
+import SC from './soundcloud/config'
 
 const app = express()
+const compiled_app_module_path = path.resolve(__dirname, '..', 'dist', 'assets', 'server.js')
+const App = require(compiled_app_module_path)
 const isDev = app.get('env') === 'development'
-const isDevClient = process.argv.indexOf('--client') !== -1
-
-function start(server, port) {
-  /* eslint-disable no-console */
-  app.listen(port, err => {
-    if (err) throw err
-    console.log(`\n${server} listening on port ${port} in ${app.get('env')} mode`)
-  })
-}
 
 if (isDev) {
   const compiler = webpack(config)
@@ -25,12 +19,12 @@ if (isDev) {
   app.use(webpackHotMiddleware(compiler))
 }
 
-if (isDevClient) {
-  app.get('/',
-    (req, res) => res.sendFile(path.join(__dirname, 'index.html')))
-  start('Webpack Dev Server', config.port)
-} else {
-  configureExpress(app)
-  configureRoutes(app)
-  start('Express server', app.get('port'))
-}
+configureExpress(app)
+configureRoutes(app)
+app.get('*', (req, res) => App.default(req, res, SC.getMe()))
+
+/* eslint-disable no-console */
+app.listen(app.get('port'), err => {
+  if (err) throw err
+  console.log(`\nExpress server listening on port ${app.get('port')} in ${app.get('env')} mode`)
+})

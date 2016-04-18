@@ -2,6 +2,7 @@ import * as playerActionCreators from 'actions/player'
 import * as streamActionCreators from 'actions/stream'
 import AudioPlayer from 'components/AudioPlayer'
 import AudioStream from 'components/AudioStream'
+import mediaFactory from 'utils/mediaFactory'
 import omit from 'lodash/omit'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -9,11 +10,9 @@ import TracklistContainer from './TracklistContainer'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { constructStreamUrl } from 'utils/urlUtils'
-import mediaFactory from 'utils/mediaFactory'
 import { toggleTracklist } from 'actions/toggle'
 
 class AudioContainer extends React.Component {
-
   render() {
     const {
       userObject,
@@ -44,49 +43,39 @@ class AudioContainer extends React.Component {
       leave: 'leave'
     }
 
-    const shouldRenderAudioContainer = () => {
-      if (shouldPlay) {
-        return (
-          <ReactCSSTransitionGroup
-            className="music-box"
-            component="section"
-            transitionEnterTimeout={ 500 }
-            transitionLeaveTimeout={ 1000 }
-            transitionName={ ReactCSSTransitionNames }
-          >
-            <AudioStream
-              playerActions={ playerActions }
-              playerIsSeeking={ audio.isSeeking }
-              ref={ audioStream }
-              src={ src }
-              streamActions={ streamActions }
-              trackId={ trackId }
-              tracklist={ tracklist }
-              volume={ rest.player.volume.level }
-            />
-            <TracklistContainer />
-            <AudioPlayer
-              { ...rest }
-              audioRef={ this._audioStream }
-              shouldPlay={ shouldPlay }
-              trackData={ trackData }
-            />
-          </ReactCSSTransitionGroup>
-        )
+    return (
+      <ReactCSSTransitionGroup
+        className="music-box"
+        component="section"
+        transitionEnterTimeout={ 500 }
+        transitionLeaveTimeout={ 1000 }
+        transitionName={ ReactCSSTransitionNames }
+      >
+
+      { !!shouldPlay &&
+        [<AudioStream
+          playerActions={ playerActions }
+          playerIsSeeking={ audio.isSeeking }
+          ref={ audioStream }
+          key={ '__stream__' }
+          src={ src }
+          streamActions={ streamActions }
+          trackId={ trackId }
+          tracklist={ tracklist }
+          volume={ rest.player.volume.level }
+        />,
+        <TracklistContainer key={ '__tracklist__' } />,
+        <AudioPlayer
+          { ...rest }
+          audioRef={ this._audioStream }
+          key={ '__player__' }
+          shouldPlay={ shouldPlay }
+          trackData={ trackData }
+        />]
       }
 
-      return (
-        <ReactCSSTransitionGroup
-          className="music-box"
-          component="section"
-          transitionEnterTimeout={ 500 }
-          transitionLeaveTimeout={ 1000 }
-          transitionName={ ReactCSSTransitionNames }
-        />
-      )
-    }
-
-    return shouldRenderAudioContainer()
+      </ReactCSSTransitionGroup>
+    )
   }
 }
 

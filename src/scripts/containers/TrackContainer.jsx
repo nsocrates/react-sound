@@ -15,48 +15,56 @@ import StatsList from 'components/StatsList'
 import Taglist from 'components/Taglist'
 
 import classNames from 'classnames'
-import { updateMyTracks } from 'actions/auth'
+import { updateMyTracks, updateMyFollowings } from 'actions/collection'
 import { connect } from 'react-redux'
 import { loadTrack, loadTrackComments } from 'actions/track'
-import { REQ } from 'constants/Auth'
 import { requestStream } from 'actions/stream'
+import { addTrack } from 'actions/player'
 
 import mediaFactory from 'utils/mediaFactory'
 import timeFactory from 'utils/timeFactory'
 import { constructUrlFromEndpoint } from 'utils/urlUtils'
 import { formatCover, dtFormatter, markNumber } from 'utils/formatUtils'
+import { fetchNeeds } from 'utils/fetchComponentData'
+
+const needs = [loadTrack]
 
 class TrackContainer extends React.Component {
-
   constructor(props) {
     super(props)
     this.handleClickStream = this.handleClickStream.bind(this)
     this.handleClickFav = this.handleClickFav.bind(this)
+    this.handleClickFollow = this.handleClickFollow.bind(this)
+    this.handleClickAdd = this.handleClickAdd.bind(this)
   }
 
   componentDidMount() {
-    return this.updateComponent()
+    const { dispatch, params } = this.props
+    return fetchNeeds(needs, dispatch, { params })
   }
 
-  updateComponent() {
+  handleClickAdd(e) {
+    e.preventDefault()
     const { dispatch, params } = this.props
-
-    return dispatch(loadTrack(params.id))
+    return dispatch(addTrack(params.id))
   }
 
   handleClickFav(e) {
     e.preventDefault()
+    const { dispatch, params } = this.props
+    return dispatch(updateMyTracks(params.id, this.trackName))
+  }
 
-    const { dispatch, params, trackCollection } = this.props
-    if (trackCollection.ids.indexOf(Number(params.id)) !== -1) {
-      return dispatch(updateMyTracks(REQ.DEL, params.id, this.trackName))
-    }
-    return dispatch(updateMyTracks(REQ.PUT, params.id, this.trackName))
+  handleClickFollow(e) {
+    e.preventDefault()
+    const { dispatch, userEntity, trackObject } = this.props
+    const { [trackObject.user_id]: userObject } = userEntity
+    const { id, username } = userObject
+    return dispatch(updateMyFollowings(id, username))
   }
 
   handleClickStream(e) {
     e.preventDefault()
-
     const { dispatch, params } = this.props
     return dispatch(requestStream(params.id))
   }
@@ -64,12 +72,14 @@ class TrackContainer extends React.Component {
   render() {
     const {
       trackCollection,
+      userCollection,
       userEntity,
       params,
       shouldPlay,
       trackObject,
       dispatch,
-      trackComments
+      trackComments,
+      pagination
     } = this.props
 
     if (!Object.keys(trackObject).length) {
@@ -111,11 +121,14 @@ class TrackContainer extends React.Component {
       'artwork__fav-icon--is-fav': trackCollection.ids.indexOf(trackObject.id) !== -1
     })
 
+    const isFollowing = classNames('article__follow btn btn--sm', {
+      'btn__follow btn__follow--light': userCollection.ids.indexOf(userObject.id) === -1,
+      'btn__following btn__following--light': userCollection.ids.indexOf(userObject.id) !== -1
+    })
+
     const articleContent = ref => (this._articleContent = ref)
 
     const renderComments = () => {
-      const { pagination } = this.props
-
       const _isReady = () => {
         const hasLength = Object.keys(trackComments).length
         const notFetching = !trackComments.isFetching
@@ -166,15 +179,14 @@ class TrackContainer extends React.Component {
       }
 
       if (_shouldRender()) {
-        const { offset } = trackComments
+        const { offset, next_href } = trackComments
         const endpoint = `/tracks/${params.id}/comments?`
-        const url = trackComments.next_href || `${constructUrlFromEndpoint(endpoint)}&offset=${offset + 24}`
         const pages = Math.ceil(mediaData.stats.comments / 24)
-        const re = /(&offset=)(\d*)/i
-        const nextOffset = parseInt(re.exec(url)[2], 10)
-        const prevOffset = nextOffset - 48
-        const prevHref = nextOffset - 48 >= 0
-                      ? url.replace(re, `$1${prevOffset}`)
+
+        const nextOffset = offset + 24
+        const prevOffset = offset - 24
+        const prevHref = prevOffset > 0
+                      ? constructUrlFromEndpoint(endpoint, { offset: prevOffset })
                       : null
 
         const handleToNext = e => {
@@ -191,12 +203,12 @@ class TrackContainer extends React.Component {
 
         const _renderPaginationIndexs = () => {
           const offsets = []
-          for (let i = 0; i <= pages; i++) {
+          for (let i = 1; i <= pages; i++) {
             offsets.push(i * 24)
           }
 
           return offsets.map((value, index) => {
-            const href = url.replace(re, `$1${value}`)
+            const href = constructUrlFromEndpoint(endpoint, { offset: value })
             const isCurrent = value === offset
             const page = index + 1
             const currentPage = offset / 24 + 1
@@ -264,7 +276,7 @@ class TrackContainer extends React.Component {
 
         return (
           <Pagination
-            next={ !!trackComments.next_href }
+            next={ !!next_href }
             onNext={ handleToNext }
             onPrev={ handleToPrev }
             prev={ !!prevHref }
@@ -300,6 +312,12 @@ class TrackContainer extends React.Component {
             >
               <i className={ isFavorite } />
             </button>
+            <button
+              className="artwork__add"
+              onClick={ this.handleClickAdd }
+            >
+              <i className="artwork__add-icon fa fa-plus" />
+            </button>
               <button
                 className="artwork__filter artwork__filter--profile"
                 onClick={ this.handleClickStream }
@@ -312,7 +330,7 @@ class TrackContainer extends React.Component {
                   { mediaData.media.name }
                 </h2>
                 <h4 className="profile__info--secondary">
-                  <LinkItem to={`#user/${mediaData.user.id}`}>
+                  <LinkItem to={`/user/${mediaData.user.id}`}>
                     { mediaData.user.name }
                   </LinkItem>
                 </h4>
@@ -322,7 +340,7 @@ class TrackContainer extends React.Component {
               <StatsList
                 listItems={ statsListItems }
                 hashTags={ mediaData.genre }
-                pathname="#genre"
+                pathname="/genre"
               />
 
               <hr className="invis" />
@@ -342,10 +360,13 @@ class TrackContainer extends React.Component {
           >
 
             <div className="article__user">
-              <LinkItem className="article__avatar avatar" to={`#user/${mediaData.user.id}`}>
+              <LinkItem className="article__avatar" to={`/user/${mediaData.user.id}`}>
                 <img className=" article__avatar--img avatar__img" src={ userAvatar.default } />
               </LinkItem>
-              <button className="article__follow btn btn--sm btn__follow btn__follow--light" />
+              <button
+                className={ isFollowing }
+                onClick={ this.handleFollow }
+              />
             </div>
 
             <ArticleContent
@@ -375,15 +396,16 @@ class TrackContainer extends React.Component {
 }
 
 TrackContainer.propTypes = {
-  trackCollection: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   pagination: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   shouldPlay: PropTypes.bool.isRequired,
   streamTrackId: PropTypes.number.isRequired,
+  trackCollection: PropTypes.object.isRequired,
   trackComments: PropTypes.object.isRequired,
   trackObject: PropTypes.object.isRequired,
+  userCollection: PropTypes.object.isRequired,
   userEntity: PropTypes.object.isRequired
 }
 
@@ -410,10 +432,14 @@ function mapStateToProps(state, ownProps) {
     shouldPlay,
     trackCollection: collection.tracks,
     trackComments: commentsByTrack[id] || {},
+    userCollection: collection.followings,
     userEntity: users,
     streamTrackId: trackId,
     trackObject: tracks[id] || {}
   }
 }
 
-export default connect(mapStateToProps)(TrackContainer)
+const TrackWrap = connect(mapStateToProps)(TrackContainer)
+TrackWrap.needs = needs
+
+export default TrackWrap

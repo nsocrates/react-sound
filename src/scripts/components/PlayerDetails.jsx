@@ -13,13 +13,13 @@ export default function PlayerDetails(props) {
     <li className="player__ctrl player__track">
 
       <p className="player__track--title">
-        <LinkItem to={`#track/${trackId}`}>
+        <LinkItem to={`/track/${trackId}`}>
           { trackName }
         </LinkItem>
       </p>
 
       <p className="player__track--user">
-        <LinkItem to={`#user/${userId}`}>
+        <LinkItem to={`/user/${userId}`}>
           { userName }
         </LinkItem>
       </p>

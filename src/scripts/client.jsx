@@ -24,11 +24,9 @@ history.listen(location => {
   const state = location.state || {}
 
   setTimeout(() => {
-    if ((
-      action === 'POP' ||
-      state.isModal ||
-      state.isReturnPath
-    )) {
+    if ((action === 'POP'
+      || state.isModal
+      || state.isReturnPath)) {
       return
     }
 

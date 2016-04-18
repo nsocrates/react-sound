@@ -4,48 +4,40 @@ import { FALLBACK } from 'constants/ImageConstants'
 
 export default function Gallery(props) {
   const {
-    actions,
-    streamTrackId,
-    audioIsPlaying,
+    onAddTrack = () => {},
+    onRequestStream = () => {},
     trackData: { user, media, artwork }
   } = props
 
-  const handleClick = e => {
-    const audio = document.getElementById('audio')
-    e.preventDefault()
-
-    if (media.id === streamTrackId) {
-      return audioIsPlaying ? audio.pause() : audio.play()
-    }
-
-    return actions.requestStream(media.id)
-  }
-
   const handleError = e => {
     const { currentTarget } = e
-    currentTarget.src = FALLBACK.PLACEHOLDER_LARGE
-
-    return currentTarget
+    return (currentTarget.src = FALLBACK.PLACEHOLDER_LARGE)
   }
 
   return (
     <article className="gallery">
-      <a
-        className="fa artwork gallery__artwork"
-        href=""
-        onClick={ handleClick }
-      >
+      <section className="artwork gallery__artwork">
         <img
           className="gallery__artwork--img"
           onError={ handleError }
           src={ artwork.large }
         />
-      </a>
-      <div className="gallery__content">
+        <button
+          className="artwork__filter"
+          onClick={ onRequestStream }
+        />
+        <button
+          className="artwork__add"
+          onClick={ onAddTrack }
+        >
+          <i className="artwork__add-icon fa fa-plus" />
+        </button>
+      </section>
+      <section className="gallery__content">
         <h6 className="gallery__content--title" >
           <LinkItem
             className="gallery__content--link"
-            to={`#track/${media.id}`}
+            to={`/track/${media.id}`}
           >
             { media.name }
           </LinkItem>
@@ -53,33 +45,18 @@ export default function Gallery(props) {
         <h6 className="gallery__content--byline">
           <LinkItem
             className="gallery__content--link"
-            to={`#user/${user.id}`}
+            to={`/user/${user.id}`}
           >
             { user.name }
           </LinkItem>
         </h6>
-      </div>
+      </section>
     </article>
   )
 }
 
 Gallery.propTypes = {
-  actions: React.PropTypes.objectOf(
-    React.PropTypes.func.isRequired
-  ),
-  audioIsPlaying: React.PropTypes.bool.isRequired,
-  imgUrl: React.PropTypes.string,
-  streamTrackId: React.PropTypes.number,
-  style: React.PropTypes.objectOf(React.PropTypes.string),
-  title: React.PropTypes.string,
-  trackData: React.PropTypes.object,
-  user: React.PropTypes.string
-}
-
-Gallery.defaultProps = {
-  imgUrl: null,
-  style: null,
-  title: 'Track Title',
-  trackId: null,
-  user: 'Track User'
+  onAddTrack: React.PropTypes.func,
+  onRequestStream: React.PropTypes.func,
+  trackData: React.PropTypes.object.isRequired
 }

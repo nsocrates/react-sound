@@ -5,15 +5,28 @@ import { push, replace } from 'react-router-redux'
 import { toggleCloseAll } from 'actions/toggle'
 
 function LinkItem(props) {
-  const { activeClassName, children, className, to, onClick, title } = props
+  const {
+    activeClassName,
+    children,
+    className,
+    dispatch,
+    method,
+    onClick,
+    title,
+    to
+  } = props
 
   const handleClick = e => {
     e.preventDefault()
-
-    const { dispatch } = props
-
     dispatch(toggleCloseAll())
-    return to.replace ? dispatch(replace(to)) : dispatch(push(to))
+
+    const location = typeof to === 'string'
+      ? { pathname: to }
+      : to
+
+    return method === 'REPLACE'
+      ? dispatch(replace(location))
+      : dispatch(push(location))
   }
 
   return (
@@ -29,12 +42,17 @@ function LinkItem(props) {
   )
 }
 
+LinkItem.defaultProps = {
+  method: 'PUSH'
+}
+
 LinkItem.propTypes = {
   activeClassName: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,
   dataContent: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
+  method: PropTypes.oneOf(['PUSH', 'REPLACE']).isRequired,
   onClick: PropTypes.func,
   title: PropTypes.string,
   to: PropTypes.oneOfType([
@@ -46,15 +64,6 @@ LinkItem.propTypes = {
       state: PropTypes.object
     }).isRequired
   ])
-}
-
-LinkItem.defaultProps = {
-  activeClassName: undefined,
-  children: null,
-  className: undefined,
-  dataContent: undefined,
-  title: undefined,
-  to: {}
 }
 
 export default connect()(LinkItem)

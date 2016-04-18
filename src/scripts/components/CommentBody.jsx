@@ -12,7 +12,7 @@ export default function CommentBody({ body }) {
       <p className="comment__body">
         <LinkItem
           className="link link--unvisited"
-          to={`#user/${user}`}
+          to={`/user/${user}`}
         >
           { atUser }
         </LinkItem>

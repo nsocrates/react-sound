@@ -4,7 +4,8 @@ import classNames from 'classnames'
 
 export default function MediaCardItem(props) {
   const { children, imgUrl, href, title, byline, onClickPlay, meta,
-        titlePath, bylinePath, onClickFav, isFavorite, head, stats } = props
+        titlePath, bylinePath, onClickFav, isFavorite, head, stats,
+        onClickAdd } = props
 
   const isFav = classNames('artwork__fav-icon fa fa-heart', {
     'artwork__fav-icon--is-fav': isFavorite
@@ -38,6 +39,12 @@ export default function MediaCardItem(props) {
               onClick={ onClickFav }
             >
               <i className={ isFav } />
+            </button>
+            <button
+              className="artwork__add"
+              onClick={ onClickAdd }
+            >
+              <i className="artwork__add-icon fa fa-plus" />
             </button>
             <button
               className="artwork__filter"
@@ -91,6 +98,7 @@ MediaCardItem.propTypes = {
   imgUrl: PropTypes.string,
   isFavorite: PropTypes.bool,
   meta: PropTypes.string,
+  onClickAdd: PropTypes.func,
   onClickFav: PropTypes.func,
   onClickPlay: PropTypes.func,
   stats: PropTypes.array,
@@ -110,5 +118,7 @@ MediaCardItem.defaultProps = {
   stats: [],
   title: null,
   titlePath: undefined,
+  onClickAdd() {},
+  onClickFav() {},
   onClickPlay() {}
 }

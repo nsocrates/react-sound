@@ -13,7 +13,7 @@ export default class Nav extends React.Component {
     e.preventDefault()
     const { _search: { _input }, props: { routeActions } } = this
     const location = {
-      pathname: '#search',
+      pathname: '/search',
       query: {
         q: _input.value
       }
@@ -37,7 +37,7 @@ export default class Nav extends React.Component {
 
     const menuItems = genreList.map(item => {
       const locationDescriptor = {
-        pathname: '#genre',
+        pathname: '/genre',
         query: {
           q: item
         }

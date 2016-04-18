@@ -24,7 +24,7 @@ export default class AudioStream extends React.Component {
   // Resets audio duration and position
   handleLoadStart() {
     const { playerActions, trackId } = this.props
-    playerActions.pushTrack(trackId)
+    playerActions.appendTrack(trackId)
     playerActions.setDuration(0)
     playerActions.setPosition(0)
   }

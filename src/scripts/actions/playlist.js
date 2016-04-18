@@ -3,11 +3,12 @@
  */
 
 import * as ActionTypes from 'constants/ActionTypes'
-import { setPagination } from 'actions/collection'
+import { setPagination } from 'actions/pagination'
 import { Schemas } from 'constants/Schemas'
 import { callApi } from 'actions/call'
 
-export function loadPlaylist(id) {
+export function loadPlaylist({ params }) {
+  const { id } = params
   const options = {
     types: [
       ActionTypes.PLAYLIST_REQUEST,
@@ -15,7 +16,10 @@ export function loadPlaylist(id) {
       ActionTypes.PLAYLIST_FAILURE
     ],
     endpoint: `/playlists/${id}`,
-    schema: Schemas.PLAYLIST
+    schema: Schemas.PLAYLIST,
+    params: {
+      limit: 500
+    }
   }
   return (dispatch, getState) => (
     dispatch(callApi({ id }, options))

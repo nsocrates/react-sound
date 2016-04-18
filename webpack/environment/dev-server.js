@@ -5,7 +5,9 @@ import merge from 'lodash/merge'
 
 const config = merge({
   name: 'server rendering',
-  entry: './scripts/server',
+  entry: {
+    server: './scripts/server'
+  },
   target: 'node',
   output: {
     filename: 'server.js',

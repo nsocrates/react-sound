@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react'
 
-import { FALLBACK } from 'constants/ImageConstants'
-import { REQ } from 'constants/Auth'
-
-import { formatCover } from 'utils/formatUtils'
 import classNames from 'classnames'
+import { FALLBACK } from 'constants/ImageConstants'
+import { formatCover } from 'utils/formatUtils'
+import { getUserLocation } from 'utils/mutationUtils'
 
 import { toggleProfileMenu } from 'actions/toggle'
-import { updateMyFollowings } from 'actions/auth'
+import { updateMyFollowings } from 'actions/collection'
 
 import CanvasGradient from 'components/CanvasGradient'
 import LinkItem from 'components/LinkItem'
@@ -45,12 +44,8 @@ export default class User extends React.Component {
   handleFollow(e) {
     e.preventDefault()
 
-    const { dispatch, user, userCollection } = this.props
-
-    if (userCollection.ids.indexOf(user.id) !== -1) {
-      return dispatch(updateMyFollowings(REQ.DEL, user.id, user.username))
-    }
-    return dispatch(updateMyFollowings(REQ.PUT, user.id, user.username))
+    const { dispatch, user } = this.props
+    return dispatch(updateMyFollowings(user.id, user.username))
   }
 
   render() {
@@ -108,14 +103,6 @@ export default class User extends React.Component {
     }]
 
     const avatarUrl = formatCover(avatar_url).large
-
-    const getUserLocation = () => {
-      if (city || country) {
-        return city && country ? `${city}, ${country}` : country || city
-      }
-
-      return 'Unspecified'
-    }
 
     const shouldFollow = classNames('profile__cta btn btn--lg', {
       'btn__follow btn__follow--cta': userCollection.ids.indexOf(user.id) === -1,
@@ -181,10 +168,10 @@ export default class User extends React.Component {
           <div className="profile">
 
             <ProfileCover
-              className="profile__cover avatar"
+              className="profile__cover profile__cover--avatar"
               fallback={ FALLBACK.AVATAR.LARGE }
               href={ website || permalink_url }
-              imgClassName="avatar__img"
+              imgClassName="profile__avatar avatar__img"
               src={ avatarUrl }
             />
 
@@ -199,7 +186,7 @@ export default class User extends React.Component {
                 </h4>
                 <h5 className="profile__info--tertiary">
                   <i className="profile__info--icon fa fa-map-marker" />
-                  { getUserLocation() }
+                  { getUserLocation(city, country) }
                 </h5>
               </article>
 

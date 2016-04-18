@@ -70,7 +70,7 @@ export default function TracklistItem(props) {
           <p className={`tracklist-${modifier}__title`}>
             <LinkItem
               className="tracklist__link"
-              to={`#track/${trackId}`}
+              to={`/track/${trackId}`}
             >
               { trackName }
             </LinkItem>
@@ -78,7 +78,7 @@ export default function TracklistItem(props) {
           <p className={`tracklist-${modifier}__user`}>
             <LinkItem
               className="tracklist__link tracklist__link--user"
-              to={`#user/${userId}`}
+              to={`/user/${userId}`}
             >
               { userName }
             </LinkItem>

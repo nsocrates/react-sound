@@ -4,8 +4,7 @@ import TracklistItem from 'components/TracklistItem'
 import { requestStream } from 'actions/stream'
 import mediaFactory from 'utils/mediaFactory'
 
-import { updateMyTracks } from 'actions/auth'
-import { REQ } from 'constants/Auth'
+import { updateMyTracks } from 'actions/collection'
 
 export default function Tracklist(props) {
   const { ids, userEntity, trackEntity, trackId, isPlaying, modifier, trackCollection } = props
@@ -40,7 +39,7 @@ export default function Tracklist(props) {
     const handleAddToFavorites = e => {
       e.preventDefault()
       const { dispatch } = props
-      return dispatch(updateMyTracks(REQ.PUT, id, trackData.media.name))
+      return dispatch(updateMyTracks(id, trackData.media.name))
     }
 
     const isEven = classNames(`tracklist-${modifier}__track`, {

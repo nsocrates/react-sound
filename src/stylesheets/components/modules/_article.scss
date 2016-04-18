@@ -59,9 +59,11 @@
 }
 
 .article__avatar {
+  background-color: $black-disabled;
+  border-radius: 50%;
   display: block;
   height: 10rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   margin-left: auto;
   margin-right: auto;
   position: relative;
@@ -70,6 +72,12 @@
 
   &--img {
     @include absolute;
+    box-shadow: 0 0 0 .6rem rgba($shark, $disabled);
+    transition: box-shadow .5s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 0 0 .8rem rgba($shark, .22);
+    }
   }
 }
 
@@ -109,5 +117,9 @@
 
 .article__follow {
   margin-bottom: 1.5rem;
-  width: 100%;
+  width: em(175px);
+
+  @include susy-media(medium) {
+    width: 100%;
+  }
 }

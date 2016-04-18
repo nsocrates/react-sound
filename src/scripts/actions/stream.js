@@ -1,5 +1,5 @@
 import * as ActionTypes from 'constants/ActionTypes'
-import { pushTrack } from 'actions/player'
+import { appendTrack } from 'actions/player'
 
 export function requestStream(trackId) {
   return {
@@ -11,7 +11,7 @@ export function requestStream(trackId) {
 export function loadStreamList(ids) {
   return dispatch => {
     dispatch(requestStream(ids[0]))
-    dispatch(pushTrack(ids, 'playlist'))
+    dispatch(appendTrack(ids, 'playlist'))
   }
 }
 

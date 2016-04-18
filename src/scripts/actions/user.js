@@ -7,7 +7,7 @@ import { Schemas } from 'constants/Schemas'
 import { push } from 'react-router-redux'
 import { callApi } from 'actions/call'
 
-export function loadUser(id) {
+function loadUser(id) {
   return (dispatch, getState) => {
     const user = getState().app.entities.users[id]
     const types = [
@@ -143,7 +143,7 @@ export function loadUserFollowers(id, next = false) {
   }
 }
 
-export function resolveUser(username) {
+function resolveUser(username) {
   return dispatch => {
     const endpoint = `/resolve?url=http://soundcloud.com/${username}`
     const types = [
@@ -158,9 +158,15 @@ export function resolveUser(username) {
         const id = res.response.result.toString()
         const profileEndpoint = `/users/${id}/web-profiles`
         return dispatch(callApi({ id }, { endpoint: profileEndpoint, types, schema }))
-          .then(() => (
-            dispatch(push({ pathname: `#user/${id}` }))
-          ))
+          .then(() => dispatch(push({ pathname: `/user/${id}` })))
       })
   }
+}
+
+export function processUserParam({ params }) {
+  const { id } = params
+  const isUid = /^\d+$/.test(id)
+  return dispatch => (
+    isUid ? dispatch(loadUser(id)) : dispatch(resolveUser(id))
+  )
 }

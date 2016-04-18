@@ -3,13 +3,11 @@ import dialogStore from './store'
 import popup from './popup'
 import { AUTH_BASE } from 'constants/Auth'
 import { constructUrl } from 'utils/urlUtils'
+import { generateUid } from 'utils/mutationUtils'
 
 export default function dialogFactory() {
-  const ID_PREFIX = 'Dialog_'
-  const generateId = () => (
-    [ID_PREFIX, Math.ceil(Math.random() * 1000000).toString(16)].join('_'))
-
-  const id = generateId()
+  const ID_PREFIX = 'Dialog'
+  const id = generateUid(ID_PREFIX)
 
   return {
     id,

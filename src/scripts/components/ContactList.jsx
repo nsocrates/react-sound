@@ -1,12 +1,9 @@
 import React, { PropTypes } from 'react'
+import classNames from 'classnames'
 import { connect } from 'react-redux'
-
 import { FALLBACK } from 'constants/ImageConstants'
-import { REQ } from 'constants/Auth'
-
 import { formatCover } from 'utils/formatUtils'
-
-import { updateMyFollowings } from 'actions/auth'
+import { updateMyFollowings } from 'actions/collection'
 
 import End from 'components/End'
 import LinkItem from 'components/LinkItem'
@@ -40,13 +37,15 @@ export default function ContactList(props) {
     const username = user.username
     const avatar = formatCover(user.avatar_url).badge
 
+    const isFollowing = userCollection.ids.indexOf(id) !== -1
+    const shouldFollow = classNames('contact__btn btn btn--md', {
+      'btn__follow btn__follow--light': !isFollowing,
+      'btn__following btn__following--light': isFollowing
+    })
+
     const handleFollow = e => {
       e.preventDefault()
-
-      if (userCollection.ids.indexOf(id) !== -1) {
-        return dispatch(updateMyFollowings(REQ.DEL, id, username))
-      }
-      return dispatch(updateMyFollowings(REQ.PUT, id, username))
+      return dispatch(updateMyFollowings(id, username))
     }
 
     return (
@@ -54,7 +53,7 @@ export default function ContactList(props) {
 
         <LinkItem
           className="contact__avatar avatar avatar--badge"
-          to={`#user/${id}`}
+          to={`/user/${id}`}
         >
           <img
             className="avatar__img"
@@ -67,16 +66,16 @@ export default function ContactList(props) {
           <p className="contact__text contact__text--username">
             <LinkItem
               className="contact__link link"
-              to={`#user/${id}`}
+              to={`/user/${id}`}
             >
               { username }
             </LinkItem>
           </p>
         </div>
 
-        <div className="contact__action">
+        <div className="contact__btn-wrap">
           <button
-            className="btn btn--md btn__follow btn__follow--light"
+            className={ shouldFollow }
             onClick={ handleFollow }
           />
         </div>
