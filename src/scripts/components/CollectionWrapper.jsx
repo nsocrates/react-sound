@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react'
 import { dtFormatter } from 'utils/formatUtils'
 
 import Collection from 'components/Collection'
-import Loader from 'components/Loader'
 import MediaCards from 'components/MediaCards'
 import ProfileCards from 'components/ProfileCards'
 import WaypointLoader from 'components/WaypointLoader'
@@ -16,25 +15,16 @@ export default function CollectionWrapper(props) {
     handleWaypointEnter,
     pathname
   } = props
-  const { collection, affiliations } = auth
-
-  const hasInit = collection.playlists.offset
-    || collection.tracks.offset > 0
-    || collection.followings.offset > 0
-    || affiliations.offset > 0
-
-  if (!hasInit) {
-    return <Loader className="loader--bottom" />
-  }
+  const { likes, stream, playlists } = auth
 
   function renderStream() {
     return (
       <MediaCards
         className="cards"
-        collectionIds={ collection.tracks.ids }
+        collectionIds={ likes.tracks.ids }
         endMsg="NO STREAMS TO DISPLAY."
-        hasLoaded={ affiliations.offset > 0 }
-        ids={ affiliations.ids }
+        hasLoaded={ stream.offset > 0 }
+        ids={ stream.ids }
         isPlaying={ audioIsPlaying }
         maxTags={ 5 }
         mediaEntity={ entities.tracks }
@@ -44,18 +34,31 @@ export default function CollectionWrapper(props) {
     )
   }
 
+  function appendPlaylists(likedPlaylists) {
+    const ownPlaylists = playlists.ids.map(id => {
+      const { playlists: playlistEntity } = entities
+      return {
+        id,
+        created_at: playlistEntity[id].created_at
+      }
+    })
+    return likedPlaylists.concat(ownPlaylists)
+  }
+
   function renderCardCollection(kind, maxCards) {
     let mediaEntity = entities.tracks
-    let coll = collection.tracks
+    let coll = likes.tracks
     let endMsg = 'NO TRACKS IN COLLECTION.'
+    let ids = likes.tracks.e1
 
     if (kind === 'playlists') {
       mediaEntity = entities.playlists
-      coll = collection.playlists
+      coll = likes.playlists
       endMsg = 'NO PLAYLISTS IN COLLECTION.'
+      ids = appendPlaylists(likes.playlists.e1)
     }
 
-    const idsWithHead = coll.e1.map(item => {
+    const idsWithHead = ids.map(item => {
       const date = dtFormatter(item.created_at)
       const head = (
         <section className="card__head">
@@ -86,10 +89,10 @@ export default function CollectionWrapper(props) {
   function renderWaypointLoader(kind) {
     const common = {
       endProps: { className: 'end--bottom' },
-      loaderprops: { classname: 'loader--bottom' },
+      loaderProps: { classname: 'loader--bottom' },
       waypointProps: { className: 'waypoint' }
     }
-    const list = collection[kind] || affiliations
+    const list = likes[kind] || stream
     return (
       !!list.ids.length &&
       <WaypointLoader
@@ -103,11 +106,11 @@ export default function CollectionWrapper(props) {
   }
 
   function renderComponent() {
-    const pCardProps = {
-      collectionIds: collection.followings.ids,
+    const pcProps = {
+      collectionIds: likes.followings.ids,
       endMsg: 'NO FOLLOWINGS IN COLLECTION.',
-      hasLoaded: !!collection.followings.offset,
-      ids: collection.followings.ids,
+      hasLoaded: !!likes.followings.offset,
+      ids: likes.followings.ids,
       userEntity: entities.users
     }
 
@@ -139,7 +142,7 @@ export default function CollectionWrapper(props) {
       case '/me/followings':
         return ([
           <Collection title="Followings" key={ "followings_wp" }>
-            <ProfileCards { ...pCardProps } />
+            <ProfileCards { ...pcProps } />
           </Collection>,
           renderWaypointLoader('followings')
         ])
@@ -156,7 +159,7 @@ export default function CollectionWrapper(props) {
 
           <Collection title="Followings" key={ "followings_collection" }>
             <ProfileCards
-              { ...pCardProps }
+              { ...pcProps }
               maxCards={ 6 }
             />
           </Collection>

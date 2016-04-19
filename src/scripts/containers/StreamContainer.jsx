@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { fetchNeeds } from 'utils/fetchComponentData'
-import { loadTrackActivities } from 'actions/activities'
+import { loadTrackActivities, pollTrackActivities } from 'actions/activities'
 import CollectionWrapper from 'components/CollectionWrapper'
+import Loader from 'components/Loader'
 
 const needs = [loadTrackActivities]
 
@@ -14,6 +15,8 @@ class StreamContainer extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props
+    dispatch(pollTrackActivities())
     return this.updateComponent()
   }
 
@@ -29,6 +32,12 @@ class StreamContainer extends React.Component {
 
   render() {
     const { auth, entities, audioIsPlaying, streamTrackId, location } = this.props
+    const hasInit = auth.stream.offset > 0
+
+    if (!hasInit) {
+      return <Loader />
+    }
+
     return (
       <CollectionWrapper
         audioIsPlaying={ audioIsPlaying }

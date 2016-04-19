@@ -154,7 +154,7 @@ function mapStateToProps(state, ownProps) {
   const {
     entities: { users, tracks, playlists },
     partition: { tracksByUser, favoritesByUser, playlistsByUser },
-    auth: { collection },
+    auth: { likes },
     media: {
       stream: { trackId },
       player: {
@@ -173,8 +173,8 @@ function mapStateToProps(state, ownProps) {
     userEntity: users,
     trackEntity: tracks,
     playlistEntity: playlists,
-    trackCollection: collection.tracks,
-    playlistCollection: collection.playlists
+    trackCollection: likes.tracks,
+    playlistCollection: likes.playlists
   }
 }
 

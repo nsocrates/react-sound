@@ -8,18 +8,6 @@ export const AUTH_KEY = 'accessToken'
 export const AUTH_ID = 'userId'
 
 export const AuthTypes = {
-  // COMMENTS: [
-  //   ActionTypes.MY_COMMENTS_REQUEST,
-  //   ActionTypes.MY_COMMENTS_SUCCESS,
-  //   ActionTypes.MY_COMMENTS_FAILURE,
-  //   ActionTypes.MY_COMMENTS_PUT,
-  //   ActionTypes.MY_COMMENTS_DELETE
-  // ],
-  // FOLLOWERS: [
-  //   ActionTypes.MY_FOLLOWERS_REQUEST,
-  //   ActionTypes.MY_FOLLOWERS_SUCCESS,
-  //   ActionTypes.MY_FOLLOWERS_FAILURE
-  // ],
   FOLLOWINGS: [
     ActionTypes.MY_FOLLOWINGS_REQUEST,
     ActionTypes.MY_FOLLOWINGS_SUCCESS,
@@ -46,15 +34,14 @@ export const AuthTypes = {
     ActionTypes.MY_TRACKS_PUT,
     ActionTypes.MY_TRACKS_DELETE
   ],
+  OWN_PLAYLISTS: [
+    ActionTypes.MY_OWN_PLAYLISTS_REQUEST,
+    ActionTypes.MY_OWN_PLAYLISTS_SUCCESS,
+    ActionTypes.MY_OWN_PLAYLISTS_FAILURE
+  ],
   TRACK_ACTIVITIES: [
     ActionTypes.MY_TRACK_ACTIVITIES_REQUEST,
     ActionTypes.MY_TRACK_ACTIVITIES_SUCCESS,
     ActionTypes.MY_TRACK_ACTIVITIES_FAILURE
-  ],
-  DEL: {
-    // COMMENTS: ActionTypes.MY_COMMENTS_DELETE,
-    FOLLOWINGS: ActionTypes.MY_FOLLOWINGS_DELETE,
-    PLAYLISTS: ActionTypes.MY_PLAYLISTS_DELETE,
-    TRACKS: ActionTypes.MY_TRACKS_DELETE
-  }
+  ]
 }

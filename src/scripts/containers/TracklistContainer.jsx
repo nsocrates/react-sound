@@ -52,7 +52,7 @@ TracklistContainer.propTypes = {
 
 function mapStateToProps(state) {
   const {
-    auth: { collection },
+    auth: { likes },
     ui: { toggles: { tracklist } },
     entities: { tracks, users },
     media: {
@@ -67,7 +67,7 @@ function mapStateToProps(state) {
   } = state.app
 
   return {
-    trackCollection: collection.tracks.ids,
+    trackCollection: likes.tracks.ids,
     userEntity: users,
     trackEntity: tracks,
     shouldPlay,

@@ -23,18 +23,6 @@ export default function Dropdown({
     icon: 'th-large',
     text: 'Collection',
     to: '/me/collection'
-  }, {
-    icon: 'caret-square-o-right',
-    text: 'Tracks',
-    to: '/me/tracks'
-  }, {
-    icon: 'list',
-    text: 'Playlists',
-    to: '/me/playlists'
-  }, {
-    icon: 'star',
-    text: 'Followings',
-    to: '/me/followings'
   }]
 
   const mapDropdownLinks = dropdownLinks.map(item => {

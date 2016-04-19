@@ -53,7 +53,7 @@ export function loadFollowingCollection(forceNext = false) {
       ids = [],
       e1 = [],
       next_href = '/me/followings'
-    } = getState().app.auth.collection.followings || {}
+    } = getState().app.auth.likes.followings || {}
 
     let path = next_href
 
@@ -81,7 +81,7 @@ export function loadTrackCollection(forceNext = false) {
       ids = [],
       e1 = [],
       next_href = '/e1/me/track_likes'
-    } = getState().app.auth.collection.tracks || {}
+    } = getState().app.auth.likes.tracks || {}
 
     let path = next_href
     if ((
@@ -106,7 +106,7 @@ export function loadPlaylistCollection(forceNext = false) {
       ids = [],
       e1 = [],
       next_href = '/e1/me/playlist_likes'
-    } = getState().app.auth.collection.playlists || {}
+    } = getState().app.auth.likes.playlists || {}
 
     let path = next_href
     if ((
@@ -121,14 +121,9 @@ export function loadPlaylistCollection(forceNext = false) {
       return null
     }
 
-    const actionType = [
-      ActionTypes.PLAYLIST_REQUEST,
-      ActionTypes.PLAYLIST_SUCCESS,
-      ActionTypes.PLAYLIST_FAILURE
-    ]
-
     return dispatch(get(path, AuthTypes.PLAYLISTS, Schemas.PLAYLIST_ARRAY))
-      .then(() => dispatch(get('/me/playlists', actionType, Schemas.PLAYLIST_ARRAY)))
+      .then(() => (
+          dispatch(get('/me/playlists', AuthTypes.OWN_PLAYLISTS, Schemas.PLAYLIST_ARRAY))))
   }
 }
 
@@ -142,7 +137,7 @@ export function updateMyFollowings(_id, name) {
     const id = Number(_id)
     const endpoint = `/me/followings/${id}`
     const username = name ? `"${name}"` : 'user'
-    const { ids } = getState().app.auth.collection.followings
+    const { ids } = getState().app.auth.likes.followings
     const method = ids.indexOf(id) === -1 ? 'PUT' : 'DELETE'
     const action = method === 'PUT' ? 'Following' : 'Unfollowed'
 
@@ -159,7 +154,7 @@ export function updateMyTracks(_id, name) {
     const id = Number(_id)
     const endpoint = `/me/favorites/${id}`
     const track = name ? `"${name}"` : 'track'
-    const { ids } = getState().app.auth.collection.tracks
+    const { ids } = getState().app.auth.likes.tracks
     const method = ids.indexOf(id) === -1 ? 'PUT' : 'DELETE'
 
     const msg = method === 'PUT'
@@ -179,7 +174,7 @@ export function updateMyPlaylists(_id, name) {
     const id = Number(_id)
     const endpoint = `/e1/me/playlist_likes/${id}`
     const playlist = name ? `"${name}"` : 'playlist'
-    const { ids } = getState().app.auth.collection.playlists
+    const { ids } = getState().app.auth.likes.playlists
     const method = ids.indexOf(id) === -1 ? 'PUT' : 'DELETE'
 
     const msg = method === 'PUT'

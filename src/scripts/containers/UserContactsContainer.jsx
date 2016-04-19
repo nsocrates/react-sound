@@ -114,7 +114,7 @@ UserContactListContainer.propTypes = {
 function mapStateToProps(state, ownProps) {
   const {
     auth: {
-      collection
+      likes
     },
     entities: {
       users
@@ -130,7 +130,7 @@ function mapStateToProps(state, ownProps) {
     userEntity: users,
     followings: followingsByUser[params.id] || {},
     followers: followersByUser[params.id] || {},
-    userCollection: collection.followings
+    userCollection: likes.followings
   }
 }
 

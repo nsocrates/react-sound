@@ -7,7 +7,7 @@ export function loadTrackActivities(forceNext = false) {
     const {
       ids = [],
       next_href = '/me/activities/tracks/affiliated'
-    } = getState().app.auth.affiliations || {}
+    } = getState().app.auth.stream || {}
 
     if (ids.length && !forceNext) {
       return null
@@ -19,7 +19,7 @@ export function loadTrackActivities(forceNext = false) {
 
 export function pollTrackActivities() {
   return (dispatch, getState) => {
-    const { future_href } = getState().app.auth.affiliations || {}
+    const { future_href } = getState().app.auth.stream || {}
 
     return future_href
       && dispatch(get(future_href, AuthTypes.TRACK_ACTIVITIES, Schemas.TRACK_ARRAY))

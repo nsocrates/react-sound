@@ -7,7 +7,6 @@ import WaypointLoader from 'components/WaypointLoader'
 import { connect } from 'react-redux'
 import { loadGallery } from 'actions/conditional'
 import { requestStream } from 'actions/stream'
-import { addTrack } from 'actions/player'
 import { fetchNeeds } from 'utils/fetchComponentData'
 
 const needs = [loadGallery]
@@ -85,11 +84,6 @@ class GalleryContainer extends React.Component {
         const { dispatch } = this.props
         const { media } = trackData
 
-        function handleAddTrack(e) {
-          e.preventDefault()
-          return dispatch(addTrack(media.id, media.name, trackData.kind))
-        }
-
         function handleRequestStream(e) {
           e.preventDefault()
           const audio = document.getElementById('audio')
@@ -104,7 +98,6 @@ class GalleryContainer extends React.Component {
         return (
           <Gallery
             key={ `${trackId}_${index}` }
-            onAddTrack={ handleAddTrack }
             onRequestStream={ handleRequestStream }
             trackData={ trackData }
           />

@@ -10,11 +10,14 @@ import NotificationContainer from './NotificationContainer'
 import SearchModalContainer from './SearchModalContainer'
 import SideMenuContainer from './SideMenuContainer'
 
+import { loadPlaylistCollection } from 'actions/collection'
+
 class App extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(testBrowser())
     dispatch(checkAuth())
+    dispatch(loadPlaylistCollection())
   }
 
   render() {

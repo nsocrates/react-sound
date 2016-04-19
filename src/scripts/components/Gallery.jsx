@@ -4,7 +4,6 @@ import { FALLBACK } from 'constants/ImageConstants'
 
 export default function Gallery(props) {
   const {
-    onAddTrack = () => {},
     onRequestStream = () => {},
     trackData: { user, media, artwork }
   } = props
@@ -26,12 +25,6 @@ export default function Gallery(props) {
           className="artwork__filter"
           onClick={ onRequestStream }
         />
-        <button
-          className="artwork__add"
-          onClick={ onAddTrack }
-        >
-          <i className="artwork__add-icon fa fa-plus" />
-        </button>
       </section>
       <section className="gallery__content">
         <h6 className="gallery__content--title" >
@@ -56,7 +49,6 @@ export default function Gallery(props) {
 }
 
 Gallery.propTypes = {
-  onAddTrack: React.PropTypes.func,
   onRequestStream: React.PropTypes.func,
   trackData: React.PropTypes.object.isRequired
 }

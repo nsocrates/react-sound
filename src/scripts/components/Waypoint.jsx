@@ -186,11 +186,11 @@ export default class Waypoint extends React.Component {
 
     if (node.offsetParent === this.scrollableAncestor || !node.offsetParent) {
       return node.offsetTop;
-    } else {
-      const nextOffset =
-        this._distanceToTopOfScrollableAncestor(node.offsetParent);
-      return nextOffset === null ? null : node.offsetTop + nextOffset;
     }
+
+    const nextOffset =
+      this._distanceToTopOfScrollableAncestor(node.offsetParent);
+    return nextOffset === null ? null : node.offsetTop + nextOffset;
   }
 
   /**

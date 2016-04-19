@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 
 export default function Loader({
-  className = 'loader--center',
+  className = 'loader--bottom',
   iconClassName = 'loader__icon',
   Type = 'aside'
 }) {

@@ -1,5 +1,5 @@
-import authAffiliations from './authAffiliations'
-import authCollection from './authCollection'
+import * as authPartition from './authPartition'
+import * as authCollection from './authCollection'
 import authUser from './authUser'
 import browser from './browser'
 import entities from './entities'
@@ -17,8 +17,9 @@ const rootReducer = combineReducers({
   pagination,
   partition,
   auth: combineReducers({
-    affiliations: authAffiliations,
-    collection: authCollection,
+    stream: authPartition.stream,
+    playlists: authPartition.playlists,
+    likes: authCollection.likes,
     user: authUser
   }),
   ui: combineReducers({

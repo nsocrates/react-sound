@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchNeeds } from 'utils/fetchComponentData'
 import { loadCollection } from 'actions/conditional'
 import CollectionWrapper from 'components/CollectionWrapper'
+import Loader from 'components/Loader'
 
 const needs = [loadCollection]
 
@@ -34,6 +35,18 @@ class AuthCollectionContainer extends React.Component {
 
   render() {
     const { auth, entities, audioIsPlaying, streamTrackId, location } = this.props
+    const { stream, likes, playlists } = auth
+
+    const hasInit = likes.playlists.offset
+      || likes.tracks.offset > 0
+      || likes.followings.offset > 0
+      || stream.offset > 0
+      || playlists.offset > 0
+
+    if (!hasInit) {
+      return <Loader className="loader--bottom" />
+    }
+
     return (
       <CollectionWrapper
         audioIsPlaying={ audioIsPlaying }

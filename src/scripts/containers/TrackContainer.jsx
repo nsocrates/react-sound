@@ -413,7 +413,7 @@ function mapStateToProps(state, ownProps) {
   const {
     app: {
       pagination,
-      auth: { collection },
+      auth: { likes },
       partition: { commentsByTrack },
       entities: { users, tracks },
       media: {
@@ -430,9 +430,9 @@ function mapStateToProps(state, ownProps) {
     pagination,
     isPlaying,
     shouldPlay,
-    trackCollection: collection.tracks,
+    trackCollection: likes.tracks,
     trackComments: commentsByTrack[id] || {},
-    userCollection: collection.followings,
+    userCollection: likes.followings,
     userEntity: users,
     streamTrackId: trackId,
     trackObject: tracks[id] || {}

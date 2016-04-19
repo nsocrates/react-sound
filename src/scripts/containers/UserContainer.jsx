@@ -86,7 +86,7 @@ function mapStateToProps(state, ownProps) {
     app: {
       entities: { users },
       auth: {
-        collection: { followings }
+        likes: { followings }
       },
       media: {
         stream: { shouldPlay }

@@ -14,6 +14,7 @@ export default function Header({
   dropdown = {},
   me = {}
 }) {
+  const homePath = user.isAuthenticated ? { pathname: '/me/stream' } : { pathname: '/' }
   const myName = me.first_name || me.username
   const myAvatar = Object.keys(me).length ? formatCover(me.avatar_url).badge : ''
   const shouldStack = classNames('header__item', {
@@ -76,7 +77,7 @@ export default function Header({
           </li>
 
           <li className="header__item">
-            <LinkItem className="header__link" to="/">{ "ReactSound" }</LinkItem>
+            <LinkItem className="header__link" to={ homePath }>{ "ReactSound" }</LinkItem>
           </li>
         </ul>
 
