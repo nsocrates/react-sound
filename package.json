@@ -8,10 +8,9 @@
     "build:dev": "NODE_ENV=development webpack --config ./webpack/config.babel.js --server",
     "build:dist": "NODE_ENV=production webpack --config ./webpack/config.babel.js",
     "clean": "rimraf dist/*",
-    "client": "NODE_ENV=development babel-node ./server/index.js --client",
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
     "dev": "NODE_ENV=development babel-node ./server/index.js",
-    "dist": "NODE_ENV=production npm run build && babel-node ./server/index.js",
+    "dist": "NODE_ENV=production babel-node ./server/index.js",
     "lint": "eslint ./src/scripts --ext=js --ext=jsx",
     "start": "NODE_ENV=development nodemon",
     "test": "NODE_ENV=test mocha --compilers js:babel-core/register --require ./test/helpers/test_helper.js \"test/**/*.@(js|jsx)\""

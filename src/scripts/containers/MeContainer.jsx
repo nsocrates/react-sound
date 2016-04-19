@@ -5,10 +5,6 @@ import Main from 'components/Main'
 import CollectionNav from 'components/CollectionNav'
 
 class MeContainer extends React.Component {
-  componentDidMount() {
-    console.log('MeContainer.didMount')
-  }
-
   render() {
     const { children, shouldPlay, location } = this.props
     return (

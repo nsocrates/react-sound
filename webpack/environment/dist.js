@@ -5,9 +5,11 @@ import baseConfig from './base'
 
 const config = [merge({
   name: 'browser',
-  entry: './scripts/client',
+  entry: {
+    app: './scripts/client'
+  },
   output: {
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
   cache: false,
   devtool: 'sourcemap',

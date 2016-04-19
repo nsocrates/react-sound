@@ -13,7 +13,7 @@ export function loadTrackActivities(forceNext = false) {
       return null
     }
 
-    return dispatch(get(next_href, AuthTypes.TRACK_ACTIVITIES, Schemas.TRACK_ARRAY))
+    return dispatch(get(next_href, AuthTypes.TRACK_ACTIVITIES, null, Schemas.TRACK_ARRAY))
   }
 }
 
@@ -22,6 +22,6 @@ export function pollTrackActivities() {
     const { future_href } = getState().app.auth.stream || {}
 
     return future_href
-      && dispatch(get(future_href, AuthTypes.TRACK_ACTIVITIES, Schemas.TRACK_ARRAY))
+      && dispatch(get(future_href, AuthTypes.TRACK_ACTIVITIES, null, Schemas.TRACK_ARRAY))
   }
 }

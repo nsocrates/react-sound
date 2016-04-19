@@ -9,8 +9,7 @@ const callback = {
       access_token: searchParams.access_token || hashParams.access_token,
       dialog_id: searchParams.state || hashParams.state,
       error: searchParams.error || hashParams.error,
-      error_description: searchParams.error_description || hashParams.error_description,
-      user_id: searchParams.user_id || hashParams.user_id
+      error_description: searchParams.error_description || hashParams.error_description
     }
 
     const dialog = dialogStore.get(opts.dialog_id)

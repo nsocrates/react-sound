@@ -15,12 +15,16 @@ export default function authUser(state = initialState, action) {
         isAuthenticating: true
       })
     case ActionTypes.AUTH_SUCCESS: {
-      const { user_id, access_token } = action.response
+      const { access_token } = action.response
       return Object.assign({}, state, {
         isAuthenticating: false,
         isAuthenticated: true,
-        userId: user_id,
         accessToken: access_token
+      })
+    }
+    case ActionTypes.MY_PROFILE_SUCCESS: {
+      return Object.assign({}, state, {
+        userId: action.response.result
       })
     }
     case ActionTypes.AUTH_FAILURE:

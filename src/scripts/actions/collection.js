@@ -11,7 +11,7 @@ function syncTracks() {
     ActionTypes.SYNC_TRACKS,
     ActionTypes.MY_TRACKS_FAILURE
   ]
-  return dispatch => dispatch(get(endpoint, types, { limit: 5000 }))
+  return dispatch => dispatch(get(endpoint, types, { limit: 5000 }, null))
 }
 
 function syncPlaylists() {
@@ -21,7 +21,7 @@ function syncPlaylists() {
     ActionTypes.SYNC_PLAYLISTS,
     ActionTypes.MY_PLAYLISTS_FAILURE
   ]
-  return dispatch => dispatch(get(endpoint, types, { limit: 5000 }))
+  return dispatch => dispatch(get(endpoint, types, { limit: 5000 }, null))
 }
 
 function syncFollowings() {
@@ -31,7 +31,7 @@ function syncFollowings() {
     ActionTypes.SYNC_FOLLOWINGS,
     ActionTypes.MY_FOLLOWINGS_FAILURE
   ]
-  return dispatch => dispatch(get(endpoint, types, { limit: 5000 }))
+  return dispatch => dispatch(get(endpoint, types, { limit: 5000 }, null))
 }
 
 /**
@@ -71,7 +71,7 @@ export function loadFollowingCollection(forceNext = false) {
       return null
     }
 
-    return dispatch(get(path, AuthTypes.FOLLOWINGS, Schemas.USER_ARRAY))
+    return dispatch(get(path, AuthTypes.FOLLOWINGS, null, Schemas.USER_ARRAY))
   }
 }
 
@@ -96,7 +96,7 @@ export function loadTrackCollection(forceNext = false) {
       return null
     }
 
-    return dispatch(get(path, AuthTypes.TRACKS, Schemas.TRACK_ARRAY))
+    return dispatch(get(path, AuthTypes.TRACKS, null, Schemas.TRACK_ARRAY))
   }
 }
 
@@ -121,9 +121,9 @@ export function loadPlaylistCollection(forceNext = false) {
       return null
     }
 
-    return dispatch(get(path, AuthTypes.PLAYLISTS, Schemas.PLAYLIST_ARRAY))
+    return dispatch(get(path, AuthTypes.PLAYLISTS, null, Schemas.PLAYLIST_ARRAY))
       .then(() => (
-          dispatch(get('/me/playlists', AuthTypes.OWN_PLAYLISTS, Schemas.PLAYLIST_ARRAY))))
+          dispatch(get('/me/playlists', AuthTypes.OWN_PLAYLISTS, null, Schemas.PLAYLIST_ARRAY))))
   }
 }
 

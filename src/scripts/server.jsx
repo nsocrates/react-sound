@@ -11,8 +11,6 @@ import { Provider } from 'react-redux'
 
 import headconfig from 'components/Meta'
 import { fetchComponentDataBeforeRender } from 'utils/fetchComponentData'
-import { normalize } from 'normalizr'
-import { Schemas } from 'constants/Schemas'
 
 const renderFullPage = (appContent, initialState, head) => (`
   <!DOCTYPE html>
@@ -36,36 +34,8 @@ const renderFullPage = (appContent, initialState, head) => (`
   </html>
 `)
 
-function stateFactory({ accessToken, userId, profile }) {
-  const myProfile = normalize(profile, Schemas.USER).entities.users
-
-  const constructAuthState = () => ({
-    auth: {
-      user: {
-        accessToken,
-        userId,
-        error: null,
-        isAuthenticated: !!accessToken,
-        isAuthenticating: false
-      }
-    }
-  })
-
-  const constructEntityState = () => ({
-    entities: {
-      playlists: {},
-      tracks: {},
-      users: myProfile
-    }
-  })
-
-  return {
-    app: Object.assign({}, constructAuthState(), constructEntityState())
-  }
-}
-
-export default function render(req, res, me) {
-  const initialState = me.accessToken ? stateFactory(me) : {}
+export default function render(req, res) {
+  const initialState = {}
   const history = createMemoryHistory()
   const store = makeStore(initialState, history)
   const routes = constructRoutes(store)

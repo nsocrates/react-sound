@@ -38,15 +38,7 @@ function processOptions(id, accessToken, _options) {
   return dispatch => dispatch(callApi({ id }, options))
 }
 
-export function get(endpoint, types, _params, _schema) {
-  let params = _params
-  let schema = _schema
-
-  if (params.constructor.name.indexOf('Schema') !== -1) {
-    schema = params
-    params = {}
-  }
-
+export function get(endpoint, types, params, schema) {
   return (dispatch, getState) => {
     const options = {
       method: 'GET',
@@ -56,10 +48,9 @@ export function get(endpoint, types, _params, _schema) {
       params
     }
     const requiresAuth = endpoint && endpoint.split('/').indexOf('me') !== -1
-    const { accessToken, userId } = getState().app.auth.user
+    const { accessToken } = getState().app.auth.user
     const token = requiresAuth && accessToken
-    const id = userId
-    return dispatch(processOptions(id, token, options))
+    return dispatch(processOptions(null, token, options))
   }
 }
 

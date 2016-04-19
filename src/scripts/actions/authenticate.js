@@ -1,7 +1,7 @@
 import * as ActionTypes from 'constants/ActionTypes'
 import Cookies from 'js-cookie'
 import SC from 'auth/index'
-import { AuthTypes, AUTH_BASE } from 'constants/Auth'
+import { AuthTypes } from 'constants/Auth'
 import { get } from 'actions/call'
 import { syncCollection } from 'actions/collection'
 import { lStorage } from 'utils/mutationUtils'
@@ -35,23 +35,12 @@ function connect() {
     .catch(error => { throw new Error(error.error_description) })
 }
 
-function disconnect() {
-  return fetch(`${AUTH_BASE}/logout`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`${response.status} (${response.statusText})`)
-      }
-
-      return response
-    })
-}
-
 function setUser(response) {
   return (dispatch, getState) => {
     const { browser } = getState().app
 
-    const { access_token, user_id } = response
-    const SC_USER = { access_token, user_id }
+    const { access_token } = response
+    const SC_USER = { access_token }
 
     if (browser.localStorage) {
       lStorage.setObj('SC_USER', SC_USER)
@@ -79,28 +68,10 @@ function flushUser() {
 }
 
 function loadAuthedUser() {
-  return (dispatch, getState) => {
-    const {
-      auth: {
-        user: {
-          userId: id
-        }
-      },
-      entities: {
-        users
-      }
-    } = getState().app
-    const me = users[id]
-
-    if (me && me.hasOwnProperty('web_profiles')) {
-      return null
-    }
-
-    return dispatch(get('/me', AuthTypes.PROFILE, Schemas.USER))
-      .then(response => (
-        dispatch(get(`/users/${response.id}/web-profiles?`, AuthTypes.PROFILE, Schemas.USER))
-      ))
-  }
+  return dispatch => (
+    dispatch(get('/me', AuthTypes.PROFILE, null, Schemas.USER))
+      .then(response => response.result)
+  )
 }
 
 export function checkAuth(response) {
@@ -113,8 +84,8 @@ export function checkAuth(response) {
     }
 
     if (user || response) {
-      const { access_token, user_id } = user || response
-      dispatch(authSuccess({ access_token, user_id }))
+      const { access_token } = user || response
+      dispatch(authSuccess({ access_token }))
       dispatch(loadAuthedUser())
       dispatch(syncCollection())
     }
@@ -135,10 +106,8 @@ export function authConnect() {
 }
 
 export function authDisconnect() {
-  return dispatch => (
-    disconnect()
-      .then(() => dispatch(flushUser()))
-      .then(() => dispatch(authLogout()))
-      .catch(error => dispatch(authFailure(error.message)))
-  )
+  return dispatch => {
+    dispatch(flushUser())
+    dispatch(authLogout())
+  }
 }

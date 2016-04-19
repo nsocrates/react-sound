@@ -7,6 +7,4 @@ export default function configureRoutes(app) {
 
   app.get('/auth/soundcloud', SC.initAuth)
   app.get('/auth/soundcloud/callback', SC.handleRedirect)
-  app.get('/auth/soundcloud/logout', SC.handleLogout)
-  app.get('/auth/soundcloud/me', SC.handleMe)
 }

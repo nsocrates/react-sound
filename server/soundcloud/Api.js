@@ -50,52 +50,9 @@ function callApi(opts, callback) {
   return req.end()
 }
 
-function processOptions(method, endpoint, _params, _callback = () => {}) {
-  let params = _params
-  let callback = _callback
-
-  const requiresAuth = method !== 'GET' ||
-                       endpoint.split('/').indexOf('me') !== -1
-
-  if (typeof params === 'function') {
-    callback = params
-    params = {}
-  }
-
-  if (requiresAuth) {
-    const accessToken = config.get('accessToken')
-    params.oauth_token = accessToken
-
-    if (!accessToken) {
-      return callback({
-        code: 401,
-        message: 'Unauthorized'
-      })
-    }
-  }
-
-  params.client_id = config.get('clientID')
-  params.format = 'json'
-
-  return callApi({
-    endpoint,
-    hostname: config.get('hostname'),
-    method,
-    params
-  }, callback)
-}
-
 const soundcloud = {
   setToken(token) {
     return config.set('accessToken', token)
-  },
-
-  setProfile(profile) {
-    return config.set('profile', profile)
-  },
-
-  flush() {
-    return config.flush()
   },
 
   getConnectUrl(state) {
@@ -131,40 +88,10 @@ const soundcloud = {
           return callback({ message: 'Could not retrieve access token' })
         }
 
-        this.setToken(res.access_token)
-        return this.getMe((err2, me) => {
-          if (err2) {
-            return callback(err2)
-          }
-
-          this.setProfile(me)
-          return callback(undefined, {
-            access_token: res.access_token,
-            user_id: me.id,
-            state
-          })
+        return callback(undefined, {
+          access_token: res.access_token,
+          state
         })
-      })
-  },
-
-  get(endpoint, params, callback) {
-    return processOptions('GET', endpoint, params, callback)
-  },
-
-  getMe(callback) {
-    const { accessToken, profile } = config.getMe()
-
-    if (accessToken && Object.keys(profile).length) {
-      return callback(undefined, profile)
-    }
-
-    return accessToken
-      ? this.get('/me', {
-        oauth_token: accessToken
-      }, callback)
-      : callback({
-        code: 401,
-        message: 'Unauthorized'
       })
   }
 }

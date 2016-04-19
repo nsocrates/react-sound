@@ -1,8 +1,6 @@
 import secrets from '../config/secrets'
 
 const config = {
-  accessToken: null,
-  profile: {},
   hostname: 'api.soundcloud.com',
   connectURL: '//soundcloud.com/connect',
   callbackURL: secrets.soundcloud.callbackURL,
@@ -16,16 +14,5 @@ export default {
   },
   set(key, value) {
     return !!value && (config[key] = value)
-  },
-  flush() {
-    config.accessToken = null
-    config.profile = {}
-  },
-  getMe() {
-    return {
-      accessToken: config.accessToken,
-      userId: config.profile.id,
-      profile: config.profile
-    }
   }
 }

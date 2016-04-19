@@ -48,14 +48,12 @@ function callApi(method, endpoint, params, schema) {
           message: `${response.status} - ${response.statusText}`
         })
       }
-
       return response.json()
     })
     .then(json => {
       if (method !== 'GET' || !schema) {
         return json
       }
-
       const entity = entityFactory(json)
       const { next_href, future_href } = entity
       let collection = entity.getCollection()
@@ -86,6 +84,7 @@ function callApi(method, endpoint, params, schema) {
         collection = collection.map(item => item.origin)
                                .filter(origin => origin.kind !== 'playlist')
       }
+
       return Object.assign({},
         normalize(collection, schema),
         { next_href, future_href })
@@ -104,7 +103,7 @@ export default store => next => action => { // eslint-disable-line no-unused-var
 
   function actionWith(data) {
     const finalAction = Object.assign({}, action, data)
-    finalAction[CALL_API] = null
+    delete finalAction[CALL_API]
     return finalAction
   }
 
