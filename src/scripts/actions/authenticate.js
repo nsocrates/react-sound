@@ -3,9 +3,10 @@ import Cookies from 'js-cookie'
 import SC from 'auth/index'
 import { AuthTypes } from 'constants/Auth'
 import { get } from 'actions/call'
-import { syncCollection } from 'actions/collection'
 import { lStorage } from 'utils/mutationUtils'
+import { replace } from 'react-router-redux'
 import { Schemas } from 'constants/Schemas'
+import { syncCollection } from 'actions/collection'
 
 function authRequest() {
   return { type: ActionTypes.AUTH_REQUEST }
@@ -109,5 +110,6 @@ export function authDisconnect() {
   return dispatch => {
     dispatch(flushUser())
     dispatch(authLogout())
+    dispatch(replace({ pathname: '/' }))
   }
 }

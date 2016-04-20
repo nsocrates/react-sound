@@ -1,6 +1,7 @@
 import secrets from '../config/secrets'
 
 const config = {
+  accessToken: undefined,
   hostname: 'api.soundcloud.com',
   connectURL: '//soundcloud.com/connect',
   callbackURL: secrets.soundcloud.callbackURL,

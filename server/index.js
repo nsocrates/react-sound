@@ -6,6 +6,7 @@ import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import config from '../webpack/config.babel'
+import sConfig from './soundcloud/config'
 
 const app = express()
 const compiled_app_module_path = path.resolve(__dirname, '..', 'dist', 'assets', 'server.js')
@@ -20,7 +21,7 @@ if (isDev) {
 
 configureExpress(app)
 configureRoutes(app)
-app.get('*', (req, res) => App.default(req, res))
+app.get('*', (req, res) => App.default(req, res, sConfig.get('accessToken')))
 
 /* eslint-disable no-console */
 app.listen(app.get('port'), err => {

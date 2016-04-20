@@ -34,8 +34,24 @@ const renderFullPage = (appContent, initialState, head) => (`
   </html>
 `)
 
-export default function render(req, res) {
-  const initialState = {}
+function setToken(accessToken) {
+  const authUser = {
+    auth: {
+      user: {
+        accessToken,
+        userId: undefined,
+        error: false,
+        isAuthenticated: !!accessToken,
+        isAuthenticating: false
+      }
+    }
+  }
+
+  return { app: authUser }
+}
+
+export default function render(req, res, accessToken) {
+  const initialState = accessToken ? setToken(accessToken) : {}
   const history = createMemoryHistory()
   const store = makeStore(initialState, history)
   const routes = constructRoutes(store)

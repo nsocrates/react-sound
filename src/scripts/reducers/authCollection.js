@@ -76,6 +76,8 @@ function partitionate({ types }) {
           isFetching: false,
           ids: action.response.collection
         })
+      case ActionTypes.AUTH_DISCONNECT:
+        return initialState
       default:
         return state
     }

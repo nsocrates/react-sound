@@ -20,7 +20,10 @@ export default function constructRoutes(store) {
 
     if (!user.isAuthenticated) {
       replace({
-        pathname: '/',
+        pathname: '/genre',
+        query: {
+          q: 'Trance'
+        },
         state: { nextPathname: nextState.location.pathname }
       })
     }

@@ -1,3 +1,4 @@
+import * as ActionTypes from 'constants/ActionTypes'
 import { AuthTypes } from 'constants/Auth'
 import union from 'lodash/union'
 
@@ -32,6 +33,8 @@ function partitionate({ types }) {
           isFetching: false,
           error: action.error
         })
+      case ActionTypes.AUTH_DISCONNECT:
+        return initialState
       default:
         return state
     }

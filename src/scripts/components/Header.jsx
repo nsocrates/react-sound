@@ -14,7 +14,15 @@ export default function Header({
   dropdown = {},
   me = {}
 }) {
-  const homePath = user.isAuthenticated ? { pathname: '/me/stream' } : { pathname: '/' }
+  const homePath = user.isAuthenticated
+    ? { pathname: '/me/stream' }
+    : {
+      pathname: '/genre',
+      query: {
+        q: 'Trance'
+      }
+    }
+
   const myName = me.first_name || me.username
   const myAvatar = Object.keys(me).length ? formatCover(me.avatar_url).badge : ''
   const shouldStack = classNames('header__item', {

@@ -1,4 +1,5 @@
 import { CALL_API } from 'constants/Api'
+import { authConnect } from 'actions/authenticate'
 
 export function callApi(meta, payload) {
   const {
@@ -50,6 +51,10 @@ export function get(endpoint, types, params, schema) {
     const requiresAuth = endpoint && endpoint.split('/').indexOf('me') !== -1
     const { accessToken } = getState().app.auth.user
     const token = requiresAuth && accessToken
+    if (requiresAuth && !accessToken) {
+      return dispatch(authConnect())
+    }
+
     return dispatch(processOptions(null, token, options))
   }
 }
