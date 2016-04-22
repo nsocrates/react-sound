@@ -1,4 +1,6 @@
 node_modules
 dist
+public
+compiled
 *.log
 *.DS_Store
