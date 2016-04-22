@@ -4,7 +4,6 @@ import express from 'express'
 import path from 'path'
 import configureExpress from './config/express'
 import configureRoutes from './config/routes'
-import SC from './soundcloud/config'
 
 const app = express()
 const compiled_app_module_path = path.resolve(__dirname, '..', 'public', 'assets', 'server.js')
@@ -24,7 +23,7 @@ if (isDev) {
 
 configureExpress(app)
 configureRoutes(app)
-app.get('*', (req, res) => App.default(req, res, SC.get('accessToken')))
+app.get('*', (req, res) => App.default(req, res))
 
 app.listen(app.get('port'), err => {
   if (err) throw err

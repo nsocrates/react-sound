@@ -51,10 +51,6 @@ function callApi(opts, callback) {
 }
 
 const soundcloud = {
-  setToken(token) {
-    return config.set('accessToken', token)
-  },
-
   getConnectUrl(state) {
     const params = {
       client_id: config.get('clientID'),
@@ -88,7 +84,6 @@ const soundcloud = {
           return callback({ message: 'Could not retrieve access token' })
         }
 
-        this.setToken(res.access_token)
         return callback(undefined, {
           access_token: res.access_token,
           state
