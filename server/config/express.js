@@ -15,7 +15,7 @@ export default function configureExpress(app) {
   app.use(methodOverride())
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
-  app.use(express.static(path.join(__dirname, '../..', 'dist')))
+  app.use(express.static(path.join(__dirname, '../..', 'public')))
 
   app.use(morgan('dev'))
 

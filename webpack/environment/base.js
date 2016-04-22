@@ -3,7 +3,7 @@ import autoprefixer from 'autoprefixer'
 
 const port = 8000
 const srcPath = path.join(__dirname, '../..', 'src')
-const assetsPath = path.join(__dirname, '../..', 'dist', 'assets')
+const assetsPath = path.join(__dirname, '../..', 'public', 'assets')
 const publicPath = '/assets/'
 
 const baseConfig = {
@@ -15,7 +15,7 @@ const baseConfig = {
     publicPath
   },
   devServer: {
-    contentBase: './src/',
+    contentBase: './src',
     historyApiFallback: true,
     port,
     publicPath,
@@ -32,13 +32,13 @@ const baseConfig = {
     ],
     alias: {
       actions: `${srcPath}/scripts/actions/`,
-      auth: `${srcPath}/scripts/auth/`,
       components: `${srcPath}/scripts/components/`,
       constants: `${srcPath}/scripts/constants/`,
       containers: `${srcPath}/scripts/containers/`,
       middleware: `${srcPath}/scripts/middleware/`,
       reducers: `${srcPath}/scripts/reducers/`,
       routes: `${srcPath}/scripts/routes/`,
+      soundcloud: `${srcPath}/scripts/soundcloud/`,
       store: `${srcPath}/scripts/store/`,
       stylesheets: `${srcPath}/stylesheets/main.scss`,
       utils: `${srcPath}/scripts/utils`,

@@ -1,16 +1,12 @@
 import 'isomorphic-fetch'
-
-import React from 'react'
-import { renderToString } from 'react-dom/server'
-
 import constructRoutes from 'routes/routes'
-import { RouterContext, match, createMemoryHistory } from 'react-router'
-
-import makeStore from 'store/store'
-import { Provider } from 'react-redux'
-
 import headconfig from 'components/Meta'
+import makeStore from 'store/store'
+import React from 'react'
 import { fetchComponentDataBeforeRender } from 'utils/fetchComponentData'
+import { Provider } from 'react-redux'
+import { renderToString } from 'react-dom/server'
+import { RouterContext, match, createMemoryHistory } from 'react-router'
 
 const renderFullPage = (appContent, initialState, head) => (`
   <!DOCTYPE html>

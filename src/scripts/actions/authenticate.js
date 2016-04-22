@@ -1,6 +1,6 @@
 import * as ActionTypes from 'constants/ActionTypes'
 import Cookies from 'js-cookie'
-import SC from 'auth/index'
+import SC from 'soundcloud/index'
 import { AuthTypes } from 'constants/Auth'
 import { get } from 'actions/call'
 import { lStorage } from 'utils/mutationUtils'

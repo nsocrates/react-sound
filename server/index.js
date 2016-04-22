@@ -1,29 +1,31 @@
+/* eslint-disable no-console */
+
 import express from 'express'
 import path from 'path'
 import configureExpress from './config/express'
 import configureRoutes from './config/routes'
-import webpack from 'webpack'
-import webpackDevMiddleware from 'webpack-dev-middleware'
-import webpackHotMiddleware from 'webpack-hot-middleware'
-import config from '../webpack/config.babel'
-import sConfig from './soundcloud/config'
+import SC from './soundcloud/config'
 
 const app = express()
-const compiled_app_module_path = path.resolve(__dirname, '..', 'dist', 'assets', 'server.js')
+const compiled_app_module_path = path.resolve(__dirname, '..', 'public', 'assets', 'server.js')
 const App = require(compiled_app_module_path)
 const isDev = app.get('env') === 'development'
 
 if (isDev) {
-  const compiler = webpack(config)
-  app.use(webpackDevMiddleware(compiler, config.devServer))
+  const webpack = require('webpack')
+  const webpackDevMiddleware = require('webpack-dev-middleware')
+  const webpackHotMiddleware = require('webpack-hot-middleware')
+  const webpackConfig = require('../webpack/config.babel').default
+  const compiler = webpack(webpackConfig)
+  app.use(webpackDevMiddleware(compiler, webpackConfig.devServer))
   app.use(webpackHotMiddleware(compiler))
+  console.log('\nUsing Webpack')
 }
 
 configureExpress(app)
 configureRoutes(app)
-app.get('*', (req, res) => App.default(req, res, sConfig.get('accessToken')))
+app.get('*', (req, res) => App.default(req, res, SC.get('accessToken')))
 
-/* eslint-disable no-console */
 app.listen(app.get('port'), err => {
   if (err) throw err
   console.log(`\nExpress server listening on port ${app.get('port')} in ${app.get('env')} mode`)

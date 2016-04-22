@@ -3,7 +3,7 @@
 import path from 'path'
 
 // List of allowed environments
-const allowedEnvs = ['dev', 'dist', 'test']
+const allowedEnvs = ['dev', 'prod', 'test']
 
 // Set the correct environment
 function setEnvironment() {
@@ -11,7 +11,7 @@ function setEnvironment() {
     case 'development':
       return 'dev'
     case 'production':
-      return 'dist'
+      return 'prod'
     case 'test':
       return 'test'
     default:
@@ -26,7 +26,7 @@ process.env.REACT_WEBPACK_ENV = currEnv
 const configs = {
   base: require(path.join(__dirname, 'environment', 'base')),
   dev: require(path.join(__dirname, 'environment', 'dev')),
-  dist: require(path.join(__dirname, 'environment', 'dist')),
+  prod: require(path.join(__dirname, 'environment', 'prod')),
   server: require(path.join(__dirname, 'environment', 'dev-server'))
 }
 

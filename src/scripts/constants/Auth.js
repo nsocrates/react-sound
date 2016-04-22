@@ -1,12 +1,6 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
-const isBrowser = typeof window !== 'undefined'
-
-export const AUTH_BASE = isBrowser
-  && `${window.location.protocol}//${window.location.host}/auth/soundcloud`
-export const AUTH_KEY = 'accessToken'
-export const AUTH_ID = 'userId'
-
+export const AUTH_BASE = '//localhost:8000/auth/soundcloud'
 export const AuthTypes = {
   FOLLOWINGS: [
     ActionTypes.MY_FOLLOWINGS_REQUEST,
