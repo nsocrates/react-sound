@@ -1,0 +1,59 @@
+.scroll-top {
+  @include fixed(bottom);
+  background-color: rgba($white, $primary);
+  border-radius: em(5px);
+  bottom: 4rem;
+  box-shadow: 0 0 em(10px) $black-disabled;
+  display: inline-block;
+  height: em(40px);
+  opacity: 0;
+  overflow: hidden;
+  right: em(10px);
+  transition: all .2s ease-in-out;
+  visibility: hidden;
+  width: em(40px);
+  z-index: $stack;
+
+  @include susy-media(medium) {
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  @include susy-media(large) {
+    bottom: 5rem;
+    height: em(50px);
+    right: em(30px);
+    width: em(50px);
+  }
+
+  &--isVisible {
+    opacity: 1;
+    visibility: visible;
+
+    @include susy-media(medium) {
+      opacity: $secondary;
+    }
+  }
+
+  &--push {
+    bottom: 10rem;
+
+    @include susy-media(large) {
+      bottom: 11rem;
+    }
+  }
+}
+
+.scroll-top__arrow {
+  border-top: em(3px) solid;
+  color: $hot-pink;
+  font-size: 1.8rem;
+  vertical-align: middle;
+  width: 1.8rem;
+
+  @include susy-media(large) {
+    font-size: 2rem;
+    width: 2rem;
+  }
+}

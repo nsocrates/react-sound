@@ -6,6 +6,7 @@ export default function TracklistItem(props) {
     downloadUrl,
     handleAddToFavorites,
     handlePlayPause,
+    handleRemoveTrack,
     isActive,
     isFavorite,
     isPauseOrPlay,
@@ -36,6 +37,15 @@ export default function TracklistItem(props) {
 
   return (
     <li className={ isActive } >
+
+      { modifier === 'player' &&
+        <button
+          className="tracklist-player__btn tracklist-player__btn--times"
+          onClick={ handleRemoveTrack }
+        >
+          <i className="tracklist-player__icon fa fa-times" />
+        </button>
+      }
 
       <aside className={ shouldFilter }>
         <img
@@ -100,6 +110,7 @@ TracklistItem.propTypes = {
   ]),
   handleAddToFavorites: PropTypes.func,
   handlePlayPause: PropTypes.func,
+  handleRemoveTrack: PropTypes.func,
   isActive: PropTypes.string,
   isFavorite: PropTypes.string,
   isPauseOrPlay: PropTypes.string,

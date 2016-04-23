@@ -6,5 +6,6 @@ export const SC_API_V2 = '//api-v2.soundcloud.com'
 export const DEFAULT_PARAMS = {
   client_id: CLIENT_ID,
   linked_partitioning: 1,
-  limit: 24
+  limit: 24,
+  filter: 'streamable'
 }

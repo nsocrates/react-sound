@@ -84,8 +84,7 @@ export default function stream(state = initialState, action) {
       return merge({}, state, {
         volume: { isMuted }
       })
-    case ActionTypes.TRACK_ADD:
-
+    case ActionTypes.TRACK_ADD: {
       if (kind === 'playlist') {
         return Object.assign({}, state, {
           tracklist: {
@@ -97,6 +96,13 @@ export default function stream(state = initialState, action) {
       return merge({}, state, {
         tracklist: {
           ids: union(state.tracklist.ids, [trackId])
+        }
+      })
+    }
+    case ActionTypes.TRACK_REMOVE:
+      return merge({}, state, {
+        tracklist: {
+          ids: state.tracklist.ids.filter(id => id !== action.trackId)
         }
       })
     default:

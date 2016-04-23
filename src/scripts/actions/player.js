@@ -66,9 +66,23 @@ export function appendTrack(trackId, kind = 'track') {
   }
 }
 
+export function detatchTrack(trackId) {
+  return {
+    type: ActionTypes.TRACK_REMOVE,
+    trackId
+  }
+}
+
 export function addTrack(id, name, kind = 'track') {
   return dispatch => {
     dispatch(appendTrack(id, kind))
-    dispatch(notif.action(`${name} added to playlist.`))
+    dispatch(notif.action(`Added "${name}" to tracklist`))
+  }
+}
+
+export function removeTrack(id, name) {
+  return dispatch => {
+    dispatch(detatchTrack(id))
+    dispatch(notif.action(`Removed "${name}" from tracklist.`))
   }
 }

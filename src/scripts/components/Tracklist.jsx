@@ -5,6 +5,7 @@ import { requestStream } from 'actions/stream'
 import mediaFactory from 'utils/mediaFactory'
 
 import { updateMyTracks } from 'actions/collection'
+import { removeTrack } from 'actions/player'
 
 export default function Tracklist(props) {
   const { ids, userEntity, trackEntity, trackId, isPlaying, modifier, trackCollection } = props
@@ -21,7 +22,7 @@ export default function Tracklist(props) {
     const hasFavorites = !!trackCollection.length
     const trackData = mediaFactory(obj)
 
-    const handlePlayPause = e => {
+    function handlePlayPause(e) {
       if (!mediaObject.streamable) {
         return window.open(mediaObject.permalink_url)
       }
@@ -36,10 +37,16 @@ export default function Tracklist(props) {
       return dispatch(requestStream(id))
     }
 
-    const handleAddToFavorites = e => {
+    function handleAddToFavorites(e) {
       e.preventDefault()
       const { dispatch } = props
       return dispatch(updateMyTracks(id, trackData.media.name))
+    }
+
+    function handleRemoveTrack(e) {
+      e.preventDefault()
+      const { dispatch } = props
+      return dispatch(removeTrack(id, trackData.media.name))
     }
 
     const isEven = classNames(`tracklist-${modifier}__track`, {
@@ -71,6 +78,7 @@ export default function Tracklist(props) {
         duration={ trackData.duration }
         handleAddToFavorites={ handleAddToFavorites }
         handlePlayPause={ handlePlayPause }
+        handleRemoveTrack={ handleRemoveTrack }
         isActive={ isActive }
         isFavorite={ isFavorite }
         isPauseOrPlay={ isPauseOrPlay }

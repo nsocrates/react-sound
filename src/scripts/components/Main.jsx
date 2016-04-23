@@ -1,7 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
+import ScrollTop from 'components/ScrollTop'
 
-export default function Main({ children = null, className = 'main', shouldPush = false }) {
+export default function Main({
+  children = null,
+  className = 'main',
+  shouldPush = false
+}) {
   const push = classNames(className, {
     'main--push': shouldPush
   })
@@ -12,6 +17,7 @@ export default function Main({ children = null, className = 'main', shouldPush =
       id="main"
     >
       { children }
+      <ScrollTop shouldPush={ shouldPush } />
     </main>
   )
 }

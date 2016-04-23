@@ -4,10 +4,10 @@ export const FALLBACK = {
     SMALL: 'https://dl.dropboxusercontent.com/s/184tk01gvcdcfdc/c4b052d27baae25c4f0f0670e489131f--small.jpg?dl=0'
   },
   PLACEHOLDER: {
-    XLARGE: 'http://placehold.it/500x500',
-    LARGE: 'http://placehold.it/300x300',
-    MEDIUM: 'http://placehold.it/100x100',
-    BADGE: 'http://placehold.it/60x60'
+    XLARGE: 'https://placehold.it/500x500',
+    LARGE: 'https://placehold.it/300x300',
+    MEDIUM: 'https://placehold.it/100x100',
+    BADGE: 'https://placehold.it/60x60'
   }
 }
 

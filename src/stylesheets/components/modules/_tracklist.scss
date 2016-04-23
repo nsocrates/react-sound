@@ -1,6 +1,6 @@
 %tracklist__artwork {
   float: left;
-  margin-right: gutter();
+  margin-right: em(15px);
   position: relative;
 }
 
@@ -83,7 +83,7 @@
 
 // Player component
 .tracklist-player__wrapper {
-  background-color: rgba($shark, .95);
+  background-color: rgba($shark, .98);
   box-shadow: 0 -.2rem .3rem $black-hint;
   color: $white-primary;
   height: 20rem;
@@ -93,16 +93,28 @@
 .tracklist-player__track {
   box-shadow: 0 .1rem .1rem rgba($light-gray, $disabled);
   display: block;
-  opacity: $l-secondary;
+  max-height: em(80px);
   overflow: hidden;
-  padding: gutter(16);
-  transition: opacity $trans-default;
+  padding: em(10px);
+
+  @include susy-media(medium) {
+    margin-left: -$player-height;
+    padding: em(10px) em(10px) em(10px) em(25px);
+    transition: all .15s linear;
+
+    &:hover {
+      margin-left: 0;
+      padding-left: em(10px);
+
+      .tracklist-player__btn--times {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+  }
 }
 
 .tracklist-player__active {
   animation: .5s $trans-func fade;
-  background-color: rgba($shark, $hint);
-  opacity: 1;
 }
 
 .tracklist-player__time {
@@ -171,6 +183,23 @@
 
   &:hover {
     color: $white-secondary;
+  }
+}
+
+.tracklist-player__btn--times {
+  color: rgba($hollywood-cerise, $primary);
+  float: left;
+  height: $player-height;
+  margin-left: em(-10px);
+  width: $player-height;
+
+  @include susy-media(medium) {
+    transform: translate3d(-100%, 0, 0);
+    transition: transform .15s linear;
+  }
+
+  &:hover {
+    color: $hollywood-cerise;
   }
 }
 
