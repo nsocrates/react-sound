@@ -58,7 +58,7 @@ function callApi(method, endpoint, params, schema) {
       const { next_href, future_href } = entity
       let collection = entity.getCollection()
 
-      if (/web-profiles/.test(endpoint)) {
+      if (endpoint.indexOf('/web-profiles') > -1) {
         const separated = endpoint.replace('?', '')
                                   .replace('-', '_')
                                   .split('/')
@@ -71,15 +71,19 @@ function callApi(method, endpoint, params, schema) {
         return entity.getSubResource(args)
       }
 
-      if (/genres|favorites|tags|\?q=/.test(endpoint)) {
+      if ((
+        endpoint.indexOf('/favorites') > -1 ||
+        endpoint.indexOf('/tracks/?genres=') > -1 ||
+        endpoint.indexOf('/tracks/?tags=') > -1
+      )) {
         collection = collection.filter(entity.isStreamable)
       }
 
-      if (/e1/.test(endpoint) && !/ids/.test(endpoint)) {
+      if (endpoint.indexOf('/e1/me') > -1) {
         return entity.handleE1(collection, schema, next_href)
       }
 
-      if (/activities/.test(endpoint)) {
+      if (endpoint.indexOf('/me/activities/') > -1) {
         collection = collection.map(item => item.origin)
                                .filter(origin => origin.kind !== 'playlist')
       }
