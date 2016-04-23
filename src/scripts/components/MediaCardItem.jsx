@@ -47,7 +47,7 @@ export default function MediaCardItem(props) {
               <i className="artwork__add-icon fa fa-plus" />
             </button>
             <button
-              className="artwork__filter"
+              className="fa artwork__filter"
               onClick={ onClickPlay }
             />
           </div>

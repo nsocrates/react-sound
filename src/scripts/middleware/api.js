@@ -67,7 +67,6 @@ function callApi(method, endpoint, params, schema) {
           id: extractNumber(endpoint),
           resource: separated[3]
         }
-        // const subResource = entity.getSubResource(args)
 
         return entity.getSubResource(args)
       }

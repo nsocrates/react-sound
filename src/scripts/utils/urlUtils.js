@@ -9,7 +9,7 @@ export function constructUrl(path, userParams = {}) {
 export function constructUrlFromEndpoint(endpoint, userParams = {}) {
   const params = Object.assign({}, DEFAULT_PARAMS, userParams)
   const separator = endpoint.indexOf('?') !== -1 ? '&' : '?'
-  if (endpoint.indexOf('soundcloud.com') === -1) {
+  if (endpoint.indexOf('.soundcloud.com') === -1) {
     return SC_API + endpoint + separator + qs.stringify(params)
   }
 

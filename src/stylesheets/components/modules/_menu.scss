@@ -37,7 +37,6 @@
 .menu__inner {
   @extend %justified;
   color: $n-text-color;
-  // overflow: hidden;
   text-align: center;
   white-space: nowrap;
 
@@ -119,61 +118,6 @@
     display: inline-block;
     font-size: 1.6rem;
     vertical-align: top;
-  }
-}
-
-.menu__data-content {
-  position: relative;
-
-  @include susy-media(small-only) {
-    &:hover {
-      &::before,
-      &::after {
-        display: block;
-      }
-    }
-  }
-
-  &::before,
-  &::after {
-    animation: .75s linear fade-in;
-  }
-
-  &::before {
-    @include absolute(bottom -4rem right 2rem);
-    background-color: $white;
-    border-radius: em(5px);
-    box-shadow: 0 .1rem .5rem $black-hint;
-    color: $black-primary;
-    content: attr(data-content);
-    display: none;
-    font-size: 1.4rem;
-    font-weight: 300;
-    height: 0;
-    line-height: 0;
-    min-width: 5rem;
-    padding: em(15px) em(10px);
-    text-align: center;
-    z-index: 2;
-  }
-
-  &::after {
-    @include absolute(bottom -2rem right 3rem);
-    background-color: $white;
-    border-radius: em(1px);
-    box-shadow: 0 -.1rem .1rem -.1rem $black-hint,
-                -.1rem 0 .1rem -.1rem $black-hint;
-    content: ' ';
-    display: none;
-    height: 1rem;
-    margin: 0 auto;
-    transform: rotate(45deg);
-    width: 1rem;
-    z-index: 2;
-  }
-
-  &--active {
-    pointer-events: none;
   }
 }
 

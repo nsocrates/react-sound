@@ -190,7 +190,7 @@ class PlaylistContainer extends React.Component {
               <i className={ isFavorite } />
             </button>
               <button
-                className="artwork__filter artwork__filter--profile"
+                className="fa artwork__filter artwork__filter--profile"
                 onClick={ this.handleLoadStreamList }
               />
             </ProfileCover>

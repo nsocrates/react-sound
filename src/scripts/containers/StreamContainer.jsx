@@ -1,11 +1,8 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { fetchNeeds } from 'utils/fetchComponentData'
 import { loadTrackActivities, pollTrackActivities } from 'actions/activities'
 import CollectionWrapper from 'components/CollectionWrapper'
 import Loader from 'components/Loader'
-
-const needs = [loadTrackActivities]
 
 class StreamContainer extends React.Component {
   constructor(props) {
@@ -23,7 +20,7 @@ class StreamContainer extends React.Component {
   updateComponent(forceNext) {
     const { dispatch, location } = this.props
     const { pathname } = location
-    return fetchNeeds(needs, dispatch, { pathname }, forceNext)
+    return dispatch(loadTrackActivities({ pathname }, forceNext))
   }
 
   handleWaypointEnter() {
@@ -80,7 +77,4 @@ function mapStateToProps(state) {
   }
 }
 
-const StreamWrap = connect(mapStateToProps)(StreamContainer)
-StreamWrap.needs = needs
-
-export default StreamWrap
+export default connect(mapStateToProps)(StreamContainer)

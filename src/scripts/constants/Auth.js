@@ -1,8 +1,6 @@
 import * as ActionTypes from 'constants/ActionTypes'
 
-const isBrowser = typeof window !== 'undefined'
-
-export const AUTH_BASE = isBrowser
+export const AUTH_BASE = typeof window !== 'undefined'
   && `${window.location.protocol}//${window.location.host}/auth/soundcloud`
 
 export const AuthTypes = {

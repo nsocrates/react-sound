@@ -13,12 +13,9 @@ import UserDescriptionContainer from 'containers/UserDescriptionContainer'
 import UserMediaContainer from 'containers/UserMediaContainer'
 import MeContainer from 'containers/MeContainer'
 
-export default function constructRoutes(store) {
-  const checkAuth = (nextState, replace, callback) => {
-    const { getState } = store
-    const { user } = getState().app.auth
-
-    if (!user.isAuthenticated) {
+export default function constructRoutes(store) { // eslint-disable-line no-unused-vars
+  const handleHomePath = (nextState, replace, callback) => {
+    if (nextState.location.pathname === '/') {
       replace({
         pathname: '/genre',
         query: {
@@ -32,14 +29,14 @@ export default function constructRoutes(store) {
   }
 
   return (
-    <Route component={ App } path="/">
+    <Route component={ App } path="/" onEnter={ handleHomePath }>
       <Route component={ GalleryContainer } path="genre" />
       <Route component={ GalleryContainer } path="search" />
       <Route component={ GalleryContainer } path="tag" />
       <Route component={ TrackContainer } path="track/:id" />
       <Route component={ PlaylistContainer } path="playlist/:id" />
 
-      <Route component={ MeContainer } path="me" onEnter={ checkAuth }>
+      <Route component={ MeContainer } path="me">
         <Route component={ StreamContainer } path="stream" />
         <Route component={ AuthCollectionContainer } path="collection" />
         <Route component={ AuthCollectionContainer } path="tracks" />

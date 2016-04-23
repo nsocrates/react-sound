@@ -90,21 +90,16 @@ export default function Header({
         </ul>
 
         { user.isAuthenticated ? renderAuthSection() : renderUnauthSection() }
-        { dropdown.isOpen && user.isAuthenticated
-
-          /* eslint-disable react/jsx-indent-props, react/jsx-closing-bracket-location */
-          ? <Dropdown
-              handleAuth={ handleAuth }
-              handleDropdown={ handleDropdown }
-              isOpen={ dropdown.isOpen }
-              myAvatar={ myAvatar }
-              myId={ me.id }
-              myName={ myName }
-              onImgErr={ handleImgError }
-            />
-          : null
-          /* eslint-enable react/jsx-indent-props, react/jsx-closing-bracket-location */
-
+        { dropdown.isOpen && user.isAuthenticated &&
+          <Dropdown
+            handleAuth={ handleAuth }
+            handleDropdown={ handleDropdown }
+            isOpen={ dropdown.isOpen }
+            myAvatar={ myAvatar }
+            myId={ me.id }
+            myName={ myName }
+            onImgErr={ handleImgError }
+          />
         }
 
       </div>

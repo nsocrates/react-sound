@@ -1,11 +1,8 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { fetchNeeds } from 'utils/fetchComponentData'
 import { loadCollection } from 'actions/conditional'
 import CollectionWrapper from 'components/CollectionWrapper'
 import Loader from 'components/Loader'
-
-const needs = [loadCollection]
 
 class AuthCollectionContainer extends React.Component {
   constructor(props) {
@@ -26,7 +23,7 @@ class AuthCollectionContainer extends React.Component {
   updateComponent(props, forceNext) {
     const { dispatch, location } = props
     const { pathname } = location
-    return fetchNeeds(needs, dispatch, { pathname }, forceNext)
+    return dispatch(loadCollection({ pathname }, forceNext))
   }
 
   handleWaypointEnter() {
@@ -35,13 +32,12 @@ class AuthCollectionContainer extends React.Component {
 
   render() {
     const { auth, entities, audioIsPlaying, streamTrackId, location } = this.props
-    const { stream, likes, playlists } = auth
+    const { likes, playlists } = auth
 
-    const hasInit = likes.playlists.offset
-      || likes.tracks.offset > 0
-      || likes.followings.offset > 0
-      || stream.offset > 0
-      || playlists.offset > 0
+    const hasInit = likes.playlists.offset > 0
+      && likes.tracks.offset > 0
+      && likes.followings.offset > 0
+      && playlists.offset > 0
 
     if (!hasInit) {
       return <Loader className="loader--bottom" />
@@ -90,7 +86,4 @@ function mapStateToProps(state) {
   }
 }
 
-const AuthCollectionWrap = connect(mapStateToProps)(AuthCollectionContainer)
-AuthCollectionWrap.needs = needs
-
-export default AuthCollectionWrap
+export default connect(mapStateToProps)(AuthCollectionContainer)

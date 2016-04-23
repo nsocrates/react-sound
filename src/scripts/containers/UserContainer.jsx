@@ -24,8 +24,8 @@ class UserContainer extends React.Component {
     }
 
     return (
-      this.props.params.id !== nextProps.params.id &&
-      this.updateComponent(nextProps.params)
+      this.props.params.id !== nextProps.params.id
+       && this.updateComponent(nextProps.params)
     )
   }
 

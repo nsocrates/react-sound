@@ -22,7 +22,7 @@ export default function Gallery(props) {
           src={ artwork.large }
         />
         <button
-          className="artwork__filter"
+          className="fa artwork__filter"
           onClick={ onRequestStream }
         />
       </section>

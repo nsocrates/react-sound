@@ -36,13 +36,7 @@ class App extends React.Component {
 App.propTypes = {
   children: PropTypes.node,
   dispatch: PropTypes.func.isRequired,
-  location: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired
 }
 
-function mapStateToProps(state) {
-  const { user } = state.app.auth
-  return { user }
-}
-
-export default connect(mapStateToProps)(App)
+export default connect()(App)

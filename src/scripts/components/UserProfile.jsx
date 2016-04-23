@@ -133,13 +133,9 @@ export default class User extends React.Component {
           'menu__link--active': currPath === item.path
         })
 
-        const shouldShowData = classNames('menu__item menu__item--profile menu__data-content', {
-          'menu__data-content--active': currPath === item.path
-        })
-
         return (
           <li
-            className={ shouldShowData }
+            className="menu__item menu__item--profile"
             key={`${item.text}`}
             data-content={ item.text }
           >
