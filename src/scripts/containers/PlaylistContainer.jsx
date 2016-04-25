@@ -131,14 +131,14 @@ class PlaylistContainer extends React.Component {
       if (pagination.id === playlistObject.id && pagination.result.length) {
         return (
           <Tracklist
-            trackCollection={ trackCollection.ids }
             dispatch={ dispatch }
+            ids={ pagination.result }
             isPlaying={ isPlaying }
+            modifier="set"
+            trackCollection={ trackCollection.ids }
             trackEntity={ trackEntity }
             trackId={ trackId }
-            ids={ pagination.result }
             userEntity={ userEntity }
-            modifier="set"
           />
         )
       }

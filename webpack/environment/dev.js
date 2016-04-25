@@ -19,7 +19,7 @@ const config = merge({
   },
   cache: true,
   devtool: 'eval',
-  name: 'browser',
+  name: 'client bundle',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),

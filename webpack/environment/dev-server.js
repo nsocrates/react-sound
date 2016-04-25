@@ -4,7 +4,7 @@ import baseConfig from './base'
 import merge from 'lodash/merge'
 
 const config = merge({
-  name: 'server rendering',
+  name: 'server bundle',
   entry: {
     server: './scripts/server'
   },
