@@ -100,9 +100,9 @@ export default function stream(state = initialState, action) {
       })
     }
     case ActionTypes.TRACK_REMOVE:
-      return merge({}, state, {
+      return Object.assign({}, state, {
         tracklist: {
-          ids: state.tracklist.ids.filter(id => id !== action.trackId)
+          ids: state.tracklist.ids.filter(id => id !== trackId)
         }
       })
     default:

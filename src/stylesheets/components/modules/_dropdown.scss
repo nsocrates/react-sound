@@ -1,6 +1,6 @@
 .dropdown {
   @include absolute(top $bar-height + .5rem right);
-  animation: .2s ease-in-out slide-up;
+  animation: .2s ease-in-out slideUp;
   display: 'block';
   height: auto;
   line-height: initial;
@@ -119,16 +119,4 @@
   height: 100vh;
   width: 100vw;
   z-index: -1;
-}
-
-@keyframes slide-up {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 75%, 0);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
 }

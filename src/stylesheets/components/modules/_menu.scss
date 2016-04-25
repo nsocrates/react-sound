@@ -17,7 +17,7 @@
 
   &--sticky {
     @include fixed(top $bar-height right left);
-    animation: $oc-transition slide;
+    animation: $oc-transition slideDown;
     margin: auto;
     overflow: visible;
     padding: 0 1.5rem;
@@ -123,16 +123,4 @@
 
 .menu__sibling {
   margin-top: $bar-height;
-}
-
-@keyframes fade-in {
-  0% { opacity: 0; }
-  85% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-@keyframes slide {
-  0% { transform: translate3d(0, -100%, 0); }
-
-  100% { transform: translate3d(0, 0, 0); }
 }

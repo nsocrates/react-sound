@@ -74,9 +74,9 @@
 
 .p-card__content {
   float: none;
-  padding-left: em(15px);
   margin-right: em(15px);
   overflow: hidden;
+  padding-left: em(15px);
   width: auto;
 
   @include susy-media(medium) {
@@ -90,10 +90,15 @@
 
 .p-card__item {
   @extend %clearfix;
+  animation: .2s ease-in fadeIn;
   float: left;
-  margin-bottom: gutter(8);
+  margin-bottom: em(15px);
   overflow: hidden;
   width: 100%;
+
+  @include susy-media(medium) {
+    margin-bottom: gutter(8);
+  }
 
   @include susy-media(large) {
     margin-bottom: gutter();

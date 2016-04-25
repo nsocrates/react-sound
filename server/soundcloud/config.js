@@ -11,8 +11,5 @@ const config = {
 export default {
   get(key) {
     return config[key]
-  },
-  set(key, value) {
-    return !!value && (config[key] = value)
   }
 }

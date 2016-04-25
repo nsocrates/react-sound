@@ -5,10 +5,15 @@
 
 .card__item {
   @extend %clearfix;
+  animation: .2s ease-in fadeIn;
   float: left;
-  margin-bottom: gutter(8);
+  margin-bottom: em(15px);
   overflow: hidden;
   width: 100%;
+
+  @include susy-media(medium) {
+    margin-bottom: gutter(8);
+  }
 
   @include susy-media(large) {
     margin-bottom: gutter();

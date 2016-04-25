@@ -117,6 +117,11 @@
 }
 
 .player__volume {
+  display: none;
+
+  @include susy-media(medium) {
+    display: table-cell;
+  }
 
   &--control {
     @include absolute (bottom 100% right);

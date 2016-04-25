@@ -31,7 +31,7 @@ export default function WaypointLoader(props) {
 WaypointLoader.propTypes = {
   endProps: PropTypes.object,
   hasMore: PropTypes.bool.isRequired,
-  isFetching: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool,
   loaderProps: PropTypes.object,
   onEnter: PropTypes.func.isRequired,
   Type: PropTypes.string,

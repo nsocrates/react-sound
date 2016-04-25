@@ -91,6 +91,7 @@
 }
 
 .tracklist-player__track {
+  animation: .2s ease-in fadeIn;
   box-shadow: 0 .1rem .1rem rgba($light-gray, $disabled);
   display: block;
   max-height: em(80px);
@@ -111,10 +112,6 @@
       }
     }
   }
-}
-
-.tracklist-player__active {
-  animation: .5s $trans-func fade;
 }
 
 .tracklist-player__time {
@@ -326,15 +323,4 @@
   &:active {
     color: $pink-disabled;
   }
-}
-
-@keyframes fade {
-  0% { opacity: $l-secondary; }
-  100% { opacity: 1; }
-}
-
-@keyframes pulse {
-  0% { transform: scale(.9); }
-  50% { transform: scale(1); }
-  100% { transform: scale(.9); }
 }

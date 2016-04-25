@@ -34,7 +34,7 @@ export default function CollectionWrapper(props) {
     )
   }
 
-  function appendPlaylists(likedPlaylists) {
+  function mergePlaylists(likedPlaylists) {
     const ownPlaylists = playlists.ids.map(id => {
       const { playlists: playlistEntity } = entities
       return {
@@ -55,7 +55,7 @@ export default function CollectionWrapper(props) {
       mediaEntity = entities.playlists
       coll = likes.playlists
       endMsg = 'NO PLAYLISTS IN COLLECTION.'
-      ids = appendPlaylists(likes.playlists.e1)
+      ids = mergePlaylists(likes.playlists.e1)
     }
 
     const idsWithHead = ids.map(item => {
@@ -125,7 +125,7 @@ export default function CollectionWrapper(props) {
 
       case '/me/tracks':
         return ([
-          <Collection title="Tracks" key={ "tracks_wp" }>
+          <Collection key={ "tracks_wp" }>
             { renderCardCollection('tracks') }
           </Collection>,
           renderWaypointLoader('tracks')
@@ -133,7 +133,7 @@ export default function CollectionWrapper(props) {
 
       case '/me/playlists':
         return ([
-          <Collection title="Playlists" key={ "playlists_wp" }>
+          <Collection key={ "playlists_wp" }>
             { renderCardCollection('playlists') }
           </Collection>,
           renderWaypointLoader('playlists')
@@ -141,7 +141,7 @@ export default function CollectionWrapper(props) {
 
       case '/me/followings':
         return ([
-          <Collection title="Followings" key={ "followings_wp" }>
+          <Collection key={ "followings_wp" }>
             <ProfileCards { ...pcProps } />
           </Collection>,
           renderWaypointLoader('followings')

@@ -136,7 +136,9 @@ function MediaCards(props) {
 
 MediaCards.propTypes = {
   className: PropTypes.string,
-  collectionIds: PropTypes.arrayOf(PropTypes.number.isRequired),
+  collectionIds: PropTypes.arrayOf(
+    PropTypes.number.isRequired
+  ),
   dispatch: PropTypes.func.isRequired,
   endMsg: PropTypes.string,
   hasLoaded: PropTypes.bool,

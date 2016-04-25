@@ -1,13 +1,11 @@
 import React from 'react'
-import Gallery from 'components/Gallery'
 import Loader from 'components/Loader'
 import Main from 'components/Main'
-import mediaFactory from 'utils/mediaFactory'
+import MediaCards from 'components/MediaCards'
 import WaypointLoader from 'components/WaypointLoader'
 import { connect } from 'react-redux'
-import { loadGallery } from 'actions/conditional'
-import { requestStream } from 'actions/stream'
 import { fetchNeeds } from 'utils/fetchComponentData'
+import { loadGallery } from 'actions/conditional'
 
 const needs = [loadGallery]
 
@@ -42,10 +40,11 @@ class GalleryContainer extends React.Component {
   render() {
     const {
       audioIsPlaying,
+      likedTracks,
+      shouldPlay,
       streamTrackId,
-      userEntity,
       trackEntity,
-      shouldPlay
+      userEntity
     } = this.props
 
     const getCollection = () => {
@@ -65,46 +64,7 @@ class GalleryContainer extends React.Component {
     }
 
     const collection = getCollection() || {}
-
-    if (!Object.keys(collection).length) {
-      return <Loader className="loader--top" />
-    }
-
-    const { isFetching, next_href } = collection
-
-    // Render Gallery
-    const renderGallery = () => {
-      const ids = collection.ids
-      const gallery = ids.map((trackId, index) => {
-        const args = {
-          userObject: userEntity[trackEntity[trackId].user_id],
-          mediaObject: trackEntity[trackId]
-        }
-        const trackData = mediaFactory(args)
-        const { dispatch } = this.props
-        const { media } = trackData
-
-        function handleRequestStream(e) {
-          e.preventDefault()
-          const audio = document.getElementById('audio')
-
-          if (media.id === streamTrackId) {
-            return audioIsPlaying ? audio.pause() : audio.play()
-          }
-
-          return dispatch(requestStream(media.id))
-        }
-
-        return (
-          <Gallery
-            key={ `${trackId}_${index}` }
-            onRequestStream={ handleRequestStream }
-            trackData={ trackData }
-          />
-        )
-      })
-      return gallery
-    }
+    const { isFetching, next_href, offset } = collection
 
     return (
       <Main
@@ -112,7 +72,20 @@ class GalleryContainer extends React.Component {
         shouldPush={ shouldPlay }
       >
         <div className="main__container">
-          { renderGallery() }
+
+          { !!Object.keys(collection).length &&
+            <MediaCards
+              className="cards"
+              collectionIds={ likedTracks.ids }
+              hasLoaded={ offset > -1 }
+              ids={ collection.ids }
+              isPlaying={ audioIsPlaying }
+              maxTags={ 5 }
+              mediaEntity={ trackEntity }
+              streamTrackId={ streamTrackId }
+              userEntity={ userEntity }
+            /> }
+
           <WaypointLoader
             onEnter={ this.handleWaypointEnter }
             isFetching={ isFetching }
@@ -130,6 +103,7 @@ class GalleryContainer extends React.Component {
 GalleryContainer.propTypes = {
   audioIsPlaying: React.PropTypes.bool,
   dispatch: React.PropTypes.func.isRequired,
+  likedTracks: React.PropTypes.object,
   location: React.PropTypes.object,
   searchesByInput: React.PropTypes.objectOf(
     React.PropTypes.shape({
@@ -153,9 +127,11 @@ GalleryContainer.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { entities, partition, media } = state.app
+  const { auth, entities, partition, media } = state.app
 
   return {
+    likedTracks: auth.likes.tracks,
+
     trackEntity: entities.tracks,
     userEntity: entities.users,
 

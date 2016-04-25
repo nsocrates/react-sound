@@ -1,11 +1,17 @@
 import React, { PropTypes } from 'react'
 
 export default function Collection(props) {
-  const { title = 'Collection', children = null } = props
+  const { title, children = null } = props
 
   return (
     <section className="collection">
-      <h3 className="collection__head">{ title }</h3>
+      {
+        !!title &&
+        <h3 className="collection__head">
+          { title }
+        </h3>
+      }
+
       { children }
     </section>
   )

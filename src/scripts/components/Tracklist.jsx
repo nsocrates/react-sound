@@ -80,7 +80,7 @@ export default class Tracklist extends React.Component {
 
       return (
         <TracklistItem
-          key={ id }
+          key={`${id}__${index}`}
           downloadUrl={ trackData.download }
           duration={ trackData.duration }
           handleAddToFavorites={ handleAddToFavorites }
