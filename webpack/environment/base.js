@@ -48,7 +48,7 @@ const baseConfig = {
       routes: `${srcPath}/scripts/routes/`,
       soundcloud: `${srcPath}/scripts/soundcloud/`,
       store: `${srcPath}/scripts/store/`,
-      stylesheets: `${srcPath}/stylesheets/main.scss`,
+      stylesheets: `${srcPath}/stylesheets`,
       utils: `${srcPath}/scripts/utils`,
       vendor: `${srcPath}/scripts/vendor`
     }

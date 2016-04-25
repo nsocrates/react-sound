@@ -1,0 +1,26 @@
+@import '../utils/utils';
+
+.error404 {
+  color: $black-secondary;
+  padding-top: em(15px);
+  text-align: center;
+}
+
+.error404__link {
+  border-bottom: em(1.28px) dotted $black-disabled;
+  color: $link;
+  padding-bottom: em(1.28px);
+
+  &:hover,
+  &:active {
+    border-color: $link--hover;
+  }
+
+  &:active {
+    color: $link--active;
+  }
+}
+
+.error404__light {
+  font-weight: 300;
+}

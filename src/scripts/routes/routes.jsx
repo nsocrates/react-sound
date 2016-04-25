@@ -12,6 +12,7 @@ import UserContainer from 'containers/UserContainer'
 import UserDescriptionContainer from 'containers/UserDescriptionContainer'
 import UserMediaContainer from 'containers/UserMediaContainer'
 import MeContainer from 'containers/MeContainer'
+import NotFound from 'components/404'
 
 export default function constructRoutes(store) { // eslint-disable-line no-unused-vars
   const handleHomePath = (nextState, replace, callback) => {
@@ -52,6 +53,7 @@ export default function constructRoutes(store) { // eslint-disable-line no-unuse
         <Route component={ UserContactsContainer} path="followers" />
         <Route component={ UserContactsContainer} path="followings" />
       </Route>
+      <Route component={ NotFound } path="*" />
     </Route>
   )
 }

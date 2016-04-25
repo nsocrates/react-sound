@@ -1,7 +1,7 @@
 {
   "name": "react-sound",
   "version": "1.0.0",
-  "description": "SoundCloud App",
+  "description": "SoundCloud application made with React/Redux",
   "main": "index.js",
   "scripts": {
     "build": "npm run clean && npm run copy && npm run build:prod && npm run build:node",
@@ -17,8 +17,20 @@
     "start:prod": "NODE_ENV=production node ./compiled/index.js",
     "test": "NODE_ENV=test mocha --compilers js:babel-core/register --require ./test/helpers/test_helper.js \"test/**/*.@(js|jsx)\""
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nsocrates/react-sound.git"
+  },
+  "keywords": [
+    "react",
+    "soundcloud"
+  ],
   "author": "Socrates",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nsocrates/react-sound/issues"
+  },
+  "homepage": "https://github.com/nsocrates/react-sound",
   "devDependencies": {
     "autoprefixer": "^6.3.6",
     "babel-cli": "^6.7.5",

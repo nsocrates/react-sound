@@ -1,4 +1,4 @@
-import 'stylesheets'
+import 'stylesheets/main.scss'
 import 'isomorphic-fetch'
 import React from 'react'
 import ReactDOM from 'react-dom'

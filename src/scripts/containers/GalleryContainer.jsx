@@ -1,5 +1,4 @@
 import React from 'react'
-import Loader from 'components/Loader'
 import Main from 'components/Main'
 import MediaCards from 'components/MediaCards'
 import WaypointLoader from 'components/WaypointLoader'
