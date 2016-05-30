@@ -12,10 +12,10 @@ export function formatCover(url) {
   }
 
   return {
-    xLarge: cover.replace(/large/, FORMAT.XLARGE) || FALLBACK.PLACEHOLDER.XLARGE,
-    large: cover.replace(/large/, FORMAT.LARGE) || FALLBACK.PLACEHOLDER.LARGE,
-    default: cover || FORMAT.MEDIUM,
-    badge: cover.replace(/large/, FORMAT.BADGE) || FALLBACK.PLACEHOLDER.BADGE
+    xLarge: cover.replace(/large/, FORMAT.XLARGE),
+    large: cover.replace(/large/, FORMAT.LARGE),
+    default: cover,
+    badge: cover.replace(/large/, FORMAT.BADGE)
   }
 }
 

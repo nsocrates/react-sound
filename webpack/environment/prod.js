@@ -42,6 +42,7 @@ const config = [merge({
     libraryTarget: 'commonjs2'
   },
   plugins: [
+    new ExtractTextPlugin('styles/main.css'),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {

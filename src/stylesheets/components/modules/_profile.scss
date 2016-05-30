@@ -16,6 +16,15 @@
   }
 }
 
+.profile__artwork {
+  position: relative;
+  padding-bottom: 100%;
+
+  &--img {
+    position: absolute;
+  }
+}
+
 .profile__avatar {
   box-shadow: 0 0 0 .8rem $white-hint;
   transition: box-shadow .5s ease-in-out;

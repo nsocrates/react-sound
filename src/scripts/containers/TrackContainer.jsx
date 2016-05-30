@@ -301,8 +301,8 @@ class TrackContainer extends React.Component {
           <div className="profile">
 
             <ProfileCover
-              className="profile__cover artwork artwork__wrapper"
-              imgClassName="artwork__img"
+              className="profile__cover profile__artwork artwork artwork__wrapper"
+              imgClassName="profile__cover profile__artwork--img artwork__img"
               src={ mediaData.artwork.large }
               Type="div"
             >

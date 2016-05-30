@@ -1,20 +1,12 @@
 import React, { PropTypes } from 'react'
-import { FALLBACK } from 'constants/ImageConstants'
 
 export default function ProfileCover(props) {
-  const handleError = e => {
-    const { currentTarget } = e
-    const { fallback = FALLBACK.PLACEHOLDER.LARGE } = props
-    return (currentTarget.src = fallback)
-  }
-
   const {
     className = undefined,
     children = null,
     href = undefined,
     imgClassName = undefined,
     onClick = undefined,
-    onError = handleError,
     src = undefined,
     Type = 'a'
   } = props
@@ -29,7 +21,6 @@ export default function ProfileCover(props) {
       >
         <img
           className={ imgClassName }
-          onError={ onError }
           src={ src }
         />
         { children }

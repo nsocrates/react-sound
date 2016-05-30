@@ -1,4 +1,3 @@
-import 'stylesheets/pages/_404.scss'
 import React from 'react'
 import Main from 'components/Main'
 import LinkItem from 'components/LinkItem'
