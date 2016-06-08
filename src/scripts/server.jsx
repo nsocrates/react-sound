@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import { renderToString } from 'react-dom/server'
 import { RouterContext, match, createMemoryHistory } from 'react-router'
 
+// Template to serve
 const renderFullPage = (appContent, initialState, head) => (`
   <!DOCTYPE html>
   <html>
@@ -30,12 +31,15 @@ const renderFullPage = (appContent, initialState, head) => (`
   </html>
 `)
 
+// Exported function to be used by Express
 export default function render(req, res) {
   const initialState = {}
   const history = createMemoryHistory()
   const store = makeStore(initialState, history)
   const routes = constructRoutes(store)
 
+  // Pass arguments from Express to router function
+  // If a route matches, generate a new Redux Store
   match({ routes, location: req.url },
     (error, redirectLocation, renderProps) => {
       if (error) {
@@ -61,6 +65,8 @@ export default function render(req, res) {
             const componentHTML = renderToString(InitialView)
             const state = store.getState()
 
+            // Initial state is sent to client
+            // Can be accessed through "window.__INITIAL_STATE__"
             res.status(200).end(renderFullPage(componentHTML, state, {
               title: headconfig.title,
               meta: headconfig.meta,

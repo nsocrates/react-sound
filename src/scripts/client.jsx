@@ -10,6 +10,7 @@ import { syncHistoryWithStore } from 'react-router-redux'
 
 const initialState = window.__INITIAL_STATE__
 
+// Pass state from server onto store
 const store = makeStore(initialState, browserHistory)
 const routes = constructRoutes(store)
 
