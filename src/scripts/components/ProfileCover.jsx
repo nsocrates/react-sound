@@ -8,8 +8,17 @@ export default function ProfileCover(props) {
     imgClassName = undefined,
     onClick = undefined,
     src = undefined,
+    fallback = null,
     Type = 'a'
   } = props
+
+  function handleError(e) {
+    if (fallback) {
+      const { currentTarget } = e
+      return (currentTarget.src = fallback)
+    }
+    return null
+  }
 
   return (
     <section className="profile__section profile__section--cover">
@@ -22,6 +31,7 @@ export default function ProfileCover(props) {
         <img
           className={ imgClassName }
           src={ src }
+          onError={ handleError }
         />
         { children }
       </Type>
