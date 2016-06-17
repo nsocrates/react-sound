@@ -27,5 +27,6 @@ export function loadPlaylist({ params }) {
         const collection = getState().app.entities.playlists[id].tracks.slice(0, 15)
         return dispatch(setPagination(id, collection))
       })
+      .catch(err => { throw err })
   )
 }

@@ -122,8 +122,14 @@ export function loadPlaylistCollection(forceNext = false) {
     }
 
     return dispatch(get(path, AuthTypes.PLAYLISTS, null, Schemas.PLAYLIST_ARRAY))
-      .then(() => (
-          dispatch(get('/me/playlists', AuthTypes.OWN_PLAYLISTS, null, Schemas.PLAYLIST_ARRAY))))
+      .then(() => {
+        const { userId } = getState().app.auth.user
+        return dispatch(get(
+          `/users/${userId}/playlists`,
+          AuthTypes.OWN_PLAYLISTS,
+          null,
+          Schemas.PLAYLIST_ARRAY))
+      })
   }
 }
 
