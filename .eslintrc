@@ -17,9 +17,17 @@
     "es6": true,
     "node": true
   },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack/config.babel.js"
+      }
+    }
+  },
   "rules": {
     "camelcase": 0,
     "comma-dangle": [2, "never"],
-    "semi": 0
+    "semi": 0,
+    "no-underscore-dangle": 0
   }
 }

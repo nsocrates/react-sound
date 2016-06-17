@@ -21,6 +21,7 @@ const config = merge({
   devtool: 'eval',
   name: 'client bundle',
   plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({

@@ -14,6 +14,8 @@ const config = merge({
     libraryTarget: 'commonjs2'
   },
   plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       __DEVCLIENT__: false,
       __DEVSERVER__: true

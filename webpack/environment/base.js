@@ -1,19 +1,10 @@
 import path from 'path'
+import autoprefixer from 'autoprefixer'
 
 const port = 8000
 const srcPath = path.join(__dirname, '../..', 'src')
 const assetsPath = path.join(__dirname, '../..', 'public', 'assets')
 const publicPath = '/assets/'
-const AUTOPREFIXER_BROWSERS = [
-  'Android 2.3',
-  'Android >= 4',
-  'Chrome >= 35',
-  'Firefox >= 31',
-  'Explorer >= 9',
-  'iOS >= 7',
-  'Opera >= 12',
-  'Safari >= 7.1'
-]
 const baseConfig = {
   port,
   context: srcPath,
@@ -74,7 +65,7 @@ const baseConfig = {
   },
   postcss() {
     return [
-      require('autoprefixer')({ browsers: AUTOPREFIXER_BROWSERS })
+      autoprefixer({ browsers: ['last 2 versions'] }),
     ]
   }
 }
