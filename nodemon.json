@@ -9,5 +9,5 @@
     "src/scripts/components/Meta.jsx",
     "src/scripts/reducers/rootReducer.js"
   ],
-  "exec": "npm run build:dev && NODE_ENV=development babel-node ./server/index.js"
+  "exec": "npm run build:dev:server; npm run start:dev"
 }

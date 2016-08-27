@@ -1,20 +1,19 @@
 {
   "name": "react-sound",
   "version": "1.0.0",
-  "description": "SoundCloud application made with React/Redux",
+  "description": "SoundCloud jukebox",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean && npm run copy && npm run build:prod && npm run build:node",
-    "build:dev": "NODE_ENV=development webpack --config ./webpack/config.babel.js --server",
-    "build:prod": "NODE_ENV=production webpack --config ./webpack/config.babel.js",
+    "start": "NODE_ENV=production node ./compiled/index.js",
+    "start:dev": "NODE_ENV=development babel-node ./server",
+    "dev": "nodemon",
+    "prod": "npm run build:dist; npm run build:node",
+    "build:dev:server": "NODE_ENV=development webpack --config ./webpack/config.babel.js --server",
+    "build:dev": "NODE_ENV=development webpack --config ./webpack.config.babel.js",
+    "build:dist": "NODE_ENV=production webpack --config ./webpack/config.babel.js",
     "build:node": "NODE_ENV=production babel ./server -d ./compiled",
-    "build:dist": "rimraf ./dist && npm run build && npm run copy:dist",
     "clean": "rimraf ./public && rimraf ./compiled",
-    "copy": "copyfiles -f ./server/static/* ./compiled/static",
-    "copy:dist": "copyfiles ./package.json ./Procfile ./slugignore ./public/**/* ./public/**/**/* ./compiled/* ./compiled/**/* ./dist",
     "lint": "eslint ./src/scripts --ext=js --ext=jsx",
-    "start": "nodemon",
-    "start:prod": "NODE_ENV=production node ./compiled/index.js",
     "test": "NODE_ENV=test mocha --compilers js:babel-core/register --require ./test/helpers/test_helper.js \"test/**/*.@(js|jsx)\""
   },
   "repository": {
