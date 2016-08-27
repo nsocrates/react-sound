@@ -53,5 +53,3 @@ SearchForm.defaultProps = {
   inputId: '',
   onFormSubmit() {}
 }
-
-export default SearchForm

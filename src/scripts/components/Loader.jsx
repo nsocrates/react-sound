@@ -19,5 +19,3 @@ Loader.propTypes = {
   iconClassName: PropTypes.string,
   Type: PropTypes.string
 }
-
-export default Loader

@@ -8,7 +8,7 @@ import { updateMyFollowings } from 'actions/collection'
 import End from 'components/End'
 import LinkItem from 'components/LinkItem'
 
-export default function ContactList(props) {
+function ContactList(props) {
   const {
     children = null,
     className = 'contact-list',

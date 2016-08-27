@@ -27,5 +27,3 @@ Main.propTypes = {
   className: React.PropTypes.string,
   shouldPush: React.PropTypes.bool
 }
-
-export default Main

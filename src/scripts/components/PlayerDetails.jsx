@@ -37,5 +37,3 @@ PlayerDetails.propTypes = {
   userId: React.PropTypes.number,
   userName: React.PropTypes.string
 }
-
-export default PlayerDetails
