@@ -61,14 +61,7 @@ const config = [merge({
 config[0].module.loaders.push({
   test: /\.(js|jsx)$/,
   loader: 'babel-loader',
-  include: path.join(__dirname, '../..', 'src'),
-  query: {
-    plugins: [
-      'transform-react-remove-prop-types',
-      'transform-react-constant-elements',
-      'transform-react-inline-elements'
-    ]
-  }
+  include: path.join(__dirname, '../..', 'src')
 }, {
   test: /\.scss$/,
   loader: ExtractTextPlugin.extract('style-loader', [
