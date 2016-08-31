@@ -1,6 +1,6 @@
 # ReactSound
 
-A Soundcloud jukebox.
+A Soundcloud jukebox built with React / Redux.
 
 
 ## Demo
@@ -18,7 +18,7 @@ $ npm install
 Build and start local server:
 
 ```
-$ npm start
+$ npm run dev
 ```
 
 Open [`localhost:8000`](http://localhost:8000) in a browser.
