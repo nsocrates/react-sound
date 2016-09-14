@@ -1,4 +1,5 @@
-export const CALL_API = Symbol('Call API')
+// export const CALL_API = Symbol('Call API')
+export const CALL_API = 'Call API'
 // Dev
 // export const CLIENT_ID = '178cca51f2fb0a81487dc7aafafb4787'
 

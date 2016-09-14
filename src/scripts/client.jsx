@@ -1,5 +1,6 @@
 import 'stylesheets/main.scss'
 import 'isomorphic-fetch'
+import ES6Promise from 'es6-promise';
 import React from 'react'
 import ReactDOM from 'react-dom'
 import constructRoutes from 'routes/routes'
@@ -7,6 +8,8 @@ import makeStore from 'store/store'
 import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
+
+ES6Promise.polyfill()
 
 const initialState = window.__INITIAL_STATE__
 

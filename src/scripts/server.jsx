@@ -22,9 +22,7 @@ const renderFullPage = (appContent, initialState, head) => (`
   <body>
     <div id="root">${appContent}</div>
 
-    <script>
-      window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
-    </script>
+    <script>window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};</script>
 
     <script type="text/javascript" charset="utf-8" src="/assets/app.js"></script>
   </body>
