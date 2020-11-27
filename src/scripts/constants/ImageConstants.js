@@ -1,7 +1,7 @@
 export const FALLBACK = {
   AVATAR: {
-    LARGE: 'https://dl.dropboxusercontent.com/s/4zmdgw0dlhgbz1v/c4b052d27baae25c4f0f0670e489131f.jpg?dl=0',
-    SMALL: 'https://dl.dropboxusercontent.com/s/184tk01gvcdcfdc/c4b052d27baae25c4f0f0670e489131f--small.jpg?dl=0'
+    LARGE: 'https://dl.dropboxusercontent.com/s/e9ytldsoln0ojkp/82aaff66cdd860224ba3a7b6437684bb.jpg?dl=0',
+    SMALL: 'https://dl.dropboxusercontent.com/s/e9ytldsoln0ojkp/82aaff66cdd860224ba3a7b6437684bb.jpg?dl=0'
   }
 }
 
