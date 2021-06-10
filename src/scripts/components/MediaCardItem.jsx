@@ -11,6 +11,7 @@ export default function MediaCardItem(props) {
     'artwork__fav-icon--is-fav': isFavorite
   })
 
+  console.log({ stats })
   const cardStats = stats.map(item => (
     <li className="card__stats-item" key={`${item.title}_${item.value}`}>
       <i className={`card__icon fa fa-${item.icon}`} />

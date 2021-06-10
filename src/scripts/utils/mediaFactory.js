@@ -2,18 +2,14 @@ import timeFactory from './timeFactory'
 import { formatCover, dtFormatter } from './formatUtils'
 import { CLIENT_ID } from 'constants/Api'
 
-export default function mediaFactory({ userObject, mediaObject }) {
-  if (!mediaObject || !userObject) {
-    return null
-  }
-
-  function parseGenre(genres) {
+export default function mediaFactory({ userObject = {}, mediaObject = { title: '' } }) {
+  function parseGenre(genres = []) {
     return genres.split(' , ')
   }
 
-  function parseTags(tags) {
+  function parseTags(tags = '') {
     const regex = /"[^"]*"|[^\s"]+/g
-    return tags.match(regex)
+    return (tags.match(regex) || [])
                .map(item => item.replace(/"/g, ''))
   }
 
