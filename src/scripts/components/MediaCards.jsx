@@ -44,7 +44,7 @@ function MediaCards(props) {
       userObject: userEntity[mediaEntity[id].user_id],
       mediaObject: mediaEntity[id]
     }
-    const mediaData = mediaFactory(obj)
+    const mediaData = mediaFactory(obj) || {}
     const isFavorite = collectionIds.indexOf(id) !== -1
     const isPlaylist = mediaData.kind === 'playlist'
     const mediaPath = isPlaylist ? `/playlist/${id}` : `/track/${id}`

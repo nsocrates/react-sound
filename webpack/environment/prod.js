@@ -76,11 +76,11 @@ config[1].module.loaders.push({
   loader: 'babel-loader',
   include: path.join(__dirname, '../..', 'src'),
   query: {
-    plugins: [
-      'transform-react-remove-prop-types',
-      'transform-react-constant-elements',
-      'transform-react-inline-elements'
-    ]
+    // plugins: [
+    //   'transform-react-remove-prop-types',
+    //   'transform-react-constant-elements',
+    //   'transform-react-inline-elements'
+    // ]
   }
 }, {
   test: /\.scss$/,

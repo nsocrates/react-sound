@@ -86,7 +86,7 @@ class TrackContainer extends React.Component {
       return <Loader className="loader--top" />
     }
 
-    const { [trackObject.user_id]: userObject } = userEntity
+    const { [trackObject.user_id]: userObject = {} } = userEntity
     const mediaFactoryArgs = {
       userObject,
       mediaObject: trackObject

@@ -2,7 +2,7 @@ import { FORMAT, FALLBACK } from 'constants/ImageConstants'
 
 export function formatCover(url) {
   const cover = url || ''
-  if (cover.indexOf('default_avatar_large.png') > -1) {
+  if (!cover || cover.indexOf('default_avatar_large.png') !== -1) {
     return {
       xLarge: FALLBACK.AVATAR.LARGE,
       large: FALLBACK.AVATAR.LARGE,
